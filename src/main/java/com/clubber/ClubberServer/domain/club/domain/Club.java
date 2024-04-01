@@ -2,11 +2,12 @@ package com.clubber.ClubberServer.domain.club.domain;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -33,10 +34,10 @@ public class Club {
     private Long totalView;
 
     @OneToMany(mappedBy = "club")
-    private Review review;
+    private List<Review> reviews=new ArrayList<>();
 
     @Builder
-    public Club(Long id, String name, String clubType,String division, String college, String department, Long totalView) {
+    public Club(Long id, String name, String clubType,String division, String college, String department, Long totalView,List<Review> reviews) {
         this.id = id;
         this.name=name;
         this.clubType=clubType;
@@ -44,7 +45,6 @@ public class Club {
         this.college = college;
         this.department = department;
         this.totalView = totalView;
-
+        this.reviews=reviews !=null ?reviews: new ArrayList<>();
     }
-
 }
