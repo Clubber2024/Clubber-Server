@@ -21,13 +21,9 @@ public class Keyword {
     @Column(nullable = false, unique = true)
     private String content;
 
-    @Column(nullable = false, unique = true)
-    private String imageUrl;
-
     @Builder
-    public Keyword(Long id, String content, String imageUrl) {
+    public Keyword(Long id, String content) {
         this.id = id;
         this.content = content;
-        this.imageUrl = imageUrl;
     }
 }
