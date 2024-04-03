@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user;
+package com.clubber.ClubberServer.domain.user.entity;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.Column;
