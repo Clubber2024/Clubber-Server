@@ -24,7 +24,7 @@ public class Club {
     @NotNull
     private String clubType;
 
-    private List<String> hashtag= new ArrayList<>();;
+    private String hashtag;
 
     private String division; //분과 (중앙동아리)
 
@@ -32,16 +32,13 @@ public class Club {
 
     private String department; //학과 (소모임)
 
-    @OneToMany(mappedBy = "club")
-    private List<Review> reviews=new ArrayList<>();
 
-    private String content;
-
-    @OneToOne(mappedBy="club")
-    private Introduction introduction;
+    @OneToOne
+    @JoinColumn(name = "clubInfo_id")
+    private ClubInfo clubInfo;
 
     @Builder
-    public Club(Long id, String name, String clubType,List<String> hashtag,String division, String college, String department,List<Review> reviews,String content,Introduction introduction) {
+    private Club(Long id, String name, String clubType,String hashtag,String division, String college, String department,ClubInfo clubInfo) {
         this.id = id;
         this.name=name;
         this.clubType=clubType;
@@ -49,8 +46,6 @@ public class Club {
         this.division = division;
         this.college = college;
         this.department = department;
-        this.reviews=reviews !=null ?reviews: new ArrayList<>();
-        this.content=content;
-        this.introduction=introduction;
+        this.clubInfo=clubInfo;
     }
 }
