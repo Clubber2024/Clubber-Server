@@ -14,6 +14,8 @@ public class ClubInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String content;
+
     private String instagram;
 
     private String leader;
@@ -22,14 +24,17 @@ public class ClubInfo {
 
     private Long totalView;
 
+    private String activity;
 
     @Builder
-    private ClubInfo(Long id,String instagram,String leader,Long room,Long totalView){
+    private ClubInfo(Long id,String content,String instagram,String leader,Long room,Long totalView,String activity){
         this.id=id;
+        this.content=content;
         this.instagram=instagram;
         this.leader=leader;
         this.room=room;
         this.totalView=totalView;
+        this.activity=activity;
     }
 
 }
