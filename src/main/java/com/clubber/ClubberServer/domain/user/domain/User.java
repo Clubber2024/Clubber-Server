@@ -28,7 +28,7 @@ public class User {
     private String snsType;
 
     @Builder
-    public User(Long id, String email, String snsType) {
+    private User(Long id, String email, String snsType) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
