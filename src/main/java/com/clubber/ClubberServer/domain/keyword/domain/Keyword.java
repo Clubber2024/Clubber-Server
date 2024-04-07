@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.entity;
+package com.clubber.ClubberServer.domain.keyword.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
