@@ -24,7 +24,7 @@ public class Keyword {
     private String content;
 
     @Builder
-    public Keyword(Long id, String content) {
+    private Keyword(Long id, String content) {
         this.id = id;
         this.content = content;
     }
