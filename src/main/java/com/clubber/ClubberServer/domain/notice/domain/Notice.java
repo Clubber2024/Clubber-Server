@@ -1,13 +1,14 @@
 package com.clubber.ClubberServer.domain.notice.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,18 +18,13 @@ public class Notice {
 
     private String content;
 
-    private String ownerId;
-
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="notice_id")
-    private Owner owner;
+    private String imageurl;
 
     @Builder
-    public Notice(Long id,String title,String content,String ownerId,Owner owner){
+    private Notice(Long id,String title,String content,String imageurl){
         this.id=id;
         this.title=title;
         this.content=content;
-        this.ownerId=ownerId;
-        this.owner=owner;
+        this.imageurl=imageurl;
     }
 }
