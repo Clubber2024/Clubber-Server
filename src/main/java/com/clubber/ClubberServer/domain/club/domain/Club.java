@@ -33,7 +33,7 @@ public class Club {
     private String department; //학과 (소모임)
 
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
 
