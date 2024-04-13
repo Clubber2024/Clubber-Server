@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review_keyword.domain;
 
 
+import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.keyword.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ReviewKeyword {
+public class ReviewKeyword extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
