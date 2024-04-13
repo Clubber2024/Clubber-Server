@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Club {
+public class Club extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
