@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.entity;
+package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     private String snsType;
 
     @Builder
-    public User(Long id, String email, String snsType) {
+    private User(Long id, String email, String snsType) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
