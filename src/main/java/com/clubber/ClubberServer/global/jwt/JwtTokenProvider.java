@@ -35,7 +35,6 @@ public class JwtTokenProvider {
     }
 
     private Key getSecretKey() {
-        System.out.println("SECRET_KEY = " + SECRET_KEY);
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 }
