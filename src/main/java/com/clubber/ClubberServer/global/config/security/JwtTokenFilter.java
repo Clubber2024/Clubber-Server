@@ -3,13 +3,18 @@ package com.clubber.ClubberServer.global.config.security;
 import static com.clubber.ClubberServer.global.jwt.JwtProperties.AUTH_HEADER;
 import static com.clubber.ClubberServer.global.jwt.JwtProperties.BEARER;
 
+import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.PasswordAuthentication;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
@@ -20,7 +25,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
+        String token = resolveToken(request);
+        if (token != null){
 
+        }
     }
 
     private String resolveToken(HttpServletRequest request){
@@ -32,5 +40,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return requestHeader.substring(BEARER.length());
         }
         return null;
+    }
+
+    private Authentication getAuthentication(String token){
+        AccessTokenInfo accessTokenInfo = jwtTokenProvider.parseAccessToken(token);
+
+        UserDetails userDetails= new AuthDetails(accessTokenInfo.getUserId().toString(),
+                accessTokenInfo.getRole());
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails, "user", userDetails.getAuthorities()
+        );
     }
 }
