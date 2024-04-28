@@ -20,7 +20,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtTokenProvider {
 
     private Jws<Claims> getJws(String token){
