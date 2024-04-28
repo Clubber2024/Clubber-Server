@@ -43,4 +43,14 @@ public class JwtTokenProvider {
     private Key getSecretKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
+
+    private boolean isAccessToken(String token){
+        Jws<Claims> jws = getJws(token);
+        return jws.getBody().get(TOKEN_TYPE).equals(ACCESS_TOKEN);
+    }
+
+    public Long parseAccessToken(String token){
+        Claims claims = getJws(token).getBody();
+        return Long.parseLong(claims.getSubject()); 
+    }
 }
