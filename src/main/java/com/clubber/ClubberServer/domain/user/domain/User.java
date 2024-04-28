@@ -28,10 +28,14 @@ public class User extends BaseEntity {
     @NotNull
     private String snsType;
 
+    @NotNull
+    private String role;
+
     @Builder
-    private User(Long id, String email, String snsType) {
+    private User(Long id, String email, String snsType, String role) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
+        this.role = role;
     }
 }
