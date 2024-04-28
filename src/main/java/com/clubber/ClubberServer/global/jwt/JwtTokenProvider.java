@@ -9,6 +9,8 @@ import static com.clubber.ClubberServer.global.jwt.JwtProperties.TOKEN_ISSUER;
 import static com.clubber.ClubberServer.global.jwt.JwtProperties.TOKEN_TYPE;
 
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +19,10 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 
 public class JwtTokenProvider {
+
+    private Jws<Claims> getJws(String token){
+        return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+    }
 
     public String generateAccessToken(Long id){
         final Key encodedKey = getSecretKey();
