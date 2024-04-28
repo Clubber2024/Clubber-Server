@@ -20,4 +20,6 @@ public class JwtProperties {
     public static final String TOKEN_TYPE = "type";
     public static final String TOKEN_ISSUER = "Clubber";
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    public static final String AUTH_HEADER = "Authorization";
+    public static final String BEARER = "Bearer ";
 }
