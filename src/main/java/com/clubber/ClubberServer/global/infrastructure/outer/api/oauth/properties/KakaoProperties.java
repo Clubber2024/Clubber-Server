@@ -13,4 +13,7 @@ public class KakaoProperties {
 
     private String clientId;
     private String redirectUrl;
+    private String userInfoUrl;
+    private String tokenUrl;
+    private String grantType;
 }
