@@ -21,8 +21,8 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
+//    @NotNull
+//    @Column(unique = true)
     private String email;
 
     @NotNull
@@ -31,11 +31,15 @@ public class User extends BaseEntity {
     @NotNull
     private String role;
 
+    @NotNull
+    private Long snsId;
+
     @Builder
-    private User(Long id, String email, String snsType, String role) {
+    private User(Long id, String email, String snsType, String role, Long snsId) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
         this.role = role;
+        this.snsId = snsId;
     }
 }
