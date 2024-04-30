@@ -20,11 +20,16 @@ public class Notice {
 
     private String imageurl;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     @Builder
-    private Notice(Long id,String title,String content,String imageurl){
+    private Notice(Long id,String title,String content,String imageurl,Owner owner){
         this.id=id;
         this.title=title;
         this.content=content;
         this.imageurl=imageurl;
+        this.owner=owner;
     }
 }
