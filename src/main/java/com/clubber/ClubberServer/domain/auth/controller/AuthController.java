@@ -1,11 +1,11 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
 
+import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
+import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.AuthService;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoOauthClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +20,11 @@ public class AuthController {
     private final AuthService authService; 
 
     @GetMapping("/oauth/kakao")
-    public void getCredentialFromKakao(@RequestParam String code){
+    public KakaoOauthResponse getCredentialFromKakao(@RequestParam String code){
         KakaoTokenResponse kakaoToken = authService.getToken(code);
-        KakaoUserInfoResponse kakaoUserInfo = authService.getUserKakaoInfo(
+        KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
+        User user = authService.loginOrSignUp(userKakaoInfo.getId());
+        return authService.generateUserToken(user);
     }
 }

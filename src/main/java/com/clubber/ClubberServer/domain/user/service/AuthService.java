@@ -1,18 +1,17 @@
 package com.clubber.ClubberServer.domain.user.service;
 
 
-import static com.clubber.ClubberServer.global.jwt.JwtProperties.BEARER;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
+import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoOauthClient;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoInformationResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.properties.KakaoProperties;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import java.net.URI;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,10 +51,15 @@ public class AuthService {
     public User createKakaoUser(Long snsId){
         User user = User.builder()
                 .snsId(snsId)
-                .role("user")
+                .role("USER")
                 .snsType("kakao")
                 .build();
 
         return userRepository.save(user);
+    }
+
+    public KakaoOauthResponse generateUserToken(User user){
+        String accessToken = jwtTokenProvider.generateAccessToken(user);
+        return KakaoOauthResponse.of(user, accessToken);
     }
 }
