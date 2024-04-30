@@ -10,4 +10,12 @@ import lombok.NoArgsConstructor;
 @JsonNaming(SnakeCaseStrategy.class)
 public class KakaoUserInfoResponse {
     long id;
+
+    private KakaoAccount kakaoAccount;
+    @Getter
+    @NoArgsConstructor
+    @JsonNaming(SnakeCaseStrategy.class)
+    public static class KakaoAccount{
+        private String email;
+    }
 }
