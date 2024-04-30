@@ -23,15 +23,10 @@ public class Owner {
     @NotNull
     private String password;
 
-    @OneToMany
-    @JoinColumn(name="notice_id")
-    private List<Notice> notices =new ArrayList<>();
-
     @Builder
-    private Owner(Long id,String accountName,String password,List<Notice> notices){
+    private Owner(Long id,String accountName,String password){
         this.id=id;
         this.accountName=accountName;
         this.password=password;
-        this.notices=notices;
     }
 }
