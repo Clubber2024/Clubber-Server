@@ -44,13 +44,15 @@ public class AuthService {
         );
     }
 
-    public User loginOrSignUp(Long snsId){
-        return userRepository.findUserBySnsId(snsId).orElseGet(() -> createKakaoUser(snsId));
+    public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse){
+        return userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
+                .orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
     }
 
-    public User createKakaoUser(Long snsId){
+    public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse){
         User user = User.builder()
-                .snsId(snsId)
+                .snsId(kakaoUserInfoResponse.getId())
+                .email(kakaoUserInfoResponse.getKakaoAccount().getEmail())
                 .role("USER")
                 .snsType("kakao")
                 .build();
