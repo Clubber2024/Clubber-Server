@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.service;
+package com.clubber.ClubberServer.domain.auth.service;
 
 
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;

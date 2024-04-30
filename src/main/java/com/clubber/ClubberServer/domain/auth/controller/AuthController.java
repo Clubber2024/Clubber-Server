@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.auth.controller;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.AuthService;
+import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
