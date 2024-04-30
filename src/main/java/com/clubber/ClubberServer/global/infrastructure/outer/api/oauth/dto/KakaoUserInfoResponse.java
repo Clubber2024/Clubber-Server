@@ -18,4 +18,8 @@ public class KakaoUserInfoResponse {
     public static class KakaoAccount{
         private String email;
     }
+
+    public String getEmail(){
+        return kakaoAccount.getEmail();
+    }
 }
