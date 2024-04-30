@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.config.security;
 
-import static com.clubber.ClubberServer.global.jwt.JwtProperties.AUTH_HEADER;
-import static com.clubber.ClubberServer.global.jwt.JwtProperties.BEARER;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.AUTH_HEADER;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
@@ -10,7 +10,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.PasswordAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
