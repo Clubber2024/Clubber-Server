@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -24,13 +24,15 @@ public class SecurityConfig {
     private final FilterConfig filterConfig;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-			.csrf((csrfConfig) -> csrfConfig.disable())
+
+        http.csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .with(filterConfig,Customizer.withDefaults())
-                .authorizeHttpRequests((authorizeRequests) ->
-                        authorizeRequests
+                .authorizeHttpRequests((requests) ->
+                        requests.requestMatchers("/v1/auths/**").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers("/v1/auths/**").permitAll());
+                                .anyRequest().hasRole("USER"));
         return http.build();
     }
 }
