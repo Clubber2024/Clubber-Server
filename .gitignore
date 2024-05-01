@@ -14,6 +14,7 @@ src/main/resources/*.yml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/compiler.xml
 
 # AWS User-specific
 .idea/**/aws.xml
