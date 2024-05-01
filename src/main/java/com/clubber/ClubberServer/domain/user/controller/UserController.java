@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.user.controller;
 
 
+import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
+import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse.FavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +20,10 @@ public class UserController {
     @GetMapping("/me")
     public UserProfileResponse getUserProfile(){
         return userService.getUserProfile();
+    }
+
+    @GetMapping("/favorite")
+    public UserFavoritesResponse getUserFavorites() {
+        return userService.getUserFavorites();
     }
 }
