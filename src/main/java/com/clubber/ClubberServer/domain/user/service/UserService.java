@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.user.service;
 
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
+import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,8 @@ public class UserService {
 
     public UserProfileResponse getUserProfile(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
-        User user = userRepository.findById(currentUserId).get();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         return UserProfileResponse.of(user);
     }
 }
