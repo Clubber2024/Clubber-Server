@@ -30,6 +30,8 @@ public class UserService {
 
     public UserFavoritesResponse getUserFavorites(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
+        userRepository.findById(currentUserId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         List<Favorite> favorites = favoriteRepository
                 .queryFavoritesByUserId(currentUserId);
