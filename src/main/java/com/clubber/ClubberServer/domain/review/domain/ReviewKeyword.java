@@ -1,8 +1,8 @@
-package com.clubber.ClubberServer.domain.review_keyword.domain;
+package com.clubber.ClubberServer.domain.review.domain;
 
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.keyword.domain.Keyword;
+import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,8 +31,6 @@ public class ReviewKeyword extends BaseEntity {
     @NotNull
     private Review review;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "keyword_id")
     @NotNull
     private Keyword keyword;
 
