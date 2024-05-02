@@ -43,4 +43,11 @@ public class ReviewKeyword extends BaseEntity {
         this.review = review;
         this.keyword = keyword;
     }
+
+    public static ReviewKeyword of(Review review, Keyword keyword){
+        return ReviewKeyword.builder()
+                .review(review)
+                .keyword(keyword)
+                .build();
+    }
 }
