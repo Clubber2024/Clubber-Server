@@ -41,4 +41,11 @@ public class Review extends BaseEntity {
         this.club = club;
         this.user = user;
     }
+
+    public static Review of(User user, Club club){
+        return Review.builder()
+                .user(user)
+                .club(club)
+                .build();
+    }
 }
