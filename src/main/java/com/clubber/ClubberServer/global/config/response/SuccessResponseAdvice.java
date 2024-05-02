@@ -1,7 +1,9 @@
 package com.clubber.ClubberServer.global.config.response;
 
 import com.clubber.ClubberServer.global.dto.SuccessResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -20,6 +22,15 @@ public class SuccessResponseAdvice implements ResponseBodyAdvice {
     public Object beforeBodyWrite(Object body, MethodParameter returnType,
             MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request,
             ServerHttpResponse response) {
-        return new SuccessResponse(body);
+
+        HttpServletResponse servletResponse =
+                ((ServletServerHttpResponse) response).getServletResponse();
+        int status = servletResponse.getStatus();
+        HttpStatus resolve = HttpStatus.resolve(status);
+
+        if(resolve.is2xxSuccessful()){
+            return new SuccessResponse(body);
+        }
+        return body;
     }
 }
