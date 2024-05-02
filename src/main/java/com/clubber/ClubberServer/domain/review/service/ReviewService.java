@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -28,7 +29,7 @@ public class ReviewService {
     private final ClubRepository clubRepository;
 
     @Transactional
-    public void createReview(Long clubId, ReviewRequest reviewRequest){
+    public ReviewCreateResponse createReview(Long clubId, ReviewRequest reviewRequest){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
@@ -36,14 +37,16 @@ public class ReviewService {
         Club club = clubRepository.findById(clubId).get();
         Review review = Review.of(user, club);
 
-        createReviewKeyword(reviewRequest, reviewRepository.save(review));
+        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
-    public void createReviewKeyword(ReviewRequest reviewRequest, Review review){
+    public ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
         List<Keyword> keywords = reviewRequest.getKeywords();
         List<ReviewKeyword> reviewKeywords = keywords.stream()
                 .map((keyword -> ReviewKeyword.of(review, keyword)))
                 .collect(Collectors.toList());
-        reviewKeywordRepository.saveAll(reviewKeywords);
+
+        List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
+        return ReviewCreateResponse.of(review, savedKeywords);
     }
 }
