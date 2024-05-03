@@ -53,12 +53,12 @@ public class UserFavoritesResponse {
         }
     }
 
-    public static UserFavoritesResponse of (Long userId, List<Favorite> favorites){
+    public static UserFavoritesResponse of (User user, List<Favorite> favorites){
         List<FavoriteResponse> favoriteResponse = favorites.stream()
                 .map(FavoriteResponse::of).collect(Collectors.toList());
 
         return UserFavoritesResponse.builder()
-                .userId(userId)
+                .userId(user.getId())
                 .favorites(favoriteResponse).build();
 
     }
