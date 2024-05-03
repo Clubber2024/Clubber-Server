@@ -30,11 +30,11 @@ public class UserService {
 
     public UserFavoritesResponse getUserFavorites(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
-        userRepository.findById(currentUserId)
+        User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         List<Favorite> favorites = favoriteRepository
-                .queryFavoritesByUserId(currentUserId);
-        return UserFavoritesResponse.of(currentUserId, favorites);
+                .queryFavoritesByUserId(user.getId());
+        return UserFavoritesResponse.of(user, favorites);
     }
 }
