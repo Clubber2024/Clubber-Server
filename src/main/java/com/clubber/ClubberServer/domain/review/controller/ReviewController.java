@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.review.controller;
 
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
@@ -28,6 +29,11 @@ public class ReviewController {
     @GetMapping
     public ClubReviewResponse getClubReviews(@PathVariable Long clubId){
         return reviewService.getClubReviews(clubId);
+    }
+
+    @GetMapping("/keyword-stats")
+    public ClubReviewKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId){
+        return reviewService.getClubReviewKeywordStats(clubId);
     }
 
 }
