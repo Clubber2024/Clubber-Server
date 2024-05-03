@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
@@ -48,5 +49,11 @@ public class ReviewService {
 
         List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
         return ReviewCreateResponse.of(review, savedKeywords);
+    }
+
+    public ClubReviewResponse getClubReviews(Long clubId){
+        Club club = clubRepository.findById(clubId).get();
+        List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
+        return ClubReviewResponse.of(club, reviewKeywords);
     }
 }
