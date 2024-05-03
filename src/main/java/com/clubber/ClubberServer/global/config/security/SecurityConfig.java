@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .with(filterConfig,Customizer.withDefaults())
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/v1/auths/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v1/clubs/{clubId}/reviews").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/v1/clubs/{clubId}/reviews/**").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
