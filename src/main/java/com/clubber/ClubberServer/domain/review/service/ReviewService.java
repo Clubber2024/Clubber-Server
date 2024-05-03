@@ -5,7 +5,9 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
@@ -14,8 +16,15 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.querydsl.core.Tuple;
 import jakarta.transaction.Transactional;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,5 +64,18 @@ public class ReviewService {
         Club club = clubRepository.findById(clubId).get();
         List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
         return ClubReviewResponse.of(club, reviewKeywords);
+    }
+
+    public ClubReviewKeywordStatsResponse getClubReviewKeywordStats(Long clubId){
+        Club club = clubRepository.findById(clubId).get();
+        List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+                club.getId());
+
+        Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
+
+        return ClubReviewKeywordStatsResponse.of(club, keywordMap);
+
+
+
     }
 }
