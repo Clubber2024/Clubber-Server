@@ -5,6 +5,8 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +34,7 @@ public class ReviewKeyword extends BaseEntity {
     private Review review;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Keyword keyword;
 
     @Builder
@@ -39,5 +42,12 @@ public class ReviewKeyword extends BaseEntity {
         this.id = id;
         this.review = review;
         this.keyword = keyword;
+    }
+
+    public static ReviewKeyword of(Review review, Keyword keyword){
+        return ReviewKeyword.builder()
+                .review(review)
+                .keyword(keyword)
+                .build();
     }
 }
