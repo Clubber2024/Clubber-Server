@@ -1,9 +1,11 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
+import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
 
+import com.clubber.ClubberServer.domain.club.domain.QClub;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
@@ -40,4 +42,17 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .having(review.club.id.eq(clubId))
                 .fetch();
     }
+
+    @Override
+    public List<ReviewKeyword> queryReviewKeywordByUserId(Long userId) {
+        return queryFactory
+                .selectFrom(reviewKeyword)
+                .from(reviewKeyword)
+                .join(reviewKeyword.review, review).fetchJoin()
+                .join(review.club, club).fetchJoin()
+                .where(review.user.id.eq(userId))
+                .fetch();
+    }
+
+
 }
