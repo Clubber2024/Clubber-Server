@@ -53,4 +53,8 @@ public class Favorite extends BaseEntity {
                 .favoriteStatus(FavoriteStatus.ACTIVE)
                 .build();
     }
+
+    public void delete(){
+        this.favoriteStatus = FavoriteStatus.INACTIVE;
+    }
 }
