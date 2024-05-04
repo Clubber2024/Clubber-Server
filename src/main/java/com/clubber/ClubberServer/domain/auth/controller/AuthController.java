@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,5 +27,10 @@ public class AuthController {
                 kakaoToken.getAccessToken());
         User user = authService.loginOrSignUp(userKakaoInfo);
         return authService.generateUserToken(user);
+    }
+
+    @DeleteMapping("/withdraw")
+    public void withDrawKakaoUser(){
+        authService.withDrawKakaoUser();
     }
 }
