@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.domain.auth.service;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
+import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.domain.UserStatus;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
@@ -76,6 +77,14 @@ public class AuthService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        unlinkKakao(user);
         user.withDraw(); 
+    }
+
+    private void unlinkKakao(User user){
+        String unlinkUrl = kakaoProperties.getUnlinkUrl();
+        String header = "KakaoAK " + kakaoProperties.getAdminKey();
+        UnlinkKaKaoTarget unlinkKakaoTarget = UnlinkKaKaoTarget.from(user.getSnsId());
+        kakaoOauthClient.unlink(URI.create(unlinkUrl), header, unlinkKakaoTarget);
     }
 }
