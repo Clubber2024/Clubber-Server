@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.user.controller;
 
 
+import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse.ReviewResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse.FavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
@@ -26,4 +28,7 @@ public class UserController {
     public UserFavoritesResponse getUserFavorites() {
         return userService.getUserFavorites();
     }
+
+    @GetMapping("/review")
+    public UserReviewResponse getUserReviews() { return userService.getUserReviews(); }
 }
