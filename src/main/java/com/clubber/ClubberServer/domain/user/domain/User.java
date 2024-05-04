@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -48,6 +49,9 @@ public class User extends BaseEntity {
     }
 
     public void withDraw(){
+        if(this.userStatus == UserStatus.INACTIVE){
+            throw UserAlreadyDeletedException.EXCEPTION;
+        }
         this.email = null;
         this.snsId = null;
         this.userStatus = UserStatus.INACTIVE;
