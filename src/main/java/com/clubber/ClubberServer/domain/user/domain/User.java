@@ -34,12 +34,16 @@ public class User extends BaseEntity {
     @NotNull
     private Long snsId;
 
+    @NotNull
+    private UserStatus userStatus;
+
     @Builder
-    private User(Long id, String email, String snsType, String role, Long snsId) {
+    private User(Long id, String email, String snsType, String role, Long snsId, UserStatus userStatus) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
         this.role = role;
         this.snsId = snsId;
+        this.userStatus = userStatus;
     }
 }
