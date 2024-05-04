@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.favorite.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -58,6 +59,9 @@ public class Favorite extends BaseEntity {
     }
 
     public void delete(){
+        if(this.favoriteStatus == FavoriteStatus.INACTIVE){
+            throw FavoriteAlreadyDeleteException.EXCEPTION;
+        }
         this.favoriteStatus = FavoriteStatus.INACTIVE;
     }
 
