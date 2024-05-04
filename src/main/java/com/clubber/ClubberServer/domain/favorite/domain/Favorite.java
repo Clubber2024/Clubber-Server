@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.favorite.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,5 +58,11 @@ public class Favorite extends BaseEntity {
 
     public void delete(){
         this.favoriteStatus = FavoriteStatus.INACTIVE;
+    }
+
+    public void checkClub(Long clubId){
+        if(!Objects.equals(clubId, club.getId())){
+            throw FavoriteNotMatchClubException.EXCEPTION;
+        }
     }
 }
