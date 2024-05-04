@@ -17,7 +17,7 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.querydsl.core.Tuple;
-import jakarta.transaction.Transactional;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,12 +61,14 @@ public class ReviewService {
         return ReviewCreateResponse.of(review, savedKeywords);
     }
 
+    @Transactional(readOnly = true)
     public ClubReviewResponse getClubReviews(Long clubId){
         Club club = clubRepository.findById(clubId).get();
         List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
         return ClubReviewResponse.of(club, reviewKeywords);
     }
 
+    @Transactional(readOnly = true)
     public ClubReviewKeywordStatsResponse getClubReviewKeywordStats(Long clubId){
         Club club = clubRepository.findById(clubId).get();
         List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
