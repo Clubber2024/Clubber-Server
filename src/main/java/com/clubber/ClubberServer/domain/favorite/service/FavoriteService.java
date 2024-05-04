@@ -41,11 +41,12 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteFavorite(Long clubId, Long favoriteId){
+    public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId){
         Favorite favorite = favoriteRepository.findById(favoriteId)
                 .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
         favorite.checkClub(clubId);
         favorite.delete();
+        return FavoriteResponse.from(favorite);
     }
 
 }

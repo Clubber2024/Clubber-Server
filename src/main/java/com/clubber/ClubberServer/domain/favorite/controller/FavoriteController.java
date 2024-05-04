@@ -23,7 +23,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{favoriteId}")
-    public void deleteFavorite(@PathVariable Long clubId, @PathVariable Long favoriteId){
-        favoriteService.deleteFavorite(clubId, favoriteId);
+    public FavoriteResponse deleteFavorite(@PathVariable Long clubId, @PathVariable Long favoriteId){
+        return favoriteService.deleteFavorite(clubId, favoriteId);
     }
 }
