@@ -5,6 +5,7 @@ import static com.clubber.ClubberServer.domain.favorite.domain.QFavorite.favorit
 import static com.clubber.ClubberServer.domain.user.domain.QUser.user;
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.domain.FavoriteStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
 
         return queryFactory.selectFrom(favorite)
                 .join(favorite.club, club).fetchJoin()
-                .join(favorite.user, user).fetchJoin()
-                .where(favorite.user.id.eq(userId))
+                .where(favorite.user.id.eq(userId),
+                        favorite.favoriteStatus.eq(FavoriteStatus.ACTIVE))
                 .fetch();
     }
 }
