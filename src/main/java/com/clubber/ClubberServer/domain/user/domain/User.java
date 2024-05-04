@@ -3,6 +3,8 @@ package com.clubber.ClubberServer.domain.user.domain;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,8 +23,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
     private String email;
 
     @NotNull
@@ -31,10 +31,10 @@ public class User extends BaseEntity {
     @NotNull
     private String role;
 
-    @NotNull
     private Long snsId;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
     @Builder
@@ -45,5 +45,11 @@ public class User extends BaseEntity {
         this.role = role;
         this.snsId = snsId;
         this.userStatus = userStatus;
+    }
+
+    public void withDraw(){
+        this.email = null;
+        this.snsId = null;
+        this.userStatus = UserStatus.INACTIVE;
     }
 }
