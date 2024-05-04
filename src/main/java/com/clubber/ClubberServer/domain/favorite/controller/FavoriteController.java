@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.favorite;
+package com.clubber.ClubberServer.domain.favorite.controller;
 
 
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
