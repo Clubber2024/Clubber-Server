@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum UserErrorCode implements BaseErrorCode {
 
+    USER_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "USER_400_1", "이미 탈퇴한 유저입니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "USER_404_1", "존재하지 않는 유저입니다.");
 
     @Override
