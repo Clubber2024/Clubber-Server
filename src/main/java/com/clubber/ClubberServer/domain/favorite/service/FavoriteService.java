@@ -42,8 +42,14 @@ public class FavoriteService {
 
     @Transactional
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
         Favorite favorite = favoriteRepository.findById(favoriteId)
                 .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+
+        favorite.checkUser(user.getId());
         favorite.checkClub(clubId);
         favorite.delete();
         return FavoriteResponse.from(favorite);
