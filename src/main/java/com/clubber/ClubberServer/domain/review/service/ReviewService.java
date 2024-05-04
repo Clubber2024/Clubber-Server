@@ -50,7 +50,7 @@ public class ReviewService {
         return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
-    public ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
+    private ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
         List<Keyword> keywords = reviewRequest.getKeywords();
         List<ReviewKeyword> reviewKeywords = keywords.stream()
                 .map((keyword -> ReviewKeyword.of(review, keyword)))
