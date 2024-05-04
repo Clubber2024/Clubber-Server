@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.domain.favorite.domain;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -63,6 +64,12 @@ public class Favorite extends BaseEntity {
     public void checkClub(Long clubId){
         if(!Objects.equals(clubId, club.getId())){
             throw FavoriteNotMatchClubException.EXCEPTION;
+        }
+    }
+
+    public void checkUser(Long userId){
+        if(!Objects.equals(userId, this.user.getId())){
+            throw FavoriteNotMatchUserException.EXCEPTION;
         }
     }
 }
