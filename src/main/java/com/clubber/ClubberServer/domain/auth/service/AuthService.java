@@ -17,6 +17,7 @@ import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +48,7 @@ public class AuthService {
         );
     }
 
+    @Transactional
     public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse){
         return userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
                 .orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
@@ -69,6 +71,7 @@ public class AuthService {
         return KakaoOauthResponse.of(user, accessToken);
     }
 
+    @Transactional
     public void withDrawKakaoUser(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
