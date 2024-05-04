@@ -55,6 +55,7 @@ public class AuthService {
                 .email(kakaoUserInfoResponse.getEmail())
                 .role("USER")
                 .snsType("kakao")
+                .userStatus(UserStatus.ACTIVE)
                 .build();
 
         return userRepository.save(user);
