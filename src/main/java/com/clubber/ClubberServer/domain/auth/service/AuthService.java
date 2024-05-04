@@ -5,7 +5,10 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.domain.UserStatus;
+import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoOauthClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
@@ -64,5 +67,12 @@ public class AuthService {
     public KakaoOauthResponse generateUserToken(User user){
         String accessToken = jwtTokenProvider.generateAccessToken(user);
         return KakaoOauthResponse.of(user, accessToken);
+    }
+
+    public void withDrawKakaoUser(){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        user.withDraw(); 
     }
 }
