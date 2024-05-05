@@ -23,4 +23,12 @@ public class RefreshTokenEntity {
         this.refreshToken = refreshToken;
         this.ttl = ttl;
     }
+
+    public static RefreshTokenEntity of(Long id, String refreshToken, Long ttl){
+        return RefreshTokenEntity.builder()
+                .id(id)
+                .refreshToken(refreshToken)
+                .ttl(ttl)
+                .build();
+    }
 }
