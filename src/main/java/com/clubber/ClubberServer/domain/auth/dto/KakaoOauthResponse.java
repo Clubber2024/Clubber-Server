@@ -11,11 +11,13 @@ import lombok.Getter;
 public class KakaoOauthResponse {
     private final Long userId;
     private final String accessToken;
+    private final String refreshToken;
 
-    public static KakaoOauthResponse of(User user, String accessToken){
+    public static KakaoOauthResponse of(User user, String accessToken, String refreshToken){
         return KakaoOauthResponse.builder()
                 .userId(user.getId())
-                .accessToken(accessToken).build();
-
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
