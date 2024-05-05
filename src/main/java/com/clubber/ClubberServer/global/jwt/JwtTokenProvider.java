@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.global.jwt;
 
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.ACCESS_TOKEN;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.MILLI_TO_SECOND;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.REFRESH_TOKEN;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_ISSUER;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_ROLE;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_TYPE;
@@ -43,6 +44,22 @@ public class JwtTokenProvider {
                 .claim(TOKEN_TYPE, ACCESS_TOKEN)
                 .claim(TOKEN_ROLE, user.getRole())
                 .setExpiration(accessTokenExpiresIn)
+                .signWith(encodedKey)
+                .compact();
+    }
+
+    public String generateRefreshToken(Long id){
+        final Key encodedKey = getSecretKey();
+        final Date issuedAt = new Date();
+        final Date refreshTokenExpiresIn =
+                new Date(issuedAt.getTime() + jwtProperties.getRefreshExp() * MILLI_TO_SECOND);
+
+        return Jwts.builder()
+                .setIssuer(TOKEN_ISSUER)
+                .setIssuedAt(issuedAt)
+                .setSubject(id.toString())
+                .claim(TOKEN_TYPE, REFRESH_TOKEN)
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(encodedKey)
                 .compact();
     }
