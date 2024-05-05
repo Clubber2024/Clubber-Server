@@ -5,9 +5,11 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
+import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.domain.UserStatus;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
+import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoOauthClient;
@@ -31,6 +33,8 @@ public class AuthService {
     private final UserRepository userRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public KakaoTokenResponse getToken(String code){
 
@@ -67,10 +71,18 @@ public class AuthService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public KakaoOauthResponse generateUserToken(User user){
         String accessToken = jwtTokenProvider.generateAccessToken(user);
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
+        saveRefreshTokenEntity(user, refreshToken);
         return KakaoOauthResponse.of(user, accessToken, refreshToken);
+    }
+
+    private void saveRefreshTokenEntity(User user, String refreshToken) {
+        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(user.getId(), refreshToken,
+                jwtTokenProvider.getRefreshTokenTTlSecond());
+        refreshTokenRepository.save(refreshTokenEntity);
     }
 
     @Transactional
