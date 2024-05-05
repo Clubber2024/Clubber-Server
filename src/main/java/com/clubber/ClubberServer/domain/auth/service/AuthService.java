@@ -91,6 +91,8 @@ public class AuthService {
                         refreshToken)
                 .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
         Long id = jwtTokenProvider.parseRefreshToken(refreshToken);
+        User user = userRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 
     @Transactional
