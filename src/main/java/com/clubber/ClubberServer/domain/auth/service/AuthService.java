@@ -85,6 +85,7 @@ public class AuthService {
         refreshTokenRepository.save(refreshTokenEntity);
     }
 
+    @Transactional
     public void logoutKakaoUser(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         refreshTokenRepository.deleteById(currentUserId);
