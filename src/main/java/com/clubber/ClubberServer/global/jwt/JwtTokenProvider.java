@@ -80,4 +80,8 @@ public class JwtTokenProvider {
                 .role((String) claims.get(TOKEN_ROLE))
                 .build();
     }
+
+    public Long getRefreshTokenTTlSecond(){
+        return jwtProperties.getRefreshExp();
+    }
 }
