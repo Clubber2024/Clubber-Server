@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.domain.UserStatus;
+import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
@@ -83,6 +84,12 @@ public class AuthService {
         RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenTTlSecond());
         refreshTokenRepository.save(refreshTokenEntity);
+    }
+
+    public void tokenRefresh(String refreshToken){
+        RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+                        refreshToken)
+                .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
     }
 
     @Transactional
