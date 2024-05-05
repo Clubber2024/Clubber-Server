@@ -69,7 +69,8 @@ public class AuthService {
 
     public KakaoOauthResponse generateUserToken(User user){
         String accessToken = jwtTokenProvider.generateAccessToken(user);
-        return KakaoOauthResponse.of(user, accessToken);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
+        return KakaoOauthResponse.of(user, accessToken, refreshToken);
     }
 
     @Transactional
