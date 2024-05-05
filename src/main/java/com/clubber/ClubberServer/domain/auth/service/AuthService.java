@@ -91,6 +91,7 @@ public class AuthService {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         unlinkKakao(user);
+        refreshTokenRepository.deleteById(user.getId());
         user.withDraw(); 
     }
 
