@@ -18,7 +18,7 @@ public class RefreshTokenEntity {
     private Long ttl;
 
     @Builder
-    public RefreshTokenEntity(Long id, String refreshToken, Long ttl) {
+    private RefreshTokenEntity(Long id, String refreshToken, Long ttl) {
         this.id = id;
         this.refreshToken = refreshToken;
         this.ttl = ttl;
