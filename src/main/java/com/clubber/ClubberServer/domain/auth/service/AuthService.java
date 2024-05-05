@@ -90,6 +90,7 @@ public class AuthService {
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
                         refreshToken)
                 .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+        Long id = jwtTokenProvider.parseRefreshToken(refreshToken);
     }
 
     @Transactional

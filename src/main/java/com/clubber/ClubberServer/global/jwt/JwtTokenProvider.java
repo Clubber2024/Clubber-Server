@@ -81,6 +81,11 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    public Long parseRefreshToken(String token){
+        Claims claims = getJws(token).getBody();
+        return Long.parseLong(claims.getSubject());
+    }
+
     public Long getRefreshTokenTTlSecond(){
         return jwtProperties.getRefreshExp();
     }
