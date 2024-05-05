@@ -86,13 +86,14 @@ public class AuthService {
         refreshTokenRepository.save(refreshTokenEntity);
     }
 
-    public void tokenRefresh(String refreshToken){
+    public KakaoOauthResponse tokenRefresh(String refreshToken){
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
                         refreshToken)
                 .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-        Long id = jwtTokenProvider.parseRefreshToken(refreshToken);
+        Long id = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
         User user = userRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        return generateUserToken(user);
     }
 
     @Transactional
