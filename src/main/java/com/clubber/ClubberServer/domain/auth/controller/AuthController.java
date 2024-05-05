@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,12 @@ public class AuthController {
                 kakaoToken.getAccessToken());
         User user = authService.loginOrSignUp(userKakaoInfo);
         return authService.generateUserToken(user);
+    }
+
+    @PostMapping("/refresh")
+    public KakaoOauthResponse tokenRefresh(@RequestHeader(value = "token") String refreshToken){
+        System.out.println("refreshToken = " + refreshToken);
+        return authService.tokenRefresh(refreshToken);
     }
 
     @PostMapping("/logout")
