@@ -33,7 +33,6 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public KakaoOauthResponse tokenRefresh(@RequestHeader(value = "token") String refreshToken){
-        System.out.println("refreshToken = " + refreshToken);
         return authService.tokenRefresh(refreshToken);
     }
 
