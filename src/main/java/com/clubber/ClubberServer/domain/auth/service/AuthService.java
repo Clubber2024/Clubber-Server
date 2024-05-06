@@ -86,6 +86,7 @@ public class AuthService {
         refreshTokenRepository.save(refreshTokenEntity);
     }
 
+    @Transactional
     public KakaoOauthResponse tokenRefresh(String refreshToken){
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
                         refreshToken)
