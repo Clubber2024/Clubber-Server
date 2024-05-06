@@ -11,8 +11,10 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_TYPE;
 
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
+import com.clubber.ClubberServer.domain.user.exception.TokenExpiredException;
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
@@ -29,7 +31,14 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
     private Jws<Claims> getJws(String token){
-        return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+        try {
+            return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+        }catch (ExpiredJwtException e){
+            throw TokenExpiredException.EXCEPTION;
+        }catch (Exception e){
+            throw InvalidTokenException.EXCEPTION;
+        }
+
     }
 
     public String generateAccessToken(User user){
