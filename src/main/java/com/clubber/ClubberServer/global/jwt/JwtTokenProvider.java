@@ -11,6 +11,7 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_TYPE;
 
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
+import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.TokenExpiredException;
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import io.jsonwebtoken.Claims;
@@ -94,9 +95,21 @@ public class JwtTokenProvider {
         throw InvalidTokenException.EXCEPTION;
     }
 
+    private boolean isRefreshToken(String token){
+        Jws<Claims> jws = getJws(token);
+        return jws.getBody().get(TOKEN_TYPE).equals(REFRESH_TOKEN);
+    }
+
     public Long parseRefreshToken(String token){
-        Claims claims = getJws(token).getBody();
-        return Long.parseLong(claims.getSubject());
+        try {
+            if (isRefreshToken(token)) {
+                Claims claims = getJws(token).getBody();
+                return Long.parseLong(claims.getSubject());
+            }
+        }catch (TokenExpiredException e){
+            throw RefreshTokenExpiredException.EXCEPTION;
+        }
+        throw InvalidTokenException.EXCEPTION;
     }
 
     public Long getRefreshTokenTTlSecond(){
