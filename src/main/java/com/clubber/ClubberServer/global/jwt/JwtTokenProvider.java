@@ -10,6 +10,7 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.TOKEN_TYPE;
 
 
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -74,11 +75,14 @@ public class JwtTokenProvider {
     }
 
     public AccessTokenInfo parseAccessToken(String token){
-        Claims claims = getJws(token).getBody();
-        return AccessTokenInfo.builder()
-                .userId(Long.parseLong(claims.getSubject()))
-                .role((String) claims.get(TOKEN_ROLE))
-                .build();
+        if(isAccessToken(token)) {
+            Claims claims = getJws(token).getBody();
+            return AccessTokenInfo.builder()
+                    .userId(Long.parseLong(claims.getSubject()))
+                    .role((String) claims.get(TOKEN_ROLE))
+                    .build();
+        }
+        throw InvalidTokenException.EXCEPTION;
     }
 
     public Long parseRefreshToken(String token){
