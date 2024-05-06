@@ -1,8 +1,11 @@
 package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,8 +24,6 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
     private String email;
 
     @NotNull
@@ -31,15 +32,28 @@ public class User extends BaseEntity {
     @NotNull
     private String role;
 
-    @NotNull
     private Long snsId;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
+
     @Builder
-    private User(Long id, String email, String snsType, String role, Long snsId) {
+    private User(Long id, String email, String snsType, String role, Long snsId, UserStatus userStatus) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
         this.role = role;
         this.snsId = snsId;
+        this.userStatus = userStatus;
+    }
+
+    public void withDraw(){
+        if(this.userStatus == UserStatus.INACTIVE){
+            throw UserAlreadyDeletedException.EXCEPTION;
+        }
+        this.email = null;
+        this.snsId = null;
+        this.userStatus = UserStatus.INACTIVE;
     }
 }

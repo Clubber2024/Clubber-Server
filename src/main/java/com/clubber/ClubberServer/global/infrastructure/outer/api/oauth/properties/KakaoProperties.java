@@ -16,4 +16,6 @@ public class KakaoProperties {
     private String userInfoUrl;
     private String tokenUrl;
     private String grantType;
+    private String adminKey;
+    private String unlinkUrl;
 }
