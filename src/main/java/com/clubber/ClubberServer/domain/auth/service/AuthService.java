@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoInfoClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.KakaoOauthClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
@@ -28,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final KakaoOauthClient kakaoOauthClient;
+
+    private final KakaoInfoClient kakaoInfoClient;
 
     private final KakaoProperties kakaoProperties;
 
@@ -48,7 +51,7 @@ public class AuthService {
     }
 
     public KakaoUserInfoResponse getUserKakaoInfo(String accessToken){
-        return kakaoOauthClient.getUserInfo(
+        return kakaoInfoClient.getUserInfo(
                 URI.create(kakaoProperties.getUserInfoUrl()),
                 BEARER + accessToken
         );
@@ -117,6 +120,6 @@ public class AuthService {
         String unlinkUrl = kakaoProperties.getUnlinkUrl();
         String header = "KakaoAK " + kakaoProperties.getAdminKey();
         UnlinkKaKaoTarget unlinkKakaoTarget = UnlinkKaKaoTarget.from(user.getSnsId());
-        kakaoOauthClient.unlink(URI.create(unlinkUrl), header, unlinkKakaoTarget);
+        kakaoInfoClient.unlink(URI.create(unlinkUrl), header, unlinkKakaoTarget);
     }
 }
