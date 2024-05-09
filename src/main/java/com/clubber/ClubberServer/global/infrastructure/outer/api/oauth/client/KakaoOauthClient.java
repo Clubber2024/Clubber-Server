@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
         url = "https://kauth.kakao.com"
 )
 public interface KakaoOauthClient {
-    @PostMapping("/oauth/token")
+    @PostMapping("/oauth/token?grant_type=authorization_code")
     KakaoTokenResponse kakaoAuth(
-            @RequestParam("grant_type") String grantType,
             @RequestParam("client_id") String restApiKey,
             @RequestParam("redirect_uri") String redirectUrl,
             @RequestParam("code") String code

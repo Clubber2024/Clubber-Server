@@ -43,7 +43,6 @@ public class AuthService {
     public KakaoTokenResponse getToken(String code){
 
         return kakaoOauthClient.kakaoAuth(
-                kakaoProperties.getGrantType(),
                 kakaoProperties.getClientId(),
                 kakaoProperties.getRedirectUrl(),
                 code);
