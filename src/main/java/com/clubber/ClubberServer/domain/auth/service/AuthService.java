@@ -113,7 +113,6 @@ public class AuthService {
     }
 
     private void unlinkKakao(User user){
-        String unlinkUrl = kakaoProperties.getUnlinkUrl();
         String header = "KakaoAK " + kakaoProperties.getAdminKey();
         UnlinkKaKaoTarget unlinkKakaoTarget = UnlinkKaKaoTarget.from(user.getSnsId());
         kakaoInfoClient.unlink(header, unlinkKakaoTarget);
