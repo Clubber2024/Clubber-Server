@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
         url = "https://kapi.kakao.com"
 )
 public interface KakaoInfoClient {
-    @PostMapping
+    @PostMapping("v2/user/me")
     KakaoUserInfoResponse getUserInfo(
-            URI baseUrl,
             @RequestHeader("Authorization") String accessToken
     );
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    void unlink(URI baseUrl, @RequestHeader("Authorization") String adminKey, UnlinkKaKaoTarget kaKaoTarget);
+    @PostMapping(path = "v1/user/unlink",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    void unlink(@RequestHeader("Authorization") String adminKey, UnlinkKaKaoTarget kaKaoTarget);
 
 }

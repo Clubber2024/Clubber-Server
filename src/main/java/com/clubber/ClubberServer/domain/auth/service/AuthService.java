@@ -43,7 +43,6 @@ public class AuthService {
     public KakaoTokenResponse getToken(String code){
 
         return kakaoOauthClient.kakaoAuth(
-                URI.create(kakaoProperties.getTokenUrl()),
                 kakaoProperties.getGrantType(),
                 kakaoProperties.getClientId(),
                 kakaoProperties.getRedirectUrl(),
@@ -51,10 +50,7 @@ public class AuthService {
     }
 
     public KakaoUserInfoResponse getUserKakaoInfo(String accessToken){
-        return kakaoInfoClient.getUserInfo(
-                URI.create(kakaoProperties.getUserInfoUrl()),
-                BEARER + accessToken
-        );
+        return kakaoInfoClient.getUserInfo(BEARER + accessToken);
     }
 
     @Transactional
@@ -120,6 +116,6 @@ public class AuthService {
         String unlinkUrl = kakaoProperties.getUnlinkUrl();
         String header = "KakaoAK " + kakaoProperties.getAdminKey();
         UnlinkKaKaoTarget unlinkKakaoTarget = UnlinkKaKaoTarget.from(user.getSnsId());
-        kakaoInfoClient.unlink(URI.create(unlinkUrl), header, unlinkKakaoTarget);
+        kakaoInfoClient.unlink(header, unlinkKakaoTarget);
     }
 }
