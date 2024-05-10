@@ -32,8 +32,8 @@ jobs:
           override.value: from deploy.yml
           spring.data.redis: ${{ secrets.REDIS_HOST }}
           spring.datasource.url: ${{ secrets.RDS_HOST }}
-          spring.datasource.hikari.username: ${{ secrets.RDS_USERNAME }}
-          spring.datasource.hikari.password: ${{ secrets.RDS_PASSWORD }}
+          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
+          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
           oauth.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
           oauth.admin-key: ${{ secrets.KAKAO_ADMIN_KEY }}
           oauth.redirect-url: ${{ secrets.KAKAO_REDIRECT_URL }}

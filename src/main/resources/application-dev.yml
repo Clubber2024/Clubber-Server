@@ -15,9 +15,8 @@ Spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${RDS_HOST}
-    hikari:
-      username: ${RDS_USERNAME}
-      password: ${RDS_PASSWORD}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
 
   jpa:
     hibernate:
