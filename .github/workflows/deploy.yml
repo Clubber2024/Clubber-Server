@@ -41,6 +41,10 @@ jobs:
           jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
           jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
       - name: Build with Gradle
         run: ./gradlew build
         shell: bash
