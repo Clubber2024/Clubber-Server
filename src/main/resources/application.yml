@@ -1,0 +1,10 @@
+Server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: clubber
+

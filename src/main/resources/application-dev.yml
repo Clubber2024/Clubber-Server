@@ -1,0 +1,34 @@
+Server:
+  port: 8080
+
+
+Spring:
+  config:
+    activate:
+      on-profile: dev
+
+  data:
+    redis: ${REDIS_HOST}
+    port: 6379
+
+  #Mysql setting
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${RDS_HOST}
+    hikari:
+      username: ${RDS_USERNAME}
+      password: ${RDS_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    sql:
+      init:
+        mode: always
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+oauth:
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-url: ${KAKAO_REDIRECT_URL}
+  admin-key: ${KAKAO_ADMIN_KEY}
