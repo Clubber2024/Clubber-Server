@@ -55,7 +55,7 @@ public class ClubController {
     // 개별 동아리 및 소모임 페이지 조회
     @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
     public ResponseEntity<OneClubDto> getOneClubInfo(@PathVariable("clubId")Long clubId){
-        OneClubDto curr=clubService.individualPage(clubId);
+        OneClubDto curr=clubService.getIndividualPage(clubId);
         return ResponseEntity.ok(curr);
     }
 

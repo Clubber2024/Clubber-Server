@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.club.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class ClubService {
 
 
     //동아리 및 소모임 개별 페이지 조회
-    public OneClubDto individualPage(Long clubId){
+    public OneClubDto getIndividualPage(Long clubId){
         Optional<Club> club=clubRepository.findById(clubId);
         return club.map(this::convertToClubDto).orElse(null);
     }
@@ -116,5 +117,11 @@ public class ClubService {
                 club.getDepartment(),
                 oneClubInfo
         );
+    }
+
+    public OneClubDto getClubByName(String clubName) {
+        return clubRepository.findByName(clubName)
+                .map(this::convertToClubDto)
+                .orElseThrow(() -> new ClubNotFoundException(clubName+"이름을 가지는 동아리 및 소모임이 없습니다."));
     }
 }
