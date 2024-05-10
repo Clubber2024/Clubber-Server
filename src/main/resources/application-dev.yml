@@ -14,7 +14,7 @@ Spring:
   #Mysql setting
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${RDS_HOST}
+    url: jdbc:mysql://database-1.cfgycwceugma.ap-northeast-2.rds.amazonaws.com:3306/clubber
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
 
