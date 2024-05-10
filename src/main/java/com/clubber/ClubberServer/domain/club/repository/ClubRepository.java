@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByClubType(String clubType);
@@ -15,4 +16,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByDepartment(String department);
 
     List<Club> findByHashtag(String hashtag);
+
+    Optional<Club> findByName(String clubName);
 }

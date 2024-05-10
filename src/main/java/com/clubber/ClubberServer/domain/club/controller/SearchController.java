@@ -2,14 +2,12 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.dto.DivisionCenterDto;
 import com.clubber.ClubberServer.domain.club.dto.HashtagDto;
+import com.clubber.ClubberServer.domain.club.dto.OneClubDto;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +20,18 @@ public class SearchController {
 
     // hashtag 기반 검색
     @GetMapping(params="hashtag")
-    public ResponseEntity<HashtagDto> getCentersByDivision(@RequestParam("hashtag")String hashtag){
+    public ResponseEntity<HashtagDto> searchByHashtag(@RequestParam("hashtag")String hashtag){
         HashtagDto curr=clubService.getClubHashtag(hashtag);
         return ResponseEntity.ok(curr);
 
     }
+
+    // 동아리명 or 소모임명 기반 검색
+    @GetMapping(params="clubName")
+    public ResponseEntity<OneClubDto> searchByClubName(@RequestParam("clubName")String clubName){
+        OneClubDto curr=clubService.getClubByName(clubName);
+        return ResponseEntity.ok(curr);
+    }
+
 
 }
