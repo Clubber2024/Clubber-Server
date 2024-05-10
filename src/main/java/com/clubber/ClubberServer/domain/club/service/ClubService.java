@@ -52,6 +52,16 @@ public class ClubService {
 
     }
 
+    // 특정 해시태그 반환
+    public HashtagDto getClubHashtag(String hashtag){
+        List<Club> clubs = clubRepository.findByHashtag(hashtag);
+        List<SimpleCenterDto> clubDtos = clubs.stream()
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getClubInfo().getContent()))
+                .collect(Collectors.toList());
+        return new HashtagDto(hashtag,clubDtos);
+
+    }
+
 
 
     // 소모임 - 특정 단과대 반환

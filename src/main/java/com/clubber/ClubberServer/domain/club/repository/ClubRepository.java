@@ -13,4 +13,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByCollege(String college);
 
     List<Club> findByDepartment(String department);
+
+    List<Club> findByHashtag(String hashtag);
 }
