@@ -88,7 +88,7 @@ public class ClubService {
     }
 
     private OneClubDto convertToClubDto(Club club){
-        OneClubInfoDto oneClubInfoDto=new OneClubInfoDto(
+        OneClubInfoDto oneClubInfo=new OneClubInfoDto(
                 club.getClubInfo().getContent(),
                 club.getClubInfo().getInstagram(),
                 club.getClubInfo().getLeader(),
@@ -104,7 +104,7 @@ public class ClubService {
                 club.getDivision(),
                 club.getCollege(),
                 club.getDepartment(),
-                oneClubInfoDto
+                oneClubInfo
         );
     }
 }

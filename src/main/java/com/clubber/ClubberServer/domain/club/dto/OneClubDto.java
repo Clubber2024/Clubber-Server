@@ -12,10 +12,10 @@ public class OneClubDto {
     private String division;
     private String college;
     private String department;
-    private OneClubInfoDto oneClubInfoDto;
+    private OneClubInfoDto clubInfo;
 
     @Builder
-    public OneClubDto(Long clubId,String clubName,String clubType,String hashTag,String division,String college,String department,OneClubInfoDto oneClubInfoDto)
+    public OneClubDto(Long clubId,String clubName,String clubType,String hashTag,String division,String college,String department,OneClubInfoDto clubInfo)
     {
         this.clubId=clubId;
         this.clubName=clubName;
@@ -24,7 +24,7 @@ public class OneClubDto {
         this.division=division;
         this.college=college;
         this.department=department;
-        this.oneClubInfoDto=oneClubInfoDto;
+        this.clubInfo=clubInfo;
 
     }
 }
