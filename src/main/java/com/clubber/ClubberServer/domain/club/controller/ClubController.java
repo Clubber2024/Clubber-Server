@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.CollegeSmallDto;
+import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
 import com.clubber.ClubberServer.domain.club.dto.DivisionCenterDto;
 import com.clubber.ClubberServer.domain.club.dto.OneClubDto;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -33,13 +34,19 @@ public class ClubController {
     }
 
 
-    //소모임 단과대별 한눈에 보기
+    //소모임 단과대별 소모임 조회
     @GetMapping(params="college")
     public ResponseEntity<CollegeSmallDto> getSmallsByCollege(@RequestParam("college")String college){
         CollegeSmallDto curr=clubService.getSmallCollege(college);
         return ResponseEntity.ok(curr);
     }
 
+    //소모임 학과별 소모임 조회
+    @GetMapping(params="department")
+    public ResponseEntity<DepartmentSmallDto> getSmallsByDepartment(@RequestParam("department")String department){
+        DepartmentSmallDto curr=clubService.getOneDepartmentClubs(department);
+        return ResponseEntity.ok(curr);
+    }
 
 
 
@@ -49,6 +56,5 @@ public class ClubController {
         OneClubDto curr=clubService.individualPage(clubId);
         return ResponseEntity.ok(curr);
     }
-
 
 }

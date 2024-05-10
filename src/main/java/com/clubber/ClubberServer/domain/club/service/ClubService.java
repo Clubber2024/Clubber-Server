@@ -32,7 +32,7 @@ public class ClubService {
         List<Club> centers=clubRepository.findByClubType("center"); //중앙 동아리 찾기
         Map<String,List<SimpleCenterDto>> oneDivision=centers.stream()
                 .collect(Collectors.groupingBy(Club::getDivision,
-                        Collectors.mapping(club->new SimpleCenterDto(club.getId(),club.getName()),
+                        Collectors.mapping(club->new SimpleCenterDto(club.getId(),club.getName(),club.getClubInfo().getContent()),
                                 Collectors.toList())));
         return oneDivision.entrySet().stream()
                 .map(entry->new DivisionCenterDto(entry.getKey(), entry.getValue()))
@@ -46,7 +46,7 @@ public class ClubService {
     public DivisionCenterDto getClubDivision(String division){
         List<Club> clubs = clubRepository.findByClubTypeAndDivision("center", division);
         List<SimpleCenterDto> clubDtos = clubs.stream()
-                .map(club -> new SimpleCenterDto(club.getId(), club.getName()))
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getClubInfo().getContent()))
                 .collect(Collectors.toList());
         return new DivisionCenterDto(division, clubDtos);
 
@@ -59,7 +59,7 @@ public class ClubService {
         List<Club> clubs=clubRepository.findByCollege(college);
         Map<String,List<SimpleCenterDto>> oneDepartment=clubs.stream()
                 .collect(Collectors.groupingBy(Club::getDepartment,
-                        Collectors.mapping(club-> new SimpleCenterDto(club.getId(),club.getName()),
+                        Collectors.mapping(club-> new SimpleCenterDto(club.getId(),club.getName(),club.getClubInfo().getContent()),
                                 Collectors.toList())));
         List<DepartmentSmallDto> departmentDtos = oneDepartment.entrySet().stream()
                 .map(entry-> new DepartmentSmallDto(entry.getKey(),entry.getValue()))
@@ -70,9 +70,14 @@ public class ClubService {
 
 
     // 소모임 - 특정 학과 반환
+    public DepartmentSmallDto getOneDepartmentClubs(String department){
+        List<Club> clubs=clubRepository.findByDepartment(department);
+        List<SimpleCenterDto> clubDtos = clubs.stream()
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getClubInfo().getContent()))
+                .collect(Collectors.toList());
+        return new DepartmentSmallDto(department, clubDtos);
 
-
-
+    }
 
 
 

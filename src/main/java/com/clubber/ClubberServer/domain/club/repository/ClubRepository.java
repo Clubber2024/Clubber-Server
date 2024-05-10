@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByClubType(String clubType);
-    List<Club> findByClubTypeAndDivision(String clubType,String division);
+
+    List<Club> findByClubTypeAndDivision(String clubType, String division);
+
     List<Club> findByCollege(String college);
+
+    List<Club> findByDepartment(String department);
 }

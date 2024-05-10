@@ -8,12 +8,12 @@ import java.util.List;
 @Data
 public class CollegeSmallDto {
     private String college;
-    private List<DepartmentSmallDto> departmentClubs;
+    private List<DepartmentSmallDto> departments;
 
     @Builder
-    public CollegeSmallDto(String college, List<DepartmentSmallDto> departmentClubs) {
+    public CollegeSmallDto(String college, List<DepartmentSmallDto> departments) {
         this.college=college;
-        this.departmentClubs=departmentClubs;
+        this.departments=departments;
     }
 
 }
