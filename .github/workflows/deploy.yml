@@ -24,22 +24,21 @@ jobs:
         with:
           java-version: 17
 
-      - name: Set yml file
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH }}
-        env:
-          override.value: from deploy.yml
-          spring.data.redis: ${{ secrets.REDIS_HOST }}
-          spring.datasource.url: ${{ secrets.RDS_HOST }}
-          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
-          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
-          oauth.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
-          oauth.admin-key: ${{ secrets.KAKAO_ADMIN_KEY }}
-          oauth.redirect-url: ${{ secrets.KAKAO_REDIRECT_URL }}
-          jwt.secret-key: ${{ secrets.JWT_SECRET }}
-          jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
-          jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
+#      - name: Set yml file
+#        uses: microsoft/variable-substitution@v1
+#        with:
+#          files: ${{ env.RESOURCE_PATH }}
+#        env:
+#          spring.data.redis: ${{ secrets.REDIS_HOST }}
+#          spring.datasource.url: ${{ secrets.RDS_HOST }}
+#          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
+#          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+#          oauth.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
+#          oauth.admin-key: ${{ secrets.KAKAO_ADMIN_KEY }}
+#          oauth.redirect-url: ${{ secrets.KAKAO_REDIRECT_URL }}
+#          jwt.secret-key: ${{ secrets.JWT_SECRET }}
+#          jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
+#          jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
