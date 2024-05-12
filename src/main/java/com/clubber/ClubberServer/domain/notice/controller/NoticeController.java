@@ -19,9 +19,9 @@ public class NoticeController {
 
 
     @GetMapping("/v1/notice")
-    public ResponseEntity<List<NoticesDto>> getNotices(){
+    public List<NoticesDto> getNotices(){
         List<NoticesDto> notices=noticeService.getSortedNotices();
-        return ResponseEntity.ok(notices);
+        return notices;
     }
 
 

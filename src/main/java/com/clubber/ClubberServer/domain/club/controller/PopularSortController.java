@@ -18,8 +18,8 @@ public class PopularSortController {
 
     private final ClubService clubService;
     @GetMapping("/v1/popular")
-    public ResponseEntity<List<PopularClubDto>> getTop10PopularClubs(){
+    public List<PopularClubDto> getTop10PopularClubs(){
         List<PopularClubDto> top10=clubService.getPopularClubs();
-        return ResponseEntity.ok(top10);
+        return top10;
     }
 }
