@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class OneClubInfoDto {
-    private String content;
     private String instagram;
     private String leader;
     private Long room;
@@ -14,8 +13,7 @@ public class OneClubInfoDto {
 
 
     @Builder
-    public OneClubInfoDto(String content,String instagram,String leader,Long room,Long totalView,String activity){
-        this.content=content;
+    public OneClubInfoDto(String instagram,String leader,Long room,Long totalView,String activity){
         this.instagram=instagram;
         this.leader=leader;
         this.room=room;

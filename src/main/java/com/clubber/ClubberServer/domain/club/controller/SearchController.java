@@ -20,17 +20,17 @@ public class SearchController {
 
     // hashtag 기반 검색
     @GetMapping(params="hashtag")
-    public ResponseEntity<HashtagDto> searchByHashtag(@RequestParam("hashtag")String hashtag){
-        HashtagDto curr=clubService.getClubHashtag(hashtag);
-        return ResponseEntity.ok(curr);
+    public HashtagDto searchByHashtag(@RequestParam("hashtag")String hashtag){
+        HashtagDto clubs=clubService.getClubHashtag(hashtag);
+        return clubs;
 
     }
 
     // 동아리명 or 소모임명 기반 검색
     @GetMapping(params="clubName")
-    public ResponseEntity<OneClubDto> searchByClubName(@RequestParam("clubName")String clubName){
-        OneClubDto curr=clubService.getClubByName(clubName);
-        return ResponseEntity.ok(curr);
+    public OneClubDto searchByClubName(@RequestParam("clubName")String clubName){
+        OneClubDto club=clubService.getClubByName(clubName);
+        return club;
     }
 
 

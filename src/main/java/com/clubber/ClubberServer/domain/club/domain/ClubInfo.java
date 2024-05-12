@@ -15,8 +15,6 @@ public class ClubInfo extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
-
     private String instagram;
 
     private String leader;
@@ -28,9 +26,8 @@ public class ClubInfo extends BaseEntity{
     private String activity;
 
     @Builder
-    private ClubInfo(Long id,String content,String instagram,String leader,Long room,Long totalView,String activity){
+    private ClubInfo(Long id,String instagram,String leader,Long room,Long totalView,String activity){
         this.id=id;
-        this.content=content;
         this.instagram=instagram;
         this.leader=leader;
         this.room=room;

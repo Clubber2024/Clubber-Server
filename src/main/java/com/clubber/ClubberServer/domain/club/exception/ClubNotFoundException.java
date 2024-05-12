@@ -1,8 +1,14 @@
 package com.clubber.ClubberServer.domain.club.exception;
 
-public class ClubNotFoundException extends RuntimeException{
-    public ClubNotFoundException(String message) {
-        super(message);
+import com.clubber.ClubberServer.domain.favorite.exception.ClubAlreadyRegisterdFavoriteException;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteErrorCode;
+import com.clubber.ClubberServer.global.error.BaseException;
+
+public class ClubNotFoundException extends BaseException{
+    public static final BaseException EXCEPTION = new ClubNotFoundException();
+
+    public ClubNotFoundException() {
+        super(ClubErrorCode.SEARCHED_CLUB_NOT_FOUND);
     }
 
 }
