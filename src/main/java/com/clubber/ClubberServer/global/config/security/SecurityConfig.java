@@ -34,7 +34,7 @@ public class SecurityConfig {
                         requests.requestMatchers("/v1/auths/oauth/**").permitAll()
                                 .requestMatchers("/v1/auths/refresh").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/clubs/{clubId}/reviews/**").permitAll()
-                                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                //.requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
     }
