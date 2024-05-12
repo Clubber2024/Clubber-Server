@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/search/**").permitAll()
                                 .requestMatchers("/v1/notice").permitAll()
+                                .requestMatchers("/v1/popular").permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
     }

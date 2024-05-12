@@ -1,7 +1,11 @@
 package com.clubber.ClubberServer.domain.club.repository;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +22,7 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByHashtag(String hashtag);
 
     Optional<Club> findByName(String clubName);
+
+    @Query("SELECT c FROM Club c JOIN c.clubInfo ci ORDER BY ci.totalView DESC")
+    Page<Club> findTopClubsByTotalView(Pageable pageable);
 }
