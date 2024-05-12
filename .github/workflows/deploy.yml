@@ -2,7 +2,7 @@ name : CI-CD
 
 on:
   push:
-    branches: feat/#54-feat-배포-자동화-설정
+    branches: dev
 
 
 env:
