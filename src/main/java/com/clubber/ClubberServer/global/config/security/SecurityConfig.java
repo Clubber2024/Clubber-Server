@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/search/**").permitAll()
+                                .requestMatchers("/v1/notice").permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
     }
