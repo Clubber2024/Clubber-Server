@@ -4,7 +4,9 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.notice.dto.NoticesDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -124,4 +126,6 @@ public class ClubService {
                 .map(this::convertToClubDto)
                 .orElseThrow(() -> new ClubNotFoundException(clubName+"이름을 가지는 동아리 및 소모임이 없습니다."));
     }
+
+
 }
