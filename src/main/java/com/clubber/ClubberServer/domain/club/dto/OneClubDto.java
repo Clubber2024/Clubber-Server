@@ -11,11 +11,11 @@ public class OneClubDto {
     private String hashTag;
     private String division;
     private String college;
-    private String departent;
-    private OneClubInfoDto oneClubInfoDto;
+    private String department;
+    private OneClubInfoDto clubInfo;
 
     @Builder
-    public OneClubDto(Long clubId,String clubName,String clubType,String hashTag,String division,String college,String departent,OneClubInfoDto oneClubInfoDto)
+    public OneClubDto(Long clubId,String clubName,String clubType,String hashTag,String division,String college,String department,OneClubInfoDto clubInfo)
     {
         this.clubId=clubId;
         this.clubName=clubName;
@@ -23,8 +23,8 @@ public class OneClubDto {
         this.hashTag=hashTag;
         this.division=division;
         this.college=college;
-        this.departent=departent;
-        this.oneClubInfoDto=oneClubInfoDto;
+        this.department=department;
+        this.clubInfo=clubInfo;
 
     }
 }
