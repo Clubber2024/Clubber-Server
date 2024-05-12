@@ -6,6 +6,9 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.notice.dto.NoticesDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -127,5 +130,16 @@ public class ClubService {
                 .orElseThrow(() -> new ClubNotFoundException(clubName+"이름을 가지는 동아리 및 소모임이 없습니다."));
     }
 
+    //인기순위 동아리 및 소모임조회
+    public List<PopularClubDto> getPopularClubs(){
+        Pageable topTen= PageRequest.of(0,10);
+        Page<Club> page= clubRepository.findTopClubsByTotalView(topTen);
+        List<Club> clubs = page.getContent();
+        List<PopularClubDto> PopularClubs = clubs.stream()
+                .map(club -> new PopularClubDto(club.getId(), club.getName(),club.getClubInfo().getTotalView()))
+                .collect(Collectors.toList());
+        return PopularClubs;
+
+    }
 
 }
