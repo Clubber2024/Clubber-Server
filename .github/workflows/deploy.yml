@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir ./src/main/resources # resources 폴더 생성
           cd ./src/main/resources # resources 폴더로 이동
-          touch -f ./application.yml # application.yml 생성
+          touch ./application.yml # application.yml 생성
           echo "${{ secrets.YML }}" > ./application.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
         shell: bash
             
@@ -36,7 +36,7 @@ jobs:
       - name: make application-dev.yml
         run: |
           cd ./src/main/resources
-          touch -f ./application-dev.yml
+          touch ./application-dev.yml
           echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
         shell: bash
 #      - name: Set yml file
