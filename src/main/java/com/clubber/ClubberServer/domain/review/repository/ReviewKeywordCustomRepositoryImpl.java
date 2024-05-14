@@ -37,9 +37,9 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .select(Projections.fields(KeywordStats.class,
                         reviewKeyword.keyword, reviewKeyword.count().as("count")))
                 .from(reviewKeyword)
+                .where(review.club.id.eq(clubId))
                 .join(reviewKeyword.review, review)
                 .groupBy(reviewKeyword.keyword)
-                .having(review.club.id.eq(clubId))
                 .fetch();
     }
 
