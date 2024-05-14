@@ -24,17 +24,14 @@ public class ClubController {
     // 중앙동아리 - 분과별 동아리 조회
     @GetMapping(params="division")
     public DivisionCenterDto getCentersByDivision(@RequestParam("division")String division){
-        DivisionCenterDto clubs=clubService.getClubDivision(division);
-        return clubs;
-
+        return clubService.getClubDivision(division);
     }
 
 
     // 소모임 - 학과별 소모임 조회
     @GetMapping(params="department")
     public DepartmentSmallDto getSmallsByDepartment(@RequestParam("department")String department){
-        DepartmentSmallDto clubs=clubService.getOneDepartmentClubs(department);
-        return clubs;
+        return clubService.getOneDepartmentClubs(department);
     }
 
 
@@ -43,10 +40,7 @@ public class ClubController {
     // 개별 동아리 및 소모임 페이지 조회
     @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
     public OneClubDto getOneClubInfo(@PathVariable("clubId")Long clubId){
-        OneClubDto club=clubService.getIndividualPage(clubId);
-        return club;
+        return clubService.getIndividualPage(clubId);
     }
-
-
 
 }

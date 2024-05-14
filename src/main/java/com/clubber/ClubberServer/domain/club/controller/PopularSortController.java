@@ -19,7 +19,6 @@ public class PopularSortController {
     private final ClubService clubService;
     @GetMapping("/v1/popular")
     public List<PopularClubDto> getTop10PopularClubs(){
-        List<PopularClubDto> top10=clubService.getPopularClubs();
-        return top10;
+        return clubService.getPopularClubs();
     }
 }

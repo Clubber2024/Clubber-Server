@@ -41,7 +41,7 @@ public class ClubService {
     public DivisionCenterDto getClubDivision(String division){
         List<Club> clubs = clubRepository.findByClubTypeAndDivision("center", division);
         List<SimpleCenterDto> clubDtos = clubs.stream()
-                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getContent()))
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getIntroduction()))
                 .collect(Collectors.toList());
         return new DivisionCenterDto(division, clubDtos);
 
@@ -68,7 +68,7 @@ public class ClubService {
     public DepartmentSmallDto getOneDepartmentClubs(String department){
         List<Club> clubs=clubRepository.findByDepartment(department);
         List<SimpleCenterDto> clubDtos = clubs.stream()
-                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getContent()))
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getIntroduction()))
                 .collect(Collectors.toList());
         return new DepartmentSmallDto(department, clubDtos);
 
@@ -93,7 +93,7 @@ public class ClubService {
                 club.getId(),
                 club.getName(),
                 club.getClubType(),
-                club.getContent(),
+                club.getIntroduction(),
                 club.getHashtag(),
                 club.getDivision(),
                 club.getCollege(),
@@ -117,7 +117,7 @@ public class ClubService {
     public HashtagDto getClubHashtag(String hashtag){
         List<Club> clubs = clubRepository.findByHashtag(hashtag);
         List<SimpleCenterDto> clubDtos = clubs.stream()
-                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getContent()))
+                .map(club -> new SimpleCenterDto(club.getId(), club.getName(),club.getIntroduction()))
                 .collect(Collectors.toList());
         return new HashtagDto(hashtag,clubDtos);
 
