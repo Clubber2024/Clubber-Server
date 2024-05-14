@@ -26,7 +26,7 @@ public class Club extends BaseEntity {
     @NotNull
     private String clubType;
 
-    private String content;
+    private String introduction;
 
     private String hashtag;
 
@@ -42,11 +42,11 @@ public class Club extends BaseEntity {
     private ClubInfo clubInfo;
 
     @Builder
-    private Club(Long id, String name, String clubType,String content,String hashtag,String division, String college, String department,ClubInfo clubInfo) {
+    private Club(Long id, String name, String clubType,String introduction,String hashtag,String division, String college, String department,ClubInfo clubInfo) {
         this.id = id;
         this.name=name;
         this.clubType=clubType;
-        this.content=content;
+        this.introduction=introduction;
         this.hashtag=hashtag;
         this.division = division;
         this.college = college;
