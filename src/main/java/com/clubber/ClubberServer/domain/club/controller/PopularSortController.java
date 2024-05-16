@@ -17,7 +17,7 @@ import java.util.List;
 public class PopularSortController {
 
     private final ClubService clubService;
-    @GetMapping("/v1/popular")
+    @GetMapping("/v1/clubs/popular")
     public List<PopularClubDto> getTop10PopularClubs(){
         return clubService.getPopularClubs();
     }
