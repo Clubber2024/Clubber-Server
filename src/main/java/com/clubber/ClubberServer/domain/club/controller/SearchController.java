@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/search")
+@RequestMapping("/v1/clubs")
 public class SearchController {
 
     private final ClubRepository clubRepository;
