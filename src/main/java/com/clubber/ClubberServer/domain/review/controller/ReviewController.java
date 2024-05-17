@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/clubs/{clubId}/reviews")
 @RequiredArgsConstructor
+@Tag(name = "[리뷰]")
 public class ReviewController {
 
     private final ReviewService reviewService;
