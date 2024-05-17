@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,13 @@ public class ReviewController {
         return reviewService.createReview(clubId, reviewRequest);
     }
 
+    @DisableSwaggerSecurity
     @GetMapping
     public ClubReviewResponse getClubReviews(@PathVariable Long clubId){
         return reviewService.getClubReviews(clubId);
     }
 
+    @DisableSwaggerSecurity
     @GetMapping("/keyword-stats")
     public ClubReviewKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId){
         return reviewService.getClubReviewKeywordStats(clubId);

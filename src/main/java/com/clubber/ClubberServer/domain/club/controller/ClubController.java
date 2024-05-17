@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.club.dto.DivisionCenterDto;
 import com.clubber.ClubberServer.domain.club.dto.OneClubDto;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class ClubController {
 
 
     // 중앙동아리 - 분과별 동아리 조회
+    @DisableSwaggerSecurity
     @GetMapping(params="division")
     public DivisionCenterDto getCentersByDivision(@RequestParam("division")String division){
         return clubService.getClubDivision(division);
@@ -29,6 +31,7 @@ public class ClubController {
 
 
     // 소모임 - 학과별 소모임 조회
+    @DisableSwaggerSecurity
     @GetMapping(params="department")
     public DepartmentSmallDto getSmallsByDepartment(@RequestParam("department")String department){
         return clubService.getOneDepartmentClubs(department);
@@ -38,6 +41,7 @@ public class ClubController {
 
     /* === 중앙 동아리 & 소모임 공통 ===*/
     // 개별 동아리 및 소모임 페이지 조회
+    @DisableSwaggerSecurity
     @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
     public OneClubDto getOneClubInfo(@PathVariable("clubId")Long clubId){
         return clubService.getIndividualPage(clubId);
