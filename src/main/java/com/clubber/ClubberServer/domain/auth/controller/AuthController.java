@@ -4,8 +4,11 @@ package com.clubber.ClubberServer.domain.auth.controller;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/auths")
 @RequiredArgsConstructor
+@Tag(name = "[인증]")
 public class AuthController {
 
     private final AuthService authService; 
@@ -31,16 +35,20 @@ public class AuthController {
         return authService.generateUserToken(user);
     }
 
+    @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API")
     @PostMapping("/refresh")
     public KakaoOauthResponse tokenRefresh(@RequestHeader(value = "token") String refreshToken){
         return authService.tokenRefresh(refreshToken);
     }
 
+    @Operation(summary = "카카오 로그아웃")
     @PostMapping("/logout")
     public void logOutKakaoUser(){
         authService.logoutKakaoUser();
     }
 
+
+    @Operation(summary = "카카오 회원탈퇴")
     @DeleteMapping("/withdraw")
     public void withDrawKakaoUser(){
         authService.withDrawKakaoUser();
