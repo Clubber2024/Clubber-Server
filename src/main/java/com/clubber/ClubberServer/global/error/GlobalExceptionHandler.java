@@ -39,11 +39,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
             HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
-        String url =
-                UriComponentsBuilder.fromHttpUrl(
-                                servletWebRequest.getRequest().getRequestURI())
-                        .build()
-                        .toUriString();
+
+        HttpServletRequest httpServletRequest = servletWebRequest.getRequest();
+        String url = UriComponentsBuilder.newInstance()
+                .scheme(httpServletRequest.getScheme())
+                .host(httpServletRequest.getServerName())
+                .port(httpServletRequest.getServerPort())
+                .path(httpServletRequest.getRequestURI())
+                .query(httpServletRequest.getQueryString())
+                .build()
+                .toUriString();
 
         ErrorResponse errorResponse =
                 new ErrorResponse(statusCode.value(), ex.getMessage(), url);
