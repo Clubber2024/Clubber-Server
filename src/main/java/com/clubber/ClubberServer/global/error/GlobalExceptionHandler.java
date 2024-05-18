@@ -2,11 +2,15 @@ package com.clubber.ClubberServer.global.error;
 
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -53,5 +57,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse =
                 new ErrorResponse(statusCode.value(), ex.getMessage(), url);
         return super.handleExceptionInternal(ex, errorResponse, headers, statusCode, request);
+    }
+
+    @SneakyThrows
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status,
+            WebRequest request) {
+        //에러 필드 : 에러 메시지 구성
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        StringBuilder errorMessages = new StringBuilder();
+        for (FieldError fieldError : fieldErrors) {
+            errorMessages.append("에러 필드: ").append(fieldError.getField());
+            errorMessages.append("입력 값: ").append(fieldError.getRejectedValue());
+            errorMessages.append("에러 메시지: ").append(fieldError.getDefaultMessage());
+        }
+
+
+        //uri 추출
+        ServletWebRequest servletWebRequest = (ServletWebRequest) request;
+        String uri = servletWebRequest.getRequest().getRequestURI();
+
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessages.toString(), uri);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
