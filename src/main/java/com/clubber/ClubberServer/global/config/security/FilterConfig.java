@@ -15,9 +15,13 @@ public class FilterConfig extends
         SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final JwtTokenFilter jwtTokenFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
+    private final AccessDeniedFilter accessDeniedFilter;
 
     @Override
     public void configure(HttpSecurity builder) {
-        builder.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class);
+        builder.addFilterBefore(jwtExceptionFilter, JwtTokenFilter.class);
+        builder.addFilterBefore(accessDeniedFilter, FilterSecurityInterceptor.class);
     }
 }
