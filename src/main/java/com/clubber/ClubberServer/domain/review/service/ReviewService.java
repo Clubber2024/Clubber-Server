@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -41,7 +42,8 @@ public class ReviewService {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        Club club = clubRepository.findById(clubId).get();
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
         Review review = Review.of(user, club);
 
         return createReviewKeyword(reviewRequest, reviewRepository.save(review));
@@ -59,14 +61,16 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public ClubReviewResponse getClubReviews(Long clubId){
-        Club club = clubRepository.findById(clubId).get();
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
         List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
         return ClubReviewResponse.of(club, reviewKeywords);
     }
 
     @Transactional(readOnly = true)
     public ClubReviewKeywordStatsResponse getClubReviewKeywordStats(Long clubId){
-        Club club = clubRepository.findById(clubId).get();
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
         List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
                 club.getId());
 

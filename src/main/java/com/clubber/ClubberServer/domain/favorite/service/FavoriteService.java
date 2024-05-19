@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.favorite.service;
 
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
@@ -31,7 +32,8 @@ public class FavoriteService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        Club club = clubRepository.findById(clubId).get();
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         favoriteRepository.findByUserAndClub(user,club)
                         .ifPresent(favorite -> { throw ClubAlreadyRegisterdFavoriteException.EXCEPTION; });
