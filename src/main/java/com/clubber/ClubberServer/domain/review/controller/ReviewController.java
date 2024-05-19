@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class ReviewController {
 
     @Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목을 선택하여 작성")
     @PostMapping
-    public ReviewCreateResponse createReview(@RequestBody ReviewRequest reviewRequest,
+    public ReviewCreateResponse createReview(@RequestBody @Valid ReviewRequest reviewRequest,
             @PathVariable Long clubId){
         return reviewService.createReview(clubId, reviewRequest);
     }
