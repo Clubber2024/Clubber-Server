@@ -13,10 +13,11 @@ public class OneClubDto {
     private String division;
     private String college;
     private String department;
+    private String imageUrl;
     private OneClubInfoDto clubInfo;
 
     @Builder
-    public OneClubDto(Long clubId,String clubName,String clubType,String introduction,String hashTag,String division,String college,String department,OneClubInfoDto clubInfo)
+    public OneClubDto(Long clubId,String clubName,String clubType,String introduction,String hashTag,String division,String college,String department,String imageUrl,OneClubInfoDto clubInfo)
     {
         this.clubId=clubId;
         this.clubName=clubName;
@@ -26,6 +27,7 @@ public class OneClubDto {
         this.division=division;
         this.college=college;
         this.department=department;
+        this.imageUrl=imageUrl;
         this.clubInfo=clubInfo;
 
     }
