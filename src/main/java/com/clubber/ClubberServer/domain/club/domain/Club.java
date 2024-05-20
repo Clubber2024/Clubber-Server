@@ -36,13 +36,15 @@ public class Club extends BaseEntity {
 
     private String department; //학과 (소모임)
 
+    private String imageUrl;
+
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
 
     @Builder
-    private Club(Long id, String name, String clubType,String introduction,String hashtag,String division, String college, String department,ClubInfo clubInfo) {
+    private Club(Long id, String name, String clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {
         this.id = id;
         this.name=name;
         this.clubType=clubType;
@@ -51,6 +53,7 @@ public class Club extends BaseEntity {
         this.division = division;
         this.college = college;
         this.department = department;
+        this.imageUrl=imageUrl;
         this.clubInfo=clubInfo;
     }
 }
