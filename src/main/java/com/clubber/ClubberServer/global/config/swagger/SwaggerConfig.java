@@ -34,7 +34,8 @@ public class SwaggerConfig {
                 servers(List.of(localServer, devServer))
                 .components(authSetting())
                 .addSecurityItem(new SecurityRequirement()
-                        .addList("Authorization"));
+                        .addList("Authorization")
+                        .addList("cookieAuth"));
     }
 
     private Info swaggerInfo(){
@@ -45,14 +46,21 @@ public class SwaggerConfig {
     }
 
     private Components authSetting() {
+        SecurityScheme cookieAuth = new SecurityScheme()
+                .type(Type.APIKEY)
+                .scheme(In.COOKIE.toString())
+                .name("accessToken");
+
+        SecurityScheme authorization = new SecurityScheme()
+                .type(Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+                .in(In.HEADER)
+                .name("Authorization");
+
         return new Components()
-                .addSecuritySchemes("Authorization",
-                        new SecurityScheme()
-                                .type(Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
-                                .in(In.HEADER)
-                                .name("Authorization"));
+                .addSecuritySchemes("cookieAuth",cookieAuth)
+                .addSecuritySchemes("Authorization", authorization);
     }
 
     @Bean
