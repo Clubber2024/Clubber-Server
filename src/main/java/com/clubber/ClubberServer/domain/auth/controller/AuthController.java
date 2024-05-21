@@ -31,12 +31,15 @@ public class AuthController {
     private final CookieHelper cookieHelper;
 
     @GetMapping("/oauth/kakao")
-    public KakaoOauthResponse getCredentialFromKakao(@RequestParam String code){
+    public ResponseEntity getCredentialFromKakao(@RequestParam String code){
         KakaoTokenResponse kakaoToken = authService.getToken(code);
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
         User user = authService.loginOrSignUp(userKakaoInfo);
-        return authService.generateUserToken(user);
+        KakaoOauthResponse kakaoOauthResponse = authService.generateUserToken(user);
+        return ResponseEntity.ok()
+                .headers(cookieHelper.getCookies(kakaoOauthResponse))
+                .body(kakaoOauthResponse);
     }
 
     @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API")
