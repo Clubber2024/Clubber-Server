@@ -50,14 +50,22 @@ public class AuthController {
 
     @Operation(summary = "카카오 로그아웃")
     @PostMapping("/logout")
-    public void logOutKakaoUser(){
+    public ResponseEntity logOutKakaoUser(){
+
         authService.logoutKakaoUser();
+        return ResponseEntity.ok()
+                .headers(cookieHelper.deleteCookies())
+                .body(null);
     }
 
 
     @Operation(summary = "카카오 회원탈퇴")
     @DeleteMapping("/withdraw")
-    public void withDrawKakaoUser(){
+    public ResponseEntity withDrawKakaoUser(){
+
         authService.withDrawKakaoUser();
+        return ResponseEntity.ok()
+                .headers(cookieHelper.deleteCookies())
+                .body(null);
     }
 }
