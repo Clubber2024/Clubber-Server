@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.auth.controller;
 
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
+import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -10,6 +11,7 @@ import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.Kakao
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "[인증]")
 public class AuthController {
 
-    private final AuthService authService; 
+    private final AuthService authService;
+
+    private final CookieHelper cookieHelper;
 
     @GetMapping("/oauth/kakao")
     public KakaoOauthResponse getCredentialFromKakao(@RequestParam String code){
@@ -37,8 +41,11 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API")
     @PostMapping("/refresh")
-    public KakaoOauthResponse tokenRefresh(@RequestHeader(value = "token") String refreshToken){
-        return authService.tokenRefresh(refreshToken);
+    public ResponseEntity<KakaoOauthResponse> tokenRefresh(@RequestHeader(value = "token") String refreshToken){
+        KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(refreshToken);
+        return ResponseEntity.ok()
+                .headers(cookieHelper.getCookies(kakaoOauthResponse))
+                .body(kakaoOauthResponse);
     }
 
     @Operation(summary = "카카오 로그아웃")
