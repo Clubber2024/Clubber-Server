@@ -26,7 +26,7 @@ public class SearchController {
     @DisableSwaggerSecurity
     @Operation(summary="hashtag기반 검색")
     @GetMapping(params="hashtag")
-    public HashtagDto searchByHashtag(@RequestParam("hashtag")String hashtag){
+    public HashtagDto searchByHashtag(@RequestParam(name="hashtag",required=false)String hashtag){
         return clubService.getClubHashtag(hashtag);
 
     }
@@ -35,7 +35,7 @@ public class SearchController {
     @DisableSwaggerSecurity
     @Operation(summary="동아리명 및 소모임명 기반 검색")
     @GetMapping(params="clubName")
-    public OneClubDto searchByClubName(@RequestParam("clubName")String clubName){
+    public OneClubDto searchByClubName(@RequestParam(name= "clubName", required=false)String clubName){
         return clubService.getClubByName(clubName);
     }
 

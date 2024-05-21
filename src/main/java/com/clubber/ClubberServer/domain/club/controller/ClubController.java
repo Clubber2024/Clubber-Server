@@ -29,7 +29,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "분과별 중앙동아리 조회")
     @GetMapping(params="division")
-    public DivisionCenterDto getCentersByDivision(@RequestParam("division")String division){
+    public DivisionCenterDto getCentersByDivision(@RequestParam(name="division",required=false)String division){
         return clubService.getClubDivision(division);
     }
 
@@ -38,7 +38,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "학과별 소모임 조회")
     @GetMapping(params="department")
-    public DepartmentSmallDto getSmallsByDepartment(@RequestParam("department")String department){
+    public DepartmentSmallDto getSmallsByDepartment(@RequestParam(name="department",required=false)String department){
         return clubService.getOneDepartmentClubs(department);
     }
 
