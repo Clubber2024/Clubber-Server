@@ -32,6 +32,7 @@ public class AuthController {
     private final CookieHelper cookieHelper;
 
     @GetMapping("/oauth/kakao")
+    @DisableSwaggerSecurity
     public ResponseEntity getCredentialFromKakao(@RequestParam String code){
         KakaoTokenResponse kakaoToken = authService.getToken(code);
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
@@ -45,6 +46,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API")
     @PostMapping("/refresh")
+    @DisableSwaggerSecurity
     public ResponseEntity<KakaoOauthResponse> tokenRefresh(
             @CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
             @RequestHeader(value = "token", required = false, defaultValue = "") String refreshToken){
