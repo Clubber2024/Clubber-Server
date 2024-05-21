@@ -36,4 +36,29 @@ public class CookieHelper {
         httpHeaders.add(HttpHeaders.SET_COOKIE, refreshToken.toString());
         return httpHeaders;
     }
+
+    public HttpHeaders deleteCookies(){
+        ResponseCookie accessToken = ResponseCookie
+                .from("accessToken", null)
+                .maxAge(0)
+                .secure(true)
+                .sameSite("Strict")
+                .httpOnly(true)
+                .path("/")
+                .build();
+
+        ResponseCookie refreshToken = ResponseCookie
+                .from("refreshToken", null)
+                .maxAge(0)
+                .secure(true)
+                .sameSite("Strict")
+                .httpOnly(true)
+                .path("/")
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.SET_COOKIE, accessToken.toString());
+        httpHeaders.add(HttpHeaders.SET_COOKIE, refreshToken.toString());
+        return httpHeaders;
+    }
 }
