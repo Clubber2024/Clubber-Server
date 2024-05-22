@@ -23,7 +23,7 @@ public class NoticeController {
 
     @DisableSwaggerSecurity
     @Operation(summary="공지사항 조회")
-    @GetMapping("/v1/notice")
+    @GetMapping("/v1/notices")
     public List<NoticesDto> getNotices(){
         List<NoticesDto> notices=noticeService.getSortedNotices();
         return notices;
