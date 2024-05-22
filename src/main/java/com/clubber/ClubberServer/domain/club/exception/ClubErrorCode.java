@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ClubErrorCode implements BaseErrorCode {
 
-    SEARCHED_CLUB_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "SEARCH_CLUB_404_1", "검색하신 동아리 및 소모임은 존재하지 않습니다.");
+    SEARCHED_CLUB_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "SEARCH_CLUB_404_1", "검색하신 동아리 및 소모임은 존재하지 않습니다.");
 
     private final Integer status;
     private final String code;
