@@ -21,7 +21,7 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 
     List<Club> findByHashtag(String hashtag);
 
-    @Query("SELECT c FROM Club c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(:name, ' ', ''))")
+    //@Query("SELECT c FROM Club c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(:name, ' ', ''))")
     Optional<Club> findByName(String clubName);
 
     @Query("SELECT c FROM Club c JOIN c.clubInfo ci ORDER BY ci.totalView DESC")
