@@ -11,19 +11,20 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClubRepository extends JpaRepository<Club, Long> {
-    List<Club> findByClubType(String clubType);
 
-    List<Club> findByClubTypeAndDivision(String clubType, String division);
-
-    List<Club> findByCollege(String college);
+    List<Club> findByDivision(String division);
 
     List<Club> findByDepartment(String department);
 
     List<Club> findByHashtag(String hashtag);
 
     //@Query("SELECT c FROM Club c WHERE LOWER(REPLACE(c.name, ' ', '')) = LOWER(REPLACE(:name, ' ', ''))")
-    Optional<Club> findByName(String clubName);
+    @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo WHERE c.name = :name")
+    Optional<Club> findByName(String name);
 
-    @Query("SELECT c FROM Club c JOIN c.clubInfo ci ORDER BY ci.totalView DESC")
-    Page<Club> findTopClubsByTotalView(Pageable pageable);
+    @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo ORDER BY c.clubInfo.totalView DESC")
+    List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
+
+
+
 }
