@@ -23,6 +23,8 @@ public class SecurityConfig {
 
 
     private final FilterConfig filterConfig;
+
+    private final CustomAuthenticationEntryPoint entryPoint;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -30,6 +32,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .with(filterConfig,Customizer.withDefaults())
+                .exceptionHandling((exceptionConfig) ->
+                        exceptionConfig.authenticationEntryPoint(entryPoint))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/v1/auths/oauth/**").permitAll()
                                 .requestMatchers("/v1/auths/refresh").permitAll()
