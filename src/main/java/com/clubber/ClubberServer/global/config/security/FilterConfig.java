@@ -22,6 +22,6 @@ public class FilterConfig extends
     public void configure(HttpSecurity builder) {
         builder.addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class);
         builder.addFilterBefore(jwtExceptionFilter, JwtTokenFilter.class);
-        builder.addFilterBefore(accessDeniedFilter, FilterSecurityInterceptor.class);
+        //builder.addFilterBefore(accessDeniedFilter, FilterSecurityInterceptor.class);
     }
 }
