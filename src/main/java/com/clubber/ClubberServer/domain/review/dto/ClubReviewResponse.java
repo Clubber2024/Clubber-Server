@@ -22,7 +22,7 @@ public class ClubReviewResponse {
     private final Long clubId;
 
     @Schema(description = "리뷰 목록")
-    private final List<ClubReviewDetailResponse> reviews;
+    private final List<ClubReviewDetailResponse> clubReviews;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
@@ -60,7 +60,7 @@ public class ClubReviewResponse {
 
         return ClubReviewResponse.builder()
                 .clubId(club.getId())
-                .reviews(reviews)
+                .clubReviews(reviews)
                 .build();
     }
 

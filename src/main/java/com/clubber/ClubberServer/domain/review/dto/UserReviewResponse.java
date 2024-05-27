@@ -19,7 +19,7 @@ import lombok.Getter;
 public class UserReviewResponse {
     private Long userId;
 
-    private List<UserReviewDetailResponse> reviewResponses;
+    private List<UserReviewDetailResponse> userReviews;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
@@ -57,7 +57,7 @@ public class UserReviewResponse {
         List<UserReviewDetailResponse> reviews = getCollectUserReviewDetailResponse(reviewListMap);
         return UserReviewResponse.builder()
                 .userId(user.getId())
-                .reviewResponses(reviews).build();
+                .userReviews(reviews).build();
     }
 
     private static List<UserReviewDetailResponse> getCollectUserReviewDetailResponse(
