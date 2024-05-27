@@ -13,8 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewRequest {
 
+//    @Schema(description = "선택한 리뷰 키워드들",
+//            example = "[\"CULTURE\", \"FEE\"]")
     @Schema(description = "선택한 리뷰 키워드들",
-            example = "[\"CULTURE\", \"FEE\"]")
+            example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
     @NotNull
     @Size(min = 1, message = "하나 이상의 리뷰 키워드를 입력해주세요.")
     private List<Keyword> keywords;

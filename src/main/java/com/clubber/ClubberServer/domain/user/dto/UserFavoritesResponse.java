@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.user.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse.FavoriteResponse.ClubResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,50 +16,60 @@ import java.util.stream.Collectors;
 @Getter
 public class UserFavoritesResponse {
 
+    @Schema(description = "유저 id", example = "1")
     private final Long userId;
-    private final List<FavoriteResponse> favorites;
+
+    private final List<FavoriteDetailResponse> userFavorites;
 
     @AllArgsConstructor
     @Getter
     @Builder
-    public static class FavoriteResponse {
+    public static class FavoriteDetailResponse {
 
-        private final Long id;
+        @Schema(description = "즐겨찾기 id", example = "1")
+        private final Long favoriteId;
 
-        private final ClubResponse clubResponse;
+        @Schema(description = "즐겨찾기한 동아리")
+        private final FavoriteClubDetailResponse favoriteClub;
 
         @AllArgsConstructor
         @Getter
         @Builder
-        public static class ClubResponse {
-            private final Long id;
-            private final String name;
-            private final String type;
+        public static class FavoriteClubDetailResponse {
 
-            private static ClubResponse of(Club club){
-                return ClubResponse.builder()
-                        .id(club.getId())
-                        .name(club.getName())
-                        .type(club.getClubType()).build();
+            @Schema(description = "동아리 id", example = "1")
+            private final Long clubId;
+
+            @Schema(description = "동아리 이름", example = "로타랙트")
+            private final String clubName;
+
+            @Schema(description = "동아리 id", example = "center")
+            private final String clubType;
+
+            private static FavoriteClubDetailResponse of(Club club){
+                return FavoriteClubDetailResponse.builder()
+                        .clubId(club.getId())
+                        .clubName(club.getName())
+                        .clubType(club.getClubType()).build();
             }
         }
 
-        private static FavoriteResponse of(Favorite favorite){
-            ClubResponse clubResponse = ClubResponse.of(favorite.getClub());
-            return FavoriteResponse
+        private static FavoriteDetailResponse of(Favorite favorite){
+            FavoriteClubDetailResponse favoriteClubDetailResponse = FavoriteClubDetailResponse.of(favorite.getClub());
+            return FavoriteDetailResponse
                     .builder()
-                    .id(favorite.getId())
-                    .clubResponse(clubResponse).build();
+                    .favoriteId(favorite.getId())
+                    .favoriteClub(favoriteClubDetailResponse).build();
         }
     }
 
     public static UserFavoritesResponse of (User user, List<Favorite> favorites){
-        List<FavoriteResponse> favoriteResponse = favorites.stream()
-                .map(FavoriteResponse::of).collect(Collectors.toList());
+        List<FavoriteDetailResponse> favoriteDetailResponse = favorites.stream()
+                .map(FavoriteDetailResponse::of).collect(Collectors.toList());
 
         return UserFavoritesResponse.builder()
                 .userId(user.getId())
-                .favorites(favoriteResponse).build();
+                .userFavorites(favoriteDetailResponse).build();
 
     }
 }

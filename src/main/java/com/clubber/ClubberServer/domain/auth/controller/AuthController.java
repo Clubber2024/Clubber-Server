@@ -9,6 +9,9 @@ import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,12 +47,16 @@ public class AuthController {
                 .body(kakaoOauthResponse);
     }
 
-    @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API")
+    @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API",
+    parameters = {
+            @Parameter(name = "refreshToken", description = "헤더에 리프레시 토큰 전달", in = ParameterIn.HEADER),
+            @Parameter(name = "refreshToken", description = "쿠키에 리프레시 토큰 전달 (추후에 적용)", in = ParameterIn.COOKIE)
+    })
     @PostMapping("/refresh")
     @DisableSwaggerSecurity
     public ResponseEntity<KakaoOauthResponse> tokenRefresh(
             @CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
-            @RequestHeader(value = "token", required = false, defaultValue = "") String refreshToken){
+            @RequestHeader(value = "refreshToken", required = false, defaultValue = "") String refreshToken){
 
         KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(
                 refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
