@@ -2,9 +2,7 @@ package com.clubber.ClubberServer.domain.user.controller;
 
 
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse.ReviewResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse.FavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
