@@ -28,10 +28,6 @@ public class UserReviewResponse {
         @Schema(description = "리뷰 id", example = "1")
         private Long reviewId;
 
-        @Schema(description = "리뷰 작성 시 선택한 키워드",
-                example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-        private List<Keyword> keywords;
-
         @Schema(description = "동아리 id", example = "1")
         private Long clubId;
 
@@ -41,6 +37,10 @@ public class UserReviewResponse {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         private LocalDateTime dateTime;
+
+        @Schema(description = "리뷰 작성 시 선택한 키워드",
+                example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
+        private List<Keyword> keywords;
 
         private static UserReviewDetailResponse of(Review review, List<Keyword> keywords){
             return UserReviewDetailResponse.builder()
