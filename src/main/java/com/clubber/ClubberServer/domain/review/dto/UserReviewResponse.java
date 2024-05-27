@@ -19,11 +19,11 @@ import lombok.Getter;
 public class UserReviewResponse {
     private Long userId;
 
-    private List<ReviewResponse> reviewResponses;
+    private List<UserReviewDetailResponse> reviewResponses;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
-    public static class ReviewResponse {
+    public static class UserReviewDetailResponse {
 
         @Schema(description = "리뷰 id", example = "1")
         private Long reviewId;
@@ -42,8 +42,8 @@ public class UserReviewResponse {
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         private LocalDateTime dateTime;
 
-        private static ReviewResponse of(Review review, List<Keyword> keywords){
-            return ReviewResponse.builder()
+        private static UserReviewDetailResponse of(Review review, List<Keyword> keywords){
+            return UserReviewDetailResponse.builder()
                     .reviewId(review.getId())
                     .keywords(keywords)
                     .clubId(review.getClub().getId())
@@ -54,17 +54,17 @@ public class UserReviewResponse {
 
     public static UserReviewResponse of (User user, List<ReviewKeyword> keywords){
         Map<Review, List<Keyword>> reviewListMap = getReviewListMap(keywords);
-        List<ReviewResponse> reviews = getCollectReviewResponse(reviewListMap);
+        List<UserReviewDetailResponse> reviews = getCollectUserReviewDetailResponse(reviewListMap);
         return UserReviewResponse.builder()
                 .userId(user.getId())
                 .reviewResponses(reviews).build();
     }
 
-    private static List<ReviewResponse> getCollectReviewResponse(
+    private static List<UserReviewDetailResponse> getCollectUserReviewDetailResponse(
             Map<Review, List<Keyword>> reviewListMap) {
         
         return reviewListMap.entrySet().stream()
-                .map(e -> ReviewResponse.of(e.getKey(), e.getValue()))
+                .map(e -> UserReviewDetailResponse.of(e.getKey(), e.getValue()))
                 .collect(Collectors.toList());
     }
 

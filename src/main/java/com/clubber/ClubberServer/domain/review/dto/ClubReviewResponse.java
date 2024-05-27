@@ -22,11 +22,11 @@ public class ClubReviewResponse {
     private final Long clubId;
 
     @Schema(description = "리뷰 목록")
-    private final List<ReviewResponse> reviews;
+    private final List<ClubReviewDetailResponse> reviews;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
-    private static class ReviewResponse{
+    private static class ClubReviewDetailResponse{
 
         @Schema(description = "리뷰 id", example = "1")
         private final Long reviewId;
@@ -42,8 +42,8 @@ public class ClubReviewResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final List<Keyword> keywords;
 
-        public static ReviewResponse of(Review review, List<Keyword> keywords){
-            return ReviewResponse.builder()
+        public static ClubReviewDetailResponse of(Review review, List<Keyword> keywords){
+            return ClubReviewDetailResponse.builder()
                     .userId(review.getUser().getId())
                     .reviewId(review.getId())
                     .keywords(keywords)
@@ -56,7 +56,7 @@ public class ClubReviewResponse {
     public static ClubReviewResponse of(Club club, List<ReviewKeyword> reviewKeywords){
 
         Map<Review, List<Keyword>> reviewMap = getReviewListMap(reviewKeywords);
-        List<ReviewResponse> reviews = getCollectReviewResponse(reviewMap);
+        List<ClubReviewDetailResponse> reviews = getCollectClubReviewDetailResponse(reviewMap);
 
         return ClubReviewResponse.builder()
                 .clubId(club.getId())
@@ -64,10 +64,10 @@ public class ClubReviewResponse {
                 .build();
     }
 
-    private static List<ReviewResponse> getCollectReviewResponse(Map<Review, List<Keyword>> reviewMap) {
+    private static List<ClubReviewDetailResponse> getCollectClubReviewDetailResponse(Map<Review, List<Keyword>> reviewMap) {
         return reviewMap.entrySet()
                 .stream()
-                .map(e -> ReviewResponse.of(e.getKey(), e.getValue())).
+                .map(e -> ClubReviewDetailResponse.of(e.getKey(), e.getValue())).
                 collect(Collectors.toList());
     }
 
