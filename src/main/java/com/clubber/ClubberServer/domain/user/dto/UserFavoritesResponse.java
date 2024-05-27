@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.user.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse.FavoriteResponse.ClubResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +16,15 @@ import java.util.stream.Collectors;
 @Getter
 public class UserFavoritesResponse {
 
+    @Schema(description = "유저 id", example = "1")
     private final Long userId;
-    private final List<FavoriteResponse> favorites;
+
+    private final List<FavoriteDetailResponse> userFavorites;
 
     @AllArgsConstructor
     @Getter
     @Builder
-    public static class FavoriteResponse {
+    public static class FavoriteDetailResponse {
 
         private final Long id;
 
@@ -44,9 +46,9 @@ public class UserFavoritesResponse {
             }
         }
 
-        private static FavoriteResponse of(Favorite favorite){
+        private static FavoriteDetailResponse of(Favorite favorite){
             ClubResponse clubResponse = ClubResponse.of(favorite.getClub());
-            return FavoriteResponse
+            return FavoriteDetailResponse
                     .builder()
                     .id(favorite.getId())
                     .clubResponse(clubResponse).build();
@@ -54,12 +56,12 @@ public class UserFavoritesResponse {
     }
 
     public static UserFavoritesResponse of (User user, List<Favorite> favorites){
-        List<FavoriteResponse> favoriteResponse = favorites.stream()
-                .map(FavoriteResponse::of).collect(Collectors.toList());
+        List<FavoriteDetailResponse> favoriteDetailResponse = favorites.stream()
+                .map(FavoriteDetailResponse::of).collect(Collectors.toList());
 
         return UserFavoritesResponse.builder()
                 .userId(user.getId())
-                .favorites(favoriteResponse).build();
+                .userFavorites(favoriteDetailResponse).build();
 
     }
 }
