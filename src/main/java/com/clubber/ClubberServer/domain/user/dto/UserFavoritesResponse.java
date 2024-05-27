@@ -26,32 +26,33 @@ public class UserFavoritesResponse {
     @Builder
     public static class FavoriteDetailResponse {
 
-        private final Long id;
+        @Schema(description = "즐겨찾기 id", example = "1")
+        private final Long favoriteId;
 
-        private final ClubResponse clubResponse;
+        private final FavoriteClubDetailResponse favoriteClub;
 
         @AllArgsConstructor
         @Getter
         @Builder
-        public static class ClubResponse {
-            private final Long id;
-            private final String name;
-            private final String type;
+        public static class FavoriteClubDetailResponse {
+            private final Long clubId;
+            private final String clubName;
+            private final String clubType;
 
-            private static ClubResponse of(Club club){
-                return ClubResponse.builder()
-                        .id(club.getId())
-                        .name(club.getName())
-                        .type(club.getClubType()).build();
+            private static FavoriteClubDetailResponse of(Club club){
+                return FavoriteClubDetailResponse.builder()
+                        .clubId(club.getId())
+                        .clubName(club.getName())
+                        .clubType(club.getClubType()).build();
             }
         }
 
         private static FavoriteDetailResponse of(Favorite favorite){
-            ClubResponse clubResponse = ClubResponse.of(favorite.getClub());
+            FavoriteClubDetailResponse favoriteClubDetailResponse = FavoriteClubDetailResponse.of(favorite.getClub());
             return FavoriteDetailResponse
                     .builder()
-                    .id(favorite.getId())
-                    .clubResponse(clubResponse).build();
+                    .favoriteId(favorite.getId())
+                    .favoriteClub(favoriteClubDetailResponse).build();
         }
     }
 
