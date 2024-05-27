@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,22 @@ public class UserReviewResponse {
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     public static class ReviewResponse {
+
+        @Schema(description = "리뷰 id", example = "1")
         private Long reviewId;
+
+        @Schema(description = "리뷰 작성 시 선택한 키워드",
+                example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private List<Keyword> keywords;
+
+        @Schema(description = "동아리 id", example = "1")
         private Long clubId;
+
+        @Schema(description = "동아리 이름", example = "1")
         private String clubName;
+
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
+        @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         private LocalDateTime dateTime;
 
         private static ReviewResponse of(Review review, List<Keyword> keywords){
