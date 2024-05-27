@@ -29,14 +29,21 @@ public class UserFavoritesResponse {
         @Schema(description = "즐겨찾기 id", example = "1")
         private final Long favoriteId;
 
+        @Schema(description = "즐겨찾기한 동아리")
         private final FavoriteClubDetailResponse favoriteClub;
 
         @AllArgsConstructor
         @Getter
         @Builder
         public static class FavoriteClubDetailResponse {
+
+            @Schema(description = "동아리 id", example = "1")
             private final Long clubId;
+
+            @Schema(description = "동아리 이름", example = "로타랙트")
             private final String clubName;
+
+            @Schema(description = "동아리 id", example = "center")
             private final String clubType;
 
             private static FavoriteClubDetailResponse of(Club club){
