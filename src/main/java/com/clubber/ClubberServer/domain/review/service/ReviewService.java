@@ -11,6 +11,7 @@ import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
+import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -44,6 +45,9 @@ public class ReviewService {
 
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        if(reviewRepository.existsByUserAndClub(user, club)){
+            throw UserAlreadyReviewedException.EXCEPTION;
+        }
         Review review = Review.of(user, club);
 
         return createReviewKeyword(reviewRequest, reviewRepository.save(review));
