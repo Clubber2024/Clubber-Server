@@ -1,10 +1,9 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.dto.DivisionCenterDto;
-import com.clubber.ClubberServer.domain.club.dto.HashtagDto;
+import com.clubber.ClubberServer.domain.club.dto.HashtagClubsDto;
 import com.clubber.ClubberServer.domain.club.dto.OneClubDto;
 import com.clubber.ClubberServer.domain.club.dto.SearchClubsDto;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name="[검색]")
 public class SearchController {
 
-    private final ClubRepository clubRepository;
     private final ClubService clubService;
 
 
@@ -27,7 +25,7 @@ public class SearchController {
     @DisableSwaggerSecurity
     @Operation(summary="hashtag기반 검색")
     @GetMapping(params="hashtag")
-    public HashtagDto searchByHashtag(@RequestParam(name="hashtag",required=false)String hashtag){
+    public HashtagClubsDto searchByHashtag(@RequestParam(name="hashtag",required=false)String hashtag){
         return clubService.getClubHashtag(hashtag);
 
     }
