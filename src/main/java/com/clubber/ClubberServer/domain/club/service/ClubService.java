@@ -88,11 +88,17 @@ public class ClubService {
 
 
     // 동아리명 및 소모임명으로 검색
-
-    public OneClubDto getClubByName(String clubName) {
-        return clubRepository.findByName(clubName)
-                .map(this::convertToClubDto)
-                .orElseThrow(ClubNotFoundException::new);
+    public SearchClubsDto getClubByName(String clubName){
+        List<Club> clubs = clubRepository.findByName(clubName);
+        if (clubs.isEmpty()){
+            throw new ClubNotFoundException();
+        }
+        else {
+            List<SearchClubDto> clubDtos = clubs.stream()
+                    .map(club -> new SearchClubDto(club.getClubType(),club.getDepartment(),club.getDivision(),club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+                    .collect(Collectors.toList());
+            return new SearchClubsDto(clubName, clubDtos);
+        }
     }
 
 
