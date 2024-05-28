@@ -18,13 +18,11 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 
     List<Club> findByHashtag(String hashtag);
 
-
-    @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo WHERE c.name LIKE %:name% ORDER BY CASE WHEN c.clubType = 'center' THEN 0 WHEN c.clubType = 'small' THEN 1 ELSE 2 END")
+    @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% ORDER BY c.clubType")
     List<Club> findByName(String name);
 
     @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo ORDER BY c.clubInfo.totalView DESC")
     List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
-
 
 
 }
