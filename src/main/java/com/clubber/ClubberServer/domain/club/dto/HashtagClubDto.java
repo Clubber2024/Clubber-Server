@@ -4,7 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SearchClubDto {
+public class HashtagClubDto {
+
+    private String hashtag;
     private String clubType;
     private String division;
     private String department;
@@ -14,7 +16,8 @@ public class SearchClubDto {
     private String introduction;
 
     @Builder
-    public SearchClubDto(String clubType,String division,String department,Long clubId,String imageUrl,String clubName,String introduction){
+    public HashtagClubDto(String hashtag,String clubType,String division,String department,Long clubId,String imageUrl,String clubName,String introduction){
+        this.hashtag=hashtag;
         this.clubType=clubType;
         this.division=division;
         this.department=department;
@@ -23,4 +26,5 @@ public class SearchClubDto {
         this.clubName=clubName;
         this.introduction=introduction;
     }
+
 }

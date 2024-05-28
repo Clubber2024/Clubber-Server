@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @Data
-public class SearchClubsDto { //각 분과별 dto
+public class SearchClubsDto {
     private String clubName;
     private List<SearchClubDto> clubs;
 

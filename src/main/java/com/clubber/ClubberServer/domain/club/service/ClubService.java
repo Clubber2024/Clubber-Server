@@ -4,7 +4,6 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.notice.dto.NoticesDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -103,20 +102,19 @@ public class ClubService {
 
 
     // 특정 해시태그 반환
-    public HashtagDto getClubHashtag(String hashtag){
-        List<Club> clubs = clubRepository.findByHashtag(hashtag);
+    public HashtagClubsDto getClubHashtag(String hashtag){
+        List<Club> clubs = clubRepository.findByHashtagOrderByClubType(hashtag);
         if (clubs.isEmpty()){
             throw new HashtagNotFoundException();
         }
         else {
-            List<SimpleCenterDto> clubDtos = clubs.stream()
-                    .map(club -> new SimpleCenterDto(club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+            List<HashtagClubDto> clubDtos = clubs.stream()
+                    .map(club -> new HashtagClubDto(club.getHashtag(),club.getClubType(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
                     .collect(Collectors.toList());
-            return new HashtagDto(hashtag, clubDtos);
+            return new HashtagClubsDto(hashtag, clubDtos);
         }
 
     }
-
 
 
     public List<PopularClubDto> getPopularClubs(){
