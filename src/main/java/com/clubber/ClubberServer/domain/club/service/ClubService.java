@@ -4,6 +4,9 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +31,7 @@ public class ClubService {
     public DivisionCenterDto getClubDivision(String division){
         List<Club> clubs = clubRepository.findByDivision(division);
         if (clubs.isEmpty()){
-            throw new DivisionNotFoundException();
+            throw DivisionNotFoundException.EXCEPTION;
         }
         else {
             List<SimpleCenterDto> clubDtos = clubs.stream()
@@ -45,7 +48,7 @@ public class ClubService {
     public DepartmentSmallDto getOneDepartmentClubs(String department){
         List<Club> clubs=clubRepository.findByDepartment(department);
         if (clubs.isEmpty()){
-            throw new DepartmentNotFoundException();
+            throw DepartmentNotFoundException.EXCEPTION;
         }
         else{
             List<SimpleCenterDto> clubDtos = clubs.stream()
@@ -54,14 +57,16 @@ public class ClubService {
             return new DepartmentSmallDto(department, clubDtos);
         }
     }
+//    User user = userRepository.findById(currentUserId)
+//            .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
 
     //[동아리 및 소모임] 개별 페이지 조회
+    @Transactional
     public OneClubDto getIndividualPage(Long clubId){
         Optional<Club> clubFound=clubRepository.findById(clubId);
-        Club club=clubFound.orElseThrow(ClubIdNotFoundException::new);
+        Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
         club.getClubInfo().increaseTotalView();
-        clubRepository.save(club);
         return convertToClubDto(club);
 
     }
@@ -94,7 +99,7 @@ public class ClubService {
     public SearchClubsDto getClubByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
         if (clubs.isEmpty()){
-            throw new ClubNotFoundException();
+            throw ClubNotFoundException.EXCEPTION;
         }
         else {
             List<SearchClubDto> clubDtos = clubs.stream()
@@ -109,7 +114,7 @@ public class ClubService {
     public HashtagClubsDto getClubHashtag(String hashtag){
         List<Club> clubs = clubRepository.findByHashtagOrderByClubType(hashtag);
         if (clubs.isEmpty()){
-            throw new HashtagNotFoundException();
+            throw HashtagNotFoundException.EXCEPTION;
         }
         else {
             List<HashtagClubDto> clubDtos = clubs.stream()
