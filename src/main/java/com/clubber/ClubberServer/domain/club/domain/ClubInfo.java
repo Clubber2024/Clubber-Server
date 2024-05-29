@@ -25,6 +25,9 @@ public class ClubInfo extends BaseEntity{
 
     private String activity;
 
+    public void increaseTotalView(){
+        this.totalView++;
+    }
     @Builder
     private ClubInfo(Long id,String instagram,String leader,Long room,Long totalView,String activity){
         this.id=id;

@@ -58,8 +58,12 @@ public class ClubService {
 
     //[동아리 및 소모임] 개별 페이지 조회
     public OneClubDto getIndividualPage(Long clubId){
-        Optional<Club> club=clubRepository.findById(clubId);
-        return club.map(this::convertToClubDto).orElseThrow(ClubIdNotFoundException::new);
+        Optional<Club> clubFound=clubRepository.findById(clubId);
+        Club club=clubFound.orElseThrow(ClubIdNotFoundException::new);
+        club.getClubInfo().increaseTotalView();
+        clubRepository.save(club);
+        return convertToClubDto(club);
+
     }
 
     private OneClubDto convertToClubDto(Club club){
