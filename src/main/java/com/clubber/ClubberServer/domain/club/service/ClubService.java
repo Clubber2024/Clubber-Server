@@ -57,9 +57,6 @@ public class ClubService {
             return new DepartmentSmallDto(department, clubDtos);
         }
     }
-//    User user = userRepository.findById(currentUserId)
-//            .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
 
     //[동아리 및 소모임] 개별 페이지 조회
     @Transactional
