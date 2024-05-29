@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class HashtagClubDto {
 
-    private String hashtag;
     private String clubType;
     private String division;
     private String department;
@@ -16,8 +15,7 @@ public class HashtagClubDto {
     private String introduction;
 
     @Builder
-    public HashtagClubDto(String hashtag,String clubType,String division,String department,Long clubId,String imageUrl,String clubName,String introduction){
-        this.hashtag=hashtag;
+    public HashtagClubDto(String clubType,String division,String department,Long clubId,String imageUrl,String clubName,String introduction){
         this.clubType=clubType;
         this.division=division;
         this.department=department;
