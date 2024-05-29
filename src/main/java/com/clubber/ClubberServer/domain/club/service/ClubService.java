@@ -109,7 +109,7 @@ public class ClubService {
         }
         else {
             List<HashtagClubDto> clubDtos = clubs.stream()
-                    .map(club -> new HashtagClubDto(club.getHashtag(),club.getClubType(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+                    .map(club -> new HashtagClubDto(club.getClubType(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
                     .collect(Collectors.toList());
             return new HashtagClubsDto(hashtag, clubDtos);
         }
