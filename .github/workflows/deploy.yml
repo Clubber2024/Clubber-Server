@@ -2,7 +2,7 @@ name : CI-CD
 
 on:
   push:
-    branches: dev
+    branches: feat/#129-feat-sonarcube-설정-test
 
 
 env:
@@ -58,6 +58,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar --info --stacktrace
 
       - name: Build with Gradle
         run: ./gradlew clean build -x test
