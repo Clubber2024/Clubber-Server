@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class ReviewEnumNotMatchedException extends BaseException {
 
     public static final BaseException EXCEPTION = new ReviewEnumNotMatchedException();
-    public ReviewEnumNotMatchedException() {
+    private ReviewEnumNotMatchedException() {
         super(ReviewErrorCode.REVIEW_KEYWORD_ENUM_NOT_MATCHED);
     }
 }
