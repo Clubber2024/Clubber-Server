@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewRequest {
-
-//    @Schema(description = "선택한 리뷰 키워드들",
-//            example = "[\"CULTURE\", \"FEE\"]")
+    
     @Schema(description = "선택한 리뷰 키워드들",
             example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
     @NotNull
