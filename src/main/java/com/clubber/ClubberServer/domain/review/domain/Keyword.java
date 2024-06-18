@@ -1,7 +1,9 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
+
+import com.clubber.ClubberServer.domain.review.exception.ReviewEnumNotMatchedException;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,11 +20,9 @@ public enum Keyword {
 
     @JsonCreator
     public static Keyword from(String req){
-        for(Keyword keyword : Keyword.values()){
-            if(keyword.getType().equals(req)){
-                return keyword;
-            }
-        }
-    return null;
+        return Arrays.stream(Keyword.values())
+                .filter(keyword -> keyword.getType().equals(req))
+                .findFirst()
+                .orElseThrow(() -> ReviewEnumNotMatchedException.EXCEPTION);
     }
 }

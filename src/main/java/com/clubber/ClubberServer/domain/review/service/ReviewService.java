@@ -21,8 +21,10 @@ import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,7 +56,7 @@ public class ReviewService {
     }
 
     private ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
-        List<Keyword> keywords = reviewRequest.getKeywords();
+        Set<Keyword> keywords = reviewRequest.getKeywords();
         List<ReviewKeyword> reviewKeywords = keywords.stream()
                 .map((keyword -> ReviewKeyword.of(review, keyword)))
                 .collect(Collectors.toList());
