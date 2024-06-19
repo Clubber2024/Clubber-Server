@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.4'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'com.clubber'
@@ -56,6 +57,22 @@ dependencies {
 	//devtools
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "Clubber2024_Clubber-Server"
+		property "sonar.organization", "clubber2024"
+		property "sonar.host.url", "https://sonarcloud.io"
+
+		property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/clubber/index.xml'
+		property 'sonar.sources', 'src'
+		property 'sonar.language', 'java'
+		property 'sonar.sourceEncoding', 'UTF-8'
+
+		property 'sonar.exclusions', '**/test/**, **/resources/**, **/*Application*.java, **/*Controller*.java, **/*Config.java'
+		property 'sonar.java.coveragePlugin', 'jacoco'
+	}
 }
 
 tasks.named('test') {
