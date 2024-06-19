@@ -1,10 +1,8 @@
 name : CI-CD
 
 on:
-  pull_request:
+  push:
     branches: dev
-  #push:
-  #  branches: feat/#129-feat-sonarcube-설정-test
 
 
 env:
@@ -67,28 +65,28 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonar --info --stacktrace
 
-#      - name: Build with Gradle
-#        run: ./gradlew clean build -x test
-#        shell: bash
-#
-#      - name: Make zip file
-#        run: zip -r ./$GITHUB_SHA.zip .
-#        shell: bash
-#
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: ${{ secrets.AWS_REGION }}
-#
-#      - name: Upload to S3
-#        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
-#
-#      - name: Code Deploy
-#        run: |
-#          aws deploy create-deployment \
-#           --deployment-config-name CodeDeployDefault.AllAtOnce \
-#           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-#           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-#           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+        shell: bash
+
+      - name: Make zip file
+        run: zip -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+
+      - name: Code Deploy
+        run: |
+          aws deploy create-deployment \
+           --deployment-config-name CodeDeployDefault.AllAtOnce \
+           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
