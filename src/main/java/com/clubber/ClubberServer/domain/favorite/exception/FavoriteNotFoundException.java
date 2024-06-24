@@ -6,5 +6,5 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class FavoriteNotFoundException extends BaseException {
 
     public static final BaseException EXCEPTION = new FavoriteNotFoundException();
-    public FavoriteNotFoundException() { super(FavoriteErrorCode.FAVORITE_NOT_FOUND);}
+    private FavoriteNotFoundException() { super(FavoriteErrorCode.FAVORITE_NOT_FOUND);}
 }

@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class DivisionNotFoundException extends BaseException {
     public static final BaseException EXCEPTION = new DivisionNotFoundException();
 
-    public DivisionNotFoundException() {
+    private DivisionNotFoundException() {
         super(ClubErrorCode.DIVISION_NOT_FOUND);
     }
 }

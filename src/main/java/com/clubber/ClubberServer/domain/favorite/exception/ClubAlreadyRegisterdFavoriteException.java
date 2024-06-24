@@ -7,5 +7,5 @@ public class ClubAlreadyRegisterdFavoriteException extends BaseException {
 
     public static final BaseException EXCEPTION = new ClubAlreadyRegisterdFavoriteException();
 
-    public ClubAlreadyRegisterdFavoriteException() { super(FavoriteErrorCode.CLUB_ALREADY_REGISTERED_FAVORITE);}
+    private ClubAlreadyRegisterdFavoriteException() { super(FavoriteErrorCode.CLUB_ALREADY_REGISTERED_FAVORITE);}
 }
