@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReviewCreateResponse {
 
     @Schema(description = "유저 id", example = "1")

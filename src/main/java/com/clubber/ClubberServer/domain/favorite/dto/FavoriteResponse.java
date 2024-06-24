@@ -5,11 +5,13 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FavoriteResponse {
 
     @Schema(description = "즐겨찾기 id", example = "1")

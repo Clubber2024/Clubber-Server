@@ -11,11 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClubReviewResponse {
 
     @Schema(description = "동아리 id", example = "1")
@@ -26,6 +28,7 @@ public class ClubReviewResponse {
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     private static class ClubReviewDetailResponse{
 
         @Schema(description = "리뷰 id", example = "1")
@@ -42,7 +45,7 @@ public class ClubReviewResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final List<Keyword> keywords;
 
-        public static ClubReviewDetailResponse of(Review review, List<Keyword> keywords){
+        private static ClubReviewDetailResponse of(Review review, List<Keyword> keywords){
             return ClubReviewDetailResponse.builder()
                     .userId(review.getUser().getId())
                     .reviewId(review.getId())
