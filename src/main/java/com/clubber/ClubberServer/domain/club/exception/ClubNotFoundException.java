@@ -7,7 +7,7 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class ClubNotFoundException extends BaseException{
     public static final BaseException EXCEPTION = new ClubNotFoundException();
 
-    public ClubNotFoundException() {
+    private ClubNotFoundException() {
         super(ClubErrorCode.SEARCHED_CLUB_NOT_FOUND);
     }
 
