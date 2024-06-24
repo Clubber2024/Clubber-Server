@@ -57,6 +57,9 @@ dependencies {
 	//devtools
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 
+	//sl4fj
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+
 }
 
 sonar {
