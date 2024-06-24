@@ -26,7 +26,7 @@ public class UserFavoritesResponse {
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class FavoriteDetailResponse {
+    private static class FavoriteDetailResponse {
 
         @Schema(description = "즐겨찾기 id", example = "1")
         private final Long favoriteId;
@@ -37,7 +37,7 @@ public class UserFavoritesResponse {
         @Getter
         @AllArgsConstructor(access = AccessLevel.PRIVATE)
         @Builder(access = AccessLevel.PRIVATE)
-        public static class FavoriteClubDetailResponse {
+        private static class FavoriteClubDetailResponse {
 
             @Schema(description = "동아리 id", example = "1")
             private final Long clubId;

@@ -45,7 +45,7 @@ public class ClubReviewResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final List<Keyword> keywords;
 
-        public static ClubReviewDetailResponse of(Review review, List<Keyword> keywords){
+        private static ClubReviewDetailResponse of(Review review, List<Keyword> keywords){
             return ClubReviewDetailResponse.builder()
                     .userId(review.getUser().getId())
                     .reviewId(review.getId())

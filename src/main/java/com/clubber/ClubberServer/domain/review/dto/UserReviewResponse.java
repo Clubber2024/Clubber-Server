@@ -26,7 +26,7 @@ public class UserReviewResponse {
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class UserReviewDetailResponse {
+    private static class UserReviewDetailResponse {
 
         @Schema(description = "리뷰 id", example = "1")
         private final Long reviewId;
