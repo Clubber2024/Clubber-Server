@@ -5,11 +5,13 @@ import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Map;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClubReviewKeywordStatsResponse {
     @Schema(description = "동아리 id", example = "1")
     private final Long clubId;

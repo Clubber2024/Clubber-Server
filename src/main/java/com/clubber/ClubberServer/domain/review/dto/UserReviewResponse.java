@@ -11,36 +11,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserReviewResponse {
-    private Long userId;
+    private final Long userId;
 
-    private List<UserReviewDetailResponse> userReviews;
+    private final List<UserReviewDetailResponse> userReviews;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class UserReviewDetailResponse {
 
         @Schema(description = "리뷰 id", example = "1")
-        private Long reviewId;
+        private final Long reviewId;
 
         @Schema(description = "동아리 id", example = "1")
-        private Long clubId;
+        private final Long clubId;
 
         @Schema(description = "동아리 이름", example = "1")
-        private String clubName;
+        private final String clubName;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
-        private LocalDateTime dateTime;
+        private final LocalDateTime dateTime;
 
         @Schema(description = "리뷰 작성 시 선택한 키워드",
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-        private List<Keyword> keywords;
+        private final List<Keyword> keywords;
 
         private static UserReviewDetailResponse of(Review review, List<Keyword> keywords){
             return UserReviewDetailResponse.builder()
