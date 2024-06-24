@@ -6,5 +6,5 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class UserNotFoundException extends BaseException {
 
     public static final BaseException EXCEPTION = new UserNotFoundException();
-    public UserNotFoundException() { super(UserErrorCode.USER_NOT_FOUND); }
+    private UserNotFoundException() { super(UserErrorCode.USER_NOT_FOUND); }
 }
