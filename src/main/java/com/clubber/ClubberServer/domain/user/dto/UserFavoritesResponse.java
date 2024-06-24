@@ -12,8 +12,9 @@ import lombok.Getter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Builder(access = AccessLevel.PRIVATE)
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserFavoritesResponse {
 
     @Schema(description = "유저 id", example = "1")
@@ -21,9 +22,10 @@ public class UserFavoritesResponse {
 
     private final List<FavoriteDetailResponse> userFavorites;
 
-    @AllArgsConstructor
+
     @Getter
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class FavoriteDetailResponse {
 
         @Schema(description = "즐겨찾기 id", example = "1")
@@ -32,9 +34,9 @@ public class UserFavoritesResponse {
         @Schema(description = "즐겨찾기한 동아리")
         private final FavoriteClubDetailResponse favoriteClub;
 
-        @AllArgsConstructor
         @Getter
-        @Builder
+        @AllArgsConstructor(access = AccessLevel.PRIVATE)
+        @Builder(access = AccessLevel.PRIVATE)
         public static class FavoriteClubDetailResponse {
 
             @Schema(description = "동아리 id", example = "1")
