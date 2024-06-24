@@ -48,11 +48,15 @@ public class UserFavoritesResponse {
             @Schema(description = "동아리 id", example = "center")
             private final String clubType;
 
+            private final String imageUrl;
+
             private static FavoriteClubDetailResponse of(Club club){
                 return FavoriteClubDetailResponse.builder()
                         .clubId(club.getId())
                         .clubName(club.getName())
-                        .clubType(club.getClubType()).build();
+                        .clubType(club.getClubType())
+                        .imageUrl(club.getImageUrl())
+                        .build(); 
             }
         }
 
