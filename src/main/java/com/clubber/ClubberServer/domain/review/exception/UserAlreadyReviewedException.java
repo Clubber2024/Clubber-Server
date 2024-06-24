@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class UserAlreadyReviewedException extends BaseException {
 
     public static final BaseException EXCEPTION = new UserAlreadyReviewedException();
-    public UserAlreadyReviewedException() {
+    private UserAlreadyReviewedException() {
         super(ReviewErrorCode.USER_ALREADY_REVIEWD);
     }
 }

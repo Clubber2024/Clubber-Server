@@ -7,5 +7,5 @@ public class FavoriteNotMatchClubException extends BaseException {
 
     public static final BaseException EXCEPTION = new FavoriteNotMatchClubException();
 
-    public FavoriteNotMatchClubException() { super(FavoriteErrorCode.FAVORITE_NOT_MATCH_CLUB); }
+    private FavoriteNotMatchClubException() { super(FavoriteErrorCode.FAVORITE_NOT_MATCH_CLUB); }
 }

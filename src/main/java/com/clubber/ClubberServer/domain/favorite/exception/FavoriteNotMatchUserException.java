@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.global.error.BaseException;
 
 public class FavoriteNotMatchUserException extends BaseException {
 
-    public static final BaseException EXCEPTION = new FavoriteNotFoundException();
+    public static final BaseException EXCEPTION = new FavoriteNotMatchUserException();
 
-    public FavoriteNotMatchUserException() { super(FavoriteErrorCode.FAVORITE_NOT_MATCH_USER); }
+    private FavoriteNotMatchUserException() { super(FavoriteErrorCode.FAVORITE_NOT_MATCH_USER); }
 }

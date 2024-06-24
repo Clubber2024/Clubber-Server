@@ -6,5 +6,5 @@ import com.clubber.ClubberServer.global.error.BaseException;
 public class RefreshTokenExpiredException extends BaseException {
 
     public static final BaseException EXCEPTION = new RefreshTokenExpiredException();
-    public RefreshTokenExpiredException() { super(UserErrorCode.REFRESH_TOKEN_EXPIRED); }
+    private RefreshTokenExpiredException() { super(UserErrorCode.REFRESH_TOKEN_EXPIRED); }
 }
