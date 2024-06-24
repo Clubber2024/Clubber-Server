@@ -61,4 +61,31 @@ public class UserServiceTest {
         assertEquals(user.getId(), userProfileResponse.getId());
     }
 
+    @Test
+    void 유저의_즐겨찾기_반환() throws Exception {
+        //given
+        User user = User.builder().id(1L).build();
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
+
+        Club club1 = Club.builder().id(1L).build();
+        Club club2 = Club.builder().id(2L).build();
+
+        Favorite favorite1 = Favorite.builder().id(1L).user(user).club(club1).build();
+        Favorite favorite2 = Favorite.builder().id(2L).user(user).club(club2).build();
+        List<Favorite> favorites = new ArrayList<>();
+        favorites.add(favorite1);
+        favorites.add(favorite2);
+
+        when(favoriteRepository.queryFavoritesByUserId(any(Long.class)))
+                .thenReturn(favorites);
+
+        //when
+        UserFavoritesResponse userFavorites = userService.getUserFavorites();
+
+        //then
+        assertEquals(userFavorites.getUserId(), user.getId());
+        assertEquals(userFavorites.getUserFavorites().size(), 2);
+        assertEquals(userFavorites.getUserFavorites().get(0).getFavoriteClub().getClubId(), club1.getId());
+    }
+
 }
