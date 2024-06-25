@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
+import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
@@ -25,6 +26,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
@@ -59,6 +61,18 @@ public class UserServiceTest {
         //then
         assertEquals(user.getEmail(), userProfileResponse.getEmail());
         assertEquals(user.getId(), userProfileResponse.getId());
+    }
+
+    @Test
+    void 알맞은유저가_조회되지_않을때_유저존재하지않음예외가_발생한다() throws Exception {
+
+        //given
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+
+        //when
+        assertThrows(UserNotFoundException.class, () -> userService.getUserFavorites());
+
+        //then
     }
 
     @Test
