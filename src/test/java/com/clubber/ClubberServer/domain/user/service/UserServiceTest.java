@@ -76,7 +76,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void 유저의_즐겨찾기_반환() throws Exception {
+    void 유저의_즐겨찾기가_존재할때_즐겨찾기_목록을_반환한다() throws Exception {
         //given
         User user = User.builder().id(1L).build();
         when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
