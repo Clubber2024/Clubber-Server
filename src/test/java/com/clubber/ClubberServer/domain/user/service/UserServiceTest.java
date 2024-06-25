@@ -47,7 +47,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void 저장된_유저_프로필_조회() throws Exception {
+    void 알맞은_유저가_조회될때_프로필이_조회된다() throws Exception {
 
         //given
         User user = User.builder().id(1L).email("clubber@gmail.com").build();
