@@ -102,4 +102,20 @@ public class UserServiceTest {
         assertEquals(userFavorites.getUserFavorites().get(0).getFavoriteClub().getClubId(), club1.getId());
     }
 
+    @Test
+    void 유저의_즐겨찾기가_없을때_빈리스트가_조회된다() throws Exception {
+        //given
+        User user = User.builder().id(1L).build();
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
+        when(favoriteRepository.queryFavoritesByUserId(any(Long.class)))
+                .thenReturn(new ArrayList<>());
+
+        //when
+        UserFavoritesResponse userFavorites = userService.getUserFavorites();
+
+        //then
+        assertEquals(userFavorites.getUserId(), user.getId());
+        assertEquals(userFavorites.getUserFavorites().size(), 0);
+
+    }
 }
