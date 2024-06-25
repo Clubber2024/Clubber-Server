@@ -17,7 +17,7 @@ public class CookieHelper {
                 .from("accessToken", kakaoOauthResponse.getAccessToken())
                 .maxAge(jwtProperties.getAccessExp())
                 .secure(false)
-                //.sameSite("Strict")
+                .sameSite("Strict")
                 .httpOnly(true)
                 .path("/")
                 .build();
@@ -26,7 +26,7 @@ public class CookieHelper {
                 .from("refreshToken", kakaoOauthResponse.getRefreshToken())
                 .maxAge(jwtProperties.getRefreshExp())
                 .secure(false)
-                //.sameSite("None")
+                .sameSite("None")
                 .httpOnly(true)
                 .path("/")
                 .build();
