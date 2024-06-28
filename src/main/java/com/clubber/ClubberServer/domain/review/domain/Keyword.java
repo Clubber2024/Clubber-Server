@@ -9,20 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-@Getter
 public enum Keyword implements EnumMapperType {
-    CULTURE("CULTURE"),
-    FEE("FEE"),
-    ACTIVITY("ACTIVITY"),
-    CAREER("CAREER"),
-    MANAGE("MANAGE");
+    CULTURE("분위기가 좋아요"),
+    FEE("회비가 적당해요"),
+    ACTIVITY("활동 참여가 자유로워요"),
+    CAREER("대외활동에 좋아요"),
+    MANAGE("운영진들이 일을 잘해요");
 
-    private final String type;
+    private final String title;
 
     @JsonCreator
     public static Keyword from(String req){
         return Arrays.stream(Keyword.values())
-                .filter(keyword -> keyword.getType().equals(req))
+                .filter(keyword -> keyword.getCode().equals(req))
                 .findFirst()
                 .orElseThrow(() -> ReviewEnumNotMatchedException.EXCEPTION);
     }
@@ -34,6 +33,6 @@ public enum Keyword implements EnumMapperType {
 
     @Override
     public String getTitle() {
-        return type; 
+        return title;
     }
 }
