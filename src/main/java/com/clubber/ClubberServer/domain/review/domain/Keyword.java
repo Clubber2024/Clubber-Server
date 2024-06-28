@@ -22,7 +22,7 @@ public enum Keyword implements EnumMapperType {
     @JsonCreator
     public static Keyword from(String req){
         return Arrays.stream(Keyword.values())
-                .filter(keyword -> keyword.getType().equals(req))
+                .filter(keyword -> keyword.getCode().equals(req))
                 .findFirst()
                 .orElseThrow(() -> ReviewEnumNotMatchedException.EXCEPTION);
     }
