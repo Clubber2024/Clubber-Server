@@ -24,6 +24,11 @@ public class EnumMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<EnumMapperVO> toEnumValues(List<EnumMapperType> enumMapperTypes){
+        return enumMapperTypes.stream()
+                .map(EnumMapperVO::new)
+                .collect(Collectors.toList());
+    }
     public List<EnumMapperVO> get(String key){
         return factory.get(key);
     }
