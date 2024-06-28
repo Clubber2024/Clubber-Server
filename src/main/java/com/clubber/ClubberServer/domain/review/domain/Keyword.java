@@ -16,7 +16,7 @@ public enum Keyword implements EnumMapperType {
     CAREER("대외활동에 좋아요"),
     MANAGE("운영진들이 일을 잘해요");
 
-    private final String type;
+    private final String title;
 
     @JsonCreator
     public static Keyword from(String req){
@@ -33,6 +33,6 @@ public enum Keyword implements EnumMapperType {
 
     @Override
     public String getTitle() {
-        return type; 
+        return title;
     }
 }
