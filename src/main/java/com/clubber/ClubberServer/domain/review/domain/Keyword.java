@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-@Getter
 public enum Keyword implements EnumMapperType {
     CULTURE("분위기가 좋아요"),
     FEE("회비가 적당해요"),
