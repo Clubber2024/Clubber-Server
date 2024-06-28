@@ -11,6 +11,7 @@ public class EnumConfig {
     @Bean
     public EnumMapper getEnumMapper() {
         EnumMapper enumMapper = new EnumMapper();
+        enumMapper.put("Keyword", Keyword.class);
         return enumMapper;
     }
 }
