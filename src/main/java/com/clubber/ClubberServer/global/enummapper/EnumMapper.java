@@ -24,4 +24,8 @@ public class EnumMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<EnumMapperVO> get(String key){
+        return factory.get(key);
+    }
+
 }
