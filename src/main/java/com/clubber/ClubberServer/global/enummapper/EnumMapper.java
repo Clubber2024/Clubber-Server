@@ -24,7 +24,7 @@ public class EnumMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<EnumMapperVO> toEnumValues(List<EnumMapperType> enumMapperTypes){
+    public List<EnumMapperVO> toEnumValues(List<? extends EnumMapperType> enumMapperTypes){
         return enumMapperTypes.stream()
                 .map(EnumMapperVO::new)
                 .collect(Collectors.toList());
