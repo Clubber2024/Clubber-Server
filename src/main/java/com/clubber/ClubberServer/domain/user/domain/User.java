@@ -27,7 +27,7 @@ public class User extends BaseEntity {
     private String email;
 
     @NotNull
-    private String snsType;
+    private SnsType snsType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -40,7 +40,7 @@ public class User extends BaseEntity {
     private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder
-    private User(String email, String snsType, Long snsId) {
+    private User(String email, SnsType snsType, Long snsId) {
         this.email = email;
         this.snsType = snsType;
         this.snsId = snsId;
