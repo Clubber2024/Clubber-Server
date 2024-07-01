@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="http://13.125.141.171/" id="3c9d1262-246b-46cc-99ad-c40e3415c2e3" keyPath="$PROJECT_DIR$/../../clubber-key.ppk" port="22" customName="ubuntu" nameFormat="CUSTOM" username="admin" useOpenSSHConfig="true">
+        <option name="customName" value="ubuntu" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>

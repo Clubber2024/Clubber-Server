@@ -1,11 +1,16 @@
 package com.clubber.ClubberServer.domain.club.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
+import com.clubber.ClubberServer.global.enummapper.EnumConfig;
+import com.clubber.ClubberServer.global.enummapper.EnumMapper;
+import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,26 +19,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ClubService {
     private final ClubRepository clubRepository;
-
+    private final EnumMapper enumMapper;
 
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
-    public DivisionCenterDto getClubDivision(String division){
+    public DivisionCenterDto getClubDivision(String division) {
         List<Club> clubs = clubRepository.findByDivision(division);
-        if (clubs.isEmpty()){
+        if (clubs.isEmpty()) {
             throw DivisionNotFoundException.EXCEPTION;
-        }
-        else {
+        } else {
             List<SimpleCenterDto> clubDtos = clubs.stream()
                     .map(club -> new SimpleCenterDto(club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
                     .collect(Collectors.toList());
@@ -43,8 +44,34 @@ public class ClubService {
     }
 
 
+    // [중앙 동아리] - 분과명 반환 (enum)
+    public List<EnumMapperVO> getDivisionNames(){
+        return (List<EnumMapperVO>) enumMapper.get("Division");
+    }
 
-    // 소모임 - 특정 학과 소속 소모임들 반환
+    // [소모임] - 단과대 & 학과명 반환 (enum)
+    public List<CollegeDTOResponse> getCollegesWithDepartments() {
+        List<EnumMapperVO> colleges = (List<EnumMapperVO>) enumMapper.get("College");
+
+        return colleges.stream()
+                .map(college -> {
+                    College collegeEnum = College.valueOf(college.getCode());
+                    List<EnumMapperVO> departments = collegeEnum.getDepartments().stream()
+                            .map(department -> new EnumMapperVO(department))
+                            .collect(Collectors.toList());
+
+                    return CollegeDTOResponse.builder()
+                            .code(college.getCode())
+                            .title(college.getTitle())
+                            .departments(departments)
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+
+
+    // [소모임] - 특정 학과 소속 소모임들 반환
     public DepartmentSmallDto getOneDepartmentClubs(String department){
         List<Club> clubs=clubRepository.findByDepartment(department);
         if (clubs.isEmpty()){
@@ -79,7 +106,7 @@ public class ClubService {
         return new OneClubDto(
                 club.getId(),
                 club.getName(),
-                club.getClubType(),
+                club.getClubType().name(),
                 club.getIntroduction(),
                 club.getHashtag(),
                 club.getDivision(),
@@ -100,7 +127,7 @@ public class ClubService {
         }
         else {
             List<SearchClubDto> clubDtos = clubs.stream()
-                    .map(club -> new SearchClubDto(club.getClubType(),club.getDepartment(),club.getDivision(),club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+                    .map(club -> new SearchClubDto(club.getClubType().name(),club.getDepartment(),club.getDivision(),club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
                     .collect(Collectors.toList());
             return new SearchClubsDto(clubName, clubDtos);
         }
@@ -115,7 +142,7 @@ public class ClubService {
         }
         else {
             List<HashtagClubDto> clubDtos = clubs.stream()
-                    .map(club -> new HashtagClubDto(club.getClubType(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+                    .map(club -> new HashtagClubDto(club.getClubType().name(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
                     .collect(Collectors.toList());
             return new HashtagClubsDto(hashtag, clubDtos);
         }

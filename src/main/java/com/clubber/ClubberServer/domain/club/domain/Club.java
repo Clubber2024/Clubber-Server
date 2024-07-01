@@ -23,8 +23,12 @@ public class Club extends BaseEntity {
     @NotNull
     private String name;
 
+//    @NotNull
+//    private String clubType;
+
     @NotNull
-    private String clubType;
+    @Enumerated(EnumType.STRING)
+    private ClubType clubType;
 
     private String introduction;
 
@@ -44,7 +48,7 @@ public class Club extends BaseEntity {
     private ClubInfo clubInfo;
 
     @Builder
-    private Club(Long id, String name, String clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {
+    private Club(Long id, String name, ClubType clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {
         this.id = id;
         this.name=name;
         this.clubType=clubType;

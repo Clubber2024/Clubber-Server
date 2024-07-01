@@ -1,7 +1,10 @@
 package com.clubber.ClubberServer.global.enummapper;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 
 @Getter
 public class EnumMapperVO {
