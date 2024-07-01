@@ -39,8 +39,7 @@ public class User extends BaseEntity {
     private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder
-    private User(Long id, String email, String snsType, String role, Long snsId) {
-        this.id = id;
+    private User(String email, String snsType, String role, Long snsId) {
         this.email = email;
         this.snsType = snsType;
         this.role = role;
