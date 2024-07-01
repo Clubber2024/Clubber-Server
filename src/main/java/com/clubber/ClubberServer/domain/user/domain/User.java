@@ -27,6 +27,7 @@ public class User extends BaseEntity {
     private String email;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private SnsType snsType;
 
     @NotNull
