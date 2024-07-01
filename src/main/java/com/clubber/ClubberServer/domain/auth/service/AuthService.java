@@ -62,7 +62,6 @@ public class AuthService {
         User user = User.builder()
                 .snsId(kakaoUserInfoResponse.getId())
                 .email(kakaoUserInfoResponse.getEmail())
-                .role("USER")
                 .snsType("kakao")
                 .build();
 

@@ -30,7 +30,8 @@ public class User extends BaseEntity {
     private String snsType;
 
     @NotNull
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private AccountRole role = AccountRole.USER;
 
     private Long snsId;
 
@@ -39,10 +40,9 @@ public class User extends BaseEntity {
     private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder
-    private User(String email, String snsType, String role, Long snsId) {
+    private User(String email, String snsType, Long snsId) {
         this.email = email;
         this.snsType = snsType;
-        this.role = role;
         this.snsId = snsId;
     }
 
