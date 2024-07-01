@@ -36,16 +36,15 @@ public class User extends BaseEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Builder
-    private User(Long id, String email, String snsType, String role, Long snsId, UserStatus userStatus) {
+    private User(Long id, String email, String snsType, String role, Long snsId) {
         this.id = id;
         this.email = email;
         this.snsType = snsType;
         this.role = role;
         this.snsId = snsId;
-        this.userStatus = userStatus;
     }
 
     public void withDraw(){
