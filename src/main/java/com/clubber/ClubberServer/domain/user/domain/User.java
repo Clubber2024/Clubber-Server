@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -27,33 +28,35 @@ public class User extends BaseEntity {
     private String email;
 
     @NotNull
-    private String snsType;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private SnsType snsType;
 
     @NotNull
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private AccountRole role = AccountRole.USER;
 
     private Long snsId;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private AccountState accountState = AccountState.ACTIVE;
 
     @Builder
-    private User(Long id, String email, String snsType, String role, Long snsId, UserStatus userStatus) {
-        this.id = id;
+    private User(String email, SnsType snsType, Long snsId) {
         this.email = email;
         this.snsType = snsType;
-        this.role = role;
         this.snsId = snsId;
-        this.userStatus = userStatus;
     }
 
     public void withDraw(){
-        if(this.userStatus == UserStatus.INACTIVE){
+        if(this.accountState == AccountState.INACTIVE){
             throw UserAlreadyDeletedException.EXCEPTION;
         }
         this.email = null;
         this.snsId = null;
-        this.userStatus = UserStatus.INACTIVE;
+        this.accountState = AccountState.INACTIVE;
     }
 }

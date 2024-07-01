@@ -6,8 +6,9 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.user.domain.SnsType;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.domain.UserStatus;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
@@ -19,7 +20,6 @@ import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.Kakao
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.KakaoUserInfoResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.properties.KakaoProperties;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,9 +62,7 @@ public class AuthService {
         User user = User.builder()
                 .snsId(kakaoUserInfoResponse.getId())
                 .email(kakaoUserInfoResponse.getEmail())
-                .role("USER")
-                .snsType("kakao")
-                .userStatus(UserStatus.ACTIVE)
+                .snsType(SnsType.KAKAO)
                 .build();
 
         return userRepository.save(user);
@@ -90,7 +88,7 @@ public class AuthService {
                         refreshToken)
                 .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
         Long id = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-        User user = userRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE)
+        User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         return generateUserToken(user);
     }

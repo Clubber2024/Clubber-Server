@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserStatus {
+public enum AccountState {
     ACTIVE("ACTIVE"),
     INACTIVE("INACTIVE");
 
