@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -43,7 +42,7 @@ public class User extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private UserStatus userStatus = UserStatus.ACTIVE;
+    private AccountState accountState = AccountState.ACTIVE;
 
     @Builder
     private User(String email, SnsType snsType, Long snsId) {
@@ -53,11 +52,11 @@ public class User extends BaseEntity {
     }
 
     public void withDraw(){
-        if(this.userStatus == UserStatus.INACTIVE){
+        if(this.accountState == AccountState.INACTIVE){
             throw UserAlreadyDeletedException.EXCEPTION;
         }
         this.email = null;
         this.snsId = null;
-        this.userStatus = UserStatus.INACTIVE;
+        this.accountState = AccountState.INACTIVE;
     }
 }
