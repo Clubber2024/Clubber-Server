@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.springframework.data.map.repository.config.EnableMapRepositories;
 
 @Getter
 @Entity
@@ -40,7 +39,7 @@ public class Admin {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private AccountRole accountRole; 
+    private AccountRole accountRole;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JdbcTypeCode(SqlTypes.VARCHAR)
