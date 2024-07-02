@@ -25,11 +25,12 @@ public class S3UploadPresignedService {
     @Value("${aws.s3.bucket}")
     private String bucket;
 
-    public void forClub(Long clubId, ImageFileExtension fileExtension) {
+    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(Long clubId, ImageFileExtension fileExtension) {
         String fixedFileExtension = fileExtension.getUploadExtension();
         String fileName = getForClubFileName(clubId, fixedFileExtension);
         URL url = amazonS3.generatePresignedUrl(
                 getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
+        return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(
