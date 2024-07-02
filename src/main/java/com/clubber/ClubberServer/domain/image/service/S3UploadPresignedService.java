@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
 import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
 import java.net.URL;
 import java.util.Date;
@@ -55,8 +56,7 @@ public class S3UploadPresignedService {
     }
 
     private String getForClubFileName(Long clubId, String fileExtension) {
-        return baseUrl +
-                "/club/" +
+        return "club/" +
                 clubId.toString() +
                 "/" +
                 UUID.randomUUID() +
