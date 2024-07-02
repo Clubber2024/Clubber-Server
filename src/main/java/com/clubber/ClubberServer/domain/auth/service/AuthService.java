@@ -59,12 +59,7 @@ public class AuthService {
     }
 
     public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse){
-        User user = User.builder()
-                .snsId(kakaoUserInfoResponse.getId())
-                .email(kakaoUserInfoResponse.getEmail())
-                .snsType(SnsType.KAKAO)
-                .build();
-
+        User user = kakaoUserInfoResponse.toEntity();
         return userRepository.save(user);
     }
 
