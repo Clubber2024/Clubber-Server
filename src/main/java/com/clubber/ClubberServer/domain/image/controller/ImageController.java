@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,7 +21,7 @@ public class ImageController {
 
     @Operation(summary = "동아리 로고 이미지 등록 URL 생성")
     @PostMapping("/clubs/{clubId}/images")
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@PathVariable Long clubId, ImageFileExtension imageFileExtension){
+    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@PathVariable Long clubId, @RequestParam ImageFileExtension imageFileExtension){
         return s3UploadPresignedService.createClubsImagePresignedUrl(clubId, imageFileExtension);
     }
 }
