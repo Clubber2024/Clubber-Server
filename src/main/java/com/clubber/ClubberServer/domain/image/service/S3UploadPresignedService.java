@@ -35,4 +35,15 @@ public class S3UploadPresignedService {
         expiration.setTime(expTimeMillis);
         return expiration;
     }
+
+    private String getForClubFileName(Long clubId, String fileExtension) {
+        return baseUrl +
+                "/club/" +
+                clubId.toString() +
+                "/" +
+                UUID.randomUUID() +
+                "." +
+                fileExtension;
+
+    }
 }
