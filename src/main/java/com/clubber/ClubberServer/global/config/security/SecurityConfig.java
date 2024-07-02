@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/notices").permitAll()
+                                .requestMatchers("/v1/admins/login").permitAll()
                                 .requestMatchers("/swagger-resources/**", "/swagger-ui/**",  "/v3/api-docs/**","/v3/api-docs" ).permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
