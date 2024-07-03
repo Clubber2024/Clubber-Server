@@ -35,11 +35,14 @@ public class Review extends BaseEntity {
     @NotNull
     private User user;
 
+    private String content;
+
     @Builder
-    private Review(Long id, Club club, User user) {
+    private Review(Long id, Club club, User user, String content) {
         this.id = id;
         this.club = club;
         this.user = user;
+        this.content = content;
     }
 
     public static Review of(User user, Club club){
