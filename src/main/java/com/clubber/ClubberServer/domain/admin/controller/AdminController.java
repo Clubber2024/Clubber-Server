@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateUsersLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateUsersLoginResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/login")
-    public CreateUsersLoginResponse createUsersLogin(@RequestBody CreateUsersLoginRequest loginRequest){
+    public CreateUsersLoginResponse createUsersLogin(@RequestBody @Valid CreateUsersLoginRequest loginRequest){
         return adminService.createUserLogin(loginRequest);
     }
 }
