@@ -19,8 +19,7 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
     public List<NoticesDto> getSortedNotices(){
-        Sort sort =Sort.by(Sort.Direction.DESC,"createdAt");
-        List <Notice> notices=noticeRepository.findAll(sort);
+        List <Notice> notices=noticeRepository.findByOrderByIdDesc();
         List <NoticesDto> noticeDto = notices.stream()
                 .map(notice -> new NoticesDto(notice.getId(), notice.getContent(), notice.getCreatedAt()))
                 .collect(Collectors.toList());
