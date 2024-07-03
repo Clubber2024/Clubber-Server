@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CreateUsersLoginRequest {
+public class CreateAdminsLoginRequest {
 
     @NotBlank(message = "아이디를 입력해주세요")
     @Schema(description = "동아리 관리자 ID", example = "club1")

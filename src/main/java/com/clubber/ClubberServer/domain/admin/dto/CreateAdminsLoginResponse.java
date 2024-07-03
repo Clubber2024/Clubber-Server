@@ -9,14 +9,14 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateUsersLoginResponse {
+public class CreateAdminsLoginResponse {
     private final Long adminId;
     private final String username;
     private final String accessToken;
     private final String refreshToken;
 
-    public static CreateUsersLoginResponse of(Admin admin, String accessToken, String refreshToken){
-        return CreateUsersLoginResponse.builder()
+    public static CreateAdminsLoginResponse of(Admin admin, String accessToken, String refreshToken){
+        return CreateAdminsLoginResponse.builder()
                 .adminId(admin.getId())
                 .username(admin.getUsername())
                 .accessToken(accessToken)
