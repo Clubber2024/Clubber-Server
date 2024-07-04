@@ -39,12 +39,6 @@ public class Club extends BaseEntity {
     private String imageUrl;
 
 
-    public void updateClub(String imageUrl,String introduction) {
-        this.imageUrl=imageUrl;
-        this.introduction = introduction;
-    }
-
-
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
