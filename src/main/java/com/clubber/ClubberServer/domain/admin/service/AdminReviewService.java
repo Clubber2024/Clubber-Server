@@ -10,18 +10,20 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AdminReviewService {
     private final ReviewRepository reviewRepository;
     private final AdminRepository adminRepository;
+
+    @Transactional(readOnly = true)
     public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
         Long adminId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(adminId)
