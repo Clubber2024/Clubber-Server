@@ -8,8 +8,6 @@ import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/admins")
 @Tag(name = "[동아리 계정 API]")
 public class AdminController {
-    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     private final AdminService adminService;
 
@@ -26,7 +23,7 @@ public class AdminController {
         return adminService.createAdminsLogin(loginRequest);
     }
 
-    @PatchMapping("/changePage")
+    @PatchMapping("/change-page")
     public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest){
         return adminService.updateAdminsPage(pageRequest);
     }
