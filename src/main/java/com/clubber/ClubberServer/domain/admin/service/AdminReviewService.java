@@ -44,4 +44,17 @@ public class AdminReviewService {
         review.approve();
         return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.APPROVED);
     }
+
+    @Transactional
+    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(Long reviewId) {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Review review = reviewRepository.findById(reviewId).get();
+        if(!admin.getClub().getId().equals(review.getClub().getId()))
+            throw ReviewClubNotMatchException.EXCEPTION;
+        review.reject();
+        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.REJECTED);
+    }
 }
