@@ -37,8 +37,9 @@ public class AdminReviewController {
         return adminReviewService.updateAdminsReviewApprove(reviewId);
     }
 
+    @Operation(summary = "동아리 계정에서 리뷰 미승인 요청", description = "미승인 시 더 이상 동아리 계정에서 대기 리뷰로 보이지 않음")
     @PatchMapping("/{reviewId}/reject")
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(@PathVariable Long reviewId){
-        return adminReviewService.updateAdminsReviewReject(reviewId); 
+        return adminReviewService.updateAdminsReviewReject(reviewId);
     }
 }
