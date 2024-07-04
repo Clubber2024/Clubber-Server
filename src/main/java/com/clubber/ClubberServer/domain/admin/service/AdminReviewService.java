@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,5 +27,11 @@ public class AdminReviewService {
         List<Review> reviews = reviewRepository.findByApprovedStatusAndClub(
                 approvedStatus, admin.getClub());
         return GetAdminsReviewByStatusResponse.from(reviews);
+    }
+
+    @Transactional
+    public void updateAdminsReviewApprove(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).get();
+        review.approve();
     }
 }
