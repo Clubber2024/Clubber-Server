@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -12,8 +13,12 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetAdminsReviewByStatusResponse {
-    private final String content;
+
+    @Schema(name = "리뷰 id", example = "1")
     private final Long reviewId;
+
+    @Schema(name = "한줄평", example = "분위기가 좋아요")
+    private final String content;
 
     public static List<GetAdminsReviewByStatusResponse> from(List<Review> reviews){
         return reviews.stream()
