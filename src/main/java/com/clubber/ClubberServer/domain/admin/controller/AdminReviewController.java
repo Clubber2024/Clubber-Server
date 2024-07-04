@@ -31,6 +31,7 @@ public class AdminReviewController {
         return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
     }
 
+    @Operation(summary = "동아리 계정에서 리뷰 승인 요청")
     @PatchMapping("/{reviewId}/approve")
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(@PathVariable Long reviewId){
         return adminReviewService.updateAdminsReviewApprove(reviewId);
