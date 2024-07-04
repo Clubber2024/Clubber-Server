@@ -10,8 +10,8 @@ public enum AdminErrorCode implements BaseErrorCode {
 
     INVALID_APPROVED_STATUS(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_1", "승인 또는 미승인 할 수 없는 리뷰 상태입니다"),
 
-    ADMIN_NOT_FOUND(HttpStatus.NO_CONTENT.value(), "ADMIN_404_1", "존재하지 않는 동아리 계정입니다"),
-    ADMIN_LOGIN_FAILED(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_1", "아이디 또는 비밀번호를 확인해주세요");
+    ADMIN_LOGIN_FAILED(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_1", "아이디 또는 비밀번호를 확인해주세요"),
+    ADMIN_NOT_FOUND(HttpStatus.NO_CONTENT.value(), "ADMIN_404_1", "존재하지 않는 동아리 계정입니다"),;
 
     private final Integer status;
     private final String code;
