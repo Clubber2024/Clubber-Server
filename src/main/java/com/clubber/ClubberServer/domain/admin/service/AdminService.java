@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedExceptio
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
@@ -59,6 +60,16 @@ public class AdminService {
     public void logout() {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         refreshTokenRepository.deleteById(currentUserId);
+    }
+
+    @Transactional
+    public void tokenRefresh(String refreshToken){
+        RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+                        refreshToken)
+                .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+        Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
     }
 
 }
