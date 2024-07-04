@@ -60,4 +60,8 @@ public class Review extends BaseEntity {
                 .club(club)
                 .build();
     }
+
+    public void approve(){
+        this.approvedStatus = ApprovedStatus.APPROVED;
+    }
 }
