@@ -4,40 +4,35 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 public class ClubService {
+
     private final ClubRepository clubRepository;
 
 
-
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
-    public DivisionCenterDto getClubDivision(String division){
+    public GetClubByDivisionResponse getClubsByDivision(String division){
         List<Club> clubs = clubRepository.findByDivision(division);
         if (clubs.isEmpty()){
             throw DivisionNotFoundException.EXCEPTION;
         }
         else {
-            List<SimpleCenterDto> clubDtos = clubs.stream()
-                    .map(club -> new SimpleCenterDto(club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+                    .map(club -> GetClubIntoCardResponse.from(club))
                     .collect(Collectors.toList());
-            return new DivisionCenterDto(division, clubDtos);
+            return GetClubByDivisionResponse.of(division, clubDtos);
         }
 
     }
@@ -45,14 +40,14 @@ public class ClubService {
 
 
     // 소모임 - 특정 학과 소속 소모임들 반환
-    public DepartmentSmallDto getOneDepartmentClubs(String department){
+    public DepartmentSmallDto getClubsByDepartment(String department){
         List<Club> clubs=clubRepository.findByDepartment(department);
         if (clubs.isEmpty()){
             throw DepartmentNotFoundException.EXCEPTION;
         }
         else{
-            List<SimpleCenterDto> clubDtos = clubs.stream()
-                    .map(club -> new SimpleCenterDto(club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+                    .map(club -> GetClubIntoCardResponse.from(club))
                     .collect(Collectors.toList());
             return new DepartmentSmallDto(department, clubDtos);
         }
@@ -60,77 +55,54 @@ public class ClubService {
 
     //[동아리 및 소모임] 개별 페이지 조회
     @Transactional
-    public OneClubDto getIndividualPage(Long clubId){
+    public GetClubResponse getClubsIndividualPage(Long clubId){
         Optional<Club> clubFound=clubRepository.findById(clubId);
         Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
         club.getClubInfo().increaseTotalView();
-        return convertToClubDto(club);
+        return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
 
-    }
-
-    private OneClubDto convertToClubDto(Club club){
-        OneClubInfoDto oneClubInfo=new OneClubInfoDto(
-                club.getClubInfo().getInstagram(),
-                club.getClubInfo().getLeader(),
-                club.getClubInfo().getRoom(),
-                club.getClubInfo().getTotalView(),
-                club.getClubInfo().getActivity()
-        );
-        return new OneClubDto(
-                club.getId(),
-                club.getName(),
-                club.getClubType(),
-                club.getIntroduction(),
-                club.getHashtag(),
-                club.getDivision(),
-                club.getCollege(),
-                club.getDepartment(),
-                club.getImageUrl(),
-                oneClubInfo
-        );
     }
 
 
 
     // 동아리명 및 소모임명으로 검색
-    public SearchClubsDto getClubByName(String clubName){
+    public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }
         else {
-            List<SearchClubDto> clubDtos = clubs.stream()
-                    .map(club -> new SearchClubDto(club.getClubType(),club.getDepartment(),club.getDivision(),club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+            List<GetClubSearchResponse> clubDtos = clubs.stream()
+                    .map(club -> GetClubSearchResponse.from(club))
                     .collect(Collectors.toList());
-            return new SearchClubsDto(clubName, clubDtos);
+            return GetClubsSearchResponse.of(clubName, clubDtos);
         }
     }
 
 
     // 특정 해시태그 반환
-    public HashtagClubsDto getClubHashtag(String hashtag){
+    public GetClubsByHashTagResponse getClubsHashtag(String hashtag){
         List<Club> clubs = clubRepository.findByHashtagOrderByClubType(hashtag);
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
         else {
-            List<HashtagClubDto> clubDtos = clubs.stream()
-                    .map(club -> new HashtagClubDto(club.getClubType(),club.getDivision(),club.getDepartment(), club.getId(), club.getImageUrl(), club.getName(), club.getIntroduction()))
+            List<GetClubByHashTagResponse> clubDtos = clubs.stream()
+                    .map(club -> GetClubByHashTagResponse.from(club))
                     .collect(Collectors.toList());
-            return new HashtagClubsDto(hashtag, clubDtos);
+            return GetClubsByHashTagResponse.of(hashtag, clubDtos);
         }
 
     }
 
 
-    public List<PopularClubDto> getPopularClubs(){
+    public List<GetClubPopularResponse> getClubsPopular(){
         Pageable topTen = PageRequest.of(0, 10);
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
         return clubs.stream()
-                .map(club -> new PopularClubDto(club.getId(), club.getName(),club.getClubInfo().getTotalView()))
+                .map(club -> GetClubPopularResponse.from(club))
                 .collect(Collectors.toList());
     }
-
 
 
 

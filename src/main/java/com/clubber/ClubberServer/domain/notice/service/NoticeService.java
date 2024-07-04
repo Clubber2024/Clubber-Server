@@ -1,13 +1,9 @@
 package com.clubber.ClubberServer.domain.notice.service;
 
-import com.clubber.ClubberServer.domain.club.dto.DivisionCenterDto;
-import com.clubber.ClubberServer.domain.club.dto.SimpleCenterDto;
-import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
 import com.clubber.ClubberServer.domain.notice.dto.NoticesDto;
 import com.clubber.ClubberServer.domain.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

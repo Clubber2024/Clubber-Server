@@ -1,11 +1,9 @@
 package com.clubber.ClubberServer.domain.notice.dto;
 
-import com.clubber.ClubberServer.domain.club.dto.SimpleCenterDto;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class NoticesDto {
