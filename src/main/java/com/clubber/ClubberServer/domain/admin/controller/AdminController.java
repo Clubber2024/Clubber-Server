@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 로그인")
     @PostMapping("/login")
     public CreateAdminsLoginResponse createAdminsLogin(@RequestBody @Valid CreateAdminsLoginRequest loginRequest){
@@ -43,6 +45,7 @@ public class AdminController {
         adminService.logout();
     }
 
+    @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 토큰 재발급")
     @PostMapping("/refresh")
     public CreateAdminsLoginResponse createAdminsTokenRefresh(
