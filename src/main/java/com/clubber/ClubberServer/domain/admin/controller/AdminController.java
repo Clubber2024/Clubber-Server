@@ -29,6 +29,7 @@ public class AdminController {
         return adminService.createAdminsLogin(loginRequest);
     }
 
+    @Operation(summary = "동아리 계정 비밀번호 수정")
     @PatchMapping("/me")
     public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest){
