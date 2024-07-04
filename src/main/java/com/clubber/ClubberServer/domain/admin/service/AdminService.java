@@ -55,4 +55,10 @@ public class AdminService {
         return UpdateAdminsPasswordResponse.of(admin);
     }
 
+    @Transactional
+    public void logout() {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        refreshTokenRepository.deleteById(currentUserId);
+    }
+
 }
