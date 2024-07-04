@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ReviewErrorCode implements BaseErrorCode {
     USER_ALREADY_REVIEWD(HttpStatus.BAD_REQUEST.value() , "REVIEW_400_1", "이미 리뷰를 등록한 동아리입니다."),
+    REVIEW_CLUB_NOT_MATCHED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_2", "리뷰와 동아리가 일치하지 않습니다"),
     REVIEW_KEYWORD_ENUM_NOT_MATCHED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_2", "잘못된 리뷰 키워드 값입니다.");
 
     private final Integer status;
