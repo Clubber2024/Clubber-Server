@@ -28,6 +28,14 @@ public class ClubInfo extends BaseEntity{
     public void increaseTotalView(){
         this.totalView++;
     }
+
+    public void updateClubInfo(String instagram,String leader,String activity,Long room) {
+        this.instagram=instagram;
+        this.leader=leader;
+        this.activity=activity;
+        this.room=room;
+    }
+
     @Builder
     private ClubInfo(Long id,String instagram,String leader,Long room,Long totalView,String activity){
         this.id=id;
