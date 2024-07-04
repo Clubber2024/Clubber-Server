@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
@@ -44,6 +46,7 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/notices").permitAll()
                                 .requestMatchers("/v1/admins/login").permitAll()
+                                .requestMatchers("/v1/admins/change-page").hasRole("ADMIN")
                                 .requestMatchers("/swagger-resources/**", "/swagger-ui/**",  "/v3/api-docs/**","/v3/api-docs" ).permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
