@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +28,10 @@ public class AdminReviewController {
     @GetMapping
     public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(@RequestParam ApprovedStatus approvedStatus){
         return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
+    }
+
+    @PatchMapping("/{reviewId}/approve")
+    public void updateAdminsReviewApprove(@PathVariable Long reviewId){
+        adminReviewService.updateAdminsReviewApprove(reviewId);
     }
 }
