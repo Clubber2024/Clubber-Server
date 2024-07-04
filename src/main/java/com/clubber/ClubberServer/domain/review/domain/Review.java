@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -62,6 +63,8 @@ public class Review extends BaseEntity {
     }
 
     public void approve(){
+        if(this.approvedStatus != ApprovedStatus.PENDING)
+            throw InvalidApprovedStatusException.EXCEPTION;
         this.approvedStatus = ApprovedStatus.APPROVED;
     }
 }
