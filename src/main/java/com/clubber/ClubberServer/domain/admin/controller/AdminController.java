@@ -43,6 +43,7 @@ public class AdminController {
         adminService.logout();
     }
 
+    @Operation(summary = "동아리 계정 토큰 재발급")
     @PostMapping("/refresh")
     public CreateAdminsLoginResponse createAdminsTokenRefresh(
             @RequestHeader String refreshToken) {
