@@ -45,4 +45,8 @@ public class Admin {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private Club club;
 
+    public void updatePassword(String password){
+        this.password = password;
+    }
+
 }
