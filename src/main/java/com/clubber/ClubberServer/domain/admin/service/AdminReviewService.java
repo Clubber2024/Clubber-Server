@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
@@ -31,13 +32,16 @@ public class AdminReviewService {
     }
 
     @Transactional
-    public void updateAdminsReviewApprove(Long reviewId) {
+    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(Long reviewId) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
         Review review = reviewRepository.findById(reviewId).get();
         if(!admin.getClub().getId().equals(review.getClub().getId()))
             throw ReviewClubNotMatchException.EXCEPTION;
+
         review.approve();
+        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.APPROVED);
     }
 }
