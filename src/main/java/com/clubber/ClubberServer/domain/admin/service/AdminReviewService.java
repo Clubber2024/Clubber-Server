@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -20,7 +21,8 @@ public class AdminReviewService {
     private final AdminRepository adminRepository;
     public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
         Long adminId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(adminId).get();
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
         List<Review> reviews = reviewRepository.findByApprovedStatusAndClub(
                 approvedStatus, admin.getClub());
         return GetAdminsReviewByStatusResponse.from(reviews);
