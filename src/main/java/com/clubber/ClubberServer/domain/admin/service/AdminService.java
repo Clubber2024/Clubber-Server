@@ -43,10 +43,14 @@ public class AdminService {
         return CreateAdminsLoginResponse.of(admin, accessToken, savedRefreshToken.getRefreshToken());
     }
 
+    @Transactional
     public void updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        String rawPassword = updateAdminsPasswordRequest.getPassword();
+        admin.updatePassword(encoder.encode(rawPassword));
     }
 
 }
