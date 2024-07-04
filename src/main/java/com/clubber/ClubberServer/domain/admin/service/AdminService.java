@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -44,13 +45,14 @@ public class AdminService {
     }
 
     @Transactional
-    public void updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+    public UpdateAdminsPasswordResponse updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         String rawPassword = updateAdminsPasswordRequest.getPassword();
         admin.updatePassword(encoder.encode(rawPassword));
+        return UpdateAdminsPasswordResponse.of(admin);
     }
 
 }
