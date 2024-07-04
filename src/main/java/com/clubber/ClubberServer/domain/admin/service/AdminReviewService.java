@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,8 @@ public class AdminReviewService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
         Review review = reviewRepository.findById(reviewId).get();
+        if(!admin.getClub().getId().equals(review.getClub().getId()))
+            throw ReviewClubNotMatchException.EXCEPTION;
         review.approve();
     }
 }
