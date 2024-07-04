@@ -63,13 +63,14 @@ public class AdminService {
     }
 
     @Transactional
-    public void tokenRefresh(String refreshToken){
+    public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken){
         RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
                         refreshToken)
                 .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
         Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        return createAdminsToken(admin);
     }
 
 }
