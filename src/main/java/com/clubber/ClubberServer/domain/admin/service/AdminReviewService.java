@@ -31,6 +31,9 @@ public class AdminReviewService {
 
     @Transactional
     public void updateAdminsReviewApprove(Long reviewId) {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
         Review review = reviewRepository.findById(reviewId).get();
         review.approve();
     }
