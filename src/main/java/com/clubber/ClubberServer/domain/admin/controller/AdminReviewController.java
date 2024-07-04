@@ -36,4 +36,9 @@ public class AdminReviewController {
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(@PathVariable Long reviewId){
         return adminReviewService.updateAdminsReviewApprove(reviewId);
     }
+
+    @PatchMapping("/{reviewId}/reject")
+    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(@PathVariable Long reviewId){
+        return adminReviewService.updateAdminsReviewReject(reviewId); 
+    }
 }
