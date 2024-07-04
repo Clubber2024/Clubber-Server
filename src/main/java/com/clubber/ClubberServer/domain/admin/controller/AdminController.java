@@ -36,4 +36,8 @@ public class AdminController {
         return adminService.updateAdminsPassword(updateAdminsPasswordRequest);
     }
 
+    @PostMapping("/logout")
+    public void createAdminsLogout(){
+        adminService.logout();
+    }
 }
