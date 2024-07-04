@@ -36,6 +36,7 @@ public class AdminController {
         return adminService.updateAdminsPassword(updateAdminsPasswordRequest);
     }
 
+    @Operation(summary = "동아리 계정 로그아웃")
     @PostMapping("/logout")
     public void createAdminsLogout(){
         adminService.logout();
