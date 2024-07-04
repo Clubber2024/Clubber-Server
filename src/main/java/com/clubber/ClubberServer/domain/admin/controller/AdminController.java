@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.admin.controller;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @Operation(summary = "동아리 계정 로그인")
     @PostMapping("/login")
     public CreateAdminsLoginResponse createAdminsLogin(@RequestBody @Valid CreateAdminsLoginRequest loginRequest){
         return adminService.createAdminsLogin(loginRequest);
