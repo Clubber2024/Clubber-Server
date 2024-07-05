@@ -3,10 +3,15 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +43,34 @@ public class AdminService {
                 jwtTokenProvider.getRefreshTokenTTlSecond());
         RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
         return CreateAdminsLoginResponse.of(admin, accessToken, savedRefreshToken.getRefreshToken());
+    }
+
+    @Transactional
+    public UpdateAdminsPasswordResponse updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        String rawPassword = updateAdminsPasswordRequest.getPassword();
+        admin.updatePassword(encoder.encode(rawPassword));
+        return UpdateAdminsPasswordResponse.of(admin);
+    }
+
+    @Transactional
+    public void logout() {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        refreshTokenRepository.deleteById(currentUserId);
+    }
+
+    @Transactional
+    public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken){
+        RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+                        refreshToken)
+                .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+        Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        return createAdminsToken(admin);
     }
 
 }
