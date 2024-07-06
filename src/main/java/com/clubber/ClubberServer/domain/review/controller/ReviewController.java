@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.review.controller;
 
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
@@ -45,6 +46,13 @@ public class ReviewController {
     @GetMapping("/keyword-stats")
     public ClubReviewKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId){
         return reviewService.getClubReviewKeywordStats(clubId);
+    }
+
+    @Operation(summary = "개별 동아리 별 리뷰 조회 V2")
+    @DisableSwaggerSecurity
+    @GetMapping("/v2")
+    public ClubReviewsWithContentResponse getClubReviewsWithContentByClubId(@PathVariable Long clubId) {
+        return reviewService.getClubReviewsWithContent(clubId);
     }
 
 }
