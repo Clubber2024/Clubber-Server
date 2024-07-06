@@ -13,7 +13,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +49,9 @@ public class Review extends BaseEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Enumerated(EnumType.STRING)
     private ApprovedStatus approvedStatus;
+
+    @OneToMany(mappedBy = "review")
+    private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
     @Builder
     private Review(Long id, Club club, User user, String content) {
