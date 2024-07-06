@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
@@ -87,5 +88,13 @@ public class ReviewService {
                 .forEach(keyword -> keywordMap.putIfAbsent(keyword, 0L));
 
         return ClubReviewKeywordStatsResponse.of(club, keywordMap);
+    }
+
+    @Transactional(readOnly = true)
+    public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId){
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        List<Review> reviews = reviewKeywordRepository.queryReviewByClub(club);
+        return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 }
