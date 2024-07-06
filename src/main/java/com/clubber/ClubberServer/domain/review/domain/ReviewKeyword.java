@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -56,9 +57,10 @@ public class ReviewKeyword extends BaseEntity {
                 .build();
     }
 
-    public static List<Keyword> from(List<ReviewKeyword> reviewKeywords){
+    public static Set<Keyword> from(List<ReviewKeyword> reviewKeywords){
         return reviewKeywords.stream()
                 .map(ReviewKeyword::getKeyword)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
+
 }
