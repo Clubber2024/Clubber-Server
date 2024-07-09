@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,5 +48,11 @@ public class AdminController {
     public CreateAdminsLoginResponse createAdminsTokenRefresh(
             @RequestHeader String refreshToken) {
         return adminService.getAdminsParseToken(refreshToken);
+    }
+
+    @Operation(summary = "관리자 개별 동아리 페이지 수정")
+    @PatchMapping("/change-page")
+    public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest){
+        return adminService.updateAdminsPage(pageRequest);
     }
 }
