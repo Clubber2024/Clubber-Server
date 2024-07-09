@@ -26,7 +26,7 @@ public class ReviewController {
     @Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목을 선택하여 작성")
     @PostMapping("/v1/clubs/{clubId}/reviews")
     public ReviewCreateResponse createReview(@RequestBody @Valid ReviewRequest reviewRequest,
-            @PathVariable Long clubId){
+                                             @PathVariable Long clubId){
         return reviewService.createReview(clubId, reviewRequest);
     }
 
@@ -44,17 +44,18 @@ public class ReviewController {
         return reviewService.getClubReviewKeywordStats(clubId);
     }
 
+    // === v2 ===
     @Operation(summary = "개별 동아리 별 리뷰 조회 V2")
     @DisableSwaggerSecurity
-    @GetMapping("/v2/oneClub")
+    @GetMapping("/v2/clubs/{clubId}/reviews")
     public ClubReviewsWithContentResponse getClubReviewsWithContentByClubId(@PathVariable Long clubId) {
         return reviewService.getClubReviewsWithContent(clubId);
     }
 
     @Operation(summary = "동아리 리뷰 작성 V2",description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
-    @PostMapping("/v2/wriedReview")
+    @PostMapping("/v2/clubs/{clubId}/reviews")
     public CreateReviewClubWithContentResponse createReviewWithContent(@RequestBody CreateReviewClubWithContentRequest reviewRequest,
-            Long clubId){
+                                                                       Long clubId){
         return reviewService.createReviewsByContent(clubId, reviewRequest);
     }
 

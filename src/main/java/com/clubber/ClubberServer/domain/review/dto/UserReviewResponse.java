@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
@@ -41,6 +42,9 @@ public class UserReviewResponse {
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         private final LocalDateTime dateTime;
 
+        @Schema(description = "리뷰 승인 상태", example = "[\"APPROVED\", \"PENDING\", \"REJECTED\", \"NULL_CONTENT\"]")
+        private final ApprovedStatus approvedStatus;
+
         @Schema(description = "리뷰 작성 시 선택한 키워드",
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final List<Keyword> keywords;
@@ -51,7 +55,9 @@ public class UserReviewResponse {
                     .keywords(keywords)
                     .clubId(review.getClub().getId())
                     .clubName(review.getClub().getName())
-                    .dateTime(review.getCreatedAt()).build();
+                    .dateTime(review.getCreatedAt())
+                    .approvedStatus(review.getApprovedStatus())
+                    .build();
         }
     }
 
