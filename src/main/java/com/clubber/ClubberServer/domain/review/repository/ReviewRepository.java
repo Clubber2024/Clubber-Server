@@ -11,4 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     boolean existsByUserAndClub(User user, Club club);
 
     List<Review> findByApprovedStatusAndClub(ApprovedStatus status, Club club);
+
+    List<Review> findAllByUserId(Long userId);
 }

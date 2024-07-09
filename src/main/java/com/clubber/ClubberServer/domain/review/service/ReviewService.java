@@ -1,20 +1,16 @@
 package com.clubber.ClubberServer.domain.review.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByHashTagResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
-import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
-import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
+import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
+import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -22,12 +18,7 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -121,5 +112,15 @@ public class ReviewService {
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
         List<Review> reviews = reviewKeywordRepository.queryReviewByClub(club);
         return ClubReviewsWithContentResponse.of(reviews, club.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public UserReviewResponse  getReviewsWithUserId(Long userId){
+        User user=userRepository.findById(userId)
+                .orElseThrow(()->UserNotFoundException.EXCEPTION);
+
+        List<ReviewKeyword> reviewKeywords=reviewKeywordRepository.queryReviewKeywordByUserId(user.getId());
+        return UserReviewResponse.of(user,reviewKeywords);
+
     }
 }

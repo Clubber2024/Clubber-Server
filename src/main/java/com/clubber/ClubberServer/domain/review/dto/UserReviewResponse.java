@@ -58,9 +58,11 @@ public class UserReviewResponse {
     public static UserReviewResponse of (User user, List<ReviewKeyword> keywords){
         Map<Review, List<Keyword>> reviewListMap = getReviewListMap(keywords);
         List<UserReviewDetailResponse> reviews = getCollectUserReviewDetailResponse(reviewListMap);
+
         return UserReviewResponse.builder()
                 .userId(user.getId())
-                .userReviews(reviews).build();
+                .userReviews(reviews)
+                .build();
     }
 
     private static List<UserReviewDetailResponse> getCollectUserReviewDetailResponse(
