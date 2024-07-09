@@ -59,13 +59,5 @@ public class ReviewController {
         return reviewService.createReviewsByContent(clubId, reviewRequest);
     }
 
-    @Operation(summary = "내가 쓴 리뷰 조회 V2")
-    @DisableSwaggerSecurity
-    @GetMapping("/v2/myReview/{userId}")
-    public UserReviewResponse getReviewsWithUserId(@PathVariable Long userId){
-        return reviewService.getReviewsWithUserId(userId);
-
-    }
-
 
 }

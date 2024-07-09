@@ -49,6 +49,9 @@ public class UserReviewResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final List<Keyword> keywords;
 
+        @Schema(description = "한줄평", example = "매주 정기회의가 있어서 시간 투자가 필요합니다!")
+        private final String content;
+
         private static UserReviewDetailResponse of(Review review, List<Keyword> keywords){
             return UserReviewDetailResponse.builder()
                     .reviewId(review.getId())
@@ -57,6 +60,7 @@ public class UserReviewResponse {
                     .clubName(review.getClub().getName())
                     .dateTime(review.getCreatedAt())
                     .approvedStatus(review.getApprovedStatus())
+                    .content(review.getContent())
                     .build();
         }
     }

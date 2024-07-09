@@ -114,13 +114,5 @@ public class ReviewService {
         return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 
-    @Transactional(readOnly = true)
-    public UserReviewResponse  getReviewsWithUserId(Long userId){
-        User user=userRepository.findById(userId)
-                .orElseThrow(()->UserNotFoundException.EXCEPTION);
 
-        List<ReviewKeyword> reviewKeywords=reviewKeywordRepository.queryReviewKeywordByUserId(user.getId());
-        return UserReviewResponse.of(user,reviewKeywords);
-
-    }
 }
