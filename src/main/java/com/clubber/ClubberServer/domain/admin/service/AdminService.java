@@ -1,13 +1,12 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
@@ -71,6 +70,23 @@ public class AdminService {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
         return createAdminsToken(admin);
+    }
+
+    @Transactional
+    public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest requestDTO){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Club club=admin.getClub();
+        club.updateClub(requestDTO.getImageUrl(),requestDTO.getIntroduction());
+
+        ClubInfo clubinfo=club.getClubInfo();
+        clubinfo.updateClubInfo(requestDTO.getInstagram(),requestDTO.getLeader(), requestDTO.getActivity(), requestDTO.getRoom());
+
+        return UpdateClubPageResponse.of(club,clubinfo);
+
     }
 
 }

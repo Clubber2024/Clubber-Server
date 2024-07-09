@@ -43,6 +43,11 @@ public class Club extends BaseEntity {
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
 
+    public void updateClub(String imageUrl,String introduction) {
+        this.imageUrl=imageUrl;
+        this.introduction = introduction;
+    }
+
     @Builder
     private Club(Long id, String name, String clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {
         this.id = id;
