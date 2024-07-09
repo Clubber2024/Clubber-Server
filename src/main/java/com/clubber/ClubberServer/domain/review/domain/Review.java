@@ -1,5 +1,8 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
+
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
@@ -13,7 +16,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,18 +53,31 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ApprovedStatus approvedStatus;
 
+    @OneToMany(mappedBy = "review")
+    private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
+
     @Builder
-    private Review(Long id, Club club, User user, String content) {
+    private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus) {
         this.id = id;
         this.club = club;
         this.user = user;
         this.content = content;
+        this.approvedStatus = approvedStatus;
     }
 
     public static Review of(User user, Club club){
         return Review.builder()
                 .user(user)
                 .club(club)
+                .build();
+    }
+
+    public static Review of(User user, Club club, String content){
+        return Review.builder()
+                .user(user)
+                .club(club)
+                .content(content)
+                .approvedStatus( (content == null || content.isBlank()) ? NULL_CONTENT : PENDING)
                 .build();
     }
 

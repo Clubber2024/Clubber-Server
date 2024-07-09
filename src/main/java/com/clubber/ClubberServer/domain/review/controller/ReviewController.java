@@ -2,6 +2,9 @@ package com.clubber.ClubberServer.domain.review.controller;
 
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
@@ -45,6 +48,20 @@ public class ReviewController {
     @GetMapping("/keyword-stats")
     public ClubReviewKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId){
         return reviewService.getClubReviewKeywordStats(clubId);
+    }
+
+    @Operation(summary = "개별 동아리 별 리뷰 조회 V2")
+    @DisableSwaggerSecurity
+    @GetMapping("/v2")
+    public ClubReviewsWithContentResponse getClubReviewsWithContentByClubId(@PathVariable Long clubId) {
+        return reviewService.getClubReviewsWithContent(clubId);
+    }
+
+    @Operation(summary = "동아리 리뷰 작성 V2",description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
+    @PostMapping("/v2")
+    public CreateReviewClubWithContentResponse createReviewWithContent(@RequestBody CreateReviewClubWithContentRequest reviewRequest,
+            Long clubId){
+        return reviewService.createReviewsByContent(clubId, reviewRequest);
     }
 
 }

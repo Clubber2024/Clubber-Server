@@ -8,6 +8,9 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
 import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
@@ -55,6 +58,29 @@ public class ReviewService {
         return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
+    @Transactional
+    public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId, CreateReviewClubWithContentRequest reviewRequest){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        if(reviewRepository.existsByUserAndClub(user, club)){
+            throw UserAlreadyReviewedException.EXCEPTION;
+        }
+        Review review = Review.of(user, club, reviewRequest.getContent());
+
+        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
+    }
+
+    private CreateReviewClubWithContentResponse createReviewKeyword(CreateReviewClubWithContentRequest reviewRequest, Review review){
+        List<ReviewKeyword> reviewKeywords = reviewRequest.toEntity(review);
+        List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
+        return CreateReviewClubWithContentResponse.of(review, savedKeywords);
+    }
+
+
     private ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
         Set<Keyword> keywords = reviewRequest.getKeywords();
         List<ReviewKeyword> reviewKeywords = keywords.stream()
@@ -87,5 +113,13 @@ public class ReviewService {
                 .forEach(keyword -> keywordMap.putIfAbsent(keyword, 0L));
 
         return ClubReviewKeywordStatsResponse.of(club, keywordMap);
+    }
+
+    @Transactional(readOnly = true)
+    public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId){
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        List<Review> reviews = reviewKeywordRepository.queryReviewByClub(club);
+        return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 }
