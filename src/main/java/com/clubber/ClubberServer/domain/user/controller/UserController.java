@@ -41,8 +41,8 @@ public class UserController {
     @Operation(summary = "내가 쓴 리뷰 조회 V2")
     @DisableSwaggerSecurity
     @GetMapping("/review")
-    public UserReviewResponse getReviewsWithUserId(){
-        return userService.getReviewsWithUserId();
+    public UserReviewResponse getUserReviews(){
+        return userService.getUserReviews();
 
     }
 }

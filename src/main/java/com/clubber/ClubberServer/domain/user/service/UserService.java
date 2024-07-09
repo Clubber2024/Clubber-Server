@@ -57,7 +57,7 @@ public class UserService {
 //    }
 
     @Transactional(readOnly = true)
-    public UserReviewResponse  getReviewsWithUserId(){
+    public UserReviewResponse getUserReviews(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
