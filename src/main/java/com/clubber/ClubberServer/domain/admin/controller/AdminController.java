@@ -50,7 +50,7 @@ public class AdminController {
         return adminService.getAdminsParseToken(refreshToken);
     }
 
-    @DisableSwaggerSecurity
+
     @Operation(summary = "관리자 개별 동아리 페이지 수정")
     @PatchMapping("/change-page")
     public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest){
