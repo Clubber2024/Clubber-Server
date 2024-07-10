@@ -80,6 +80,7 @@ public class AdminService {
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         Club club=admin.getClub();
+
         club.updateClub(requestDTO.getImageUrl(),requestDTO.getIntroduction());
 
         ClubInfo clubinfo=club.getClubInfo();
