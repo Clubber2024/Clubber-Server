@@ -1,7 +1,11 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
+import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -17,6 +21,11 @@ public class GetAdminsReviewByStatusResponse {
     @Schema(name = "리뷰 id", example = "1")
     private final Long reviewId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
+    @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
+    private final LocalDateTime writtenDate;
+
+
     @Schema(name = "한줄평", example = "분위기가 좋아요")
     private final String content;
 
@@ -30,6 +39,7 @@ public class GetAdminsReviewByStatusResponse {
     private static GetAdminsReviewByStatusResponse from(Review review){
         return GetAdminsReviewByStatusResponse.builder()
                 .reviewId(review.getId())
+                .writtenDate(review.getCreatedAt())
                 .content(review.getContent())
                 .build();
     }
