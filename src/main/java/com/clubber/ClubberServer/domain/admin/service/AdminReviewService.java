@@ -3,8 +3,12 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
@@ -57,4 +61,5 @@ public class AdminReviewService {
         review.reject();
         return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.REJECTED);
     }
+
 }
