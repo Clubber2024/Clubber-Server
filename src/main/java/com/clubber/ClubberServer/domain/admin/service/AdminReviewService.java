@@ -14,7 +14,11 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +36,12 @@ public class AdminReviewService {
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
         List<Review> reviews = reviewRepository.findByApprovedStatusAndClub(
                 approvedStatus, admin.getClub());
-        return GetAdminsReviewByStatusResponse.from(reviews);
+
+        List<Review> sortedReviews = reviews.stream()
+                .sorted(Comparator.comparing(Review::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+
+        return GetAdminsReviewByStatusResponse.from(sortedReviews);
     }
 
     @Transactional
