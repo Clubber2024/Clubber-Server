@@ -46,12 +46,24 @@ public class UserService {
         return UserFavoritesResponse.of(user, favorites);
     }
 
+    // v1- 내가 쓴 리뷰
+//    public UserReviewResponse getUserReviews(){
+//        Long currentUserId = SecurityUtils.getCurrentUserId();
+//        User user = userRepository.findById(currentUserId)
+//                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+//        List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByUserId(
+//                currentUserId);
+//        return UserReviewResponse.of(user, reviewKeywords);
+//    }
+
+    @Transactional(readOnly = true)
     public UserReviewResponse getUserReviews(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByUserId(
-                currentUserId);
-        return UserReviewResponse.of(user, reviewKeywords);
+
+        List<ReviewKeyword> reviewKeywords=reviewKeywordRepository.queryReviewKeywordByUserId(user.getId());
+        return UserReviewResponse.of(user,reviewKeywords);
+
     }
 }

@@ -1,12 +1,6 @@
 package com.clubber.ClubberServer.domain.review.controller;
 
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
-import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
+import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +26,7 @@ public class ReviewController {
     @Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목을 선택하여 작성")
     @PostMapping
     public ReviewCreateResponse createReview(@RequestBody @Valid ReviewRequest reviewRequest,
-            @PathVariable Long clubId){
+                                             @PathVariable Long clubId){
         return reviewService.createReview(clubId, reviewRequest);
     }
 
@@ -50,6 +44,7 @@ public class ReviewController {
         return reviewService.getClubReviewKeywordStats(clubId);
     }
 
+    // === v2 ===
     @Operation(summary = "개별 동아리 별 리뷰 조회 V2")
     @DisableSwaggerSecurity
     @GetMapping("/v2")
@@ -60,8 +55,9 @@ public class ReviewController {
     @Operation(summary = "동아리 리뷰 작성 V2",description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
     @PostMapping("/v2")
     public CreateReviewClubWithContentResponse createReviewWithContent(@RequestBody CreateReviewClubWithContentRequest reviewRequest,
-            Long clubId){
+                                                                       Long clubId){
         return reviewService.createReviewsByContent(clubId, reviewRequest);
     }
+
 
 }

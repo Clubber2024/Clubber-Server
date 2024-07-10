@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,16 @@ public class UserController {
         return userService.getUserFavorites();
     }
 
-    @Operation(summary = "회원 작성 리뷰 조회")
+    //version1
+//    @Operation(summary = "회원 작성 리뷰 조회")
+//    @GetMapping("/review")
+//    public UserReviewResponse getUserReviews() { return userService.getUserReviews(); }
+
+    @Operation(summary = "내가 쓴 리뷰 조회 V2")
+    @DisableSwaggerSecurity
     @GetMapping("/review")
-    public UserReviewResponse getUserReviews() { return userService.getUserReviews(); }
+    public UserReviewResponse getUserReviews(){
+        return userService.getUserReviews();
+
+    }
 }
