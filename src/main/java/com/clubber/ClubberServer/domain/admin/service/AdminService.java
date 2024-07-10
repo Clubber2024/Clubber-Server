@@ -7,6 +7,8 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
@@ -88,6 +90,17 @@ public class AdminService {
 
         return UpdateClubPageResponse.of(club,clubinfo);
 
+    }
+
+    public GetClubResponse getAdminsMyPage(){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Club club=admin.getClub();
+
+        return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
     }
 
 }
