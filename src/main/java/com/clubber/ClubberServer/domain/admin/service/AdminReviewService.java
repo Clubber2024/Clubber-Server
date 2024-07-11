@@ -60,7 +60,7 @@ public class AdminReviewService {
 //        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.APPROVED);
 //    }
 @Transactional
-public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(
+public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
         UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
 
     List<Long> reviewIds = updateAdminsReviewStatusRequest.getReviewIds();

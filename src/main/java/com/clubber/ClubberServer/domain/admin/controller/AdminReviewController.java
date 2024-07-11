@@ -43,9 +43,9 @@ public class AdminReviewController {
 
     @Operation(summary = "동아리 계정에서 리뷰 승인 / 거절 요청")
     @PatchMapping("/decision")
-    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprovedStatusResponse(@Valid @RequestBody
+    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatusResponse(@Valid @RequestBody
     UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest){
-        return adminReviewService.updateAdminsReviewApprove(updateAdminsReviewStatusRequest);
+        return adminReviewService.updateAdminsReviewsApprovedStatus(updateAdminsReviewStatusRequest);
     }
 
 //    @Operation(summary = "동아리 계정에서 리뷰 미승인 요청", description = "미승인 시 더 이상 동아리 계정에서 대기 리뷰로 보이지 않음")
