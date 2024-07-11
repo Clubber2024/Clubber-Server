@@ -28,17 +28,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminReviewService {
     private final ReviewRepository reviewRepository;
     private final AdminRepository adminRepository;
+    private final ClubRepository clubRepository;
 
-    @Transactional(readOnly = true)
-    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
-        Long adminId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
-                approvedStatus, admin.getClub());
-
-        return GetAdminsReviewByStatusResponse.from(reviews);
-    }
+//    @Transactional(readOnly = true)
+//    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
+//        Long adminId = SecurityUtils.getCurrentUserId();
+//        Admin admin = adminRepository.findById(adminId)
+//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+//        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
+//                approvedStatus, admin.getClub());
+//
+//        return GetAdminsReviewByStatusResponse.from(reviews);
+//    }
 
     @Transactional
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(Long reviewId) {

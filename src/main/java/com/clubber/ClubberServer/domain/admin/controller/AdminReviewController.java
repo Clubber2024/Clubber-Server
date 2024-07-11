@@ -25,11 +25,11 @@ public class AdminReviewController {
 
     private final AdminReviewService adminReviewService;
 
-    @Operation(summary = "동아리 계정 승인 상태별 리뷰 조회", description = "승인 대기, 승인 완료된 댓글을 파라미로 전달하여 요청")
-    @GetMapping
-    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(@RequestParam ApprovedStatus approvedStatus){
-        return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
-    }
+//    @Operation(summary = "동아리 계정 승인 상태별 리뷰 조회", description = "승인 대기, 승인 완료된 댓글을 파라미로 전달하여 요청")
+//    @GetMapping
+//    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(@RequestParam ApprovedStatus approvedStatus){
+//        return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
+//    }
 
     @Operation(summary = "동아리 계정에서 리뷰 승인 요청")
     @PatchMapping("/{reviewId}/approve")
