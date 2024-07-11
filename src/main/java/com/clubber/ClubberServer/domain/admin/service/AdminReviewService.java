@@ -34,14 +34,10 @@ public class AdminReviewService {
         Long adminId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        List<Review> reviews = reviewRepository.findByApprovedStatusAndClub(
+        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
                 approvedStatus, admin.getClub());
 
-        List<Review> sortedReviews = reviews.stream()
-                .sorted(Comparator.comparing(Review::getCreatedAt).reversed())
-                .collect(Collectors.toList());
-
-        return GetAdminsReviewByStatusResponse.from(sortedReviews);
+        return GetAdminsReviewByStatusResponse.from(reviews);
     }
 
     @Transactional
