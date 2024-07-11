@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.user.service;
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
+import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
@@ -28,6 +29,8 @@ public class UserService {
     private final FavoriteRepository favoriteRepository;
 
     private final ReviewKeywordRepository reviewKeywordRepository;
+
+    private final ReviewRepository reviewRepository;
 
     public UserProfileResponse getUserProfile(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
@@ -61,9 +64,9 @@ public class UserService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        List<ReviewKeyword> reviewKeywords=reviewKeywordRepository.queryReviewKeywordByUserId(user.getId());
-        return UserReviewResponse.of(user,reviewKeywords);
+        
+        List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
+        return UserReviewResponse.of(user, reviews);
 
     }
 }
