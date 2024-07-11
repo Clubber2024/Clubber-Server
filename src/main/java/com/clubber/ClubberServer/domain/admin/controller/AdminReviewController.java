@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminReviewService;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
@@ -41,5 +42,10 @@ public class AdminReviewController {
     @PatchMapping("/{reviewId}/reject")
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(@PathVariable Long reviewId){
         return adminReviewService.updateAdminsReviewReject(reviewId);
+    }
+
+    @GetMapping
+    public GetAdminsReviewsResponse getAdminsReviews() {
+        return adminReviewService.getAdminsReviews();
     }
 }
