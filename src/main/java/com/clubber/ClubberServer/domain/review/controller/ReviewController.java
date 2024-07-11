@@ -40,7 +40,7 @@ public class ReviewController {
     // === v2 ===
     @Operation(summary = "개별 동아리 별 리뷰 조회 V2")
     @DisableSwaggerSecurity
-    @GetMapping("/v2")
+    @GetMapping
     public ClubReviewsWithContentResponse getClubReviewsWithContentByClubId(@PathVariable Long clubId) {
         return reviewService.getClubReviewsWithContent(clubId);
     }
