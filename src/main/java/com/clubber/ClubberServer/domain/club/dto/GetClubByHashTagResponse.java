@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import lombok.*;
 
 @Getter
@@ -19,7 +20,7 @@ public class GetClubByHashTagResponse {
 
     public static GetClubByHashTagResponse from(Club club){
         return GetClubByHashTagResponse.builder()
-                .clubType(club.getClubType())
+                .clubType(club.getClubType().getCode().toLowerCase())
                 .division(club.getDivision())
                 .department(club.getDepartment())
                 .clubId(club.getId())
