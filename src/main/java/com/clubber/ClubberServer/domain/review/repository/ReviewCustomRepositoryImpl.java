@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
+import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
+import com.clubber.ClubberServer.domain.club.domain.QClub;
 import com.clubber.ClubberServer.domain.review.domain.QReview;
 import com.clubber.ClubberServer.domain.review.domain.QReviewKeyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -20,6 +22,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository{
     public List<Review> queryReviewByUserOrderByIdDesc(User user) {
         return queryFactory.selectFrom(review)
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
+                .join(review.club, club).fetchJoin()
                 .where(review.user.eq(user))
                 .orderBy(review.id.desc())
                 .fetch();
