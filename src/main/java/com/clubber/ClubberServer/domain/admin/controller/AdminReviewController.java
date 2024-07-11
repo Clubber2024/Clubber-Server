@@ -42,7 +42,7 @@ public class AdminReviewController {
 //    }
 
     @Operation(summary = "동아리 계정에서 리뷰 승인 요청 (복수 선택)")
-    @PatchMapping("/approve")
+    @PatchMapping("/decision")
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprovedStatusResponse(@Valid @RequestBody
     UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest){
         return adminReviewService.updateAdminsReviewApprove(updateAdminsReviewStatusRequest);
