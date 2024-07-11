@@ -46,7 +46,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "동아리 리뷰 작성",description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
-    @PostMapping()
+    @PostMapping
     public CreateReviewClubWithContentResponse createReviewWithContent(@RequestBody CreateReviewClubWithContentRequest reviewRequest,
                                                                        Long clubId){
         return reviewService.createReviewsByContent(clubId, reviewRequest);
