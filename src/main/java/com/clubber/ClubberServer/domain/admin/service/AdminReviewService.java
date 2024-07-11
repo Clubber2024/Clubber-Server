@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewStatusRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
@@ -15,6 +16,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
+import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
@@ -57,7 +59,27 @@ public class AdminReviewService {
 //        review.approve();
 //        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.APPROVED);
 //    }
-    
+@Transactional
+public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(
+        UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
+
+    List<Long> reviewIds = updateAdminsReviewStatusRequest.getReviewIds();
+
+    Long currentUserId = SecurityUtils.getCurrentUserId();
+    Admin admin = adminRepository.findById(currentUserId)
+            .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+    for (Long reviewId : reviewIds) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> UserReviewsNotFoundException.EXCEPTION);
+
+        if(!admin.getClub().getId().equals(review.getClub().getId()))
+            throw ReviewClubNotMatchException.EXCEPTION;
+
+        review.approve();
+    }
+    return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, ApprovedStatus.APPROVED);
+}
 
 //    @Transactional
 //    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(Long reviewId) {
