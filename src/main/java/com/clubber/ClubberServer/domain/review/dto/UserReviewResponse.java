@@ -75,6 +75,9 @@ public class UserReviewResponse {
                 .build();
     }
 
+    /**
+     * Review에서 일대다 관계인 ReviewKeyword 조회로 리팩토링하면서 사용 하지 않음
+     */
 //    private static List<UserReviewDetailResponse> getCollectUserReviewDetailResponse(
 //            Map<Review, List<Keyword>> reviewListMap) {
 //
@@ -83,9 +86,9 @@ public class UserReviewResponse {
 //                .collect(Collectors.toList());
 //    }
 
-    private static Map<Review, List<Keyword>> getReviewListMap(List<ReviewKeyword> keywords) {
-        return keywords.stream()
-                .collect(Collectors.groupingBy(ReviewKeyword::getReview,
-                        Collectors.mapping(ReviewKeyword::getKeyword, Collectors.toList())));
-    }
+//    private static Map<Review, List<Keyword>> getReviewListMap(List<ReviewKeyword> keywords) {
+//        return keywords.stream()
+//                .collect(Collectors.groupingBy(ReviewKeyword::getReview,
+//                        Collectors.mapping(ReviewKeyword::getKeyword, Collectors.toList())));
+//    }
 }
