@@ -14,9 +14,10 @@ import lombok.NoArgsConstructor;
 public class UpdateAdminsReviewStatusRequest {
 
     @Size(min = 1, message = "1개 이상 수정해야합니다")
-    @Schema(description = "승인/미승인 하려는 리뷰 id 목록", example = "[1,2,3]")
+    @Schema(description = "승인 / 거절 하려는 리뷰 id 목록", example = "[1,2,3]")
     private List<Long> reviewIds;
 
     @NotNull
+    @Schema(description = "승인(APPROVED) 혹은 거절(REJECTED)", example = "APPROVED")
     private ApprovedStatus approvedStatus;
 }
