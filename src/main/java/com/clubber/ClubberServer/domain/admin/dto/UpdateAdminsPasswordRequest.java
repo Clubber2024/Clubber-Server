@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UpdateAdminsPasswordRequest {
 
-    @Schema(name = "변경하려는 비밀번호")
+    @Schema(description = "변경하려는 비밀번호")
     @NotBlank(message = "비밀번호를 입력해주세요")
     private String password;
 }
