@@ -35,6 +35,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository{
                 .selectFrom(review)
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .where(review.club.eq(club))
+                .orderBy(review.id.desc())
                 .fetch();
     }
 }
