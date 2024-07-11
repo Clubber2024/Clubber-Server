@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import java.util.List;
@@ -15,4 +16,5 @@ public class UpdateAdminsReviewStatusRequest {
     @Schema(description = "승인/미승인 하려는 리뷰 id 목록", example = "[1,2,3]")
     private List<Long> reviewIds;
 
+    private ApprovedStatus approvedStatus;
 }
