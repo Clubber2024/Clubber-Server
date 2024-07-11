@@ -38,7 +38,7 @@ public class UserController {
 //    @GetMapping("/review")
 //    public UserReviewResponse getUserReviews() { return userService.getUserReviews(); }
 
-    @Operation(summary = "내가 쓴 리뷰 조회 V2")
+    @Operation(summary = "내가 쓴 리뷰 조회")
     @DisableSwaggerSecurity
     @GetMapping("/review")
     public UserReviewResponse getUserReviews(){
