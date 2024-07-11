@@ -48,6 +48,9 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .fetch();
     }
 
+    /**
+     *fetch join에서 on을 지원하지 않아 outer join으로 구현 실패 : 추후에 방법 찾아보기  
+     */
 //    @Override
 //    public List<ReviewKeyword> queryReviewByClubId(Long clubId) {
 //        return queryFactory
