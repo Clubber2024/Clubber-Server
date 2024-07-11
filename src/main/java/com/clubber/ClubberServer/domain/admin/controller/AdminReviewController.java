@@ -44,6 +44,7 @@ public class AdminReviewController {
         return adminReviewService.updateAdminsReviewReject(reviewId);
     }
 
+    @Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
     @GetMapping
     public GetAdminsReviewsResponse getAdminsReviews() {
         return adminReviewService.getAdminsReviews();

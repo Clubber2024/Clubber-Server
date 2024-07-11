@@ -22,19 +22,37 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetAdminsReviewsResponse {
 
+    @Schema(description = "동아리 계정 id", example = "1")
     private final Long adminId;
+
+    @Schema(description = "동아리 id", example = "1")
     private final Long clubId;
+
+    @Schema(description = "동아리 이름", example = "club1")
     private final String clubName;
+
+    @Schema(description = "리뷰 목록")
     private final List<GetAdminsReviewDetailsResponse> clubReviews;
 
     @Getter
     @Builder(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     private static class GetAdminsReviewDetailsResponse{
+
+        @Schema(description = "리뷰 id", example = "1")
         private final Long reviewId;
+
+        @Schema(description = "리뷰 상태", example = "APPROVED")
         private final ApprovedStatus approvedStatus;
+
+        @Schema(description = "작성한 리뷰 키워드",
+                example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final Set<Keyword> keywords;
+
+        @Schema(description = "리뷰 한줄평")
         private final String content;
+
+        @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
         private final LocalDateTime dateTime;
 
