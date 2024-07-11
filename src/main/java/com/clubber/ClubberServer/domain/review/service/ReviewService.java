@@ -110,7 +110,7 @@ public class ReviewService {
     public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId){
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-        List<Review> reviews = reviewKeywordRepository.queryReviewByClub(club);
+        List<Review> reviews = reviewRepository.queryReviewByClub(club);
         return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 

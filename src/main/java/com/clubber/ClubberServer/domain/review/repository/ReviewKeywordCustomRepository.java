@@ -16,6 +16,4 @@ public interface ReviewKeywordCustomRepository {
 
     List<ReviewKeyword> queryReviewKeywordByUserId(Long userId);
 
-    List<Review> queryReviewByClub(Club club);
-
 }

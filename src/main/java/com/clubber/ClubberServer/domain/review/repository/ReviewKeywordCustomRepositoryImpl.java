@@ -57,15 +57,6 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .fetch();
     }
 
-    @Override
-    public List<Review> queryReviewByClub(Club club) {
-        return queryFactory
-                .selectFrom(review)
-                .join(review.reviewKeywords, reviewKeyword).fetchJoin()
-                .where(review.club.eq(club))
-                .fetch();
-    }
-
 //    @Override
 //    public List<ReviewKeyword> queryReviewByClubId(Long clubId) {
 //        return queryFactory

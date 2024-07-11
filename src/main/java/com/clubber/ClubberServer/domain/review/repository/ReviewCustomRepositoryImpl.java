@@ -4,6 +4,7 @@ import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.QClub;
 import com.clubber.ClubberServer.domain.review.domain.QReview;
 import com.clubber.ClubberServer.domain.review.domain.QReviewKeyword;
@@ -25,6 +26,15 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository{
                 .join(review.club, club).fetchJoin()
                 .where(review.user.eq(user))
                 .orderBy(review.id.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Review> queryReviewByClub(Club club) {
+        return queryFactory
+                .selectFrom(review)
+                .join(review.reviewKeywords, reviewKeyword).fetchJoin()
+                .where(review.club.eq(club))
                 .fetch();
     }
 }
