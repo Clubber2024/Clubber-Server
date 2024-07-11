@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
@@ -9,6 +10,8 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
@@ -28,17 +31,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminReviewService {
     private final ReviewRepository reviewRepository;
     private final AdminRepository adminRepository;
+    private final ClubRepository clubRepository;
 
-    @Transactional(readOnly = true)
-    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
-        Long adminId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
-                approvedStatus, admin.getClub());
-
-        return GetAdminsReviewByStatusResponse.from(reviews);
-    }
+//    @Transactional(readOnly = true)
+//    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
+//        Long adminId = SecurityUtils.getCurrentUserId();
+//        Admin admin = adminRepository.findById(adminId)
+//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+//        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
+//                approvedStatus, admin.getClub());
+//
+//        return GetAdminsReviewByStatusResponse.from(reviews);
+//    }
 
     @Transactional
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(Long reviewId) {
@@ -65,6 +69,17 @@ public class AdminReviewService {
             throw ReviewClubNotMatchException.EXCEPTION;
         review.reject();
         return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.REJECTED);
+    }
+
+    @Transactional(readOnly = true)
+    public GetAdminsReviewsResponse getAdminsReviews() {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        Club club = clubRepository.findById(admin.getClub().getId())
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        List<Review> reviews = reviewRepository.queryReviewByClub(club);
+        return GetAdminsReviewsResponse.of(admin, club, reviews);
     }
 
 }

@@ -18,7 +18,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetAdminsReviewByStatusResponse {
 
-    @Schema(name = "리뷰 id", example = "1")
+    @Schema(description = "리뷰 id", example = "1")
     private final Long reviewId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
@@ -26,7 +26,7 @@ public class GetAdminsReviewByStatusResponse {
     private final LocalDateTime writtenDate;
 
 
-    @Schema(name = "한줄평", example = "분위기가 좋아요")
+    @Schema(description = "한줄평", example = "분위기가 좋아요")
     private final String content;
 
     public static List<GetAdminsReviewByStatusResponse> from(List<Review> reviews){

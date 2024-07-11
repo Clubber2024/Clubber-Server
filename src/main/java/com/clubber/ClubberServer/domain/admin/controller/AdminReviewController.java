@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminReviewService;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
@@ -25,11 +26,11 @@ public class AdminReviewController {
 
     private final AdminReviewService adminReviewService;
 
-    @Operation(summary = "동아리 계정 승인 상태별 리뷰 조회", description = "승인 대기, 승인 완료된 댓글을 파라미로 전달하여 요청")
-    @GetMapping
-    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(@RequestParam ApprovedStatus approvedStatus){
-        return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
-    }
+//    @Operation(summary = "동아리 계정 승인 상태별 리뷰 조회", description = "승인 대기, 승인 완료된 댓글을 파라미로 전달하여 요청")
+//    @GetMapping
+//    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(@RequestParam ApprovedStatus approvedStatus){
+//        return adminReviewService.getAdminReviewsByApprovedStatus(approvedStatus);
+//    }
 
     @Operation(summary = "동아리 계정에서 리뷰 승인 요청")
     @PatchMapping("/{reviewId}/approve")
@@ -41,5 +42,11 @@ public class AdminReviewController {
     @PatchMapping("/{reviewId}/reject")
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(@PathVariable Long reviewId){
         return adminReviewService.updateAdminsReviewReject(reviewId);
+    }
+
+    @Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
+    @GetMapping
+    public GetAdminsReviewsResponse getAdminsReviews() {
+        return adminReviewService.getAdminsReviews();
     }
 }

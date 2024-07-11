@@ -12,10 +12,10 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateAdminsPasswordResponse {
 
-    @Schema(name = "동아리 계정 id", example = "1")
+    @Schema(description = "동아리 계정 id", example = "1")
     private final Long adminId;
 
-    @Schema(name = "동아리 계정 아이디", example = "club1")
+    @Schema(description = "동아리 계정 아이디", example = "club1")
     private final String username;
 
     public static UpdateAdminsPasswordResponse of(Admin admin){
