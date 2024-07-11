@@ -23,9 +23,9 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @Operation(summary = "개별 동아리 별 리뷰 조회")
+    @Operation(summary = "테스트 해볼 상황이 있어서 살려둔 api", description = "쓰지마세요!")
     @DisableSwaggerSecurity
-    @GetMapping
+    @GetMapping("/deprecated")
     public ClubReviewResponse getClubReviews(@PathVariable Long clubId){
         return reviewService.getClubReviews(clubId);
     }
