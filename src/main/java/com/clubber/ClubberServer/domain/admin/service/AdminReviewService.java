@@ -69,6 +69,7 @@ public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(
     Admin admin = adminRepository.findById(currentUserId)
             .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
+    ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
     for (Long reviewId : reviewIds) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> UserReviewsNotFoundException.EXCEPTION);
@@ -76,9 +77,13 @@ public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(
         if(!admin.getClub().getId().equals(review.getClub().getId()))
             throw ReviewClubNotMatchException.EXCEPTION;
 
-        review.approve();
+        if(approvedStatus == ApprovedStatus.APPROVED)
+            review.approve();
+        else if (approvedStatus == ApprovedStatus.REJECTED) {
+            review.reject();
+        }
     }
-    return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, ApprovedStatus.APPROVED);
+    return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, approvedStatus);
 }
 
 //    @Transactional
