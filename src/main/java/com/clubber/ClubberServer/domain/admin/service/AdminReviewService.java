@@ -33,16 +33,16 @@ public class AdminReviewService {
     private final AdminRepository adminRepository;
     private final ClubRepository clubRepository;
 
-//    @Transactional(readOnly = true)
-//    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(ApprovedStatus approvedStatus){
-//        Long adminId = SecurityUtils.getCurrentUserId();
-//        Admin admin = adminRepository.findById(adminId)
-//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-//        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
-//                approvedStatus, admin.getClub());
-//
-//        return GetAdminsReviewByStatusResponse.from(reviews);
-//    }
+    @Transactional(readOnly = true)
+    public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus(){
+        Long adminId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
+                ApprovedStatus.PENDING, admin.getClub());
+
+        return GetAdminsReviewByStatusResponse.from(reviews);
+    }
 
     @Transactional
     public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(Long reviewId) {
