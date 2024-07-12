@@ -20,8 +20,8 @@ public class ImageController {
     private final S3UploadPresignedService s3UploadPresignedService;
 
     @Operation(summary = "동아리 로고 이미지 등록 URL 생성")
-    @PostMapping("/clubs/{clubId}/images")
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@PathVariable Long clubId, @RequestParam ImageFileExtension imageFileExtension){
-        return s3UploadPresignedService.createClubsImagePresignedUrl(clubId, imageFileExtension);
+    @PostMapping("/clubs/images")
+    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@RequestParam ImageFileExtension imageFileExtension){
+        return s3UploadPresignedService.createClubsImagePresignedUrl(imageFileExtension);
     }
 }
