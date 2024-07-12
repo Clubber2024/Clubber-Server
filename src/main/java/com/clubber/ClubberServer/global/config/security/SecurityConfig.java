@@ -46,7 +46,6 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/notices").permitAll()
                                 .requestMatchers("/v1/admins/login", "/v1/admins/refresh").permitAll()
-                                .requestMatchers("/v1/admins/reviews/**").hasRole("ADMIN")
                                 .requestMatchers("/v1/admins/**").hasRole("ADMIN")
                                 .requestMatchers("/v2/**").permitAll()
                                 .requestMatchers("/v1/admins/change-page").hasRole("ADMIN")
