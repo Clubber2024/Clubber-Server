@@ -8,10 +8,10 @@ import java.util.List;
 @Data
 public class DepartmentSmallDto {
     private String department;
-    private List<SimpleCenterDto> clubs;
+    private List<GetClubIntoCardResponse> clubs;
 
     @Builder
-    public DepartmentSmallDto(String department,List<SimpleCenterDto> clubs){
+    public DepartmentSmallDto(String department,List<GetClubIntoCardResponse> clubs){
         this.department=department;
         this.clubs=clubs;
     }

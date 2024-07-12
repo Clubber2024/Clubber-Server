@@ -1,5 +1,5 @@
 package com.clubber.ClubberServer.domain.user.domain;
 
 public enum AccountRole {
-    USER
+    USER, ADMIN
 }

@@ -11,10 +11,14 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -41,8 +45,18 @@ public class SecurityConfig {
                                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/notices").permitAll()
+                                .requestMatchers("/v1/admins/login", "/v1/admins/refresh").permitAll()
+                                .requestMatchers("/v1/admins/reviews/**").hasRole("ADMIN")
+                                .requestMatchers("/v1/admins/**").hasRole("ADMIN")
+                                .requestMatchers("/v2/**").permitAll()
+                                .requestMatchers("/v1/admins/change-page").hasRole("ADMIN")
                                 .requestMatchers("/swagger-resources/**", "/swagger-ui/**",  "/v3/api-docs/**","/v3/api-docs" ).permitAll()
                                 .anyRequest().hasRole("USER"));
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }

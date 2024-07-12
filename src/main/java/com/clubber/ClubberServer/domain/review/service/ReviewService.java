@@ -1,17 +1,16 @@
 package com.clubber.ClubberServer.domain.review.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByHashTagResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
-import com.clubber.ClubberServer.domain.review.dto.ReviewCreateResponse;
-import com.clubber.ClubberServer.domain.review.dto.ReviewRequest;
+import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
+import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -19,12 +18,7 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +34,7 @@ public class ReviewService {
     private final ClubRepository clubRepository;
 
     @Transactional
-    public ReviewCreateResponse createReview(Long clubId, ReviewRequest reviewRequest){
+    public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId, CreateReviewClubWithContentRequest reviewRequest){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
@@ -50,19 +44,15 @@ public class ReviewService {
         if(reviewRepository.existsByUserAndClub(user, club)){
             throw UserAlreadyReviewedException.EXCEPTION;
         }
-        Review review = Review.of(user, club);
+        Review review = Review.of(user, club, reviewRequest.getContent());
 
         return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
-    private ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
-        Set<Keyword> keywords = reviewRequest.getKeywords();
-        List<ReviewKeyword> reviewKeywords = keywords.stream()
-                .map((keyword -> ReviewKeyword.of(review, keyword)))
-                .collect(Collectors.toList());
-
+    private CreateReviewClubWithContentResponse createReviewKeyword(CreateReviewClubWithContentRequest reviewRequest, Review review){
+        List<ReviewKeyword> reviewKeywords = reviewRequest.toEntity(review);
         List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
-        return ReviewCreateResponse.of(review, savedKeywords);
+        return CreateReviewClubWithContentResponse.of(review, savedKeywords);
     }
 
     @Transactional(readOnly = true)
@@ -88,4 +78,14 @@ public class ReviewService {
 
         return ClubReviewKeywordStatsResponse.of(club, keywordMap);
     }
+
+    @Transactional(readOnly = true)
+    public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId){
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        List<Review> reviews = reviewRepository.queryReviewByClub(club);
+        return ClubReviewsWithContentResponse.of(reviews, club.getId());
+    }
+
+
 }
