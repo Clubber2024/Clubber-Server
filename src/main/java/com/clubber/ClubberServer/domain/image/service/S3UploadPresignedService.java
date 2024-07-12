@@ -5,7 +5,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
+import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
 import java.net.URL;
 import java.util.Date;
@@ -26,7 +32,19 @@ public class S3UploadPresignedService {
     @Value("${aws.s3.bucket}")
     private String bucket;
 
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(Long clubId, ImageFileExtension fileExtension) {
+    private final AdminRepository adminRepository;
+
+    private final ClubRepository clubRepository;
+
+    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(ImageFileExtension fileExtension) {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Long clubId = admin.getClub().getId();
+        if(!clubRepository.existsById(clubId))
+            throw ClubNotFoundException.EXCEPTION;
+
         String fixedFileExtension = fileExtension.getUploadExtension();
         String fileName = getForClubFileName(clubId, fixedFileExtension);
         URL url = amazonS3.generatePresignedUrl(
