@@ -36,7 +36,9 @@ public class AuthController {
 
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
-    public ResponseEntity getCredentialFromKakao(@RequestParam String code){
+    public ResponseEntity getCredentialFromKakao(@RequestParam String code,
+            @RequestHeader(required = false) String Host,
+            @RequestHeader(required = false) String Origin){
         KakaoTokenResponse kakaoToken = authService.getToken(code);
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
