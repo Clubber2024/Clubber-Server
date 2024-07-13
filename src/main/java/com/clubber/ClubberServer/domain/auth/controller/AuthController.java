@@ -1,6 +1,10 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
 
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.localClient;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.localServer;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.remoteClient;
+
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -34,11 +38,6 @@ public class AuthController {
 
     private final CookieHelper cookieHelper;
 
-    public static final String localServer = "localhost:8080";
-
-    public static final String localClient = "http://localhost:3000";
-
-    public static final String remoteClient = "http://13.125.141.171";
 
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
