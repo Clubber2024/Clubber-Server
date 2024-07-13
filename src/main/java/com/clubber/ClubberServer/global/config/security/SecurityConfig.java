@@ -43,7 +43,6 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/auths/refresh").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/clubs/{clubId}/reviews/**").permitAll()
                                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers("/v1/clubs/**").permitAll()
                                 .requestMatchers("/v1/notices").permitAll()
                                 .requestMatchers("/v1/admins/login", "/v1/admins/refresh").permitAll()
                                 .requestMatchers("/v1/admins/**").hasRole("ADMIN")
