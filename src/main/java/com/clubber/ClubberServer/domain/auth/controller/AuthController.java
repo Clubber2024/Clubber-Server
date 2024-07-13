@@ -34,12 +34,17 @@ public class AuthController {
 
     private final CookieHelper cookieHelper;
 
+    public static final String localServer = "localhost:8080";
+
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
     public ResponseEntity getCredentialFromKakao(@RequestParam String code,
             @RequestHeader(required = false) String Host,
             @RequestHeader(required = false) String Origin){
-        KakaoTokenResponse kakaoToken = authService.getToken(code);
+        KakaoTokenResponse kakaoToken = null;
+        if(localServer.equals(Host)) {
+            kakaoToken = authService.getToken(code, "http://"+ localServer);
+        }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
         User user = authService.loginOrSignUp(userKakaoInfo);
