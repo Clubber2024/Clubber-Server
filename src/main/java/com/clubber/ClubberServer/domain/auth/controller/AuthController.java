@@ -36,6 +36,10 @@ public class AuthController {
 
     public static final String localServer = "localhost:8080";
 
+    public static final String localClient = "http://localhost:3000";
+
+    public static final String remoteClient = "http://13.125.141.171";
+
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
     public ResponseEntity getCredentialFromKakao(@RequestParam String code,
@@ -44,6 +48,12 @@ public class AuthController {
         KakaoTokenResponse kakaoToken = null;
         if(localServer.equals(Host)) {
             kakaoToken = authService.getToken(code, "http://"+ localServer);
+        }else {
+            if(localClient.equals(Origin)){
+                kakaoToken = authService.getToken(code, localClient);
+            } else if (remoteClient.equals(Origin)) {
+                kakaoToken = authService.getToken(code, remoteClient);
+            }
         }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
