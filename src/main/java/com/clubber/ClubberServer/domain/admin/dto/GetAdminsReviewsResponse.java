@@ -49,7 +49,7 @@ public class GetAdminsReviewsResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final Set<Keyword> keywords;
 
-        @Schema(description = "리뷰 한줄평")
+        @Schema(description = "리뷰 한줄평", example = "분위기가 좋아요")
         private final String content;
 
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
