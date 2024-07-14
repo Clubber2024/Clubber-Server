@@ -19,7 +19,7 @@ public class UpdateAdminsReviewApprovedStatusResponse {
     @Schema(description = "동아리 계정 id", example = "1")
     private final Long adminId;
 
-    @Schema(description = "승인/미승인된 리뷰 id", example = "1")
+    @Schema(description = "승인/미승인된 리뷰 id", example = "[1,2,3]")
     private final List<Long> reviewIds;
 
     @Schema(description = "승인/미승인 중 처리된 상태", example = "APPROVED")

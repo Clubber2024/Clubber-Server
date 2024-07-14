@@ -22,6 +22,7 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
                 .join(favorite.club, club).fetchJoin()
                 .where(favorite.user.id.eq(userId),
                         favorite.favoriteStatus.eq(FavoriteStatus.ACTIVE))
+                .orderBy(favorite.id.desc())
                 .fetch();
     }
 }
