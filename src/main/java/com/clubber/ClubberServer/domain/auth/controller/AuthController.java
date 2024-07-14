@@ -41,7 +41,7 @@ public class AuthController {
     @Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
-    public ResponseEntity getCredentialFromKakao(@RequestParam String code,
+    public ResponseEntity<KakaoOauthResponse> getCredentialFromKakao(@RequestParam String code,
             @RequestHeader(required = false) String Host,
             @RequestHeader(required = false) String Origin){
         KakaoTokenResponse kakaoToken = null;
