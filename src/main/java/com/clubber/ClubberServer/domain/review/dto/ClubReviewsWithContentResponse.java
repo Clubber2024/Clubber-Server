@@ -43,6 +43,7 @@ public class ClubReviewsWithContentResponse {
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
         private final Set<Keyword> keywords;
 
+        @Schema(description = "해당 동아리 된 한줄평 중 승인된 한줄평의 내용", example = "활동이 재밌어요")
         private final String content;
 
         public static ClubReviewsWithContentDetailResponse of(Review review){
