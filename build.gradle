@@ -64,6 +64,9 @@ dependencies {
 	//sl4fj
 	implementation 'org.springframework.boot:spring-boot-starter-logging'
 
+	//reflections
+	implementation 'org.reflections:reflections:0.9.11'
+
 }
 
 sonar {
