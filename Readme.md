@@ -1,4 +1,7 @@
 
+# Be a Clubber
+![img_3.png](img_3.png)
+> 숭실대학교 통합 동아리 플랫폼 클러버 • <b>백엔드</b> 레포지토리
 
 ## 📚 사용 스택
 <div align="left">
