@@ -40,3 +40,21 @@
 - [Java Enum 활용 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
 - [Java Enum 활용 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
 - [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
+
+## 주요 기능 
+
+### 메인 페이지 
+![img_4.png](img_4.png)
+
+### 동아리 조회 
+- 중앙동아리 및 소모임 목록을 다양한 기준에 따라 찾아볼 수 있습니다. 
+
+#### 중앙동아리 및 소모임 조회  
+![img_7.png](img_7.png)
+![img_9.png](img_9.png)
+
+#### 해시태그별 조회 
+![img_8.png](img_8.png)
+
+### 검색 기능 
+![img_10.png](img_10.png)
