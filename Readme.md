@@ -34,3 +34,8 @@
 
 ## 아키텍쳐 
 ![img_2.png](img_2.png)
+
+## 개발 과정
+- [Java Enum 활용 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
+- [Java Enum 활용 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
+- [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
