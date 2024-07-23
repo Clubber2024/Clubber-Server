@@ -40,11 +40,11 @@ public class AuthService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public KakaoTokenResponse getToken(String code){
+    public KakaoTokenResponse getToken(String code, String origin){
 
         return kakaoOauthClient.kakaoAuth(
                 kakaoProperties.getClientId(),
-                kakaoProperties.getRedirectUrl(),
+                origin + kakaoProperties.getRedirectUrl(),
                 code);
     }
 

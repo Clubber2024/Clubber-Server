@@ -1,6 +1,10 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
 
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.localClient;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.localServer;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.remoteClient;
+
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -34,10 +38,22 @@ public class AuthController {
 
     private final CookieHelper cookieHelper;
 
+    @Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
-    public ResponseEntity getCredentialFromKakao(@RequestParam String code){
-        KakaoTokenResponse kakaoToken = authService.getToken(code);
+    public ResponseEntity<KakaoOauthResponse> getCredentialFromKakao(@RequestParam String code,
+            @RequestHeader(required = false) String Host,
+            @RequestHeader(required = false) String Origin){
+        KakaoTokenResponse kakaoToken = null;
+        if(localServer.equals(Host)) {
+            kakaoToken = authService.getToken(code, "http://"+ localServer);
+        }else {
+            if(localClient.equals(Origin)){
+                kakaoToken = authService.getToken(code, localClient);
+            } else if (remoteClient.equals(Origin)) {
+                kakaoToken = authService.getToken(code, remoteClient);
+            }
+        }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
         User user = authService.loginOrSignUp(userKakaoInfo);

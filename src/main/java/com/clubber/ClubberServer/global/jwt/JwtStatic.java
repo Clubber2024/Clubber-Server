@@ -17,4 +17,10 @@ public class JwtStatic {
     public static final String AUTH_HEADER = "Authorization";
     public static final String BEARER = "Bearer ";
     public static final String TOKEN_ROLE = "role";
+
+    public static final String localServer = "localhost:8080";
+
+    public static final String localClient = "http://localhost:3000";
+
+    public static final String remoteClient = "http://13.125.141.171";
 }

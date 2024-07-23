@@ -34,22 +34,6 @@ public class ReviewService {
     private final ClubRepository clubRepository;
 
     @Transactional
-    public ReviewCreateResponse createReview(Long clubId, ReviewRequest reviewRequest){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        User user = userRepository.findById(currentUserId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-        if(reviewRepository.existsByUserAndClub(user, club)){
-            throw UserAlreadyReviewedException.EXCEPTION;
-        }
-        Review review = Review.of(user, club);
-
-        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
-    }
-
-    @Transactional
     public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId, CreateReviewClubWithContentRequest reviewRequest){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
@@ -69,17 +53,6 @@ public class ReviewService {
         List<ReviewKeyword> reviewKeywords = reviewRequest.toEntity(review);
         List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
         return CreateReviewClubWithContentResponse.of(review, savedKeywords);
-    }
-
-
-    private ReviewCreateResponse createReviewKeyword(ReviewRequest reviewRequest, Review review){
-        Set<Keyword> keywords = reviewRequest.getKeywords();
-        List<ReviewKeyword> reviewKeywords = keywords.stream()
-                .map((keyword -> ReviewKeyword.of(review, keyword)))
-                .collect(Collectors.toList());
-
-        List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
-        return ReviewCreateResponse.of(review, savedKeywords);
     }
 
     @Transactional(readOnly = true)

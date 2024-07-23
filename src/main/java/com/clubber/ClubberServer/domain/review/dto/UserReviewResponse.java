@@ -43,7 +43,7 @@ public class UserReviewResponse {
         @Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
         private final LocalDateTime dateTime;
 
-        @Schema(description = "리뷰 승인 상태", example = "[\"APPROVED\", \"PENDING\", \"REJECTED\", \"NULL_CONTENT\"]")
+        @Schema(description = "리뷰 승인 상태", example = "APPROVED")
         private final ApprovedStatus approvedStatus;
 
         @Schema(description = "리뷰 작성 시 선택한 키워드",
