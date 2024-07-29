@@ -41,7 +41,7 @@ public class CookieHelper {
         ResponseCookie accessToken = ResponseCookie
                 .from("accessToken", null)
                 .maxAge(0)
-                .secure(true)
+                .secure(false)
                 .sameSite("Strict")
                 .httpOnly(true)
                 .path("/")
@@ -50,7 +50,7 @@ public class CookieHelper {
         ResponseCookie refreshToken = ResponseCookie
                 .from("refreshToken", null)
                 .maxAge(0)
-                .secure(true)
+                .secure(false)
                 .sameSite("Strict")
                 .httpOnly(true)
                 .path("/")
