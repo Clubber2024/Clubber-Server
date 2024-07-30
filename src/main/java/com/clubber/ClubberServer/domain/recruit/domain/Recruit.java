@@ -2,21 +2,14 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitPageRequest;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
-import static org.reflections.util.ConfigurationBuilder.build;
 
 @Getter
 @Entity
@@ -37,11 +30,6 @@ public class Recruit extends BaseEntity {
 
     private Long totalView;
 
-//    @NotNull
-//    @JdbcTypeCode(SqlTypes.VARCHAR)
-//    @Enumerated(EnumType.STRING)
-//    private RecruitType recruitType;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
@@ -58,7 +46,7 @@ public class Recruit extends BaseEntity {
         this.club=club;
     }
 
-    public static Recruit of(Club club,PostRecruitPageRequest request){
+    public static Recruit of(Club club, PostRecruitRequest request){
         return Recruit.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

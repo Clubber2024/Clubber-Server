@@ -19,25 +19,26 @@ public class recruitController {
 
     @PostMapping("/v1/admins/recruit")
     @Operation(summary = "관리자 권한으로 모집글 작성")
-    public PostRecruitPageResponse postRecruitsPage(@RequestBody @Valid PostRecruitPageRequest request){
+    public PostRecruitResponse postRecruitsPage(@RequestBody @Valid PostRecruitRequest request){
         return recruitService.postRecruitsPage(request);
     }
 
     @GetMapping("/v1/clubs/{clubId}/recruit")
     @Operation(summary = "특정 동아리 모집글 조회")
-    public GetRecruitsPageResponse getRecruitPageByClub(@PathVariable("clubId")Long clubId){
-        return recruitService.getRecruitPageByClub(clubId);
+    public GetRecruitsByClubIdResponse getRecruitsByClubId(@PathVariable("clubId")Long clubId){
+        return recruitService.getRecruitsByClubId(clubId);
     }
 
     @GetMapping("/v1/recruits")
     @Operation(summary = "홍보 게시판에서 모든 모집글 조회")
-    public GetAllRecruitsPageResponse getAllRecruitsPage(){
+    public GetAllRecruitsResponse getAllRecruitsPage(){
         return recruitService.getAllRecruitsPage();
     }
 
     @GetMapping("/v1/recruits/{recruitId}")
-    public GetOneRecruitPageResponse getOneRecruitsPage(@PathVariable("recruitId")Long recruitId){
-        return recruitService.getOneRecruitsPage(recruitId);
+    @Operation(summary = "홍보 게시판에서 개별 모집글 조회")
+    public GetOneRecruitResponse getRecruitsByRecruitId(@PathVariable("recruitId")Long recruitId){
+        return recruitService.getRecruitsByRecruitId(recruitId);
     }
 
 }

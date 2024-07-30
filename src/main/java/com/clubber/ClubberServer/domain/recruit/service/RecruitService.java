@@ -4,11 +4,11 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +27,7 @@ public class RecruitService {
     private final RecruitRepository recruitRepository;
 
     @Transactional
-    public PostRecruitPageResponse postRecruitsPage(PostRecruitPageRequest requestDTO){
+    public PostRecruitResponse postRecruitsPage(PostRecruitRequest requestDTO){
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
         Admin admin = adminRepository.findById(currentUserId)
@@ -40,38 +39,37 @@ public class RecruitService {
 
         recruitRepository.save(newRecruit);
 
-        return PostRecruitPageResponse.of(newRecruit);
+        return PostRecruitResponse.of(newRecruit);
 
     }
 
-    public GetRecruitsPageResponse getRecruitPageByClub(Long clubId){
+    public GetRecruitsByClubIdResponse getRecruitsByClubId(Long clubId){
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
         List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(clubId);
 
-        List<GetRecruitPageResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetRecruitPageResponse.from(recruit))
+        List<GetRecruitResponse> recruitsList= recruits.stream()
+                .map(recruit -> GetRecruitResponse.from(recruit))
                 .collect(Collectors.toList());
 
-        return GetRecruitsPageResponse.of(club.getId(),recruitsList);
+        return GetRecruitsByClubIdResponse.of(club.getId(),recruitsList);
 
     }
 
-    public GetAllRecruitsPageResponse getAllRecruitsPage(){
+    public GetAllRecruitsResponse getAllRecruitsPage(){
         List<Recruit> recruits=recruitRepository.findAll();
-        List<GetRecruitPageResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetRecruitPageResponse.from(recruit))
+        List<GetRecruitResponse> recruitsList= recruits.stream()
+                .map(recruit -> GetRecruitResponse.from(recruit))
                 .collect(Collectors.toList());
 
-        return GetAllRecruitsPageResponse.from(recruitsList);
+        return GetAllRecruitsResponse.from(recruitsList);
     }
 
 
-    public GetOneRecruitPageResponse getOneRecruitsPage(Long recruitId){
+    public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
         Recruit recruit=recruitRepository.findById(recruitId)
-                .orElse(()->)
-        return GetOneRecruitPageResponse.from(recruit);
-
+                .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
+        return GetOneRecruitResponse.from(recruit);
     }
 }

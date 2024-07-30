@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,13 +10,13 @@ import java.util.List;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetRecruitsPageResponse {
+public class GetRecruitsByClubIdResponse {
     private Long clubId;
 
-    private List<GetRecruitPageResponse> recruits;
+    private List<GetRecruitResponse> recruits;
 
-    public static GetRecruitsPageResponse of(Long clubId,List<GetRecruitPageResponse> recruits){
-        return GetRecruitsPageResponse.builder()
+    public static GetRecruitsByClubIdResponse of(Long clubId,List<GetRecruitResponse> recruits){
+        return GetRecruitsByClubIdResponse.builder()
                 .clubId(clubId)
                 .recruits(recruits)
                 .build();

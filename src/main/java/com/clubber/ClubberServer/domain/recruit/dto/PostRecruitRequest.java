@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostRecruitPageRequest {
+public class PostRecruitRequest {
     private String title;
     private String content;
     private String imageUrl;

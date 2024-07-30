@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetAllRecruitsPageResponse {
+public class GetAllRecruitsResponse {
 
-    private List<GetRecruitPageResponse> recruits;
+    private List<GetRecruitResponse> recruits;
 
-    public static GetAllRecruitsPageResponse from(List<GetRecruitPageResponse> recruits){
-        return GetAllRecruitsPageResponse.builder()
+    public static GetAllRecruitsResponse from(List<GetRecruitResponse> recruits){
+        return GetAllRecruitsResponse.builder()
                 .recruits(recruits)
                 .build();
     }

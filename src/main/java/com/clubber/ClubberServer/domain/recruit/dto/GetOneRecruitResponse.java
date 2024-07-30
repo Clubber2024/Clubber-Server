@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetOneRecruitPageResponse {
+public class GetOneRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
@@ -20,8 +20,8 @@ public class GetOneRecruitPageResponse {
     private Long totalView;
     private LocalDateTime createdAt;
 
-    public static GetOneRecruitPageResponse from(Recruit recruit){
-        return GetOneRecruitPageResponse.builder()
+    public static GetOneRecruitResponse from(Recruit recruit){
+        return GetOneRecruitResponse.builder()
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
