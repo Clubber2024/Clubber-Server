@@ -36,6 +36,10 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
+    public void updateTotalview() {
+        this.totalView++;
+    }
+
     @Builder
     private Recruit(Long id,String title,String content,String imageUrl,Long totalView,Club club){
         this.id=id;

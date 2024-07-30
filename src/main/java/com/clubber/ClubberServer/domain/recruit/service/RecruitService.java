@@ -49,8 +49,8 @@ public class RecruitService {
 
         List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(clubId);
 
-        List<GetRecruitResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetRecruitResponse.from(recruit))
+        List<GetOneRecruitResponse> recruitsList= recruits.stream()
+                .map(recruit -> GetOneRecruitResponse.from(recruit))
                 .collect(Collectors.toList());
 
         return GetRecruitsByClubIdResponse.of(club.getId(),recruitsList);
@@ -59,17 +59,18 @@ public class RecruitService {
 
     public GetAllRecruitsResponse getAllRecruitsPage(){
         List<Recruit> recruits=recruitRepository.findAll();
-        List<GetRecruitResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetRecruitResponse.from(recruit))
+        List<GetOneRecruitResponse> recruitsList= recruits.stream()
+                .map(recruit -> GetOneRecruitResponse.from(recruit))
                 .collect(Collectors.toList());
 
         return GetAllRecruitsResponse.from(recruitsList);
     }
 
-
+    @Transactional
     public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
         Recruit recruit=recruitRepository.findById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
+        recruit.updateTotalview();
         return GetOneRecruitResponse.from(recruit);
     }
 }

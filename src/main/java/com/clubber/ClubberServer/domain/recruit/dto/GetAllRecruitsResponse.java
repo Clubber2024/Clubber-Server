@@ -14,9 +14,9 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetAllRecruitsResponse {
 
-    private List<GetRecruitResponse> recruits;
+    private List<GetOneRecruitResponse> recruits;
 
-    public static GetAllRecruitsResponse from(List<GetRecruitResponse> recruits){
+    public static GetAllRecruitsResponse from(List<GetOneRecruitResponse> recruits){
         return GetAllRecruitsResponse.builder()
                 .recruits(recruits)
                 .build();

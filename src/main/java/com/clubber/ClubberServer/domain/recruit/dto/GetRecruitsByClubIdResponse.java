@@ -13,9 +13,9 @@ import java.util.List;
 public class GetRecruitsByClubIdResponse {
     private Long clubId;
 
-    private List<GetRecruitResponse> recruits;
+    private List<GetOneRecruitResponse> recruits;
 
-    public static GetRecruitsByClubIdResponse of(Long clubId,List<GetRecruitResponse> recruits){
+    public static GetRecruitsByClubIdResponse of(Long clubId,List<GetOneRecruitResponse> recruits){
         return GetRecruitsByClubIdResponse.builder()
                 .clubId(clubId)
                 .recruits(recruits)

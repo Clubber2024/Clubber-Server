@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetOneRecruitResponse {
+    private Long clubId;
     private Long recruitId;
     private String title;
     private String content;
@@ -20,8 +21,10 @@ public class GetOneRecruitResponse {
     private Long totalView;
     private LocalDateTime createdAt;
 
+
     public static GetOneRecruitResponse from(Recruit recruit){
         return GetOneRecruitResponse.builder()
+                .clubId(recruit.getClub().getId())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
