@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AdminRepository extends JpaRepository<Admin, Long> {
+public interface AdminRepository extends JpaRepository<Admin, Long>, AdminCustomRepository {
 
     Optional<Admin> findByUsername(String username);
 }
