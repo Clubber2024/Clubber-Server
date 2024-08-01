@@ -25,6 +25,7 @@ public class AdminController {
         return adminService.createAdminsLogin(loginRequest);
     }
 
+    @Operation(summary = "메인페이지 동아리 정보")
     @GetMapping("/me")
     public GetAdminsProfileResponse getAdminsProfile() {
         return adminService.getAdminsProfile();
