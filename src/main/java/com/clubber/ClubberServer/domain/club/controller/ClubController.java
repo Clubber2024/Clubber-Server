@@ -5,8 +5,10 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,12 @@ public class ClubController {
     @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
     public GetClubResponse getClubsIndividualPage(@PathVariable("clubId")Long clubId){
         return clubService.getClubsIndividualPage(clubId);
+    }
+
+    @DisableSwaggerSecurity
+    @GetMapping("/hashtags")
+    public List<EnumMapperVO> getClubsTotalHashTags() {
+        return clubService.getClubsTotalHashtags();
     }
 
 }
