@@ -50,6 +50,7 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
+    @Operation(summary = "메인페이지에서의 전체 동아리 해시태그 목록 조회")
     @GetMapping("/hashtags")
     public List<EnumMapperVO> getClubsTotalHashTags() {
         return clubService.getClubsTotalHashtags();
