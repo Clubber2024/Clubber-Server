@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.faq.controller;
 import com.clubber.ClubberServer.domain.faq.dto.GetFaqsResponse;
 import com.clubber.ClubberServer.domain.faq.service.FaqService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class FaqController {
 
     @DisableSwaggerSecurity
     @GetMapping
+    @Operation(summary = "전체 faq 목록 조회", description = "자주하는 질문 & 응답 반환")
     public List<GetFaqsResponse> getTotalFaqs(){
         return faqService.getTotalFaqs();
     }
