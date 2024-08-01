@@ -49,9 +49,8 @@ public class AdminService {
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
         Long currentUserId = SecurityUtils.getCurrentUserId();
-        adminRepository.findById(currentUserId)
+        Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        Admin admin = adminRepository.queryAdminById(currentUserId);
         return GetAdminsProfileResponse.from(admin);
     }
 
