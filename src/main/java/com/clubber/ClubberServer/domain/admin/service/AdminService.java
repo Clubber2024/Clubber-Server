@@ -15,6 +15,7 @@ import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,8 @@ public class AdminService {
     public void logout() {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         refreshTokenRepository.deleteById(currentUserId);
+        SecurityContextHolder.clearContext();
+
     }
 
     @Transactional

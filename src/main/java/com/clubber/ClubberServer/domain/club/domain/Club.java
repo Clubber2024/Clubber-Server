@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -47,10 +49,12 @@ public class Club extends BaseEntity {
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
 
+
     public void updateClub(String imageUrl,String introduction) {
         this.imageUrl=imageUrl;
         this.introduction = introduction;
     }
+
 
     @Builder
     private Club(Long id, String name, ClubType clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {
