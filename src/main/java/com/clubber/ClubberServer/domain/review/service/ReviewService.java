@@ -15,6 +15,8 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
+import com.clubber.ClubberServer.global.enummapper.EnumMapper;
+import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class ReviewService {
     private final ReviewKeywordRepository reviewKeywordRepository;
     private final UserRepository userRepository;
     private final ClubRepository clubRepository;
+    private final EnumMapper enumMapper;
 
     @Transactional
     public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId, CreateReviewClubWithContentRequest reviewRequest){
@@ -83,5 +86,7 @@ public class ReviewService {
         return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 
-
+    public List<EnumMapperVO> getTotalKeywords() {
+        return enumMapper.get("Keyword");
+    }
 }
