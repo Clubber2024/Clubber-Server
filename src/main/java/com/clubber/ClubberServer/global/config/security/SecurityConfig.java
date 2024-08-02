@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/clubs").permitAll()
                                 .requestMatchers("/v1/notices/**").permitAll()
                                 .requestMatchers("/v1/admins/login", "/v1/admins/refresh").permitAll()
+                                .requestMatchers("/v1/keywords").permitAll()
                                 .requestMatchers("/v1/admins/**").hasRole("ADMIN")
                                 .requestMatchers("/swagger-resources/**", "/swagger-ui/**",  "/v3/api-docs/**","/v3/api-docs" ).permitAll()
                                 .requestMatchers("/exceptions/**").permitAll()
