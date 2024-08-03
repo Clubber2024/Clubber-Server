@@ -50,6 +50,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
+
         Recruit recruit=recruitRepository.findById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
 
@@ -76,7 +77,6 @@ public class RecruitService {
     public GetAllRecruitsResponse getAllRecruitsPage(){
         List<Recruit> recruits=recruitRepository.findAll();
 
-        System.out.println(recruits.stream());
         List<GetOneRecruitResponse> recruitsList= recruits.stream()
                 .map(recruit -> GetOneRecruitResponse.from(recruit))
                 .collect(Collectors.toList());
