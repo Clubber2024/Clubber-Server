@@ -43,6 +43,22 @@ public class RecruitService {
 
     }
 
+    @Transactional
+    public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Recruit recruit=recruitRepository.findById(recruitId)
+                .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
+
+        recruit.softDeleteRecruit();
+
+        return DeleteRecruitByIdResponse.from(recruit);
+
+    }
+
     public GetRecruitsByClubIdResponse getRecruitsByClubId(Long clubId){
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
@@ -59,6 +75,8 @@ public class RecruitService {
 
     public GetAllRecruitsResponse getAllRecruitsPage(){
         List<Recruit> recruits=recruitRepository.findAll();
+
+        System.out.println(recruits.stream());
         List<GetOneRecruitResponse> recruitsList= recruits.stream()
                 .map(recruit -> GetOneRecruitResponse.from(recruit))
                 .collect(Collectors.toList());

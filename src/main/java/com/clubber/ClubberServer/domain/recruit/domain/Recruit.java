@@ -9,11 +9,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Where(clause = "deleted = false")
 public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +27,11 @@ public class Recruit extends BaseEntity {
     @NotNull
     private String content;
 
-
     private String imageUrl;
 
     private Long totalView;
+
+    private boolean deleted = Boolean.FALSE;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,14 +43,19 @@ public class Recruit extends BaseEntity {
         this.totalView++;
     }
 
+    public void softDeleteRecruit(){
+        this.deleted=Boolean.TRUE;
+    }
+
     @Builder
-    private Recruit(Long id,String title,String content,String imageUrl,Long totalView,Club club){
+    private Recruit(Long id,String title,String content,String imageUrl,Long totalView,Club club,boolean deleted){
         this.id=id;
         this.title=title;
         this.content=content;
         this.imageUrl=imageUrl;
         this.totalView=totalView;
         this.club=club;
+        this.deleted=deleted;
     }
 
     public static Recruit of(Club club, PostRecruitRequest request){
@@ -57,6 +65,7 @@ public class Recruit extends BaseEntity {
                 .imageUrl(request.getImageUrl())
                 .totalView(0L)
                 .club(club)
+                .deleted(Boolean.FALSE)
                 .build();
     }
 }

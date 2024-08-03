@@ -23,6 +23,14 @@ public class recruitController {
         return recruitService.postRecruitsPage(request);
     }
 
+    //관리자 권한으로 모집글 삭제
+    @DeleteMapping("/v1/admins/recruit/{recruitId}")
+    @Operation(summary = "관리자 권한으로 모집글 삭제")
+    public DeleteRecruitByIdResponse deleteRecruitsById(@PathVariable("recruitId")Long recruitId){
+        return recruitService.deleteRecruitsById(recruitId);
+    }
+
+
     @GetMapping("/v1/clubs/{clubId}/recruit")
     @Operation(summary = "특정 동아리 모집글 조회")
     public GetRecruitsByClubIdResponse getRecruitsByClubId(@PathVariable("clubId")Long clubId){
