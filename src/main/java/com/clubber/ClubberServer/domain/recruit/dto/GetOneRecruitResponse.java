@@ -20,7 +20,7 @@ public class GetOneRecruitResponse {
     private String imageUrl;
     private Long totalView;
     private LocalDateTime createdAt;
-    private boolean deleted;
+
 
 
     public static GetOneRecruitResponse from(Recruit recruit){
@@ -32,7 +32,6 @@ public class GetOneRecruitResponse {
                 .imageUrl(recruit.getImageUrl())
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
-                .deleted(recruit.isDeleted())
                 .build();
     }
 
