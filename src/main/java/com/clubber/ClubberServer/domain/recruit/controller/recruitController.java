@@ -17,15 +17,22 @@ public class recruitController {
 
     private final RecruitService recruitService;
 
-    @PostMapping("/v1/admins/recruit")
-    @Operation(summary = "관리자 권한으로 모집글 작성")
+    @GetMapping("/v1/admins/recruits")
+    @Operation(summary = "동아리 계정 작성한 모든 모집글 조회")
+    public GetAllRecruitsResponse getAllAdminRecruits(){
+        return recruitService.getAllAdminRecruits();
+    }
+
+
+    @PostMapping("/v1/admins/recruits")
+    @Operation(summary = "동아리 계정 모집글 작성")
     public PostRecruitResponse postRecruitsPage(@RequestBody @Valid PostRecruitRequest request){
         return recruitService.postRecruitsPage(request);
     }
 
     //관리자 권한으로 모집글 삭제
-    @DeleteMapping("/v1/admins/recruit/{recruitId}")
-    @Operation(summary = "관리자 권한으로 모집글 삭제")
+    @DeleteMapping("/v1/admins/recruits/{recruitId}")
+    @Operation(summary = "동아리 계정 모집글 삭제")
     public DeleteRecruitByIdResponse deleteRecruitsById(@PathVariable("recruitId")Long recruitId){
         return recruitService.deleteRecruitsById(recruitId);
     }

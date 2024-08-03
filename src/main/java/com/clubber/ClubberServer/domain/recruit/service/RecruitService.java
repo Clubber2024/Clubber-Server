@@ -26,6 +26,26 @@ public class RecruitService {
     private final ClubRepository clubRepository;
     private final RecruitRepository recruitRepository;
 
+    public GetAllRecruitsResponse getAllAdminRecruits(){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Club club=clubRepository.findById(admin.getClub().getId())
+                .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
+
+        List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(club.getId());
+
+        List<GetOneRecruitResponse> recruitsList= recruits.stream()
+                .map(recruit -> GetOneRecruitResponse.from(recruit))
+                .collect(Collectors.toList());
+
+        return GetAllRecruitsResponse.from(recruitsList);
+    }
+
+
+
     @Transactional
     public PostRecruitResponse postRecruitsPage(PostRecruitRequest requestDTO){
         Long currentUserId = SecurityUtils.getCurrentUserId();
