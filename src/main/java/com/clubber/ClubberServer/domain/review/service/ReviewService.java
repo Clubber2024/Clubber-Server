@@ -1,8 +1,6 @@
 package com.clubber.ClubberServer.domain.review.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.dto.GetClubByHashTagResponse;
-import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
@@ -10,7 +8,6 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
-import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -18,8 +15,9 @@ import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
+import com.clubber.ClubberServer.global.enummapper.EnumMapper;
+import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +30,7 @@ public class ReviewService {
     private final ReviewKeywordRepository reviewKeywordRepository;
     private final UserRepository userRepository;
     private final ClubRepository clubRepository;
+    private final EnumMapper enumMapper;
 
     @Transactional
     public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId, CreateReviewClubWithContentRequest reviewRequest){
@@ -87,5 +86,7 @@ public class ReviewService {
         return ClubReviewsWithContentResponse.of(reviews, club.getId());
     }
 
-
+    public List<EnumMapperVO> getTotalKeywords() {
+        return enumMapper.get("Keyword");
+    }
 }

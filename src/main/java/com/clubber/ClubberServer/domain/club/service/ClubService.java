@@ -4,6 +4,8 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.global.enummapper.EnumMapper;
+import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class ClubService {
 
     private final ClubRepository clubRepository;
+
+    private final EnumMapper enumMapper;
 
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
@@ -102,6 +106,10 @@ public class ClubService {
         return clubs.stream()
                 .map(club -> GetClubPopularResponse.from(club))
                 .collect(Collectors.toList());
+    }
+
+    public List<EnumMapperVO> getClubsTotalHashtags() {
+        return enumMapper.get("Hashtag");
     }
 
 
