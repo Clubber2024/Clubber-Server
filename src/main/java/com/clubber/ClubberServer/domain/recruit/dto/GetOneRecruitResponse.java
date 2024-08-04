@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -17,19 +18,19 @@ public class GetOneRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private String imageUrl;
+    private List<String> images;
     private Long totalView;
     private LocalDateTime createdAt;
 
 
 
-    public static GetOneRecruitResponse from(Recruit recruit){
+    public static GetOneRecruitResponse of(Recruit recruit,List<String> images){
         return GetOneRecruitResponse.builder()
                 .clubId(recruit.getClub().getId())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .imageUrl(recruit.getImageUrl())
+                .images(images)
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
                 .build();

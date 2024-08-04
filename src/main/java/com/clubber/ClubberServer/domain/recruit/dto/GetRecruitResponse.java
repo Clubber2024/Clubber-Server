@@ -12,7 +12,6 @@ public class GetRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private String imageUrl;
     private Long totalView;
     private LocalDateTime createdAt;
 
@@ -21,7 +20,6 @@ public class GetRecruitResponse {
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .imageUrl(recruit.getImageUrl())
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
                 .build();

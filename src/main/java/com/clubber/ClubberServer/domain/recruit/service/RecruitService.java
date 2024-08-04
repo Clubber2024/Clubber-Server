@@ -7,8 +7,10 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
+import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class RecruitService {
     private final AdminRepository adminRepository;
     private final ClubRepository clubRepository;
     private final RecruitRepository recruitRepository;
+    private final RecruitImageRepository recruitImageRepository;
 
     public GetAllRecruitsResponse getAllAdminRecruits(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
@@ -32,18 +35,25 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Club club=clubRepository.findById(admin.getClub().getId())
-                .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
+        List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(admin.getClub().getId());
+//        List<Recruit> recruits= recruitRepository.findByClub(admin.getClub());
+//        List<Recruit> recruits=recruitRepository.findRecruitsWithImagesByClubId(admin.getClub().getId());
 
-        List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(club.getId());
-
-        List<GetOneRecruitResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetOneRecruitResponse.from(recruit))
+        List<GetOneRecruitResponse> recruitsList = recruits.stream()
+                .map(recruit -> {
+                    List<String> images = recruitImageRepository.findByRecruit(recruit)
+                            .stream()
+                            .map(RecruitImage::getImageUrl)
+                            .collect(Collectors.toList());
+                    return GetOneRecruitResponse.of(recruit, images);
+                })
                 .collect(Collectors.toList());
 
-        return GetAllRecruitsResponse.from(recruitsList);
-    }
 
+
+        return GetAllRecruitsResponse.from(recruitsList);
+
+    }
 
 
     @Transactional
@@ -56,10 +66,15 @@ public class RecruitService {
         Club club=admin.getClub();
 
         Recruit newRecruit=Recruit.of(club,requestDTO);
-
         recruitRepository.save(newRecruit);
 
-        return PostRecruitResponse.of(newRecruit);
+        List<String> images=requestDTO.getImageUrl();
+
+        for (String imageUrl : images) {
+            RecruitImage.of(imageUrl,newRecruit);
+        }
+
+        return PostRecruitResponse.of(newRecruit,images);
 
     }
 
@@ -74,7 +89,7 @@ public class RecruitService {
         Recruit recruit=recruitRepository.findById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
 
-        recruit.softDeleteRecruit();
+        recruitRepository.softDeleteRecruit(recruit.getId());
 
         return DeleteRecruitByIdResponse.from(recruit);
 
@@ -86,8 +101,14 @@ public class RecruitService {
 
         List<Recruit> recruits= recruitRepository.findByClubIdOrderByIdDesc(clubId);
 
-        List<GetOneRecruitResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetOneRecruitResponse.from(recruit))
+        List<GetOneRecruitResponse> recruitsList = recruits.stream()
+                .map(recruit -> {
+                    List<String> images = recruitImageRepository.findByRecruit(recruit)
+                            .stream()
+                            .map(RecruitImage::getImageUrl)
+                            .collect(Collectors.toList());
+                    return GetOneRecruitResponse.of(recruit, images);
+                })
                 .collect(Collectors.toList());
 
         return GetRecruitsByClubIdResponse.of(club.getId(),recruitsList);
@@ -97,8 +118,14 @@ public class RecruitService {
     public GetAllRecruitsResponse getAllRecruitsPage(){
         List<Recruit> recruits=recruitRepository.findAll();
 
-        List<GetOneRecruitResponse> recruitsList= recruits.stream()
-                .map(recruit -> GetOneRecruitResponse.from(recruit))
+        List<GetOneRecruitResponse> recruitsList = recruits.stream()
+                .map(recruit -> {
+                    List<String> images = recruitImageRepository.findByRecruit(recruit)
+                            .stream()
+                            .map(RecruitImage::getImageUrl)
+                            .collect(Collectors.toList());
+                    return GetOneRecruitResponse.of(recruit, images);
+                })
                 .collect(Collectors.toList());
 
         return GetAllRecruitsResponse.from(recruitsList);
@@ -109,6 +136,11 @@ public class RecruitService {
         Recruit recruit=recruitRepository.findById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
         recruit.updateTotalview();
-        return GetOneRecruitResponse.from(recruit);
+
+        List<String> images=recruitImageRepository.findByRecruit(recruit).stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return GetOneRecruitResponse.of(recruit,images);
     }
 }

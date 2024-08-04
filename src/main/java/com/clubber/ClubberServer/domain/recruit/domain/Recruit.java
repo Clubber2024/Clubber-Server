@@ -27,7 +27,6 @@ public class Recruit extends BaseEntity {
     @NotNull
     private String content;
 
-    private String imageUrl;
 
     private Long totalView;
 
@@ -43,16 +42,12 @@ public class Recruit extends BaseEntity {
         this.totalView++;
     }
 
-    public void softDeleteRecruit(){
-        this.deleted=Boolean.TRUE;
-    }
 
     @Builder
-    private Recruit(Long id,String title,String content,String imageUrl,Long totalView,Club club,boolean deleted){
+    private Recruit(Long id,String title,String content,Long totalView,Club club,boolean deleted){
         this.id=id;
         this.title=title;
         this.content=content;
-        this.imageUrl=imageUrl;
         this.totalView=totalView;
         this.club=club;
         this.deleted=deleted;
@@ -62,7 +57,6 @@ public class Recruit extends BaseEntity {
         return Recruit.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .imageUrl(request.getImageUrl())
                 .totalView(0L)
                 .club(club)
                 .deleted(Boolean.FALSE)

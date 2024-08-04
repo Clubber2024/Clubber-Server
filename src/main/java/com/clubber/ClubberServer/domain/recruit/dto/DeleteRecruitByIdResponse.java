@@ -18,7 +18,6 @@ public class DeleteRecruitByIdResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private String imageUrl;
     private Long totalView;
     private LocalDateTime createdAt;
     private boolean deleted;
@@ -31,7 +30,6 @@ public class DeleteRecruitByIdResponse {
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .imageUrl(recruit.getImageUrl())
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
                 .deleted(recruit.isDeleted())
