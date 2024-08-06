@@ -41,32 +41,20 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    @Enumerated(EnumType.STRING)
-    private FavoriteStatus favoriteStatus;
-
     private boolean isDeleted = false;
 
     @Builder
-    private Favorite(Long id, User user, Club club, FavoriteStatus favoriteStatus) {
+    private Favorite(Long id, User user, Club club) {
         this.id = id;
         this.user = user;
         this.club = club;
-        this.favoriteStatus = favoriteStatus;
     }
 
     public static Favorite create(User user, Club club){
         return Favorite.builder()
                 .user(user)
                 .club(club)
-                .favoriteStatus(FavoriteStatus.ACTIVE)
                 .build();
-    }
-
-    public void delete(){
-        if(this.favoriteStatus == FavoriteStatus.INACTIVE){
-            throw FavoriteAlreadyDeleteException.EXCEPTION;
-        }
-        this.favoriteStatus = FavoriteStatus.INACTIVE;
     }
 
     public void checkClub(Long clubId){
