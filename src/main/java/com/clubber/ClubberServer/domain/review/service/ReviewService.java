@@ -49,14 +49,8 @@ public class ReviewService {
         Review savedReview = reviewRepository.save(review);
 
         return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
-//        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
-    private CreateReviewClubWithContentResponse createReviewKeyword(CreateReviewClubWithContentRequest reviewRequest, Review review){
-        List<ReviewKeyword> reviewKeywords = reviewRequest.toEntity(review);
-        List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
-        return CreateReviewClubWithContentResponse.of(review, savedKeywords);
-    }
 
     @Transactional(readOnly = true)
     public ClubReviewResponse getClubReviews(Long clubId){
