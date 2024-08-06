@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
@@ -29,7 +30,7 @@ public class AdminService {
 
     @Transactional
     public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest){
-        Admin admin = adminRepository.findByUsername(loginRequest.getUsername())
+        Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
                 .orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
         if(!encoder.matches(loginRequest.getPassword(), admin.getPassword()))
