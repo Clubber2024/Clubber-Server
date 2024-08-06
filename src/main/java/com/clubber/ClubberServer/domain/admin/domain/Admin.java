@@ -50,4 +50,6 @@ public class Admin {
         this.password = password;
     }
 
+    public void withDraw() {this.accountState = AccountState.INACTIVE; }
+
 }
