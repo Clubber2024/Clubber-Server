@@ -21,7 +21,7 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
         return queryFactory.selectFrom(favorite)
                 .join(favorite.club, club).fetchJoin()
                 .where(favorite.user.id.eq(userId),
-                        favorite.favoriteStatus.eq(FavoriteStatus.ACTIVE))
+                        favorite.isDeleted.eq(false))
                 .orderBy(favorite.id.desc())
                 .fetch();
     }
