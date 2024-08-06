@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import jakarta.persistence.*;
@@ -55,6 +56,9 @@ public class Club extends BaseEntity {
     }
 
     public void deleteClub() {
+        if(this.isDeleted == true){
+            throw ClubAlreadyDeletedException.EXCEPTION; 
+        }
         this.isDeleted = true;
     }
 
