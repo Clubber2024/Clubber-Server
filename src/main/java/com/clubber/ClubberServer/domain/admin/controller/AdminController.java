@@ -52,6 +52,11 @@ public class AdminController {
         return adminService.getAdminsParseToken(refreshToken);
     }
 
+    @DeleteMapping("/withdraw")
+    public void withdrawAdmin() {
+        adminService.withDraw();
+    }
+
 
     @Operation(summary = "관리자 개별 동아리 페이지 수정")
     @PatchMapping("/change-page")
