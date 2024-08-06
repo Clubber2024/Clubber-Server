@@ -43,16 +43,15 @@ public class ReviewService {
         if(reviewRepository.existsByUserAndClub(user, club)){
             throw UserAlreadyReviewedException.EXCEPTION;
         }
+
         Review review = Review.of(user, club, reviewRequest.getContent());
+        reviewRequest.getKeywords().stream().forEach(review::setReviewKeywords);
 
-        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
+        Review savedReview = reviewRepository.save(review);
+
+        return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
     }
 
-    private CreateReviewClubWithContentResponse createReviewKeyword(CreateReviewClubWithContentRequest reviewRequest, Review review){
-        List<ReviewKeyword> reviewKeywords = reviewRequest.toEntity(review);
-        List<ReviewKeyword> savedKeywords = reviewKeywordRepository.saveAll(reviewKeywords);
-        return CreateReviewClubWithContentResponse.of(review, savedKeywords);
-    }
 
     @Transactional(readOnly = true)
     public ClubReviewResponse getClubReviews(Long clubId){
