@@ -26,7 +26,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SQLDelete(sql = "UPDATE Favorite SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE favorite SET is_deleted = true WHERE id = ?")
 public class Favorite extends BaseEntity {
 
     @Id
