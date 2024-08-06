@@ -12,16 +12,18 @@ import java.util.Optional;
 
 public interface ClubRepository extends JpaRepository<Club, Long> {
 
-    List<Club> findByDivision(String division);
+    List<Club> findByDivisionAndIsDeleted(String division, boolean isDeleted);
 
-    List<Club> findByDepartment(String department);
+    List<Club> findByDepartmentAndIsDeleted(String department, boolean isDeleted);
 
-    List<Club> findByHashtagOrderByClubType(String hashtag);
+    List<Club> findByHashtagAndIsDeletedOrderByClubType(String hashtag, boolean isDeleted);
 
-    @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% ORDER BY c.clubType")
+    Optional<Club> findClubByIdAndIsDeleted(Long id, boolean isDeleted);
+
+    @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% AND c.isDeleted = false ORDER BY c.clubType")
     List<Club> findByName(String name);
 
-    @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo ORDER BY c.clubInfo.totalView DESC")
+    @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo where c.isDeleted = false ORDER BY c.clubInfo.totalView DESC")
     List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
 
 

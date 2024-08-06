@@ -104,7 +104,7 @@ public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatu
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        Club club = clubRepository.findById(admin.getClub().getId())
+        Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
         List<Review> reviews = reviewRepository.queryReviewByClub(club);
         return GetAdminsReviewsResponse.of(admin, club, reviews);

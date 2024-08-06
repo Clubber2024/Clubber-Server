@@ -28,7 +28,7 @@ public class ClubService {
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     public GetClubByDivisionResponse getClubsByDivision(String division){
-        List<Club> clubs = clubRepository.findByDivision(division);
+        List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()){
             throw DivisionNotFoundException.EXCEPTION;
         }
@@ -45,7 +45,7 @@ public class ClubService {
 
     // 소모임 - 특정 학과 소속 소모임들 반환
     public DepartmentSmallDto getClubsByDepartment(String department){
-        List<Club> clubs=clubRepository.findByDepartment(department);
+        List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()){
             throw DepartmentNotFoundException.EXCEPTION;
         }
@@ -60,7 +60,7 @@ public class ClubService {
     //[동아리 및 소모임] 개별 페이지 조회
     @Transactional
     public GetClubResponse getClubsIndividualPage(Long clubId){
-        Optional<Club> clubFound=clubRepository.findById(clubId);
+        Optional<Club> clubFound= clubRepository.findClubByIdAndIsDeleted(clubId, false);
         Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
@@ -86,7 +86,7 @@ public class ClubService {
 
     // 특정 해시태그 반환
     public GetClubsByHashTagResponse getClubsHashtag(String hashtag){
-        List<Club> clubs = clubRepository.findByHashtagOrderByClubType(hashtag);
+        List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
