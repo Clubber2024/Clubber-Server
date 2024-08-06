@@ -52,6 +52,7 @@ public class AdminController {
         return adminService.getAdminsParseToken(refreshToken);
     }
 
+    @Operation(summary = "관리자 계정 회원탈퇴")
     @DeleteMapping("/withdraw")
     public void withdrawAdmin() {
         adminService.withDraw();
