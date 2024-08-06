@@ -44,7 +44,8 @@ public class ReviewService {
             throw UserAlreadyReviewedException.EXCEPTION;
         }
         Review review = Review.of(user, club, reviewRequest.getContent());
-        review.setReviewKeywords(reviewRequest.toEntity(review));
+        reviewRequest.getKeywords().stream().forEach(review::setReviewKeywords);
+
         Review savedReview = reviewRepository.save(review);
 
         return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
