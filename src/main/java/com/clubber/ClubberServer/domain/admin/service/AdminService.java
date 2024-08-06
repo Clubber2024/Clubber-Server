@@ -111,4 +111,12 @@ public class AdminService {
         return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
     }
 
+    @Transactional
+    public void withDraw() {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        admin.withDraw();
+    }
+
 }
