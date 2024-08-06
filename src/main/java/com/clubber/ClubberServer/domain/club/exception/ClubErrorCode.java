@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ClubErrorCode implements BaseErrorCode {
 
+    CLUB_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "CLUB_400_1", "이미 삭제된 동아리입니다."),
     SEARCHED_CLUB_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_1", "검색하신 동아리 및 소모임은 존재하지 않습니다."),
     DIVISION_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_2", "해당 이름을 가진 분과가 존재하지 않습니다."),
     DEPARTMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_3", "해당 이름을 가진 학과가 존재하지 않습니다."),

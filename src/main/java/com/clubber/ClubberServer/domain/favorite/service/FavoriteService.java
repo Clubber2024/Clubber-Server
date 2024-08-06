@@ -32,7 +32,7 @@ public class FavoriteService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        Club club = clubRepository.findById(clubId)
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         if(favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false))

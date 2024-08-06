@@ -42,7 +42,7 @@ public class S3UploadPresignedService {
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         Long clubId = admin.getClub().getId();
-        if(!clubRepository.existsById(clubId))
+        if(!clubRepository.existsClubByIdAndIsDeleted(clubId, false))
             throw ClubNotFoundException.EXCEPTION;
 
         String fixedFileExtension = fileExtension.getUploadExtension();
