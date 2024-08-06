@@ -74,4 +74,8 @@ public class Favorite extends BaseEntity {
             throw FavoriteAlreadyDeleteException.EXCEPTION;
         }
     }
+
+    public void deleteFavorite(){
+        this.isDeleted = true;
+    }
 }
