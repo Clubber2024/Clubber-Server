@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusExc
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -53,7 +54,7 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ApprovedStatus approvedStatus;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
     @Builder
@@ -63,6 +64,10 @@ public class Review extends BaseEntity {
         this.user = user;
         this.content = content;
         this.approvedStatus = approvedStatus;
+    }
+
+    public void setReviewKeywords(List<ReviewKeyword> reviewKeywords){
+        this.reviewKeywords = reviewKeywords;
     }
 
     public static Review of(User user, Club club){
