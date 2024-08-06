@@ -42,6 +42,8 @@ public class Favorite extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private FavoriteStatus favoriteStatus;
 
+    private boolean isDeleted = false;
+
     @Builder
     private Favorite(Long id, User user, Club club, FavoriteStatus favoriteStatus) {
         this.id = id;
