@@ -54,7 +54,8 @@ public class FavoriteService {
 
         favorite.checkUser(user.getId());
         favorite.checkClub(clubId);
-        favorite.delete();
+        //favorite.delete();
+        favoriteRepository.delete(favorite);
         return FavoriteResponse.from(favorite);
     }
 
