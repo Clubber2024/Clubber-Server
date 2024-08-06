@@ -20,6 +20,8 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 
     Optional<Club> findClubByIdAndIsDeleted(Long id, boolean isDeleted);
 
+    boolean existsClubByIdAndIsDeleted(Long clubId, boolean isDeleted);
+
     @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% AND c.isDeleted = false ORDER BY c.clubType")
     List<Club> findByName(String name);
 
