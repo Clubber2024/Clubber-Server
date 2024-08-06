@@ -71,13 +71,6 @@ public class Review extends BaseEntity {
         this.reviewKeywords.add(reviewKeyword);
     }
 
-    public static Review of(User user, Club club){
-        return Review.builder()
-                .user(user)
-                .club(club)
-                .build();
-    }
-
     public static Review of(User user, Club club, String content){
         return Review.builder()
                 .user(user)
