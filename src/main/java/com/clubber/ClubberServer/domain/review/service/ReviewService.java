@@ -43,6 +43,7 @@ public class ReviewService {
         if(reviewRepository.existsByUserAndClub(user, club)){
             throw UserAlreadyReviewedException.EXCEPTION;
         }
+
         Review review = Review.of(user, club, reviewRequest.getContent());
         reviewRequest.getKeywords().stream().forEach(review::setReviewKeywords);
 
