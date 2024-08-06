@@ -5,6 +5,7 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.SnsType;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -99,6 +100,7 @@ public class AuthService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        user.getFavorites().stream().forEach(Favorite::deleteFavorite);
         unlinkKakao(user);
         refreshTokenRepository.deleteById(user.getId());
         user.withDraw(); 
