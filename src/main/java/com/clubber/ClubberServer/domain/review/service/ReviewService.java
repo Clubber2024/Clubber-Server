@@ -44,8 +44,11 @@ public class ReviewService {
             throw UserAlreadyReviewedException.EXCEPTION;
         }
         Review review = Review.of(user, club, reviewRequest.getContent());
+        review.setReviewKeywords(reviewRequest.toEntity(review));
+        Review savedReview = reviewRepository.save(review);
 
-        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
+        return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
+//        return createReviewKeyword(reviewRequest, reviewRepository.save(review));
     }
 
     private CreateReviewClubWithContentResponse createReviewKeyword(CreateReviewClubWithContentRequest reviewRequest, Review review){
