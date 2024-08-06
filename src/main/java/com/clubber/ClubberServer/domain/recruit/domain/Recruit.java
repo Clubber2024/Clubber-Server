@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "is_deleted = false")
+//@Where(clause = "is_deleted = false")
 public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,6 @@ public class Recruit extends BaseEntity {
 
     @NotNull
     private String content;
-
 
     private Long totalView;
 

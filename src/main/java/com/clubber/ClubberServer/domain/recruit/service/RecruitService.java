@@ -41,7 +41,9 @@ public class RecruitService {
 
         Club club=admin.getClub();
 
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club);
+        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+
         List<GetOneRecruitResponse> recruitResponses = recruits.stream()
                 .map(recruit -> {
                     List<String> imageUrls = recruit.getRecruitImages().stream()
@@ -83,16 +85,22 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-
-        Recruit recruit=recruitRepository.findById(recruitId)
+        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
 
-        if (recruit.getClub()!=admin.getClub())
-            throw(RecruitUnauthorized.EXCEPTION);
+
+        if (recruit.getClub()!=admin.getClub()) {
+            throw RecruitUnauthorized.EXCEPTION;
+        }
+
+        List<String> imageUrls = recruit.getRecruitImages().stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
 
         recruit.updateStatus();
 
-        return DeleteRecruitByIdResponse.from(recruit);
+        return DeleteRecruitByIdResponse.from(recruit,imageUrls);
 
     }
 
@@ -101,7 +109,8 @@ public class RecruitService {
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club);
+        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         List<GetOneRecruitResponse> recruitsList = recruits.stream()
                 .map(recruit -> {
@@ -118,7 +127,8 @@ public class RecruitService {
 
     @Transactional(readOnly = true)
     public GetAllRecruitsResponse getAllRecruitsPage(){
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImages();
+        List<Recruit> recruits = recruitRepository.findRecruitsWithImages()
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         List<GetOneRecruitResponse> recruitResponses = recruits.stream()
                 .map(recruit -> {
@@ -134,7 +144,9 @@ public class RecruitService {
 
     @Transactional
     public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
-        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId);
+
+        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         recruitRepository.incrementTotalView(recruitId);
 
