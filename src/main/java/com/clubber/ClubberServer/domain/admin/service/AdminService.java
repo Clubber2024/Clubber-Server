@@ -70,8 +70,6 @@ public class AdminService {
     public void logout() {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         refreshTokenRepository.deleteById(currentUserId);
-        SecurityContextHolder.clearContext();
-
     }
 
     @Transactional
