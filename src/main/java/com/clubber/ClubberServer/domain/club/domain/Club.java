@@ -42,6 +42,8 @@ public class Club extends BaseEntity {
 
     private String imageUrl;
 
+    private boolean isDeleted = false;
+
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "clubInfo_id")
@@ -50,6 +52,10 @@ public class Club extends BaseEntity {
     public void updateClub(String imageUrl,String introduction) {
         this.imageUrl=imageUrl;
         this.introduction = introduction;
+    }
+
+    public void deleteClub() {
+        this.isDeleted = true;
     }
 
     @Builder
