@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.favorite.repository;
 
 import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.favorite.domain.QFavorite.favorite;
-import static com.clubber.ClubberServer.domain.user.domain.QUser.user;
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.querydsl.jpa.impl.JPAQueryFactory;
