@@ -116,6 +116,7 @@ public class AdminService {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        admin.getClub().deleteClub();
         admin.withDraw();
     }
 
