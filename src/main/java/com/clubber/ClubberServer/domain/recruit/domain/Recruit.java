@@ -46,10 +46,6 @@ public class Recruit extends BaseEntity {
 
     public void updateStatus(){this.isDeleted=Boolean.TRUE;}
 
-    public void updateRecruitImages(List<RecruitImage> recruitImages){
-        this.recruitImages=recruitImages;
-    }
-
     @Builder
     private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
         this.id=id;
