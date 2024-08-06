@@ -36,11 +36,11 @@ public class Admin {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private AccountState accountState;
+    private AccountState accountState = AccountState.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private AccountRole accountRole;
+    private AccountRole accountRole = AccountRole.ADMIN;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
