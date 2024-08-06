@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum RecruitErrorCode implements BaseErrorCode {
-    RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "RECRUIT_404_1", "해당 모집글이 존재하지 않습니다.");
+    RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "RECRUIT_404_1", "해당 모집글이 존재하지 않습니다."),
+    RECRUIT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(),"RECRUIT_401_!", "모집글 작성 권한이 없습니다.");
 
     private final Integer status;
     private final String code;

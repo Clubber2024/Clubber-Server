@@ -22,6 +22,7 @@ public class PostRecruitResponse {
         return PostRecruitResponse.builder()
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
+                .content(recruit.getContent())
                 .images(images)
                 .totalView(recruit.getTotalView())
                 .build();
