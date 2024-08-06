@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.domain.FavoriteStatus;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.exception.ClubAlreadyRegisterdFavoriteException;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -55,6 +56,9 @@ public class FavoriteService {
         favorite.checkUser(user.getId());
         favorite.checkClub(clubId);
         //favorite.delete();
+        if(favorite.isDeleted() == true){
+            throw FavoriteAlreadyDeleteException.EXCEPTION;
+        }
         favoriteRepository.delete(favorite);
         return FavoriteResponse.from(favorite);
     }
