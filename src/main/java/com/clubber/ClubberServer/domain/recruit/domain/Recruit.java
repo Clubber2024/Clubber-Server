@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.favorite.domain.FavoriteStatus;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,11 +12,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
+import java.util.List;
+
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "deleted = false")
+@Where(clause = "is_deleted = false")
 public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +33,7 @@ public class Recruit extends BaseEntity {
 
     private Long totalView;
 
-    private boolean deleted = Boolean.FALSE;
+    private boolean isDeleted=Boolean.FALSE;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,19 +41,24 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
-    public void updateTotalview() {
-        this.totalView++;
+    @OneToMany(mappedBy = "recruit")
+    private List<RecruitImage> recruitImages;
+
+    public void updateStatus(){this.isDeleted=Boolean.TRUE;}
+
+    public void updateRecruitImages(List<RecruitImage> recruitImages){
+        this.recruitImages=recruitImages;
     }
 
-
     @Builder
-    private Recruit(Long id,String title,String content,Long totalView,Club club,boolean deleted){
+    private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
         this.id=id;
         this.title=title;
         this.content=content;
         this.totalView=totalView;
         this.club=club;
-        this.deleted=deleted;
+        this.recruitImages=recruitImages;
+        this.isDeleted=isDeleted;
     }
 
     public static Recruit of(Club club, PostRecruitRequest request){
@@ -59,7 +67,7 @@ public class Recruit extends BaseEntity {
                 .content(request.getContent())
                 .totalView(0L)
                 .club(club)
-                .deleted(Boolean.FALSE)
+                .isDeleted(Boolean.FALSE)
                 .build();
     }
 }
