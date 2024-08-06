@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> , FavoriteCustomRepository{
 
-    boolean existsByUserAndClubAndFavoriteStatus(User user, Club club, FavoriteStatus favoriteStatus);
+    boolean existsByUserAndClubAndIsDeleted(User user, Club club, boolean isDeleted);
 }

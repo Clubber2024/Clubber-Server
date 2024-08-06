@@ -37,7 +37,7 @@ public class FavoriteService {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-        if(favoriteRepository.existsByUserAndClubAndFavoriteStatus(user, club, FavoriteStatus.ACTIVE))
+        if(favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false))
             throw ClubAlreadyRegisterdFavoriteException.EXCEPTION;
 
         Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
