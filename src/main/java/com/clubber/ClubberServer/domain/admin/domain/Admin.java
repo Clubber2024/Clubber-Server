@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
@@ -50,6 +51,11 @@ public class Admin {
         this.password = password;
     }
 
-    public void withDraw() {this.accountState = AccountState.INACTIVE; }
+    public void withDraw() {
+        if(this.accountState == AccountState.INACTIVE){
+            throw AdminAlreadyDeletedException.EXCEPTION;
+        }
+        this.accountState = AccountState.INACTIVE;
+    }
 
 }
