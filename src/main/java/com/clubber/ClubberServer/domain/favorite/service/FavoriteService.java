@@ -54,10 +54,7 @@ public class FavoriteService {
 
         favorite.checkUser(user.getId());
         favorite.checkClub(clubId);
-        //favorite.delete();
-        if(favorite.isDeleted() == true){
-            throw FavoriteAlreadyDeleteException.EXCEPTION;
-        }
+        favorite.checkAlreadyDeleted();
         favoriteRepository.delete(favorite);
         return FavoriteResponse.from(favorite);
     }

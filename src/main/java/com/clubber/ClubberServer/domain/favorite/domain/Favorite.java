@@ -68,4 +68,10 @@ public class Favorite extends BaseEntity {
             throw FavoriteNotMatchUserException.EXCEPTION;
         }
     }
+
+    public void checkAlreadyDeleted(){
+        if(this.isDeleted == true){
+            throw FavoriteAlreadyDeleteException.EXCEPTION;
+        }
+    }
 }
