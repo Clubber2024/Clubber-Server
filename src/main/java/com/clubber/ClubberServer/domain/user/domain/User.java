@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.user.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,7 +9,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +47,9 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private AccountState accountState = AccountState.ACTIVE;
+
+    @OneToMany(mappedBy = "user")
+    private List<Favorite> favorites = new ArrayList<>();
 
     @Builder
     private User(String email, SnsType snsType, Long snsId) {
