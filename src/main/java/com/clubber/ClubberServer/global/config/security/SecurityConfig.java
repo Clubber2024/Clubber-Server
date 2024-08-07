@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
 
@@ -51,6 +52,9 @@ public class SecurityConfig {
                                 .requestMatchers("/v1/admins/login", "/v1/admins/refresh").permitAll()
                                 .requestMatchers("/v1/keywords").permitAll()
                                 .requestMatchers("/v1/admins/**").hasRole("ADMIN")
+                                .requestMatchers("/v1/clubs/{clubId}/recruit").permitAll()
+                                .requestMatchers("/v1/recruits").permitAll()
+                                .requestMatchers("/v1/recruits/{recruitId}").permitAll()
                                 .requestMatchers("/v1/faqs").permitAll()
                                 .requestMatchers("/swagger-resources/**", "/swagger-ui/**",  "/v3/api-docs/**","/v3/api-docs" ).permitAll()
                                 .requestMatchers("/exceptions/**").permitAll()

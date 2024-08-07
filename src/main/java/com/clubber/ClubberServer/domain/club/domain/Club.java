@@ -57,7 +57,7 @@ public class Club extends BaseEntity {
 
     public void deleteClub() {
         if(this.isDeleted == true){
-            throw ClubAlreadyDeletedException.EXCEPTION; 
+            throw ClubAlreadyDeletedException.EXCEPTION;
         }
         this.isDeleted = true;
     }
