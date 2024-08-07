@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
@@ -36,11 +37,11 @@ public class Admin {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private AccountState accountState;
+    private AccountState accountState = AccountState.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private AccountRole accountRole;
+    private AccountRole accountRole = AccountRole.ADMIN;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
@@ -48,6 +49,13 @@ public class Admin {
 
     public void updatePassword(String password){
         this.password = password;
+    }
+
+    public void withDraw() {
+        if(this.accountState == AccountState.INACTIVE){
+            throw AdminAlreadyDeletedException.EXCEPTION;
+        }
+        this.accountState = AccountState.INACTIVE;
     }
 
 }

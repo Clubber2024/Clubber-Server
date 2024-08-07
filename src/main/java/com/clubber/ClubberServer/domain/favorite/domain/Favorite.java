@@ -21,10 +21,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@SQLDelete(sql = "UPDATE favorite SET is_deleted = true WHERE id = ?")
 public class Favorite extends BaseEntity {
 
     @Id
@@ -39,30 +41,20 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    @Enumerated(EnumType.STRING)
-    private FavoriteStatus favoriteStatus;
+    private boolean isDeleted = false;
 
     @Builder
-    private Favorite(Long id, User user, Club club, FavoriteStatus favoriteStatus) {
+    private Favorite(Long id, User user, Club club) {
         this.id = id;
         this.user = user;
         this.club = club;
-        this.favoriteStatus = favoriteStatus;
     }
 
     public static Favorite create(User user, Club club){
         return Favorite.builder()
                 .user(user)
                 .club(club)
-                .favoriteStatus(FavoriteStatus.ACTIVE)
                 .build();
-    }
-
-    public void delete(){
-        if(this.favoriteStatus == FavoriteStatus.INACTIVE){
-            throw FavoriteAlreadyDeleteException.EXCEPTION;
-        }
-        this.favoriteStatus = FavoriteStatus.INACTIVE;
     }
 
     public void checkClub(Long clubId){
@@ -75,5 +67,15 @@ public class Favorite extends BaseEntity {
         if(!Objects.equals(userId, this.user.getId())){
             throw FavoriteNotMatchUserException.EXCEPTION;
         }
+    }
+
+    public void checkAlreadyDeleted(){
+        if(this.isDeleted == true){
+            throw FavoriteAlreadyDeleteException.EXCEPTION;
+        }
+    }
+
+    public void deleteFavorite(){
+        this.isDeleted = true;
     }
 }

@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -44,17 +43,24 @@ public class Club extends BaseEntity {
 
     private String imageUrl;
 
+    private boolean isDeleted = false;
+
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "clubInfo_id")
     private ClubInfo clubInfo;
-
 
     public void updateClub(String imageUrl,String introduction) {
         this.imageUrl=imageUrl;
         this.introduction = introduction;
     }
 
+    public void deleteClub() {
+        if(this.isDeleted == true){
+            throw ClubAlreadyDeletedException.EXCEPTION;
+        }
+        this.isDeleted = true;
+    }
 
     @Builder
     private Club(Long id, String name, ClubType clubType,String introduction,String hashtag,String division, String college, String department,String imageUrl,ClubInfo clubInfo) {

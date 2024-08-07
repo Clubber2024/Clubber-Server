@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.favorite.domain.FavoriteStatus;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +9,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -18,7 +16,6 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@Where(clause = "is_deleted = false")
 public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +29,7 @@ public class Recruit extends BaseEntity {
 
     private Long totalView;
 
-    private boolean isDeleted=Boolean.FALSE;
+    private boolean isDeleted=false;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +40,7 @@ public class Recruit extends BaseEntity {
     @OneToMany(mappedBy = "recruit")
     private List<RecruitImage> recruitImages;
 
-    public void updateStatus(){this.isDeleted=Boolean.TRUE;}
+    public void updateStatus(){this.isDeleted=true;}
 
     @Builder
     private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
@@ -53,7 +50,6 @@ public class Recruit extends BaseEntity {
         this.totalView=totalView;
         this.club=club;
         this.recruitImages=recruitImages;
-        this.isDeleted=isDeleted;
     }
 
     public static Recruit of(Club club, PostRecruitRequest request){
@@ -62,7 +58,6 @@ public class Recruit extends BaseEntity {
                 .content(request.getContent())
                 .totalView(0L)
                 .club(club)
-                .isDeleted(Boolean.FALSE)
                 .build();
     }
 }
