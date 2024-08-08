@@ -26,5 +26,7 @@ public interface RecruitRepository extends JpaRepository<Recruit,Long>{
     @Query("UPDATE Recruit r SET r.totalView = r.totalView + 1 WHERE r.id = :id AND r.isDeleted = false")
     void incrementTotalView(@Param("id") Long id);
 
+    @Query("SELECT COALESCE(MAX(id), -1) FROM Recruit")
+    Long findMaxRecruitId();
 
 }
