@@ -80,6 +80,17 @@ public class S3UploadPresignedService {
                 UUID.randomUUID() +
                 "." +
                 fileExtension;
+    }
 
+    private String getForRecruitFileName(Long clubId, Long recruitId, String fileExtension) {
+        return "club/" +
+                clubId.toString() +
+                "/" +
+                "recruit/" +
+                recruitId.toString() +
+                "/" +
+                UUID.randomUUID() +
+                "." +
+                fileExtension;
     }
 }
