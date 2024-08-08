@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
     private final S3UploadPresignedService s3UploadPresignedService;
 
-    @Operation(summary = "동아리 로고 이미지 등록 URL 생성")
+    @Operation(summary = "동아리 로고 이미지 등록 Presigned URL 생성")
     @PostMapping("/club/logo")
     public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@RequestParam ImageFileExtension imageFileExtension){
         return s3UploadPresignedService.createClubsImagePresignedUrl(imageFileExtension);
     }
 
+    @Operation(summary = "동아리 모집글 이미지 등록 Presigned URL 생성")
     @PostMapping("/club/recruit")
     public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(@RequestBody CreateRecruitsImagePresigneUrlRequest request) {
         return s3UploadPresignedService.createRecruitsImagePresignedUrl(request);
