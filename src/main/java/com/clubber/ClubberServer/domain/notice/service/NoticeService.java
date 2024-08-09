@@ -41,6 +41,7 @@ public class NoticeService {
     public GetNoticeResponse getNoticesDetail(Long noticeId){
        Notice notice=noticeRepository.findById(noticeId)
                .orElseThrow(()-> NoticeNotFoundException.EXCEPTION);
+//       notice.increaseTotalView();
 
        return GetNoticeResponse.from(notice);
     }

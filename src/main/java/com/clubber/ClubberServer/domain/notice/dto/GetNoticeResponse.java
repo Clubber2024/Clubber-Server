@@ -14,6 +14,7 @@ public class GetNoticeResponse {
     private Long noticeId;
     private String title;
     private String content;
+    private Long totalView;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
@@ -23,6 +24,7 @@ public class GetNoticeResponse {
                 .noticeId(notice.getId())
                 .title(notice.getTitle())
                 .content(notice.getContent())
+                .totalView(notice.getTotalView())
                 .createdAt(notice.getCreatedAt())
                 .build();
     }

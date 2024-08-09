@@ -28,6 +28,10 @@ public class Notice extends BaseEntity {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
+    public void increaseTotalView(){
+        this.totalView++;
+    }
+
     @Builder
     private Notice(Long id,String title,String content,String imageurl,Long totalView,Owner owner){
         this.id=id;
