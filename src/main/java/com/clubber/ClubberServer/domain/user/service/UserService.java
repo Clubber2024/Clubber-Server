@@ -73,7 +73,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public PageResponse<GetFavoriteDetailsResponse> getUsersReviewsPagination(Pageable pageable) {
-        Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(5000006L,
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(currentUserId,
                 pageable);
         Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(GetFavoriteDetailsResponse::of);
         return PageResponse.of(favoriteResponses);
