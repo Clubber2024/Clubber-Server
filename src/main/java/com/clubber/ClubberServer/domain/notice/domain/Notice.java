@@ -22,16 +22,19 @@ public class Notice extends BaseEntity {
 
     private String imageurl;
 
+    private Long totalView;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @Builder
-    private Notice(Long id,String title,String content,String imageurl,Owner owner){
+    private Notice(Long id,String title,String content,String imageurl,Long totalView,Owner owner){
         this.id=id;
         this.title=title;
         this.content=content;
         this.imageurl=imageurl;
+        this.totalView=totalView;
         this.owner=owner;
     }
 }
