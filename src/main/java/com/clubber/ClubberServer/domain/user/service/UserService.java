@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.user.service;
 
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
+import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
@@ -12,8 +14,11 @@ import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.page.PageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,4 +70,13 @@ public class UserService {
         return UserReviewResponse.of(user, reviews);
 
     }
+
+    @Transactional(readOnly = true)
+    public PageResponse<GetFavoriteDetailsResponse> getUsersReviewsPagination(Pageable pageable) {
+        Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(5000006L,
+                pageable);
+        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(GetFavoriteDetailsResponse::of);
+        return PageResponse.of(favoriteResponses);
+    }
+
 }
