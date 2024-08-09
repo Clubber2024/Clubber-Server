@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.notice.service;
 
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
 import com.clubber.ClubberServer.domain.notice.dto.GetNoticeResponse;
+import com.clubber.ClubberServer.domain.notice.dto.GetNoticesAtMainResponse;
 import com.clubber.ClubberServer.domain.notice.exception.NoticeNotFoundException;
 import com.clubber.ClubberServer.domain.notice.repository.NoticeRepository;
 import com.clubber.ClubberServer.global.page.PageResponse;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +20,17 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+
+
+    public List<GetNoticesAtMainResponse> getNoticesAtMain(){
+        List<Notice> notices=noticeRepository.findTop5ByOrderByIdDesc();
+        List <GetNoticesAtMainResponse> noticeDto = notices.stream()
+                .map(notice -> GetNoticesAtMainResponse.from(notice))
+                .collect(Collectors.toList());
+        return noticeDto;
+    }
+
+
     public PageResponse<GetNoticeResponse> getNotices(Pageable pageable){
         Page<Notice> notices=noticeRepository.findByOrderByIdDesc(pageable);
         List <GetNoticeResponse> noticeDto = notices.stream()

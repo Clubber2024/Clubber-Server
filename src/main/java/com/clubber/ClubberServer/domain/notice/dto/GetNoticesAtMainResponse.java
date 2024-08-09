@@ -1,24 +1,25 @@
 package com.clubber.ClubberServer.domain.notice.dto;
 
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetNoticeResponse {
+public class GetNoticesAtMainResponse {
     private Long noticeId;
     private String title;
-    private String content;
     private LocalDateTime createdAt;
 
-    public static GetNoticeResponse from(Notice notice){
-        return GetNoticeResponse.builder()
+    public static GetNoticesAtMainResponse from(Notice notice){
+        return  GetNoticesAtMainResponse.builder()
                 .noticeId(notice.getId())
                 .title(notice.getTitle())
-                .content(notice.getContent())
                 .createdAt(notice.getCreatedAt())
                 .build();
     }
