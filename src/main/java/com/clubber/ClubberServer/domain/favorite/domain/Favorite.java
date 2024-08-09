@@ -14,8 +14,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,6 +29,7 @@ import org.hibernate.annotations.SQLDelete;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @SQLDelete(sql = "UPDATE favorite SET is_deleted = true WHERE id = ?")
+@Table(indexes = @Index(name = "idx_user_id_isdeleted_id", columnList = "user_id, is_deleted, id desc"))
 public class Favorite extends BaseEntity {
 
     @Id
