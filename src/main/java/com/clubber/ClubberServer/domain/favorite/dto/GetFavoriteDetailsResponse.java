@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.favorite.dto;
 
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -22,7 +23,7 @@ public class GetFavoriteDetailsResponse {
         private final String clubName;
 
         @Schema(description = "동아리 종류", example = "중앙동아리")
-        private final String clubType;
+        private final ClubType clubType;
 
         @Schema(description = "동아리 이미지 url")
         private final String imageUrl;
@@ -33,6 +34,7 @@ public class GetFavoriteDetailsResponse {
                     .favoriteId(favorite.getId())
                     .clubId(favorite.getClub().getId())
                     .clubName(favorite.getClub().getName())
+                    .clubType(favorite.getClub().getClubType())
                     .imageUrl(favorite.getClub().getImageUrl())
                     .build();
         }
