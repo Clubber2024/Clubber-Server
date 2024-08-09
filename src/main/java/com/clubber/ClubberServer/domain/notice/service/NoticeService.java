@@ -33,11 +33,9 @@ public class NoticeService {
 
     public PageResponse<GetNoticeResponse> getNotices(Pageable pageable){
         Page<Notice> notices=noticeRepository.findByOrderByIdDesc(pageable);
-        List <GetNoticeResponse> noticeDto = notices.stream()
-                .map(notice -> GetNoticeResponse.from(notice))
-                .collect(Collectors.toList());
+        Page<GetNoticeResponse> noticesDto = notices.map(GetNoticeResponse::from);
 
-        return PageResponse.of(new PageImpl<>(noticeDto, pageable, notices.getTotalElements()));
+        return PageResponse.of(noticesDto);
     }
 
     public GetNoticeResponse getNoticesDetail(Long noticeId){
