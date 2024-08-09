@@ -25,7 +25,7 @@ public class NoticeController {
 
     @DisableSwaggerSecurity
     @Operation(summary="메인 페이지에서 공지사항 조회")
-    @GetMapping("/v1/notices/main")
+    @GetMapping("/v1/notices/main-page")
     public List<GetNoticesAtMainResponse> getNoticesAtMain(){
         return noticeService.getNoticesAtMain();
     }
