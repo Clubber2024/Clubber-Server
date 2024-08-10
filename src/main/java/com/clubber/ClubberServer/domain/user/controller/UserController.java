@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.global.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,5 +54,5 @@ public class UserController {
 
     @Operation(summary = "즐겨찾기 페이징 처리", description = "추후 적용")
     @GetMapping("/favorite/page")
-    public PageResponse<GetFavoriteDetailsResponse> getUsersFavoritePage(Pageable pageable) { return userService.getUsersReviewsPagination(pageable);}
+    public PageResponse<GetFavoriteDetailsResponse> getUsersFavoritePage(@ParameterObject Pageable pageable) { return userService.getUsersReviewsPagination(pageable);}
 }
