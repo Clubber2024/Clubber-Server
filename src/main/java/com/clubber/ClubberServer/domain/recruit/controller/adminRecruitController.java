@@ -2,14 +2,17 @@ package com.clubber.ClubberServer.domain.recruit.controller;
 
 
 import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.GetAllRecruitsResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
+import com.clubber.ClubberServer.global.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,9 +23,9 @@ public class adminRecruitController {
     private final RecruitService recruitService;
 
     @GetMapping("/v1/admins/recruits")
-    @Operation(summary = "동아리 계정 작성한 모든 모집글 조회")
-    public GetAllRecruitsResponse getAllAdminRecruits(){
-        return recruitService.getAllAdminRecruits();
+    @Operation(summary = "동아리 계정의 모든 모집글 조회")
+    public PageResponse<GetOneRecruitResponse> getAllAdminRecruits(@PageableDefault(size = 5) Pageable pageable){
+        return recruitService.getAllAdminRecruits(pageable);
     }
 
 

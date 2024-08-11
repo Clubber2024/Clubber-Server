@@ -9,17 +9,22 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
+import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPageResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
+import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.page.PageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +37,10 @@ public class RecruitService {
     private final RecruitRepository recruitRepository;
     private final RecruitImageRepository recruitImageRepository;
 
+
+
     @Transactional(readOnly = true)
-    public GetAllRecruitsResponse getAllAdminRecruits(){
+    public PageResponse<GetOneRecruitResponse> getAllAdminRecruits(Pageable pageable){
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
         Admin admin = adminRepository.findById(currentUserId)
@@ -41,19 +48,16 @@ public class RecruitService {
 
         Club club=admin.getClub();
 
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club)
-                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+        Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
 
-        List<GetOneRecruitResponse> recruitResponses = recruits.stream()
-                .map(recruit -> {
-                    List<String> imageUrls = recruit.getRecruitImages().stream()
-                            .map(RecruitImage::getImageUrl)
-                            .collect(Collectors.toList());
-                    return GetOneRecruitResponse.of(recruit, imageUrls);
-                })
-                .collect(Collectors.toList());
+        Page<GetOneRecruitResponse> recruitResponses = recruits.map(recruit -> {
+            List<String> imageUrls = recruit.getRecruitImages().stream()
+                    .map(RecruitImage::getImageUrl)
+                    .collect(Collectors.toList());
+            return GetOneRecruitResponse.of(recruit, imageUrls);
+        });
 
-        return GetAllRecruitsResponse.from(recruitResponses);
+        return PageResponse.of(recruitResponses);
 
     }
 
@@ -104,43 +108,63 @@ public class RecruitService {
 
     }
 
+
+
     @Transactional(readOnly = true)
-    public GetRecruitsByClubIdResponse getRecruitsByClubId(Long clubId){
+    public PageResponse<GetOneRecruitResponse> getRecruitsByClubId(Long clubId,Pageable pageable){
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club)
-                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+        Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
 
-        List<GetOneRecruitResponse> recruitsList = recruits.stream()
-                .map(recruit -> {
-                    List<String> imageUrls = recruit.getRecruitImages().stream()
-                            .map(RecruitImage::getImageUrl)
-                            .collect(Collectors.toList());
-                    return GetOneRecruitResponse.of(recruit, imageUrls);
-                })
-                .collect(Collectors.toList());
+        Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
+            List<String> imageUrls = recruit.getRecruitImages().stream()
+                    .map(RecruitImage::getImageUrl)
+                    .collect(Collectors.toList());
+            return GetOneRecruitResponse.of(recruit, imageUrls);
+        });
 
-        return GetRecruitsByClubIdResponse.of(club.getId(),recruitsList);
+        return PageResponse.of(recruitDto);
 
     }
+
+
+
+    //main page에서 모집글 조회하는 api
+    @Transactional(readOnly = true)
+    public GetRecruitsMainPageResponse getRecruitsMainPage(){
+        List<Recruit> recruits = recruitRepository.findTop5ByOrderByIdDesc();
+
+        if (recruits.isEmpty()){
+            throw RecruitNotFoundException.EXCEPTION;
+        }
+
+        List <GetOneRecruitMainPageResponse> recruitsDto = recruits.stream()
+                .map(recruit -> GetOneRecruitMainPageResponse.from(recruit))
+                .collect(Collectors.toList());
+
+        return GetRecruitsMainPageResponse.from(recruitsDto);
+    }
+
+
+
+
 
     @Transactional(readOnly = true)
-    public GetAllRecruitsResponse getAllRecruitsPage(){
-        List<Recruit> recruits = recruitRepository.findRecruitsWithImages()
-                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+    public PageResponse<GetOneRecruitResponse> getAllRecruitsPage(Pageable pageable){
+        Page<Recruit> recruits = recruitRepository.findRecruitsWithImages(pageable);
 
-        List<GetOneRecruitResponse> recruitResponses = recruits.stream()
-                .map(recruit -> {
-                    List<String> imageUrls = recruit.getRecruitImages().stream()
-                            .map(RecruitImage::getImageUrl)
-                            .collect(Collectors.toList());
-                    return GetOneRecruitResponse.of(recruit, imageUrls);
-                })
-                .collect(Collectors.toList());
+        Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
+            List<String> imageUrls = recruit.getRecruitImages().stream()
+                    .map(RecruitImage::getImageUrl)
+                    .collect(Collectors.toList());
+            return GetOneRecruitResponse.of(recruit, imageUrls);
+        });
 
-        return GetAllRecruitsResponse.from(recruitResponses);
+        return PageResponse.of(recruitDto);
+
     }
+
 
     @Transactional
     public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
@@ -153,6 +177,7 @@ public class RecruitService {
         List<String> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
+
         return GetOneRecruitResponse.of(recruit, imageUrls);
 
     }
