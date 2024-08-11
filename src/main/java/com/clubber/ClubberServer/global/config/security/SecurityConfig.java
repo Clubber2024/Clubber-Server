@@ -43,7 +43,7 @@ public class SecurityConfig {
                         requests.requestMatchers("/v1/auths/oauth/**").permitAll()
                                 .requestMatchers("/v1/auths/refresh").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/v1/clubs/{clubId}/reviews/**").permitAll()
-                                .requestMatchers("/v1/clubs/images").hasRole("ADMIN")
+                                .requestMatchers("/v1/clubs/images/**").hasRole("ADMIN")
                                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/v1/clubs/popular").permitAll()
                                 .requestMatchers("/v1/clubs/{clubId}").permitAll()
