@@ -1,8 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
