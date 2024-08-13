@@ -84,7 +84,7 @@ public class AdminController {
 			.body(createAdminsLoginResponse);
 	}
 
-	@Operation(summary = "관리자 계정 회원탈퇴")
+	@Operation(summary = "동아리 계정 회원탈퇴")
 	@DeleteMapping("/withdraw")
 	public ResponseEntity withdrawAdmin() {
 		adminService.withDraw();
@@ -93,13 +93,13 @@ public class AdminController {
 			.body(null);
 	}
 
-	@Operation(summary = "관리자 개별 동아리 페이지 수정")
+	@Operation(summary = "개별 동아리 계정 페이지 수정")
 	@PatchMapping("/change-page")
 	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest) {
 		return adminService.updateAdminsPage(pageRequest);
 	}
 
-	@Operation(summary = "관리자 마이 페이지 첫화면")
+	@Operation(summary = "동아리 계정 마이 페이지 첫화면")
 	@GetMapping("/mypage")
 	public GetClubResponse getAdminsMyPage() {
 		return adminService.getAdminsMyPage();
