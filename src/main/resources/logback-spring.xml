@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="30 seconds">
-    <property name="LOG_PATH" value="/home/ubuntu/clubber"/>
+    <property name="LOG_PATH" value="/home/ubuntu/clubber/logs"/>
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
