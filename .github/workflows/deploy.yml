@@ -1,4 +1,4 @@
-name : CI-CD
+name: CI-CD
 
 on:
   push:
@@ -26,34 +26,34 @@ jobs:
 
       - name: make application.yml
         run: |
-          mkdir ./src/main/resources # resources 폴더 생성
-          cd ./src/main/resources # resources 폴더로 이동
-          touch ./application.yml # application.yml 생성
-          echo "${{ secrets.YML }}" > ./application.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
+          #          mkdir ./src/main/resources # resources 폴더 생성
+               cd ./src/main/resources # resources 폴더로 이동
+               touch ./application.yml # application.yml 생성
+               echo "${{ secrets.YML }}" > ./application.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
         shell: bash
-            
-            # 환경별 yml 파일 생성(2) - dev
+
+        # 환경별 yml 파일 생성(2) - dev
       - name: make application-dev.yml
         run: |
           cd ./src/main/resources
           touch ./application-dev.yml
           echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
         shell: bash
-#      - name: Set yml file
-#        uses: microsoft/variable-substitution@v1
-#        with:
-#          files: ${{ env.RESOURCE_PATH }}
-#        env:
-#          spring.data.redis: ${{ secrets.REDIS_HOST }}
-#          spring.datasource.url: ${{ secrets.RDS_HOST }}
-#          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
-#          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
-#          oauth.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
-#          oauth.admin-key: ${{ secrets.KAKAO_ADMIN_KEY }}
-#          oauth.redirect-url: ${{ secrets.KAKAO_REDIRECT_URL }}
-#          jwt.secret-key: ${{ secrets.JWT_SECRET }}
-#          jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
-#          jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
+      #      - name: Set yml file
+      #        uses: microsoft/variable-substitution@v1
+      #        with:
+      #          files: ${{ env.RESOURCE_PATH }}
+      #        env:
+      #          spring.data.redis: ${{ secrets.REDIS_HOST }}
+      #          spring.datasource.url: ${{ secrets.RDS_HOST }}
+      #          spring.datasource.username: ${{ secrets.RDS_USERNAME }}
+      #          spring.datasource.password: ${{ secrets.RDS_PASSWORD }}
+      #          oauth.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
+      #          oauth.admin-key: ${{ secrets.KAKAO_ADMIN_KEY }}
+      #          oauth.redirect-url: ${{ secrets.KAKAO_REDIRECT_URL }}
+      #          jwt.secret-key: ${{ secrets.JWT_SECRET }}
+      #          jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
+      #          jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
