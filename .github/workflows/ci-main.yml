@@ -32,7 +32,7 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        
+
       - name: Build with Gradle
         run: ./gradlew clean build -x test
 
@@ -44,7 +44,7 @@ jobs:
 
       - name: Docker build & push to prod
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
       - name: Deploy to prod
