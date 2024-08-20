@@ -1,0 +1,32 @@
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="LOG_PATH" value="/home/ubuntu/clubber/logs"/>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/application-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--            <Pattern>%d{HH:mm:ss.SSS} [%-5level] - %msg%n</Pattern>-->
+            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){magenta} %clr([%thread]){blue} %clr(%-5level){}
+                %clr([%logger{0}:%line]){cyan} : %msg %n
+            </pattern>
+        </layout>
+    </appender>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
+    <root level="INFO">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
