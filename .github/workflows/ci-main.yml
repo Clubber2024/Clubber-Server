@@ -23,11 +23,11 @@ jobs:
           echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
 
-      - name: make application-dev.yml
+      - name: make application-prod.yml
         run: |
           cd ./src/main/resources
-          touch ./application-dev.yml
-          echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
+          touch ./application-prod.yml
+          echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
         shell: bash
 
       - name: Build with Gradle
