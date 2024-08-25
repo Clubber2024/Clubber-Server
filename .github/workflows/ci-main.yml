@@ -65,9 +65,9 @@ jobs:
             #          key: ${{ secrets.PRIVATE_KEY }}
             #          envs: GITHUB_SHA
             #          script: |
-            #            sudo docker ps
-            #            sudo docker rm -f $(docker ps -qa)
-            #            sudo docker pull ${{ secrets.DOCKER_REPO }}
+          #            sudo docker ps
+          #            sudo docker rm -f $(docker ps -qa)
+          #            sudo docker pull ${{ secrets.DOCKER_REPO }}
           #            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
           #            sudo docker image prune -f
 
@@ -80,9 +80,12 @@ jobs:
           script: |
             cd /home/ubuntu
             sudo docker-compose down
-            sudo docker-compose pull
+            sudo docker-compose pull ${{ secrets.DOCKER_REPO }}
             sudo docker-compose up -d
             sudo docker image prune -f
+        env:
+          DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
+
             
             
 
