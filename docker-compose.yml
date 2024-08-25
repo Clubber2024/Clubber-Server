@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    container_name: backend
+    image: ${DOCKER_REPO}
     build: .
     ports:
       - "8080:8080"
