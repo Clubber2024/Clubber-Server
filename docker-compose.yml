@@ -12,7 +12,7 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - ./nginx/:/etc/nginx/
+      - /nginx/:/etc/nginx/
     ports:
       - "80:80"
     depends_on:
