@@ -14,6 +14,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -35,12 +36,12 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	}
 
 	@Override
-	public Page<Review> queryReviewByClub(Club club, Pageable pageable) {
+	public Page<Review> queryReviewByClub(Club club, Pageable pageable, ApprovedStatus approvedStatus) {
 
 		List<Long> ids = queryFactory.select(review.id)
 			.from(review)
 			.where(review.club.id.eq(club.getId()),
-				review.approvedStatus.eq(ApprovedStatus.APPROVED))
+				approvedStatusEq(approvedStatus))
 			.orderBy(review.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -55,8 +56,12 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 		JPAQuery<Long> countQuery = queryFactory.select(review.count())
 			.from(review)
 			.where(review.club.id.eq(club.getId()),
-				review.approvedStatus.eq(ApprovedStatus.APPROVED));
+				approvedStatusEq(approvedStatus));
 
 		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
+	}
+
+	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
+		return approvedStatus == null ? null : review.approvedStatus.eq(approvedStatus);
 	}
 }
