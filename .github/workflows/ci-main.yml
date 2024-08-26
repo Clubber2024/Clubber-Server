@@ -30,6 +30,16 @@ jobs:
           echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
         shell: bash
 
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -63,7 +73,7 @@ jobs:
             #          host: ${{ secrets.HOST_PROD }}
             #          username: ubuntu
             #          key: ${{ secrets.PRIVATE_KEY }}
-            #          envs: GITHUB_SHA
+          #          envs: GITHUB_SHA
           #          script: |
           #            sudo docker ps
           #            sudo docker rm -f $(docker ps -qa)
