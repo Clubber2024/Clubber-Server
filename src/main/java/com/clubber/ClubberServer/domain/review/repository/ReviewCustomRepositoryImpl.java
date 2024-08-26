@@ -1,41 +1,67 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
-import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
-import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
-import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
+import static com.clubber.ClubberServer.domain.club.domain.QClub.*;
+import static com.clubber.ClubberServer.domain.review.domain.QReview.*;
+import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.*;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.QClub;
-import com.clubber.ClubberServer.domain.review.domain.QReview;
-import com.clubber.ClubberServer.domain.review.domain.QReviewKeyword;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ReviewCustomRepositoryImpl implements ReviewCustomRepository{
+public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
-    private final JPAQueryFactory queryFactory;
+	private final JPAQueryFactory queryFactory;
 
-    @Override
-    public List<Review> queryReviewByUserOrderByIdDesc(User user) {
-        return queryFactory.selectFrom(review)
-                .join(review.reviewKeywords, reviewKeyword).fetchJoin()
-                .join(review.club, club).fetchJoin()
-                .where(review.user.eq(user))
-                .orderBy(review.id.desc())
-                .fetch();
-    }
+	@Override
+	public List<Review> queryReviewByUserOrderByIdDesc(User user) {
+		return queryFactory.selectFrom(review)
+			.join(review.reviewKeywords, reviewKeyword).fetchJoin()
+			.join(review.club, club).fetchJoin()
+			.where(review.user.eq(user))
+			.orderBy(review.id.desc())
+			.fetch();
+	}
 
-    @Override
-    public List<Review> queryReviewByClub(Club club) {
-        return queryFactory
-                .selectFrom(review)
-                .join(review.reviewKeywords, reviewKeyword).fetchJoin()
-                .where(review.club.eq(club))
-                .orderBy(review.id.desc())
-                .fetch();
-    }
+	@Override
+	public Page<Review> queryReviewByClub(Club club, Pageable pageable, ApprovedStatus approvedStatus) {
+
+		List<Long> ids = queryFactory.select(review.id)
+			.from(review)
+			.where(review.club.id.eq(club.getId()),
+				approvedStatusEq(approvedStatus))
+			.orderBy(review.id.desc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		List<Review> reviews = queryFactory.selectFrom(review)
+			.join(review.reviewKeywords, reviewKeyword).fetchJoin()
+			.where(review.id.in(ids))
+			.orderBy(review.id.desc())
+			.fetch();
+
+		JPAQuery<Long> countQuery = queryFactory.select(review.count())
+			.from(review)
+			.where(review.club.id.eq(club.getId()),
+				approvedStatusEq(approvedStatus));
+
+		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
+	}
+
+	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
+		return approvedStatus == null ? null : review.approvedStatus.eq(approvedStatus);
+	}
 }
