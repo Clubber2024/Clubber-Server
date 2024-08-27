@@ -75,6 +75,10 @@ public class Club extends BaseEntity {
 		this.isDeleted = true;
 	}
 
+	public void deleteReviews() {
+		reviews.stream().forEach(Review::delete);
+	}
+
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, String hashtag, String division,
 		String college, String department, String imageUrl, ClubInfo clubInfo) {

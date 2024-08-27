@@ -96,4 +96,8 @@ public class Review extends BaseEntity {
 			throw InvalidApprovedStatusException.EXCEPTION;
 		this.approvedStatus = ApprovedStatus.REJECTED;
 	}
+
+	public void delete() {
+		this.approvedStatus = DELETED;
+	}
 }
