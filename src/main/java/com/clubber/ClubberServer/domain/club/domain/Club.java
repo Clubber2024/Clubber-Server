@@ -8,6 +8,7 @@ import org.hibernate.type.SqlTypes;
 
 import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 
 import jakarta.persistence.Entity;
@@ -62,6 +63,9 @@ public class Club extends BaseEntity {
 
 	@OneToMany(mappedBy = "club")
 	private List<Review> reviews = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club")
+	private List<Favorite> favorites = new ArrayList<>();
 
 	public void updateClub(String imageUrl, String introduction) {
 		this.imageUrl = imageUrl;
