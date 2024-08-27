@@ -44,6 +44,10 @@ public class Recruit extends BaseEntity {
 
     public void updateStatus(){this.isDeleted=true;}
 
+    public void increaseTotalview(){
+        this.totalView++;
+    }
+
     @Builder
     private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
         this.id=id;
