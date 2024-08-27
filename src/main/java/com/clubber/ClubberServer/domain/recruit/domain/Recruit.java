@@ -38,7 +38,7 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
-    @OneToMany(mappedBy = "recruit")
+    @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages;
 
     public void updateStatus(){this.isDeleted=true;}
