@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -100,7 +99,7 @@ public class AuthService {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		User user = userRepository.findById(currentUserId)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
-		user.getFavorites().stream().forEach(Favorite::delete);
+		user.deleteFavorites();
 		unlinkKakao(user);
 		refreshTokenRepository.deleteById(user.getId());
 		user.withDraw();
