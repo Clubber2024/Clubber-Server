@@ -39,7 +39,6 @@ public class Recruit extends BaseEntity {
     private Club club;
 
     @OneToMany(mappedBy = "recruit")
-    @BatchSize(size = 10)
     private List<RecruitImage> recruitImages;
 
     public void updateStatus(){this.isDeleted=true;}
