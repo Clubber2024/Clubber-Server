@@ -2,8 +2,6 @@ package com.clubber.ClubberServer.domain.favorite.domain;
 
 import java.util.Objects;
 
-import org.hibernate.annotations.SQLDelete;
-
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
@@ -28,7 +26,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@SQLDelete(sql = "UPDATE favorite SET is_deleted = true WHERE id = ?")
 @Table(indexes = @Index(name = "idx_favorite_user_id_is_deleted_id_desc", columnList = "user_id, is_deleted, id desc"))
 public class Favorite extends BaseEntity {
 
