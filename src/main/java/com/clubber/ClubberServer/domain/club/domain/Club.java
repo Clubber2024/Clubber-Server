@@ -83,6 +83,10 @@ public class Club extends BaseEntity {
 		reviews.stream().forEach(Review::delete);
 	}
 
+	public void deleteFavorites() {
+		favorites.stream().forEach(Favorite::delete);
+	}
+
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, String hashtag, String division,
 		String college, String department, String imageUrl, ClubInfo clubInfo) {
