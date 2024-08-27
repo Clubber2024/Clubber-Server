@@ -25,10 +25,6 @@ public interface RecruitRepository extends JpaRepository<Recruit,Long>{
     @Query("SELECT r FROM Recruit r LEFT JOIN r.recruitImages WHERE r.id = :recruitId AND r.isDeleted = false ORDER BY r.id DESC")
     Optional<Recruit> findRecruitWithImagesById(@Param("recruitId") Long recruitId);
 
-    @Modifying
-    @Query("UPDATE Recruit r SET r.totalView = r.totalView + 1 WHERE r.id = :id AND r.isDeleted = false")
-    void incrementTotalView(@Param("id") Long id);
-
     @Query("SELECT COALESCE(MAX(id), 0) FROM Recruit")
     Long findMaxRecruitId();
 

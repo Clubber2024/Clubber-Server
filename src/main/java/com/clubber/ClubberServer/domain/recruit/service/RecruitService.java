@@ -172,7 +172,7 @@ public class RecruitService {
         Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
-        recruitRepository.incrementTotalView(recruitId);
+        recruit.increaseTotalview();
 
         List<String> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
