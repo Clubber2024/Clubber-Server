@@ -118,13 +118,13 @@ public class ClubService {
 
     // [중앙 동아리] - 분과명 반환 (enum)
     public List<EnumMapperVO> getDivisionNames(){
-        return (List<EnumMapperVO>) enumMapper.get("Division");
+        return enumMapper.get("Division");
     }
 
 
     // [소모임] - 단과대 & 학과명 반환 (enum)
     public List<CollegeDTOResponse> getCollegesWithDepartments() {
-        List<EnumMapperVO> colleges = (List<EnumMapperVO>) enumMapper.get("College");
+        List<EnumMapperVO> colleges =  enumMapper.get("College");
 
         return colleges.stream()
                 .map(college -> {
