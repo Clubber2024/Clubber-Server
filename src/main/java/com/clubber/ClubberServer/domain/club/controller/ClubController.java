@@ -4,9 +4,7 @@ import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.CollegeDTOResponse;
 import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
-import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
-import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "분과별 중앙동아리 조회")
     @GetMapping(params="division")
-    public GetClubByDivisionResponse getClubsByDivision(@RequestParam(name="division",required=false) String division){
+    public GetClubByDivisionResponse getClubsByDivision(@RequestParam(name="division",required=false) Division division){
         return clubService.getClubsByDivision(division);
     }
 
@@ -37,10 +36,9 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "학과별 소모임 조회")
     @GetMapping(params="department")
-    public DepartmentSmallDto getClubsByDepartment(@RequestParam(name="department",required=false) String department){
+    public DepartmentSmallDto getClubsByDepartment(@RequestParam(name="department",required=false) Department department){
         return clubService.getClubsByDepartment(department);
     }
-
 
 
     /* === 중앙 동아리 & 소모임 공통 ===*/

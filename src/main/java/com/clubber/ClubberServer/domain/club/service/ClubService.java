@@ -1,8 +1,6 @@
 package com.clubber.ClubberServer.domain.club.service;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Division;
+import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -29,7 +27,7 @@ public class ClubService {
 
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
-    public GetClubByDivisionResponse getClubsByDivision(String division){
+    public GetClubByDivisionResponse getClubsByDivision(Division division){
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()){
             throw DivisionNotFoundException.EXCEPTION;
@@ -38,7 +36,8 @@ public class ClubService {
             List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(club -> GetClubIntoCardResponse.from(club))
                     .collect(Collectors.toList());
-            return GetClubByDivisionResponse.of(division, clubDtos);
+
+            return GetClubByDivisionResponse.of(division,clubDtos);
         }
 
     }
@@ -46,7 +45,7 @@ public class ClubService {
 
 
     // [소모임] - 특정 학과 소속 소모임들 반환
-    public DepartmentSmallDto getClubsByDepartment(String department){
+    public DepartmentSmallDto getClubsByDepartment(Department department){
         List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()){
             throw DepartmentNotFoundException.EXCEPTION;
@@ -87,7 +86,7 @@ public class ClubService {
 
 
     // 특정 해시태그 반환
-    public GetClubsByHashTagResponse getClubsHashtag(String hashtag){
+    public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag){
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;

@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.ClubberServer.domain.club.domain.Division;
 import lombok.*;
 
 @Getter
@@ -9,9 +11,9 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubByHashTagResponse {
 
-    private String clubType;
-    private String division;
-    private String department;
+    private ClubType clubType;
+    private Division division;
+    private Department department;
     private Long clubId;
     private String imageUrl;
     private String clubName;

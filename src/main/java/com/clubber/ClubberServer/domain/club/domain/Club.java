@@ -45,12 +45,20 @@ public class Club extends BaseEntity {
 
 	private String introduction;
 
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
 	private Hashtag hashtag;
 
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
 	private Division division;
 
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
 	private College college;
 
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
 	private Department department;
 
 	private String imageUrl;
