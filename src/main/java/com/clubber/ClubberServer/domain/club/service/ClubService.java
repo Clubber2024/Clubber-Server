@@ -45,7 +45,7 @@ public class ClubService {
 
 
 
-    // 소모임 - 특정 학과 소속 소모임들 반환
+    // [소모임] - 특정 학과 소속 소모임들 반환
     public DepartmentSmallDto getClubsByDepartment(String department){
         List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()){
@@ -110,6 +110,7 @@ public class ClubService {
                 .collect(Collectors.toList());
     }
 
+    // [해시태그] 해시태그 목록 반환 (enum)
     public List<EnumMapperVO> getClubsTotalHashtags() {
         return enumMapper.get("Hashtag");
     }

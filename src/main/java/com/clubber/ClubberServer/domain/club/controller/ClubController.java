@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
+import com.clubber.ClubberServer.domain.club.dto.CollegeDTOResponse;
 import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
 import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
@@ -56,6 +57,22 @@ public class ClubController {
     @GetMapping("/hashtags")
     public List<EnumMapperVO> getClubsTotalHashTags() {
         return clubService.getClubsTotalHashtags();
+    }
+
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "중앙동아리 - 분과 이름 목록 조회")
+    @GetMapping("/divisions")
+    public List<EnumMapperVO> getDivisions() {
+        return clubService.getDivisionNames();
+    }
+
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "소모임 - 단과대별 학과 이름 목록 조회")
+    @GetMapping("/colleges")
+    public List<CollegeDTOResponse> getColleges() {
+        return clubService.getCollegesWithDepartments();
     }
 
 }
