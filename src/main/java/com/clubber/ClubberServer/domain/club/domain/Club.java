@@ -45,13 +45,13 @@ public class Club extends BaseEntity {
 
 	private String introduction;
 
-	private String hashtag;
+	private Hashtag hashtag;
 
-	private String division; //분과 (중앙동아리)
+	private Division division;
 
-	private String college; //단과대 (소모임)
+	private College college;
 
-	private String department; //학과 (소모임)
+	private Department department;
 
 	private String imageUrl;
 
@@ -88,8 +88,8 @@ public class Club extends BaseEntity {
 	}
 
 	@Builder
-	private Club(Long id, String name, ClubType clubType, String introduction, String hashtag, String division,
-		String college, String department, String imageUrl, ClubInfo clubInfo) {
+	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
+		College college, Department department, String imageUrl, ClubInfo clubInfo) {
 		this.id = id;
 		this.name = name;
 		this.clubType = clubType;

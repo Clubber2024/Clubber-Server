@@ -21,8 +21,8 @@ public class GetClubByHashTagResponse {
     public static GetClubByHashTagResponse from(Club club){
         return GetClubByHashTagResponse.builder()
                 .clubType(club.getClubType().getCode().toLowerCase())
-                .division(club.getDivision())
-                .department(club.getDepartment())
+                .division(club.getDivision().getCode())
+                .department(club.getDepartment().getCode())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())

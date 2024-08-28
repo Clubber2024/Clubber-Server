@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
+import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
 import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
@@ -25,7 +27,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "분과별 중앙동아리 조회")
     @GetMapping(params="division")
-    public GetClubByDivisionResponse getClubsByDivision(@RequestParam(name="division",required=false)String division){
+    public GetClubByDivisionResponse getClubsByDivision(@RequestParam(name="division",required=false) String division){
         return clubService.getClubsByDivision(division);
     }
 
@@ -34,7 +36,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "학과별 소모임 조회")
     @GetMapping(params="department")
-    public DepartmentSmallDto getClubsByDepartment(@RequestParam(name="department",required=false)String department){
+    public DepartmentSmallDto getClubsByDepartment(@RequestParam(name="department",required=false) String department){
         return clubService.getClubsByDepartment(department);
     }
 
