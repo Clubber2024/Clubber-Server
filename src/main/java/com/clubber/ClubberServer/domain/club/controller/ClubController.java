@@ -4,7 +4,9 @@ import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.CollegeDTOResponse;
 import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 
 
 @RestController

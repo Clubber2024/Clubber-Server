@@ -13,7 +13,7 @@ public enum ClubErrorCode implements BaseErrorCode {
     DIVISION_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_2", "해당 이름을 가진 분과가 존재하지 않습니다."),
     DEPARTMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_3", "해당 이름을 가진 학과가 존재하지 않습니다."),
     CLUBID_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_4", "해당 clubid을 가진 동아리가 존재하지 않습니다."),
-    HASHTAG_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_5", "해당 hashtag는 존재하지 않습니다.");
+    HASHTAG_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_5", "해당 hashtag에 속한 동아리가 존재하지 않습니다.");
 
 
 

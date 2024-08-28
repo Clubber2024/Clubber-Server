@@ -8,12 +8,12 @@ import java.util.List;
 
 @Data
 public class DepartmentSmallDto {
-    private Department department;
+    private String department;
     private List<GetClubIntoCardResponse> clubs;
 
     @Builder
     public DepartmentSmallDto(Department department,List<GetClubIntoCardResponse> clubs){
-        this.department=department;
+        this.department=department.getTitle();
         this.clubs=clubs;
     }
 }

@@ -10,12 +10,12 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubByDivisionResponse { //각 분과별 dto
 
-    private Division division;
+    private String division;
     private List<GetClubIntoCardResponse> clubs;
 
     public static GetClubByDivisionResponse of (Division division, List<GetClubIntoCardResponse> clubs){
         return GetClubByDivisionResponse.builder()
-                .division(division)
+                .division(division.getTitle())
                 .clubs(clubs)
                 .build();
     }

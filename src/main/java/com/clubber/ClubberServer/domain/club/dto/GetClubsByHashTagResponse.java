@@ -10,13 +10,13 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsByHashTagResponse { //각 분과별 dto
-    private Hashtag hashtag;
+    private String hashtag;
     private List<GetClubByHashTagResponse> clubs;
 
 
     public static GetClubsByHashTagResponse of(Hashtag hashtag,List<GetClubByHashTagResponse> clubsDto){
         return GetClubsByHashTagResponse.builder()
-                .hashtag(hashtag.getCode())
+                .hashtag(hashtag.getTitle())
                 .clubs(clubsDto)
                 .build();
     }

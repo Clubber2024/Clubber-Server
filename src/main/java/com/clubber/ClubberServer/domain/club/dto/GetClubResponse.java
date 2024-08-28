@@ -9,12 +9,12 @@ import lombok.*;
 public class GetClubResponse {
     private Long clubId;
     private String clubName;
-    private ClubType clubType;
+    private String clubType;
     private String introduction;
-    private Hashtag hashTag;
-    private Division division;
-    private College college;
-    private Department department;
+    private String hashTag;
+    private String division;
+    private String college;
+    private String department;
     private String imageUrl;
     private GetClubInfoResponse clubInfo;
 
@@ -24,12 +24,12 @@ public class GetClubResponse {
         return GetClubResponse.builder()
                 .clubId(club.getId())
                 .clubName(club.getName())
-                .clubType(club.getClubType().getCode())
+                .clubType(club.getClubType().getTitle())
                 .introduction(club.getIntroduction())
-                .hashTag(club.getHashtag().getCode())
-                .division(club.getDivision().getCode())
-                .college(club.getCollege().getCode())
-                .department(club.getDepartment().getCode())
+                .hashTag(club.getHashtag().getTitle())
+                .division(club.getDivision().getTitle())
+                .college(club.getCollege().getTitle())
+                .department(club.getDepartment().getTitle())
                 .imageUrl(club.getImageUrl())
                 .clubInfo(clubInfo)
                 .build();
