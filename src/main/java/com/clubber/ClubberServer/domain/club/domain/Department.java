@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Department implements EnumMapperType {
 
-
+    // IT대학 학과
     IT("IT대 소속"),
     COMPUTER_SCIENCE("컴퓨터학부"),
     GLOBAL_MEDIA("글로벌미디어학부"),
@@ -20,6 +20,7 @@ public enum Department implements EnumMapperType {
 
     // 경영대학 학과
     BUSINESS("경영대학 소속"),
+    BUSINESS_ADMINISTRATION("경영학부"),
     ACCOUNTING("회계학과"),
     VENTURE_BUSINESS("벤처경영학과"),
     WELFARE_BUSINESS("복지경영학과"),
@@ -65,6 +66,9 @@ public enum Department implements EnumMapperType {
     FRENCH_LANGUAGE_LITERATURE("불어불문학과"),
     CHINESE_LANGUAGE_LITERATURE("중어중문학과"),
     JAPANESE_LANGUAGE_LITERATURE("일어일문학과"),
+    GERMAN_LANGUAGE_LITERATURE("독어독문학과"),
+    HISTORY("사학과"),
+    SPORT("스포츠학부"),
     PHILOSOPHY("철학과"),
 
     // 자연과학대학 학과
