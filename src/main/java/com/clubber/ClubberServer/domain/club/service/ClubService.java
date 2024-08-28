@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.College;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
@@ -111,6 +112,33 @@ public class ClubService {
 
     public List<EnumMapperVO> getClubsTotalHashtags() {
         return enumMapper.get("Hashtag");
+    }
+
+
+    // [중앙 동아리] - 분과명 반환 (enum)
+    public List<EnumMapperVO> getDivisionNames(){
+        return (List<EnumMapperVO>) enumMapper.get("Division");
+    }
+
+
+    // [소모임] - 단과대 & 학과명 반환 (enum)
+    public List<CollegeDTOResponse> getCollegesWithDepartments() {
+        List<EnumMapperVO> colleges = (List<EnumMapperVO>) enumMapper.get("College");
+
+        return colleges.stream()
+                .map(college -> {
+                    College collegeEnum = College.valueOf(college.getCode());
+                    List<EnumMapperVO> departments = collegeEnum.getDepartments().stream()
+                            .map(department -> new EnumMapperVO(department))
+                            .collect(Collectors.toList());
+
+                    return CollegeDTOResponse.builder()
+                            .code(college.getCode())
+                            .title(college.getTitle())
+                            .departments(departments)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
 
