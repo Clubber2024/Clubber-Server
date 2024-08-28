@@ -18,9 +18,9 @@ public class GetClubSearchResponse {
 
     public static GetClubSearchResponse from (Club club){
         return GetClubSearchResponse.builder()
-                .clubType(club.getClubType().getCode().toLowerCase())
-                .division(club.getDivision().getCode())
-                .department(club.getDepartment().getCode())
+                .clubType(club.getClubType().getTitle())
+                .division(club.getDivision().getTitle())
+                .department(club.getDepartment().getTitle())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())
