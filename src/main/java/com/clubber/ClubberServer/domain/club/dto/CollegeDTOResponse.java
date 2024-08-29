@@ -1,18 +1,13 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.College;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CollegeDTOResponse {
     private String code;
     private String title;
