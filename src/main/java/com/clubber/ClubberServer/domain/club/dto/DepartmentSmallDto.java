@@ -1,12 +1,13 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Department;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class DepartmentSmallDto {
     private String department;
     private List<GetClubIntoCardResponse> clubs;
