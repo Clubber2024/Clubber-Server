@@ -9,15 +9,15 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchResponse {
-    private String clubName;
 
+    private String searchBy;
     private List<GetClubSearchResponse> center;
     private List<GetClubSearchResponse> small;
 
 
-    public static GetClubsSearchResponse of (String clubName, List<GetClubSearchResponse> center,List<GetClubSearchResponse> small){
+    public static GetClubsSearchResponse of (String searchBy, List<GetClubSearchResponse> center,List<GetClubSearchResponse> small){
         return GetClubsSearchResponse.builder()
-                .clubName(clubName)
+                .searchBy(searchBy)
                 .center(center)
                 .small(small)
                 .build();

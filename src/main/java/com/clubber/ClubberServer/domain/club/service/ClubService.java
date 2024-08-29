@@ -89,7 +89,7 @@ public class ClubService {
                     .map(GetClubSearchResponse::from)
                     .collect(Collectors.toList());
 
-            return GetClubsSearchResponse.of(clubName, centerClubs,smallClubs);
+            return GetClubsSearchResponse.of(clubName,centerClubs,smallClubs);
         }
     }
 
