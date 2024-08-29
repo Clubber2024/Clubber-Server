@@ -7,7 +7,7 @@ import lombok.*;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubSearchResponse {
-    private String clubType;
+
     private String division;
     private String department;
     private Long clubId;
@@ -18,7 +18,6 @@ public class GetClubSearchResponse {
 
     public static GetClubSearchResponse from (Club club){
         return GetClubSearchResponse.builder()
-                .clubType(club.getClubType().getTitle())
                 .division(club.getDivision().getTitle())
                 .department(club.getDepartment().getTitle())
                 .clubId(club.getId())

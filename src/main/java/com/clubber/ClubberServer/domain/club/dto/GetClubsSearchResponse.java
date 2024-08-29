@@ -10,13 +10,16 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchResponse {
     private String clubName;
-    private List<GetClubSearchResponse> clubs;
+
+    private List<GetClubSearchResponse> center;
+    private List<GetClubSearchResponse> small;
 
 
-    public static GetClubsSearchResponse of (String clubName, List<GetClubSearchResponse> clubs){
+    public static GetClubsSearchResponse of (String clubName, List<GetClubSearchResponse> center,List<GetClubSearchResponse> small){
         return GetClubsSearchResponse.builder()
                 .clubName(clubName)
-                .clubs(clubs)
+                .center(center)
+                .small(small)
                 .build();
     }
 

@@ -76,11 +76,20 @@ public class ClubService {
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }
+
         else {
-            List<GetClubSearchResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubSearchResponse.from(club))
+            List<GetClubSearchResponse> centerClubs = clubs.stream()
+                    .filter(club -> "CENTER".equals(club.getClubType().getCode()))
+                    .map(GetClubSearchResponse::from)
                     .collect(Collectors.toList());
-            return GetClubsSearchResponse.of(clubName, clubDtos);
+
+
+            List<GetClubSearchResponse> smallClubs = clubs.stream()
+                    .filter(club -> "SMALL".equals(club.getClubType().getCode()))
+                    .map(GetClubSearchResponse::from)
+                    .collect(Collectors.toList());
+
+            return GetClubsSearchResponse.of(clubName, centerClubs,smallClubs);
         }
     }
 
