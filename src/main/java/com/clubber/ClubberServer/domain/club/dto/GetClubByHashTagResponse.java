@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.ClubberServer.domain.club.domain.Division;
 import lombok.*;
 
 @Getter
@@ -20,9 +22,9 @@ public class GetClubByHashTagResponse {
 
     public static GetClubByHashTagResponse from(Club club){
         return GetClubByHashTagResponse.builder()
-                .clubType(club.getClubType().getCode().toLowerCase())
-                .division(club.getDivision())
-                .department(club.getDepartment())
+                .clubType(club.getClubType().getTitle())
+                .division(club.getDivision().getTitle())
+                .department(club.getDepartment().getTitle())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())

@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 
+import com.clubber.ClubberServer.domain.club.domain.Hashtag;
 import lombok.*;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public class GetClubsByHashTagResponse { //각 분과별 dto
     private List<GetClubByHashTagResponse> clubs;
 
 
-    public static GetClubsByHashTagResponse of(String hashtag,List<GetClubByHashTagResponse> clubsDto){
+    public static GetClubsByHashTagResponse of(Hashtag hashtag,List<GetClubByHashTagResponse> clubsDto){
         return GetClubsByHashTagResponse.builder()
-                .hashtag(hashtag)
+                .hashtag(hashtag.getTitle())
                 .clubs(clubsDto)
                 .build();
     }

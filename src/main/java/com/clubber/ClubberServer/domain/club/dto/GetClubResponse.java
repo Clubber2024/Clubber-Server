@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.ClubberServer.domain.club.domain.*;
 import lombok.*;
 
 @Getter
@@ -25,12 +24,12 @@ public class GetClubResponse {
         return GetClubResponse.builder()
                 .clubId(club.getId())
                 .clubName(club.getName())
-                .clubType(club.getClubType().getCode().toLowerCase())
+                .clubType(club.getClubType().getTitle())
                 .introduction(club.getIntroduction())
-                .hashTag(club.getHashtag())
-                .division(club.getDivision())
-                .college(club.getCollege())
-                .department(club.getDepartment())
+                .hashTag(club.getHashtag().getTitle())
+                .division(club.getDivision().getTitle())
+                .college(club.getCollege().getTitle())
+                .department(club.getDepartment().getTitle())
                 .imageUrl(club.getImageUrl())
                 .clubInfo(clubInfo)
                 .build();
