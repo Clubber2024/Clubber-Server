@@ -122,25 +122,12 @@ public class ClubService {
 
 
     // [소모임] - 단과대 & 학과명 반환 (enum)
-    public List<CollegeDTOResponse> getCollegesWithDepartments() {
-        List<EnumMapperVO> colleges =  enumMapper.get("College");
+    public List<CollegeResponse> getCollegesWithDepartments() {
+        List<EnumMapperVO> colleges = enumMapper.get("College");
 
         return colleges.stream()
-                .map(college -> {
-                    College collegeEnum = College.valueOf(college.getCode());
-                    List<EnumMapperVO> departments = collegeEnum.getDepartments().stream()
-                            .map(department -> new EnumMapperVO(department))
-                            .collect(Collectors.toList());
-
-                    return CollegeDTOResponse.builder()
-                            .code(college.getCode())
-                            .title(college.getTitle())
-                            .departments(departments)
-                            .build();
-                })
+                .map(college -> CollegeResponse.from(College.valueOf(college.getCode())))
                 .collect(Collectors.toList());
     }
-
-
 
 }
