@@ -65,6 +65,7 @@ public class Club extends BaseEntity {
 
 	private boolean isDeleted = false;
 
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clubInfo_id")
 	private ClubInfo clubInfo;
