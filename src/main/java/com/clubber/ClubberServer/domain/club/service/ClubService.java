@@ -73,6 +73,7 @@ public class ClubService {
     // 동아리명 및 소모임명으로 검색
     public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
+
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }

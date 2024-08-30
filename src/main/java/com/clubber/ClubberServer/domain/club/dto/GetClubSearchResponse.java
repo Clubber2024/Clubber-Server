@@ -8,8 +8,6 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubSearchResponse {
 
-    private String division;
-    private String department;
     private Long clubId;
     private String imageUrl;
     private String clubName;
@@ -18,8 +16,6 @@ public class GetClubSearchResponse {
 
     public static GetClubSearchResponse from (Club club){
         return GetClubSearchResponse.builder()
-                .division(club.getDivision().getTitle())
-                .department(club.getDepartment().getTitle())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())
