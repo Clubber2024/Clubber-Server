@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Getter
@@ -10,16 +12,12 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchResponse {
 
-    private String searchBy;
-    private List<GetClubSearchResponse> center;
-    private List<GetClubSearchResponse> small;
+    Map<ClubType, List<GetClubSearchResponse>> clubs;
 
 
-    public static GetClubsSearchResponse of (String searchBy, List<GetClubSearchResponse> center,List<GetClubSearchResponse> small){
+    public static GetClubsSearchResponse of (Map<ClubType, List<GetClubSearchResponse>> groupedClubs){
         return GetClubsSearchResponse.builder()
-                .searchBy(searchBy)
-                .center(center)
-                .small(small)
+                .clubs(groupedClubs)
                 .build();
     }
 

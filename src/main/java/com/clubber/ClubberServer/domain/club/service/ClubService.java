@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -78,20 +79,12 @@ public class ClubService {
             throw ClubNotFoundException.EXCEPTION;
         }
 
-        else {
-            List<GetClubSearchResponse> centerClubs = clubs.stream()
-                    .filter(club -> "CENTER".equals(club.getClubType().getCode()))
-                    .map(GetClubSearchResponse::from)
-                    .collect(Collectors.toList());
+        Map<ClubType, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
+                .collect(Collectors.groupingBy(
+                        club -> club.getClubType(),
+                        Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())));
 
-
-            List<GetClubSearchResponse> smallClubs = clubs.stream()
-                    .filter(club -> "SMALL".equals(club.getClubType().getCode()))
-                    .map(GetClubSearchResponse::from)
-                    .collect(Collectors.toList());
-
-            return GetClubsSearchResponse.of(clubName,centerClubs,smallClubs);
-        }
+        return GetClubsSearchResponse.of(groupedClubs);
     }
 
 
