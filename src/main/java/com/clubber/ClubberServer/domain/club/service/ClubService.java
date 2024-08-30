@@ -11,11 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.LinkedHashMap;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import java.util.stream.Collectors;
 
 
@@ -80,12 +78,12 @@ public class ClubService {
             throw ClubNotFoundException.EXCEPTION;
         }
 
-        Map<ClubType, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
+        EnumMap<ClubType, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
                 .collect(Collectors.groupingBy(
-                        club -> club.getClubType(),
-                        LinkedHashMap::new,
-                        Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())));
-
+                        Club::getClubType,
+                        () -> new EnumMap<>(ClubType.class),
+                        Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())
+                ));
         return GetClubsSearchResponse.of(groupedClubs);
     }
 
