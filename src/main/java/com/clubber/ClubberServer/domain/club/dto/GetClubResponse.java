@@ -19,10 +19,10 @@ public class GetClubResponse {
 	private String clubName;
 	private String clubType;
 	private String introduction;
-	private Hashtag hashTag;
-	private Division division;
-	private College college;
-	private Department department;
+	private String hashTag;
+	private String division;
+	private String college;
+	private String department;
 	private String imageUrl;
 	private GetClubInfoResponse clubInfo;
 
@@ -32,10 +32,10 @@ public class GetClubResponse {
 			.clubName(club.getName())
 			.clubType(club.getClubType().getTitle())
 			.introduction(club.getIntroduction())
-			.hashTag(club.getHashtag())
-			.division(club.getDivision())
-			.college(club.getCollege())
-			.department(club.getDepartment())
+			.hashTag(club.getHashtag()!=null ? club.getHashtag().getTitle() :null)
+			.division(club.getDivision()!=null ? club.getDivision().getTitle() :null)
+			.college(club.getCollege()!=null ? club.getCollege().getTitle() :null)
+			.department(club.getDepartment()!=null ? club.getDepartment().getTitle() :null)
 			.imageUrl(club.getImageUrl())
 			.clubInfo(clubInfo)
 			.build();

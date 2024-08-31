@@ -15,7 +15,6 @@ public class GetClubsSearchResponse {
 
     EnumMap<ClubType, List<GetClubSearchResponse>> clubs;
 
-
     public static GetClubsSearchResponse of (EnumMap<ClubType, List<GetClubSearchResponse>> groupedClubs){
         return GetClubsSearchResponse.builder()
                 .clubs(groupedClubs)
