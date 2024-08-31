@@ -24,6 +24,17 @@ public class EnumMapper {
 		return typeFactory.get(key);
 	}
 
+	public EnumMapperType getEnumInstance(String key) {
+		Class<? extends EnumMapperType> enumType = getEnumType(key);
+		EnumMapperType[] enumConstants = enumType.getEnumConstants();
+		for (EnumMapperType enumConstant : enumConstants) {
+			if (enumConstant.getCode().equals(key)) {
+				return enumConstant;
+			}
+		}
+		return null;
+	}
+
 	public List<EnumMapperVO> toEnumValues(Class<? extends EnumMapperType> e) {
 		return Arrays.stream(e.getEnumConstants())
 			.map(EnumMapperVO::new)
