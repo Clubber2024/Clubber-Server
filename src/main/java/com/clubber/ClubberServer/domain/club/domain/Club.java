@@ -65,7 +65,6 @@ public class Club extends BaseEntity {
 
 	private boolean isDeleted = false;
 
-
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clubInfo_id")
 	private ClubInfo clubInfo;
@@ -94,6 +93,12 @@ public class Club extends BaseEntity {
 
 	public void deleteFavorites() {
 		favorites.stream().forEach(Favorite::delete);
+	}
+
+	public String getClubType() {
+		if (clubType == null)
+			return null;
+		return clubType.getTitle();
 	}
 
 	@Builder
