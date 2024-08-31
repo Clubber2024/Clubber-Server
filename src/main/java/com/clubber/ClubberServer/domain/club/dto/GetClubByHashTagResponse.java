@@ -22,7 +22,7 @@ public class GetClubByHashTagResponse {
 
 	public static GetClubByHashTagResponse from(Club club) {
 		return GetClubByHashTagResponse.builder()
-			.clubType(club.getClubType())
+			.clubType(club.getClubType().getTitle())
 			.division(club.getDivision().getTitle())
 			.department(club.getDepartment().getTitle())
 			.clubId(club.getId())

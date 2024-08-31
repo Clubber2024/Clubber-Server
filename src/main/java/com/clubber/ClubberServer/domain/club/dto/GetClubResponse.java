@@ -30,7 +30,7 @@ public class GetClubResponse {
 		return GetClubResponse.builder()
 			.clubId(club.getId())
 			.clubName(club.getName())
-			.clubType(club.getClubType())
+			.clubType(club.getClubType().getTitle())
 			.introduction(club.getIntroduction())
 			.hashTag(club.getHashtag())
 			.division(club.getDivision())

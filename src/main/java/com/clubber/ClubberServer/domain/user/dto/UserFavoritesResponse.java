@@ -55,7 +55,7 @@ public class UserFavoritesResponse {
 				return FavoriteClubDetailResponse.builder()
 					.clubId(club.getId())
 					.clubName(club.getName())
-					.clubType(club.getClubType())
+					.clubType(club.getClubType().getTitle())
 					.imageUrl(club.getImageUrl())
 					.build();
 			}
