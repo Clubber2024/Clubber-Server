@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.club.domain.College;
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
@@ -18,7 +17,7 @@ import lombok.Getter;
 public class GetClubResponse {
 	private Long clubId;
 	private String clubName;
-	private ClubType clubType;
+	private String clubType;
 	private String introduction;
 	private Hashtag hashTag;
 	private Division division;
