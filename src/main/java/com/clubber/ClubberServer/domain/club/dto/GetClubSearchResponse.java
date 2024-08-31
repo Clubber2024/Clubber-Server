@@ -13,7 +13,6 @@ public class GetClubSearchResponse {
     private String clubName;
     private String introduction;
 
-
     public static GetClubSearchResponse from (Club club){
         return GetClubSearchResponse.builder()
                 .clubId(club.getId())
