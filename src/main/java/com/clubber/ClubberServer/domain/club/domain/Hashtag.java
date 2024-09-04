@@ -13,6 +13,8 @@ public enum Hashtag implements EnumMapperType {
 
 	private final String title;
 
+	private final String imageUrl;
+
 	@Override
 	public String getCode() {
 		return name();
@@ -21,5 +23,10 @@ public enum Hashtag implements EnumMapperType {
 	@Override
 	public String getTitle() {
 		return title;
+	}
+
+	@Override
+	public String getImageUrl() {
+		return imageUrl;
 	}
 }
