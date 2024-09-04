@@ -15,7 +15,8 @@ public enum College implements EnumMapperType {
     LAW_COLLEGE("법과대학", EnumSet.of(Department.LAW_COLLEGE,Department.LAW, Department.INTERNATIONAL_LAW)),
     SOCIAL_SCIENCES_COLLEGE("사회과학대학", EnumSet.of(Department.SOCIAL_SCIENCES,Department.SOCIAL_WELFARE, Department.POLITICAL_SCIENCE, Department.JOURNALISM, Department.PUBLIC_ADMINISTRATION, Department.SOCIAL_INFORMATICS, Department.LIFELONG_EDUCATION)),
     HUMANITIES_COLLEGE("인문대학", EnumSet.of(Department.HUMANITIES,Department.THEOLOGY, Department.KOREAN_LANGUAGE_LITERATURE, Department.ENGLISH_LANGUAGE_LITERATURE, Department.FRENCH_LANGUAGE_LITERATURE, Department.CHINESE_LANGUAGE_LITERATURE, Department.JAPANESE_LANGUAGE_LITERATURE, Department.GERMAN_LANGUAGE_LITERATURE,Department.HISTORY,Department.SPORT,Department.PHILOSOPHY)),
-    NATURAL_SCIENCES_COLLEGE("자연과학대학", EnumSet.of(Department.NATURAL_SCIENCES,Department.MATHEMATICS, Department.PHYSICS, Department.CHEMISTRY, Department.STATISTICS, Department.BIOLOGY));
+    NATURAL_SCIENCES_COLLEGE("자연과학대학", EnumSet.of(Department.NATURAL_SCIENCES,Department.MATHEMATICS, Department.PHYSICS, Department.CHEMISTRY, Department.STATISTICS, Department.BIOLOGY)),
+    ETC("해당 없음",EnumSet.of(Department.ETC));
 
     private final String college;
     private final EnumSet<Department> departments;
