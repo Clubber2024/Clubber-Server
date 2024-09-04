@@ -77,7 +77,10 @@ public enum Department implements EnumMapperType {
     PHYSICS("물리학과"),
     CHEMISTRY("화학과"),
     STATISTICS("정보통계보험수리학과"),
-    BIOLOGY("의생명시스템학부");
+    BIOLOGY("의생명시스템학부"),
+
+    // 그외
+    ETC("해당 없음");
 
     private final String department;
 

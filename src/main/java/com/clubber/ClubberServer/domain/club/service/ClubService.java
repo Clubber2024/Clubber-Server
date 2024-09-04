@@ -94,12 +94,16 @@ public class ClubService {
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
-        else {
-            List<GetClubByHashTagResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubByHashTagResponse.from(club))
-                    .collect(Collectors.toList());
-            return GetClubsByHashTagResponse.of(hashtag, clubDtos);
-        }
+
+        EnumMap<ClubType, List<GetClubByHashTagResponse>> groupedClubs = clubs.stream()
+                .collect(Collectors.groupingBy(
+                        Club::getClubType,
+                        () -> new EnumMap<>(ClubType.class),
+                        Collectors.mapping(GetClubByHashTagResponse::from, Collectors.toList())
+                ));
+
+        return GetClubsByHashTagResponse.of(hashtag,groupedClubs);
+
 
     }
 

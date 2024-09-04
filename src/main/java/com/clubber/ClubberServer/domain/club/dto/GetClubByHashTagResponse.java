@@ -12,7 +12,6 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubByHashTagResponse {
 
-	private String clubType;
 	private Long clubId;
 	private String imageUrl;
 	private String clubName;
@@ -20,12 +19,11 @@ public class GetClubByHashTagResponse {
 
 	public static GetClubByHashTagResponse from(Club club) {
 		return GetClubByHashTagResponse.builder()
-			.clubType(club.getClubType().getTitle())
-			.clubId(club.getId())
-			.imageUrl(club.getImageUrl())
-			.clubName(club.getName())
-			.introduction(club.getIntroduction())
-			.build();
+				.clubId(club.getId())
+				.imageUrl(club.getImageUrl())
+				.clubName(club.getName())
+				.introduction(club.getIntroduction())
+				.build();
 	}
 
 }
