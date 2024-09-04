@@ -1,12 +1,10 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
 import lombok.*;
-
-import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -14,9 +12,9 @@ import java.util.List;
 public class GetClubsByHashTagResponse { //각 분과별 dto
     private String hashtag;
 
-    EnumMap<ClubType, List<GetClubByHashTagResponse>> clubs;
+    Map<String, List<GetClubByHashTagResponse>> clubs;
 
-    public static GetClubsByHashTagResponse of (Hashtag hashtag,EnumMap<ClubType, List<GetClubByHashTagResponse>> clubs){
+    public static GetClubsByHashTagResponse of (Hashtag hashtag,Map<String, List<GetClubByHashTagResponse>> clubs){
         return GetClubsByHashTagResponse.builder()
                 .hashtag(hashtag.getTitle())
                 .clubs(clubs)

@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.util.EnumMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 @Getter
@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchResponse {
 
-    EnumMap<ClubType, List<GetClubSearchResponse>> clubs;
+    Map<String, List<GetClubSearchResponse>> clubs;
 
-    public static GetClubsSearchResponse of (EnumMap<ClubType, List<GetClubSearchResponse>> groupedClubs){
+    public static GetClubsSearchResponse of (Map<String, List<GetClubSearchResponse>> groupedClubs){
         return GetClubsSearchResponse.builder()
                 .clubs(groupedClubs)
                 .build();

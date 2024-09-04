@@ -74,14 +74,18 @@ public class ClubService {
     public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
 
+        List<String> clubTypes = Arrays.stream(ClubType.values())
+                .map(ClubType::getTitle)
+                .collect(Collectors.toList());
+
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }
 
-        EnumMap<ClubType, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
+        Map<String, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
                 .collect(Collectors.groupingBy(
-                        Club::getClubType,
-                        () -> new EnumMap<>(ClubType.class),
+                        club -> club.getClubType().getTitle(),
+                        () -> new TreeMap<>(Comparator.comparing(clubTypes::indexOf)),
                         Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())
                 ));
         return GetClubsSearchResponse.of(groupedClubs);
@@ -91,19 +95,23 @@ public class ClubService {
     // 특정 해시태그 반환
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag){
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
+
+        List<String> clubTypes = Arrays.stream(ClubType.values())
+                .map(ClubType::getTitle)
+                .collect(Collectors.toList());
+
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
 
-        EnumMap<ClubType, List<GetClubByHashTagResponse>> groupedClubs = clubs.stream()
+        Map<String, List<GetClubByHashTagResponse>> groupedClubs = clubs.stream()
                 .collect(Collectors.groupingBy(
-                        Club::getClubType,
-                        () -> new EnumMap<>(ClubType.class),
+                        club -> club.getClubType().getTitle(),
+                        () -> new TreeMap<>(Comparator.comparing(clubTypes::indexOf)),
                         Collectors.mapping(GetClubByHashTagResponse::from, Collectors.toList())
                 ));
 
         return GetClubsByHashTagResponse.of(hashtag,groupedClubs);
-
 
     }
 
