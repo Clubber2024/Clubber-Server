@@ -28,17 +28,17 @@ public class GetClubResponse {
 
 	public static GetClubResponse of(Club club, GetClubInfoResponse clubInfo) {
 		return GetClubResponse.builder()
-			.clubId(club.getId())
-			.clubName(club.getName())
-			.clubType(club.getClubType()!=null? club.getClubType() :null)
-			.introduction(club.getIntroduction())
-			.hashTag(club.getHashtag()!=null? club.getHashtag().getTitle() :null)
-			.division(club.getDivision()!=null? club.getDivision().getTitle() :null)
-			.college(club.getCollege()!=null? club.getCollege().getTitle() :null)
-			.department(club.getDepartment()!=null? club.getDepartment().getTitle() :null)
-			.imageUrl(club.getImageUrl())
-			.clubInfo(clubInfo)
-			.build();
+				.clubId(club.getId())
+				.clubName(club.getName())
+				.clubType(club.getClubType().getTitle())
+				.introduction(club.getIntroduction())
+				.hashTag(club.getHashtag()!=null ? club.getHashtag().getTitle() :null)
+				.division(club.getDivision()!=null ? club.getDivision().getTitle() :null)
+				.college(club.getCollege()!=null ? club.getCollege().getTitle() :null)
+				.department(club.getDepartment()!=null ? club.getDepartment().getTitle() :null)
+				.imageUrl(club.getImageUrl())
+				.clubInfo(clubInfo)
+				.build();
 
 	}
 }

@@ -104,7 +104,7 @@ public class AdminReviewService {
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null);
+		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
 		return GetAdminsReviewsResponse.of(admin, club, reviews);
 	}
 

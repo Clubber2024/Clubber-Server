@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
@@ -94,7 +93,7 @@ public class ReviewService {
 	public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId, Pageable pageable) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, ApprovedStatus.APPROVED);
+		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
 	}
 

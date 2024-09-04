@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

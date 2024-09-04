@@ -20,12 +20,12 @@ public class GetClubByHashTagResponse {
 
 	public static GetClubByHashTagResponse from(Club club) {
 		return GetClubByHashTagResponse.builder()
-			.clubType(club.getClubType()!=null? club.getClubType() :null)
-			.clubId(club.getId())
-			.imageUrl(club.getImageUrl())
-			.clubName(club.getName())
-			.introduction(club.getIntroduction())
-			.build();
+				.clubType(club.getClubType().getTitle())
+				.clubId(club.getId())
+				.imageUrl(club.getImageUrl())
+				.clubName(club.getName())
+				.introduction(club.getIntroduction())
+				.build();
 	}
 
 }

@@ -95,11 +95,11 @@ public class Club extends BaseEntity {
 		favorites.stream().forEach(Favorite::delete);
 	}
 
-	public String getClubType() {
-		if (clubType == null)
-			return null;
-		return clubType.getTitle();
-	}
+//	public String getClubType() {
+//		if (clubType == null)
+//			return null;
+//		return clubType.getTitle();
+//	}
 
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
