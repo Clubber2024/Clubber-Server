@@ -178,4 +178,6 @@ gradle-app.setting
 **/.DS_Store
 **/._.DS_Store
 
+*.idea
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,java
