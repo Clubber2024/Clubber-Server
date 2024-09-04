@@ -36,12 +36,11 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	}
 
 	@Override
-	public Page<Review> queryReviewByClub(Club club, Pageable pageable, ApprovedStatus approvedStatus) {
+	public Page<Review> queryReviewByClub(Club club, Pageable pageable) {
 
 		List<Long> ids = queryFactory.select(review.id)
 			.from(review)
-			.where(review.club.id.eq(club.getId()),
-				approvedStatusEq(approvedStatus))
+			.where(review.club.id.eq(club.getId()))
 			.orderBy(review.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -55,8 +54,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
 		JPAQuery<Long> countQuery = queryFactory.select(review.count())
 			.from(review)
-			.where(review.club.id.eq(club.getId()),
-				approvedStatusEq(approvedStatus));
+			.where(review.club.id.eq(club.getId()));
 
 		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
 	}
