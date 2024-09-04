@@ -33,7 +33,7 @@ public class GetFavoriteDetailsResponse {
 			.favoriteId(favorite.getId())
 			.clubId(favorite.getClub().getId())
 			.clubName(favorite.getClub().getName())
-			.clubType(favorite.getClub().getClubType())
+			.clubType(favorite.getClub().getClubType().getTitle())
 			.imageUrl(favorite.getClub().getImageUrl())
 			.build();
 	}

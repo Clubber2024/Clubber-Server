@@ -12,8 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import java.util.stream.Collectors;
 
 
@@ -73,15 +73,18 @@ public class ClubService {
     // 동아리명 및 소모임명으로 검색
     public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
+
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }
-        else {
-            List<GetClubSearchResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubSearchResponse.from(club))
-                    .collect(Collectors.toList());
-            return GetClubsSearchResponse.of(clubName, clubDtos);
-        }
+
+        EnumMap<ClubType, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
+                .collect(Collectors.groupingBy(
+                        Club::getClubType,
+                        () -> new EnumMap<>(ClubType.class),
+                        Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())
+                ));
+        return GetClubsSearchResponse.of(groupedClubs);
     }
 
 
