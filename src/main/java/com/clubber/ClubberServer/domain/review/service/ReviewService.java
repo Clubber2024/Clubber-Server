@@ -103,6 +103,7 @@ public class ReviewService {
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
 	}
 
+	@Transactional(readOnly = true)
 	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
@@ -111,7 +112,7 @@ public class ReviewService {
 		List<ClubReviewsWithContentDetailResponse> reviewDetails = reviews.stream()
 			.map(ClubReviewsWithContentDetailResponse::of)
 			.collect(Collectors.toList());
-		
+
 		return ClubReviewsWithSliceContentResponse.of(
 			SliceUtil.valueOf(reviewDetails, pageable), clubId);
 	}
