@@ -64,7 +64,6 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	@Override
 	public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId) {
 		return queryFactory.selectFrom(review)
-			.join(review.reviewKeywords, reviewKeyword)
 			.where(review.club.id.eq(club.getId()),
 				ltReviewId(reviewId))
 			.orderBy(review.id.desc())
