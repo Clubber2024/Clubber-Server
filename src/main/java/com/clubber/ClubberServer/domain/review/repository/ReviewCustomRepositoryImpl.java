@@ -65,7 +65,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 			.where(review.club.id.eq(club.getId()),
 				ltReviewId(reviewId))
 			.orderBy(review.id.desc())
-			.limit(pageable.getPageSize())
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
 	}
 
