@@ -66,10 +66,17 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 		return queryFactory.selectFrom(review)
 			.join(review.reviewKeywords, reviewKeyword)
 			.where(review.club.id.eq(club.getId()),
-				review.id.lt(reviewId))
+				ltReviewId(reviewId))
 			.orderBy(review.id.desc())
 			.limit(pageable.getPageSize())
 			.fetch();
+	}
+
+	private BooleanExpression ltReviewId(Long reviewId){
+		if(reviewId == null){
+			return null;
+		}
+		return review.id.lt(reviewId);
 	}
 
 	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {

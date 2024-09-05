@@ -57,7 +57,7 @@ public class ReviewController {
 	@DisableSwaggerSecurity
 	@GetMapping("/slice")
 	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(
-		@PathVariable Long clubId, Pageable pageable, @RequestParam Long reviewid) {
+		@PathVariable Long clubId, Pageable pageable, @RequestParam(required = false) Long reviewid) {
 		return reviewService.getClubReviewsWithSliceContent(clubId, pageable, reviewid);
 	}
 
