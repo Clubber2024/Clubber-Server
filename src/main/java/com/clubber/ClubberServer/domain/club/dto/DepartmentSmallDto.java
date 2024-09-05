@@ -1,18 +1,20 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import com.clubber.ClubberServer.domain.club.domain.Department;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class DepartmentSmallDto {
     private String department;
     private List<GetClubIntoCardResponse> clubs;
 
     @Builder
-    public DepartmentSmallDto(String department,List<GetClubIntoCardResponse> clubs){
-        this.department=department;
+    public DepartmentSmallDto(Department department,List<GetClubIntoCardResponse> clubs){
+        this.department=department.getTitle();
         this.clubs=clubs;
     }
 }

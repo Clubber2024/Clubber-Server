@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.service;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -12,8 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import java.util.stream.Collectors;
 
 
@@ -27,7 +27,7 @@ public class ClubService {
 
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
-    public GetClubByDivisionResponse getClubsByDivision(String division){
+    public GetClubByDivisionResponse getClubsByDivision(Division division){
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()){
             throw DivisionNotFoundException.EXCEPTION;
@@ -36,15 +36,16 @@ public class ClubService {
             List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(club -> GetClubIntoCardResponse.from(club))
                     .collect(Collectors.toList());
-            return GetClubByDivisionResponse.of(division, clubDtos);
+
+            return GetClubByDivisionResponse.of(division,clubDtos);
         }
 
     }
 
 
 
-    // 소모임 - 특정 학과 소속 소모임들 반환
-    public DepartmentSmallDto getClubsByDepartment(String department){
+    // [소모임] - 특정 학과 소속 소모임들 반환
+    public DepartmentSmallDto getClubsByDepartment(Department department){
         List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()){
             throw DepartmentNotFoundException.EXCEPTION;
@@ -72,30 +73,38 @@ public class ClubService {
     // 동아리명 및 소모임명으로 검색
     public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
+
+        List<String> clubTypes = Arrays.stream(ClubType.values())
+                .map(ClubType::getTitle)
+                .collect(Collectors.toList());
+
         if (clubs.isEmpty()){
             throw ClubNotFoundException.EXCEPTION;
         }
-        else {
-            List<GetClubSearchResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubSearchResponse.from(club))
-                    .collect(Collectors.toList());
-            return GetClubsSearchResponse.of(clubName, clubDtos);
-        }
+
+        Map<String, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
+                .collect(Collectors.groupingBy(
+                        club -> club.getClubType().getTitle(),
+                        () -> new TreeMap<>(Comparator.comparing(clubTypes::indexOf)),
+                        Collectors.mapping(GetClubSearchResponse::from, Collectors.toList())
+                ));
+        return GetClubsSearchResponse.of(groupedClubs);
     }
 
 
     // 특정 해시태그 반환
-    public GetClubsByHashTagResponse getClubsHashtag(String hashtag){
+    public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag){
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
+
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
-        else {
-            List<GetClubByHashTagResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubByHashTagResponse.from(club))
-                    .collect(Collectors.toList());
-            return GetClubsByHashTagResponse.of(hashtag, clubDtos);
-        }
+
+        List<GetClubByHashTagResponse> clubDtos = clubs.stream()
+                .map(club->GetClubByHashTagResponse.from(club))
+                .collect(Collectors.toList());
+
+        return GetClubsByHashTagResponse.of(hashtag,clubDtos);
 
     }
 
@@ -108,10 +117,25 @@ public class ClubService {
                 .collect(Collectors.toList());
     }
 
+    // [해시태그] 해시태그 목록 반환 (enum)
     public List<EnumMapperVO> getClubsTotalHashtags() {
         return enumMapper.get("Hashtag");
     }
 
 
+    // [중앙 동아리] - 분과명 반환 (enum)
+    public List<EnumMapperVO> getDivisionNames(){
+        return enumMapper.get("Division");
+    }
+
+
+    // [소모임] - 단과대 & 학과명 반환 (enum)
+    public List<CollegeResponse> getCollegesWithDepartments() {
+        List<EnumMapperVO> colleges = enumMapper.get("College");
+
+        return colleges.stream()
+                .map(college -> CollegeResponse.from(College.valueOf(college.getCode())))
+                .collect(Collectors.toList());
+    }
 
 }
