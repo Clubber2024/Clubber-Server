@@ -29,4 +29,10 @@ public class ClubReviewsWithSliceContentResponse {
 			.reviews(reviews)
 			.build();
 	}
+
+	private static List<ClubReviewsWithContentDetailResponse> from(List<Review> reviews){
+		return reviews.stream()
+			.map(ClubReviewsWithContentDetailResponse::of)
+			.collect(Collectors.toList());
+	}
 }

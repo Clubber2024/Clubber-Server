@@ -108,12 +108,7 @@ public class ReviewService {
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
-		List<ClubReviewsWithContentDetailResponse> reviewDetails = reviews.stream()
-			.map(ClubReviewsWithContentDetailResponse::of)
-			.collect(Collectors.toList());
-
-		return ClubReviewsWithSliceContentResponse.of(
-			SliceUtil.valueOf(reviewDetails, pageable), clubId);
+		return ClubReviewsWithSliceContentResponse.of(reviews, clubId);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
