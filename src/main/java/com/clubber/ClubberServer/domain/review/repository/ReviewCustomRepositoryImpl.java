@@ -61,6 +61,17 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
 	}
 
+	@Override
+	public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId) {
+		return queryFactory.selectFrom(review)
+			.join(review.reviewKeywords, reviewKeyword)
+			.where(review.club.id.eq(club.getId()),
+				review.id.lt(reviewId))
+			.orderBy(review.id.desc())
+			.limit(pageable.getPageSize())
+			.fetch();
+	}
+
 	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
 		return approvedStatus == null ? null : review.approvedStatus.eq(approvedStatus);
 	}
