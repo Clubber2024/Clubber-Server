@@ -96,22 +96,15 @@ public class ClubService {
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag){
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
 
-        List<String> clubTypes = Arrays.stream(ClubType.values())
-                .map(ClubType::getTitle)
-                .collect(Collectors.toList());
-
         if (clubs.isEmpty()){
             throw HashtagNotFoundException.EXCEPTION;
         }
 
-        Map<String, List<GetClubByHashTagResponse>> groupedClubs = clubs.stream()
-                .collect(Collectors.groupingBy(
-                        club -> club.getClubType().getTitle(),
-                        () -> new TreeMap<>(Comparator.comparing(clubTypes::indexOf)),
-                        Collectors.mapping(GetClubByHashTagResponse::from, Collectors.toList())
-                ));
+        List<GetClubByHashTagResponse> clubDtos = clubs.stream()
+                .map(club->GetClubByHashTagResponse.from(club))
+                .collect(Collectors.toList());
 
-        return GetClubsByHashTagResponse.of(hashtag,groupedClubs);
+        return GetClubsByHashTagResponse.of(hashtag,clubDtos);
 
     }
 
