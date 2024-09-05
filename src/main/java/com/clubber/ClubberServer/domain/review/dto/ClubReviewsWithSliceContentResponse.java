@@ -28,7 +28,7 @@ public class ClubReviewsWithSliceContentResponse {
 	public static ClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId, Pageable pageable){
 		return ClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
-			.lastReviewId(reviews.get(reviews.size()-1).getId())
+			.lastReviewId(reviews.get(reviews.size()-2).getId())
 			.reviews(SliceUtil.valueOf(from(reviews), pageable))
 			.build();
 	}
