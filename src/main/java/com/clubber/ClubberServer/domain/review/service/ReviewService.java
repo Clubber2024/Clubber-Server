@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentDetailResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
@@ -33,6 +35,8 @@ import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.enummapper.EnumMapper;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
+import com.clubber.ClubberServer.global.page.SliceResponse;
+import com.clubber.ClubberServer.global.page.SliceUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -103,6 +107,11 @@ public class ReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
+
+		List<ClubReviewsWithContentDetailResponse> reviewDetails = reviews.stream()
+			.map(ClubReviewsWithContentDetailResponse::of)
+			.collect(Collectors.toList());
+		
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
