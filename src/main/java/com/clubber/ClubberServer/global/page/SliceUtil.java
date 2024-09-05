@@ -5,7 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public class SliceUtil {
-	
+
+	public static <T> SliceResponse<T> valueOf(List<T> contents, Pageable pageable){
+		boolean hasNext = hasNext(contents, pageable);
+		if(hasNext)
+			contents = getContents(contents, pageable);
+		return SliceResponse.of(contents, contents.size(), hasNext);
+	}
 
 	private static <T> boolean hasNext(List<T> contents, Pageable pageable){
 		return contents.size() > pageable.getPageSize();
