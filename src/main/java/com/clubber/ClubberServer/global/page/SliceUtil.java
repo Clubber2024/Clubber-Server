@@ -13,11 +13,15 @@ public class SliceUtil {
 		return SliceResponse.of(contents, contents.size(), hasNext);
 	}
 
-	private static <T> boolean hasNext(List<T> contents, Pageable pageable){
+	public static <T> boolean hasNext(List<T> contents, Pageable pageable){
 		return contents.size() > pageable.getPageSize();
 	}
 
 	private static <T> List<T> getContents(List<T> contents, Pageable pageable){
 		return contents.subList(0, pageable.getPageSize());
+	}
+
+	public static <T> T getLastContent(List<T> contents){
+		return contents.get(contents.size() - 2);
 	}
 }
