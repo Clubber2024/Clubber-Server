@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -55,5 +57,26 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 			.where(review.club.id.eq(club.getId()));
 
 		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
+	}
+
+	@Override
+	public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId) {
+		return queryFactory.selectFrom(review)
+			.where(review.club.id.eq(club.getId()),
+				ltReviewId(reviewId))
+			.orderBy(review.id.desc())
+			.limit(pageable.getPageSize() + 1)
+			.fetch();
+	}
+
+	private BooleanExpression ltReviewId(Long reviewId){
+		if(reviewId == null){
+			return null;
+		}
+		return review.id.lt(reviewId);
+	}
+
+	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
+		return approvedStatus == null ? null : review.approvedStatus.eq(approvedStatus);
 	}
 }
