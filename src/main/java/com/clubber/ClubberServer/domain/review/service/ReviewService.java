@@ -112,6 +112,8 @@ public class ReviewService {
 			.map(ClubReviewsWithContentDetailResponse::of)
 			.collect(Collectors.toList());
 		
+		return ClubReviewsWithSliceContentResponse.of(
+			SliceUtil.valueOf(reviewDetails, pageable), clubId);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
