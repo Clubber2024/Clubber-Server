@@ -108,7 +108,7 @@ public class ReviewService {
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
-		return ClubReviewsWithSliceContentResponse.of(reviews, clubId);
+		return ClubReviewsWithSliceContentResponse.of(reviews, clubId, pageable);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {

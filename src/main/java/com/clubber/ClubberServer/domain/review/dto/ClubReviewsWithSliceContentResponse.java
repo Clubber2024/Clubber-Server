@@ -3,8 +3,11 @@ package com.clubber.ClubberServer.domain.review.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
+
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.global.page.SliceResponse;
+import com.clubber.ClubberServer.global.page.SliceUtil;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,11 +25,11 @@ public class ClubReviewsWithSliceContentResponse {
 
 	private final SliceResponse<ClubReviewsWithContentDetailResponse> reviews;
 
-	public static ClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId){
+	public static ClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId, Pageable pageable){
 		return ClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
 			.lastReviewId(reviews.get(reviews.size()-1).getId())
-			.reviews(reviews)
+			.reviews(SliceUtil.valueOf(from(reviews), pageable))
 			.build();
 	}
 
