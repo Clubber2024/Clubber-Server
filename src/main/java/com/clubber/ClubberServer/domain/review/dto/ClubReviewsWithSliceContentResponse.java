@@ -18,11 +18,14 @@ public class ClubReviewsWithSliceContentResponse {
 
 	private final Long clubId;
 
+	private final Long lastReviewId;
+
 	private final SliceResponse<ClubReviewsWithContentDetailResponse> reviews;
 
-	public static ClubReviewsWithSliceContentResponse of(SliceResponse<ClubReviewsWithContentDetailResponse> reviews, Long clubId){
+	public static ClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId){
 		return ClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
+			.lastReviewId(reviews.get(reviews.size()-1).getId())
 			.reviews(reviews)
 			.build();
 	}
