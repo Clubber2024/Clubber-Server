@@ -20,6 +20,7 @@ import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
@@ -96,6 +97,12 @@ public class ReviewService {
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, ApprovedStatus.APPROVED);
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
+	}
+
+	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
