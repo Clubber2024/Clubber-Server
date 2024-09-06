@@ -105,6 +105,8 @@ public class S3UploadPresignedService {
         return "club/" +
                 clubId.toString() +
                 "/" +
+                "logo" +
+                "/" +
                 UUID.randomUUID() +
                 "." +
                 fileExtension;
