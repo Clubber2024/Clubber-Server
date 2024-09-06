@@ -12,7 +12,6 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
 import com.clubber.ClubberServer.domain.image.dto.CreateRecruitsImagePresigneUrlRequest;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
 import java.net.URL;
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -42,8 +40,6 @@ public class S3UploadPresignedService {
 
     private final ClubRepository clubRepository;
 
-    private final RecruitRepository recruitRepository;
-
     public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(ImageFileExtension fileExtension) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
@@ -60,7 +56,6 @@ public class S3UploadPresignedService {
         return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
     }
 
-    @Transactional(readOnly = true)
     public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(CreateRecruitsImagePresigneUrlRequest request) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
