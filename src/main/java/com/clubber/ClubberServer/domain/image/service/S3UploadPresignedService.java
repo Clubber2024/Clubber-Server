@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,14 +72,18 @@ public class S3UploadPresignedService {
 
         List<ImageFileExtension> recruitImageExtensions = request.getRecruitImageExtensions();
         UUID recruitFolder = UUID.randomUUID();
-        return recruitImageExtensions.stream().map(
-            (fileExtension) -> {
-                String fixedFiledExtension = fileExtension.getUploadExtension();
-                String fileName = getForClubRecruitFileName(clubId, recruitFolder, fixedFiledExtension);
-                URL url = amazonS3.generatePresignedUrl(
-                    getGeneratePresignedUrlRequest(bucket, fileName, fixedFiledExtension));
-                return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
-            }).collect(Collectors.toList());
+        return recruitImageExtensions.stream()
+            .map((fileExtension) -> createRecruitImagePresignedUrlResponse(fileExtension, clubId, recruitFolder))
+            .collect(Collectors.toList());
+    }
+
+    private CreateImagePresignedUrlResponse createRecruitImagePresignedUrlResponse(
+        ImageFileExtension fileExtension, Long clubId, UUID recruitFolder){
+        String fixedFiledExtension = fileExtension.getUploadExtension();
+        String fileName = getForClubRecruitFileName(clubId, recruitFolder, fixedFiledExtension);
+        URL url = amazonS3.generatePresignedUrl(
+            getGeneratePresignedUrlRequest(bucket, fileName, fixedFiledExtension));
+        return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(
