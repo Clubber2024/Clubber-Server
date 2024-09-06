@@ -73,7 +73,7 @@ public class S3UploadPresignedService {
         return request.getRecruitImageExtensions().stream().map(
                 fileExtension -> {
                     String fixedFileExtension = fileExtension.getUploadExtension();
-                    String fileName = getForRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
+                    String fileName = getForClubRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
                     URL url = amazonS3.generatePresignedUrl(
                             getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
                     return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
@@ -112,7 +112,7 @@ public class S3UploadPresignedService {
                 fileExtension;
     }
 
-    private String getForRecruitFileName(Long clubId, Long recruitId, String fileExtension) {
+    private String getForClubRecruitFileName(Long clubId, Long recruitId, String fileExtension) {
         return "club/" +
                 clubId.toString() +
                 "/" +
