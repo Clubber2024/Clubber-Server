@@ -53,7 +53,7 @@ public class S3UploadPresignedService {
             throw ClubNotFoundException.EXCEPTION;
 
         String fixedFileExtension = fileExtension.getUploadExtension();
-        String fileName = getForClubFileName(clubId, fixedFileExtension);
+        String fileName = getForClubLogoFileName(clubId, fixedFileExtension);
         URL url = amazonS3.generatePresignedUrl(
                 getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
         return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
@@ -101,7 +101,7 @@ public class S3UploadPresignedService {
         return expiration;
     }
 
-    private String getForClubFileName(Long clubId, String fileExtension) {
+    private String getForClubLogoFileName(Long clubId, String fileExtension) {
         return "club/" +
                 clubId.toString() +
                 "/" +
