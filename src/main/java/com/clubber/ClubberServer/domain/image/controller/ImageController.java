@@ -24,8 +24,8 @@ public class ImageController {
 
     @Operation(summary = "동아리 로고 이미지 등록 Presigned URL 생성")
     @PostMapping("/club/logo")
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(@RequestParam ImageFileExtension imageFileExtension){
-        return s3UploadPresignedService.createClubsImagePresignedUrl(imageFileExtension);
+    public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(@RequestParam ImageFileExtension imageFileExtension){
+        return s3UploadPresignedService.createClubsLogoImagePresignedUrl(imageFileExtension);
     }
 
     @Operation(summary = "동아리 모집글 이미지 등록 Presigned URL 생성")

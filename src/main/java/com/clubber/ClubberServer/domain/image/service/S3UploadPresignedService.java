@@ -43,7 +43,7 @@ public class S3UploadPresignedService {
 
     private final RecruitRepository recruitRepository;
 
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(ImageFileExtension fileExtension) {
+    public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(ImageFileExtension fileExtension) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
