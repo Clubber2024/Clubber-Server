@@ -71,18 +71,14 @@ public class S3UploadPresignedService {
 
         List<ImageFileExtension> recruitImageExtensions = request.getRecruitImageExtensions();
         UUID recruitFolder = UUID.randomUUID();
-        recruitImageExtensions.stream().map(
-            (fileExtension) -> getForClubRecruitFileName(clubId, recruitFolder, fileExtension.getUploadExtension()));
-
-        // Long maxRecruitId = recruitRepository.findMaxRecruitId();
-        // return request.getRecruitImageExtensions().stream().map(
-        //         fileExtension -> {
-        //             String fixedFileExtension = fileExtension.getUploadExtension();
-        //             String fileName = getForClubRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
-        //             URL url = amazonS3.generatePresignedUrl(
-        //                     getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
-        //             return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
-        //         }).collect(Collectors.toList());
+        return recruitImageExtensions.stream().map(
+            (fileExtension) -> {
+                String fixedFiledExtension = fileExtension.getUploadExtension();
+                String fileName = getForClubRecruitFileName(clubId, recruitFolder, fixedFiledExtension);
+                URL url = amazonS3.generatePresignedUrl(
+                    getGeneratePresignedUrlRequest(bucket, fileName, fixedFiledExtension));
+                return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
+            }).collect(Collectors.toList());
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(
