@@ -69,15 +69,20 @@ public class S3UploadPresignedService {
         if(!clubRepository.existsClubByIdAndIsDeleted(clubId, false))
             throw ClubNotFoundException.EXCEPTION;
 
-        Long maxRecruitId = recruitRepository.findMaxRecruitId();
-        return request.getRecruitImageExtensions().stream().map(
-                fileExtension -> {
-                    String fixedFileExtension = fileExtension.getUploadExtension();
-                    String fileName = getForClubRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
-                    URL url = amazonS3.generatePresignedUrl(
-                            getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
-                    return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
-                }).collect(Collectors.toList());
+        List<ImageFileExtension> recruitImageExtensions = request.getRecruitImageExtensions();
+        UUID recruitFolder = UUID.randomUUID();
+        recruitImageExtensions.stream().map(
+            (fileExtension) -> getForClubRecruitFileName(clubId, recruitFolder, fileExtension.getUploadExtension()));
+
+        // Long maxRecruitId = recruitRepository.findMaxRecruitId();
+        // return request.getRecruitImageExtensions().stream().map(
+        //         fileExtension -> {
+        //             String fixedFileExtension = fileExtension.getUploadExtension();
+        //             String fileName = getForClubRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
+        //             URL url = amazonS3.generatePresignedUrl(
+        //                     getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
+        //             return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
+        //         }).collect(Collectors.toList());
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(
@@ -112,7 +117,7 @@ public class S3UploadPresignedService {
                 fileExtension;
     }
 
-    private String getForClubRecruitFileName(Long clubId, UUID recruitFolder, String fileExtension) {
+    private static String getForClubRecruitFileName(Long clubId, UUID recruitFolder, String fileExtension) {
         return "club/" +
                 clubId.toString() +
                 "/" +
