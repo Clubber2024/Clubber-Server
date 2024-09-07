@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.ClubberServer.domain.review.domain.Review;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
 import java.util.Set;
@@ -20,5 +22,10 @@ public class CreateReviewClubWithContentRequest {
     @Size(min = 1, message = "1개 이상의 키워드를 선택해주세요")
     @Schema(description = "선택하려는 키워드")
     private Set<Keyword> keywords = EnumSet.noneOf(Keyword.class);
+
+    public void setReview(Review review){
+        keywords.stream()
+                .forEach(review::setReviewKeywords);
+    }
     
 }

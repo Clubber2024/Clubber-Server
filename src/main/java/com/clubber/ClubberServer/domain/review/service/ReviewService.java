@@ -64,7 +64,7 @@ public class ReviewService {
 		}
 
 		Review review = Review.of(user, club, reviewRequest.getContent());
-		reviewRequest.getKeywords().stream().forEach(review::setReviewKeywords);
+		reviewRequest.setReview(review);
 
 		Review savedReview = reviewRepository.save(review);
 
