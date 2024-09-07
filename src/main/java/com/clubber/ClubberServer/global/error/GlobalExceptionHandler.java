@@ -18,8 +18,10 @@ import com.clubber.ClubberServer.global.dto.ErrorResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(BaseException.class)
@@ -69,6 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({Exception.class})
 	public ResponseEntity<Object> handleAllException(Exception ex) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
+		log.error("INTERNAL SERVER ERROR", ex);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
 	}
