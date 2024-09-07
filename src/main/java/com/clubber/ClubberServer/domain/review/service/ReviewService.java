@@ -59,7 +59,7 @@ public class ReviewService {
 
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		
+
 		if (reviewRepository.existsByUserAndClub(user, club)) {
 			throw UserAlreadyReviewedException.EXCEPTION;
 		}
@@ -70,14 +70,6 @@ public class ReviewService {
 		Review savedReview = reviewRepository.save(review);
 
 		return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
-	}
-
-	@Transactional(readOnly = true)
-	public ClubReviewResponse getClubReviews(Long clubId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
-		return ClubReviewResponse.of(club, reviewKeywords);
 	}
 
 	@Transactional(readOnly = true)
@@ -115,5 +107,16 @@ public class ReviewService {
 
 	public List<EnumMapperVO> getTotalKeywords() {
 		return enumMapper.get("Keyword");
+	}
+
+	/**
+	 * 양방향 테스트 용도 메서드 
+	 */
+	@Transactional(readOnly = true)
+	public ClubReviewResponse getClubReviews(Long clubId) {
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
+		return ClubReviewResponse.of(club, reviewKeywords);
 	}
 }
