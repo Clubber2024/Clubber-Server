@@ -64,7 +64,7 @@ public class ReviewService {
 		}
 
 		Review review = reviewRequest.toReviewEntity(user, club);
-		reviewRequest.setReview(review);
+		reviewRequest.toReviewKeywordEntities(review);
 
 		Review savedReview = reviewRepository.save(review);
 

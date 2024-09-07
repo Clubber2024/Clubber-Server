@@ -28,11 +28,10 @@ public class CreateReviewClubWithContentRequest {
     @Schema(description = "선택하려는 키워드")
     private Set<Keyword> keywords = EnumSet.noneOf(Keyword.class);
 
-    public List<ReviewKeyword> toReviewKeywordEntities(Review review){
+    public void toReviewKeywordEntities(Review review){
         keywords.stream()
             .map(ReviewKeyword::from)
             .forEach(reviewKeyword -> reviewKeyword.setReview(review));
-        return review.getReviewKeywords();
     }
 
     public Review toReviewEntity(User user, Club club){
