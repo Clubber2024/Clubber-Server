@@ -88,6 +88,7 @@ public class ReviewService {
 		return ClubReviewKeywordStatsResponse.of(club, keywordMap);
 	}
 
+	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
 	public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId, Pageable pageable) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
