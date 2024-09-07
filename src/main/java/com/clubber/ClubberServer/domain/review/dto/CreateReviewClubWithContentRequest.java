@@ -1,13 +1,9 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
