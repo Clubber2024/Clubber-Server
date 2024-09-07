@@ -37,6 +37,7 @@ import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import com.clubber.ClubberServer.global.page.SliceResponse;
 import com.clubber.ClubberServer.global.page.SliceUtil;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -51,7 +52,7 @@ public class ReviewService {
 
 	@Transactional
 	public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId,
-		CreateReviewClubWithContentRequest reviewRequest) {
+		@Valid CreateReviewClubWithContentRequest reviewRequest) {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		User user = userRepository.findById(currentUserId)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
