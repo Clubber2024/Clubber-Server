@@ -69,9 +69,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
     
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<Object> handleAllException(Exception ex) {
+	public ResponseEntity<Object> handleAllException(Exception e) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
-		log.error("INTERNAL SERVER ERROR", ex);
+		log.error("INTERNAL SERVER ERROR", e);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
 	}
