@@ -59,6 +59,7 @@ public class ReviewService {
 
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		
 		if (reviewRepository.existsByUserAndClub(user, club)) {
 			throw UserAlreadyReviewedException.EXCEPTION;
 		}
