@@ -3,11 +3,14 @@ package com.clubber.ClubberServer.domain.review.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -25,9 +28,11 @@ public class CreateReviewClubWithContentRequest {
     @Schema(description = "선택하려는 키워드")
     private Set<Keyword> keywords = EnumSet.noneOf(Keyword.class);
 
-    public void setReview(Review review){
+    public List<ReviewKeyword> toReviewKeywordEntities(Review review){
         keywords.stream()
-                .forEach(review::setReviewKeywords);
+            .map(ReviewKeyword::from)
+            .forEach(reviewKeyword -> reviewKeyword.setReview(review));
+        return review.getReviewKeywords();
     }
 
     public Review toReviewEntity(User user, Club club){
