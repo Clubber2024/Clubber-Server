@@ -97,6 +97,7 @@ public class ReviewService {
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
 	}
 
+	//동아리 별 리뷰 조회 : No Offset 구현 
 	@Transactional(readOnly = true)
 	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
