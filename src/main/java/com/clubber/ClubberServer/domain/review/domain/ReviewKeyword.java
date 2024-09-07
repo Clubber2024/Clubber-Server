@@ -50,11 +50,16 @@ public class ReviewKeyword extends BaseEntity {
         this.keyword = keyword;
     }
 
-    public static ReviewKeyword of(Review review, Keyword keyword){
+    public void setReview(Review review){
+        this.review = review;
+        review.getReviewKeywords().add(this);
+    }
+
+
+    public static ReviewKeyword from(Keyword keyword){
         return ReviewKeyword.builder()
-                .review(review)
-                .keyword(keyword)
-                .build();
+            .keyword(keyword)
+            .build();
     }
 
     public static Set<Keyword> from(List<ReviewKeyword> reviewKeywords){
