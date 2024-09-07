@@ -63,7 +63,7 @@ public class ReviewService {
 			throw UserAlreadyReviewedException.EXCEPTION;
 		}
 
-		Review review = Review.of(user, club, reviewRequest.getContent());
+		Review review = reviewRequest.toReviewEntity(user, club);
 		reviewRequest.setReview(review);
 
 		Review savedReview = reviewRepository.save(review);

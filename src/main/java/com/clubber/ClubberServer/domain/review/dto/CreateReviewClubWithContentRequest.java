@@ -1,7 +1,9 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.user.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
@@ -26,6 +28,10 @@ public class CreateReviewClubWithContentRequest {
     public void setReview(Review review){
         keywords.stream()
                 .forEach(review::setReviewKeywords);
+    }
+
+    public Review toReviewEntity(User user, Club club){
+        return Review.of(user, club, content);
     }
     
 }
