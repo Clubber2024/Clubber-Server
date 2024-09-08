@@ -37,6 +37,7 @@ import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
 import com.clubber.ClubberServer.global.page.SliceResponse;
 import com.clubber.ClubberServer.global.page.SliceUtil;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -51,31 +52,24 @@ public class ReviewService {
 
 	@Transactional
 	public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId,
-		CreateReviewClubWithContentRequest reviewRequest) {
+		@Valid CreateReviewClubWithContentRequest reviewRequest) {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		User user = userRepository.findById(currentUserId)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+
 		if (reviewRepository.existsByUserAndClub(user, club)) {
 			throw UserAlreadyReviewedException.EXCEPTION;
 		}
 
-		Review review = Review.of(user, club, reviewRequest.getContent());
-		reviewRequest.getKeywords().stream().forEach(review::setReviewKeywords);
+		Review review = reviewRequest.toReviewEntity(user, club);
+		reviewRequest.toReviewKeywordEntities(review);
 
 		Review savedReview = reviewRepository.save(review);
 
 		return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
-	}
-
-	@Transactional(readOnly = true)
-	public ClubReviewResponse getClubReviews(Long clubId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
-		return ClubReviewResponse.of(club, reviewKeywords);
 	}
 
 	@Transactional(readOnly = true)
@@ -94,6 +88,7 @@ public class ReviewService {
 		return ClubReviewKeywordStatsResponse.of(club, keywordMap);
 	}
 
+	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
 	public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId, Pageable pageable) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
@@ -102,6 +97,7 @@ public class ReviewService {
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
 	}
 
+	//동아리 별 리뷰 조회 : No Offset 구현 
 	@Transactional(readOnly = true)
 	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
@@ -113,5 +109,16 @@ public class ReviewService {
 
 	public List<EnumMapperVO> getTotalKeywords() {
 		return enumMapper.get("Keyword");
+	}
+
+	/**
+	 * 양방향 테스트 용도 메서드 
+	 */
+	@Transactional(readOnly = true)
+	public ClubReviewResponse getClubReviews(Long clubId) {
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(club.getId());
+		return ClubReviewResponse.of(club, reviewKeywords);
 	}
 }
