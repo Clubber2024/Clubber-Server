@@ -75,6 +75,10 @@ public class Club extends BaseEntity {
 	@OneToMany(mappedBy = "club")
 	private List<Favorite> favorites = new ArrayList<>();
 
+	private boolean isAgreeToReview = false;
+
+	private boolean isAgreeToProvideInfo = false;
+
 	public void updateClub(String imageUrl, String introduction) {
 		this.imageUrl = imageUrl;
 		this.introduction = introduction;
