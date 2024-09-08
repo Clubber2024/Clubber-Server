@@ -62,7 +62,13 @@ public class ClubService {
     @Transactional
     public GetClubResponse getClubsIndividualPage(Long clubId){
         Optional<Club> clubFound= clubRepository.findClubByIdAndIsDeleted(clubId, false);
+
         Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
+
+        if (!club.isAgreeToProvideInfo()){
+            throw ClubNotAgreeToProvideInfoException.EXCEPTION;
+        }
+
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
 
