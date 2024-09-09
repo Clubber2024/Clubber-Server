@@ -17,7 +17,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
@@ -72,7 +72,7 @@ public class ReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public ClubReviewKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
+	public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
@@ -87,7 +87,7 @@ public class ReviewService {
 		Arrays.stream(Keyword.values())
 			.forEach(keyword -> keywordMap.putIfAbsent(keyword, 0L));
 
-		return ClubReviewKeywordStatsResponse.of(club, keywordMap);
+		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
 	}
 
 	//동아리 별 리뷰 조회 : Page 별 조회 

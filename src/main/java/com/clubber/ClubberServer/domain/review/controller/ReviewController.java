@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
@@ -41,7 +41,7 @@ public class ReviewController {
 	@Operation(summary = "개별 동아리 별 리뷰 키워드 통계")
 	@DisableSwaggerSecurity
 	@GetMapping("/keyword-stats")
-	public ClubReviewKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId) {
+	public GetClubReviewsKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId) {
 		return reviewService.getClubReviewKeywordStats(clubId);
 	}
 
