@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
-import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -36,7 +36,7 @@ public class UserController {
 
     @Operation(summary = "회원 즐겨찾기 조회")
     @GetMapping("/favorite")
-    public UserFavoritesResponse getUserFavorites() {
+    public GetUserFavoritesResponse getUserFavorites() {
         return userService.getUserFavorites();
     }
 

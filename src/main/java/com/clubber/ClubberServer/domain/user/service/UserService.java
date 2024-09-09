@@ -9,7 +9,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
@@ -40,14 +40,14 @@ public class UserService {
         return GetUsersProfileResponse.of(user);
     }
 
-    public UserFavoritesResponse getUserFavorites(){
+    public GetUserFavoritesResponse getUserFavorites(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         List<Favorite> favorites = favoriteRepository
                 .queryFavoritesByUserId(user.getId());
-        return UserFavoritesResponse.of(user, favorites);
+        return GetUserFavoritesResponse.of(user, favorites);
     }
 
     // v1- 내가 쓴 리뷰
