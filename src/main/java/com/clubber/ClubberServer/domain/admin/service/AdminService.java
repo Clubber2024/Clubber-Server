@@ -132,7 +132,7 @@ public class AdminService {
 		Club club = admin.getClub();
 		admin.deleteClub();
 		admin.deleteClubReviews();
-		club.deleteFavorites();
+		admin.deleteClubFavorites();
 		admin.withDraw();
 	}
 
