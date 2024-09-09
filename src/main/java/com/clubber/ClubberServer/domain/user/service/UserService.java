@@ -10,7 +10,7 @@ import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
@@ -33,11 +33,11 @@ public class UserService {
 
     private final ReviewRepository reviewRepository;
 
-    public UserProfileResponse getUserProfile(){
+    public GetUsersProfileResponse getUserProfile(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        return UserProfileResponse.of(user);
+        return GetUsersProfileResponse.of(user);
     }
 
     public UserFavoritesResponse getUserFavorites(){

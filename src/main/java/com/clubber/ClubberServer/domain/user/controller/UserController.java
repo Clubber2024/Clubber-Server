@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.UserProfileResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.page.PageResponse;
@@ -30,7 +30,7 @@ public class UserController {
 
     @Operation(summary = "회원 정보 조회")
     @GetMapping("/me")
-    public UserProfileResponse getUserProfile(){
+    public GetUsersProfileResponse getUserProfile(){
         return userService.getUserProfile();
     }
 
