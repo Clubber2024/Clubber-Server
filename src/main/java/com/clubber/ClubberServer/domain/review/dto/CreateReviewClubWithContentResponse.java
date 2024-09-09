@@ -22,7 +22,7 @@ public class CreateReviewClubWithContentResponse {
     @Schema(description = "작성된 한줄평", example = "활동이 재밌어요")
     private final String content;
 
-    private final Set<Keyword> keywords;
+    private final Set<String> keywords;
 
     public static CreateReviewClubWithContentResponse of(Review review, List<ReviewKeyword> reviewKeywords) {
         return CreateReviewClubWithContentResponse.builder()
