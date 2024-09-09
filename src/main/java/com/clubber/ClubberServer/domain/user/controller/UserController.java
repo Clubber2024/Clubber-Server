@@ -4,7 +4,7 @@ package com.clubber.ClubberServer.domain.user.controller;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
-import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
@@ -47,7 +47,7 @@ public class UserController {
 
     @Operation(summary = "내가 쓴 리뷰 조회")
     @GetMapping("/review")
-    public UserReviewResponse getUserReviews(){
+    public GetUserReviewsResponse getUserReviews(){
         return userService.getUserReviews();
 
     }

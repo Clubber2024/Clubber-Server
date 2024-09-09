@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.dto.UserReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
@@ -60,16 +60,16 @@ public class UserService {
 //        return UserReviewResponse.of(user, reviewKeywords);
 //    }
 
-    public UserReviewResponse getUserReviews(){
+    public GetUserReviewsResponse getUserReviews(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
-        return UserReviewResponse.of(user, reviews);
+        return GetUserReviewsResponse.of(user, reviews);
 
     }
-    
+
     public PageResponse<GetFavoriteDetailsResponse> getUsersReviewsPagination(Pageable pageable) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(currentUserId,
