@@ -41,9 +41,13 @@ public class AdminService {
 		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
 			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
-		if (!encoder.matches(loginRequest.getPassword(), admin.getPassword()))
-			throw AdminLoginFailedException.EXCEPTION;
+		validatePassword(loginRequest.getPassword(), admin.getPassword());
 		return createAdminsToken(admin);
+	}
+
+	private void validatePassword(String rawPassword, String encodedPassword) {
+		if (!encoder.matches(rawPassword, encodedPassword))
+			throw AdminLoginFailedException.EXCEPTION;
 	}
 
 	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
