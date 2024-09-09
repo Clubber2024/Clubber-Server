@@ -40,11 +40,6 @@ public class UserController {
         return userService.getUserFavorites();
     }
 
-    //version1
-//    @Operation(summary = "회원 작성 리뷰 조회")
-//    @GetMapping("/review")
-//    public UserReviewResponse getUserReviews() { return userService.getUserReviews(); }
-
     @Operation(summary = "내가 쓴 리뷰 조회")
     @GetMapping("/review")
     public GetUserReviewsResponse getUserReviews(){
