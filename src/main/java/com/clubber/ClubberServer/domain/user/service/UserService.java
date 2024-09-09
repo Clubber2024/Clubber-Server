@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.user.service;
 
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
-import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
