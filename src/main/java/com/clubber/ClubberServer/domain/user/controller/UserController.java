@@ -42,10 +42,7 @@ public class UserController {
 
     @Operation(summary = "내가 쓴 리뷰 조회")
     @GetMapping("/review")
-    public GetUserReviewsResponse getUserReviews(){
-        return userService.getUserReviews();
-
-    }
+    public GetUserReviewsResponse getUserReviews(){ return userService.getUserReviews(); }
 
     @Operation(summary = "즐겨찾기 페이징 처리", description = "추후 적용")
     @GetMapping("/favorite/page")
