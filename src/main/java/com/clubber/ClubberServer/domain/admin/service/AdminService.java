@@ -86,8 +86,7 @@ public class AdminService {
 
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
 		Admin admin = adminRepository.findById(adminId)
