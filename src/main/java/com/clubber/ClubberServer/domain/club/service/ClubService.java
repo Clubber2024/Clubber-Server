@@ -65,9 +65,7 @@ public class ClubService {
 
         Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
 
-        if (!club.isAgreeToProvideInfo()){
-            throw ClubNotAgreeToProvideInfoException.EXCEPTION;
-        }
+        club.validateAgreeToReview();
 
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
