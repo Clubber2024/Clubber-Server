@@ -54,5 +54,5 @@ public class UserController {
 
     @Operation(summary = "즐겨찾기 페이징 처리", description = "추후 적용")
     @GetMapping("/favorite/page")
-    public PageResponse<GetFavoriteDetailsResponse> getUsersFavoritePage(@ParameterObject Pageable pageable) { return userService.getUsersReviewsPagination(pageable);}
+    public PageResponse<GetFavoriteDetailsResponse> getUsersFavoritePage(@ParameterObject Pageable pageable) { return userService.getUserFavoritesPagination(pageable);}
 }

@@ -70,7 +70,7 @@ public class UserService {
 
     }
 
-    public PageResponse<GetFavoriteDetailsResponse> getUsersReviewsPagination(Pageable pageable) {
+    public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(currentUserId,
                 pageable);
