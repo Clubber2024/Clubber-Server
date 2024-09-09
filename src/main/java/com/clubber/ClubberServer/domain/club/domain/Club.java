@@ -47,6 +47,7 @@ public class Club extends BaseEntity {
 
 	private String introduction;
 
+	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	private Hashtag hashtag;
