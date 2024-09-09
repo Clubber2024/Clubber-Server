@@ -62,4 +62,8 @@ public class Admin {
         club.delete();
     }
 
+    public void deleteClubReviews(){
+        club.deleteReviews();
+    }
+
 }

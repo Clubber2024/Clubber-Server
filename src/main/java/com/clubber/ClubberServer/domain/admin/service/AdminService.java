@@ -131,7 +131,7 @@ public class AdminService {
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		Club club = admin.getClub();
 		admin.deleteClub();
-		club.deleteReviews();
+		admin.deleteClubReviews();
 		club.deleteFavorites();
 		admin.withDraw();
 	}
