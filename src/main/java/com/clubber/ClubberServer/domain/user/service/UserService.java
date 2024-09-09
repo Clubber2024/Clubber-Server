@@ -60,7 +60,6 @@ public class UserService {
 //        return UserReviewResponse.of(user, reviewKeywords);
 //    }
 
-    @Transactional(readOnly = true)
     public UserReviewResponse getUserReviews(){
         Long currentUserId = SecurityUtils.getCurrentUserId();
         User user = userRepository.findById(currentUserId)
@@ -70,8 +69,7 @@ public class UserService {
         return UserReviewResponse.of(user, reviews);
 
     }
-
-    @Transactional(readOnly = true)
+    
     public PageResponse<GetFavoriteDetailsResponse> getUsersReviewsPagination(Pageable pageable) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(currentUserId,
