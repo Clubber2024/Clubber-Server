@@ -20,7 +20,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserReviewResponse {
+public class GetUserReviewsResponse {
     private final Long userId;
 
     private final List<UserReviewDetailResponse> userReviews;
@@ -66,10 +66,10 @@ public class UserReviewResponse {
         }
     }
 
-    public static UserReviewResponse of(User user, List<Review> reviews){
+    public static GetUserReviewsResponse of(User user, List<Review> reviews){
         List<UserReviewDetailResponse> reviewDetails = reviews.stream().map(UserReviewDetailResponse::of)
                 .collect(Collectors.toList());
-        return UserReviewResponse.builder()
+        return GetUserReviewsResponse.builder()
                 .userId(user.getId())
                 .userReviews(reviewDetails)
                 .build();

@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserFavoritesResponse {
+public class GetUserFavoritesResponse {
 
 	@Schema(description = "유저 id", example = "1")
 	private final Long userId;
@@ -70,11 +70,11 @@ public class UserFavoritesResponse {
 		}
 	}
 
-	public static UserFavoritesResponse of(User user, List<Favorite> favorites) {
+	public static GetUserFavoritesResponse of(User user, List<Favorite> favorites) {
 		List<FavoriteDetailResponse> favoriteDetailResponse = favorites.stream()
 			.map(FavoriteDetailResponse::of).collect(Collectors.toList());
 
-		return UserFavoritesResponse.builder()
+		return GetUserFavoritesResponse.builder()
 			.userId(user.getId())
 			.userFavorites(favoriteDetailResponse).build();
 

@@ -7,6 +7,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideInfoException;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -84,11 +86,21 @@ public class Club extends BaseEntity {
 		this.introduction = introduction;
 	}
 
-	public void deleteClub() {
+	public void delete() {
 		if (this.isDeleted == true) {
 			throw ClubAlreadyDeletedException.EXCEPTION;
 		}
 		this.isDeleted = true;
+	}
+
+	public void validateAgreeToReview(){
+		if(!isAgreeToReview)
+			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
+	}
+
+	public void validateAgreeToProvideInfo(){
+		if(!isAgreeToProvideInfo)
+			throw ClubNotAgreeToProvideInfoException.EXCEPTION;
 	}
 
 	public void deleteReviews() {

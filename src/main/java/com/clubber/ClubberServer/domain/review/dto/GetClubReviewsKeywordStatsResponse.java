@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClubReviewKeywordStatsResponse {
+public class GetClubReviewsKeywordStatsResponse {
     @Schema(description = "동아리 id", example = "1")
     private final Long clubId;
 
@@ -20,8 +20,8 @@ public class ClubReviewKeywordStatsResponse {
             example = "{\"CULTURE\": 10, \"FEE\": 20, \"ACTIVITY\": 30, \"CAREER\": 40, \"MANAGE\": 50}")
     private final Map<Keyword, Long> keywordStats;
 
-    public static ClubReviewKeywordStatsResponse of (Club club, Map<Keyword, Long> keywordStats){
-        return ClubReviewKeywordStatsResponse.builder()
+    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<Keyword, Long> keywordStats){
+        return GetClubReviewsKeywordStatsResponse.builder()
                 .clubId(club.getId())
                 .keywordStats(keywordStats)
                 .build();
