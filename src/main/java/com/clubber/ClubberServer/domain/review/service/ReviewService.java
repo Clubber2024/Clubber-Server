@@ -21,7 +21,7 @@ import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsRespons
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
@@ -48,7 +48,7 @@ public class ReviewService {
 	private final EnumMapper enumMapper;
 
 	@Transactional
-	public CreateReviewClubWithContentResponse createReviewsByContent(Long clubId,
+	public CreateClubReviewsWithContentResponse createReviewsByContent(Long clubId,
 		@Valid CreateReviewClubWithContentRequest reviewRequest) {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		User user = userRepository.findById(currentUserId)
@@ -68,7 +68,7 @@ public class ReviewService {
 
 		Review savedReview = reviewRepository.save(review);
 
-		return CreateReviewClubWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
+		return CreateClubReviewsWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
 	}
 
 	@Transactional(readOnly = true)

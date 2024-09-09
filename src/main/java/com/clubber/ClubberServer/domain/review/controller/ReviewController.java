@@ -14,7 +14,7 @@ import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsRespons
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -65,7 +65,7 @@ public class ReviewController {
 
 	@Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
 	@PostMapping
-	public CreateReviewClubWithContentResponse createReviewWithContent(
+	public CreateClubReviewsWithContentResponse createReviewWithContent(
 		@RequestBody CreateReviewClubWithContentRequest reviewRequest,
 		@PathVariable Long clubId) {
 		return reviewService.createReviewsByContent(clubId, reviewRequest);
