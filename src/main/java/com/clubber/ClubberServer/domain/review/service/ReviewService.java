@@ -57,9 +57,7 @@ public class ReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		if (!club.isAgreeToReview()){
-			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
-		}
+		club.validateAgreeToReview();
 
 		if (reviewRepository.existsByUserAndClub(user, club)) {
 			throw UserAlreadyReviewedException.EXCEPTION;
@@ -78,9 +76,7 @@ public class ReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		if (!club.isAgreeToReview()){
-			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
-		}
+		club.validateAgreeToReview();
 
 		List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
@@ -100,9 +96,7 @@ public class ReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		if (!club.isAgreeToReview()){
-			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
-		}
+		club.validateAgreeToReview();
 
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
 		return ClubReviewsWithContentResponse.of(reviews, club.getId());
@@ -114,9 +108,7 @@ public class ReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		if (!club.isAgreeToReview()){
-			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
-		}
+		club.validateAgreeToReview();
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
