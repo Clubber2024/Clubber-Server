@@ -129,7 +129,7 @@ public class AdminService {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		Admin admin = adminRepository.findById(currentUserId)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		Club club = admin.getClub();
+		
 		admin.deleteClub();
 		admin.deleteClubReviews();
 		admin.deleteClubFavorites();
