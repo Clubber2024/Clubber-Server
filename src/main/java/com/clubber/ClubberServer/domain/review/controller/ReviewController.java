@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 
@@ -57,7 +57,7 @@ public class ReviewController {
 	@Operation(summary = "개별 동아리 별 리뷰 조회 No Offset(Slice)")
 	@DisableSwaggerSecurity
 	@GetMapping("/slice")
-	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(
+	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(
 		@PathVariable Long clubId, @PageableDefault(size = 5) Pageable pageable, @RequestParam(required = false) Long reviewid) {
 		return reviewService.getClubReviewsWithSliceContent(clubId, pageable, reviewid);
 	}

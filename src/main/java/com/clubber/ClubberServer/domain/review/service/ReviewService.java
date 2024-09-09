@@ -20,9 +20,9 @@ import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
@@ -104,7 +104,7 @@ public class ReviewService {
 
 	//동아리 별 리뷰 조회 : No Offset 구현 
 	@Transactional(readOnly = true)
-	public ClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
+	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId, Pageable pageable, Long reviewId){
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
@@ -112,7 +112,7 @@ public class ReviewService {
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
-		return ClubReviewsWithSliceContentResponse.of(reviews, clubId, pageable);
+		return GetClubReviewsWithSliceContentResponse.of(reviews, clubId, pageable);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
