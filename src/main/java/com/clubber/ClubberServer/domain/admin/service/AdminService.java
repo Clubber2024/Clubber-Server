@@ -130,7 +130,7 @@ public class AdminService {
 		Admin admin = adminRepository.findById(currentUserId)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		Club club = admin.getClub();
-		club.deleteClub();
+		admin.deleteClub();
 		club.deleteReviews();
 		club.deleteFavorites();
 		admin.withDraw();
