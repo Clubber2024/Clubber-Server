@@ -48,7 +48,7 @@ public class UserReviewResponse {
 
         @Schema(description = "리뷰 작성 시 선택한 키워드",
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-        private final Set<Keyword> keywords;
+        private final Set<String> keywords;
 
         @Schema(description = "한줄평", example = "매주 정기회의가 있어서 시간 투자가 필요합니다!")
         private final String content;

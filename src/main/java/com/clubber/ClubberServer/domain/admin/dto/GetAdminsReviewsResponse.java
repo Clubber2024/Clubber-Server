@@ -50,7 +50,7 @@ public class GetAdminsReviewsResponse {
 
 		@Schema(description = "작성한 리뷰 키워드",
 			example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-		private final Set<Keyword> keywords;
+		private final Set<String> keywords;
 
 		@Schema(description = "리뷰 한줄평", example = "분위기가 좋아요")
 		private final String content;
