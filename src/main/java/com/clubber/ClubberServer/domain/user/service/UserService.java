@@ -45,8 +45,7 @@ public class UserService {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        List<Favorite> favorites = favoriteRepository
-                .queryFavoritesByUserId(user.getId());
+        List<Favorite> favorites = favoriteRepository.queryFavoritesByUserId(user.getId());
         return GetUserFavoritesResponse.of(user, favorites);
     }
 
