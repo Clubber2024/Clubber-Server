@@ -50,6 +50,10 @@ public class ReviewKeyword extends BaseEntity {
         this.keyword = keyword;
     }
 
+    public String getKeywordTitle() {
+        return keyword.getTitle();
+    }
+
     public void setReview(Review review){
         this.review = review;
         review.getReviewKeywords().add(this);
@@ -62,9 +66,9 @@ public class ReviewKeyword extends BaseEntity {
             .build();
     }
 
-    public static Set<Keyword> from(List<ReviewKeyword> reviewKeywords){
+    public static Set<String> from(List<ReviewKeyword> reviewKeywords){
         return reviewKeywords.stream()
-                .map(ReviewKeyword::getKeyword)
+                .map(ReviewKeyword::getKeywordTitle)
                 .collect(Collectors.toSet());
     }
 
