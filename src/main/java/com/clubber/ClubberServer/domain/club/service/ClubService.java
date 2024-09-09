@@ -64,7 +64,7 @@ public class ClubService {
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
             .orElseThrow(() -> ClubIdNotFoundException.EXCEPTION);
 
-        club.validateAgreeToReview();
+        club.validateAgreeToProvideInfo();
 
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
