@@ -19,7 +19,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
@@ -92,14 +92,14 @@ public class ReviewService {
 
 	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
-	public ClubReviewsWithContentResponse getClubReviewsWithContent(Long clubId, Pageable pageable) {
+	public GetClubReviewsWithPageContentResponse getClubReviewsWithContent(Long clubId, Pageable pageable) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
 		club.validateAgreeToReview();
 
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
-		return ClubReviewsWithContentResponse.of(reviews, club.getId());
+		return GetClubReviewsWithPageContentResponse.of(reviews, club.getId());
 	}
 
 	//동아리 별 리뷰 조회 : No Offset 구현 
