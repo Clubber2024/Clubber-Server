@@ -122,6 +122,7 @@ public class ReviewService {
 	/**
 	 * 양방향 테스트 용도 메서드 
 	 */
+	@Deprecated
 	@Transactional(readOnly = true)
 	public ClubReviewResponse getClubReviews(Long clubId) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
