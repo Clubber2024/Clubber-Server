@@ -40,7 +40,7 @@ public class AdminReviewController {
 	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회 (더보기)", description = "추후 적용해주세요")
 	@GetMapping("/pending/slice")
 	public GetAdminPendingReviewsWithSliceResponse getAdminPendingReviewsWithSliceResponses(
-		@PageableDefault Pageable pageable, @RequestParam Long lastReviewId){
+		@PageableDefault Pageable pageable, @RequestParam(required = false) Long lastReviewId){
 		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
 	}
 
