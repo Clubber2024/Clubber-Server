@@ -110,7 +110,7 @@ public class AdminReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetAdminPendingReviewsWithSliceResponse getAdminReviews(Pageable pageable, Long lastReviewId){
+	public GetAdminPendingReviewsWithSliceResponse getAdminPendingReviewsWithSliceResponse(Pageable pageable, Long lastReviewId){
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		Admin admin = adminRepository.findById(currentUserId)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
@@ -119,7 +119,7 @@ public class AdminReviewService {
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, lastReviewId,
 			ApprovedStatus.PENDING);
-		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable); 
+		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable);
 	}
 
 }
