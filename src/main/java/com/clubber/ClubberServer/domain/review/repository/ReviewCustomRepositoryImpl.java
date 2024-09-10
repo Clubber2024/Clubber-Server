@@ -77,6 +77,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	}
 
 	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
-		return approvedStatus == null ? null : review.approvedStatus.eq(approvedStatus);
+		if(approvedStatus == null){
+			return null;
+		}
+		return review.approvedStatus.eq(approvedStatus);
 	}
 }
