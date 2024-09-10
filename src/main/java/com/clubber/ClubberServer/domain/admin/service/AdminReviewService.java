@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminPendingReviewsWithSliceResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
@@ -106,6 +107,18 @@ public class AdminReviewService {
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
 		return GetAdminsReviewsResponse.of(admin, club, reviews);
+	}
+
+	@Transactional(readOnly = true)
+	public GetAdminPendingReviewsWithSliceResponse getAdminReviews(Pageable pageable, Long lastReviewId){
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+
+		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, lastReviewId,
+			ApprovedStatus.PENDING);
 	}
 
 }
