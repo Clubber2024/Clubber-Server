@@ -119,6 +119,7 @@ public class AdminReviewService {
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, lastReviewId,
 			ApprovedStatus.PENDING);
+		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable); 
 	}
 
 }
