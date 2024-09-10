@@ -3,7 +3,11 @@ package com.clubber.ClubberServer.domain.review.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +24,19 @@ public class GetClubReviewsKeywordStatsResponse {
             example = "{\"CULTURE\": 10, \"FEE\": 20, \"ACTIVITY\": 30, \"CAREER\": 40, \"MANAGE\": 50}")
     private final Map<String, Long> keywordStats;
 
-    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<String, Long> keywordStats){
+    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<Keyword, Long> keywordStats){
         return GetClubReviewsKeywordStatsResponse.builder()
                 .clubId(club.getId())
-                .keywordStats(keywordStats)
+                .keywordStats(convertKeyType(keywordStats))
                 .build();
+    }
+
+    private static Map<String, Long> convertKeyType(Map<Keyword, Long> keywordStats){
+        return keywordStats.entrySet().stream()
+            .collect(Collectors.toMap(
+                entry -> entry.getKey().getTitle(),
+                entry -> entry.getValue(),
+                (oldValue, newValue) -> oldValue,
+                LinkedHashMap::new));
     }
 }
