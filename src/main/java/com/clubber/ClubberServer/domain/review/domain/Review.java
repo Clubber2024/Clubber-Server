@@ -79,7 +79,7 @@ public class Review extends BaseEntity {
 			.user(user)
 			.club(club)
 			.content(content)
-			.approvedStatus( StringUtils.hasText(content) ? NULL_CONTENT : PENDING)
+			.approvedStatus( StringUtils.hasText(content) ? PENDING : NULL_CONTENT)
 			.build();
 	}
 
