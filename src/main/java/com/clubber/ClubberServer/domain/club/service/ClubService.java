@@ -61,8 +61,11 @@ public class ClubService {
     //[동아리 및 소모임] 개별 페이지 조회
     @Transactional
     public GetClubResponse getClubsIndividualPage(Long clubId){
-        Optional<Club> clubFound= clubRepository.findClubByIdAndIsDeleted(clubId, false);
-        Club club=clubFound.orElseThrow(()->ClubIdNotFoundException.EXCEPTION);
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+            .orElseThrow(() -> ClubIdNotFoundException.EXCEPTION);
+
+        club.validateAgreeToProvideInfo();
+
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
 
@@ -119,7 +122,8 @@ public class ClubService {
 
     // [해시태그] 해시태그 목록 반환 (enum)
     public List<EnumMapperVO> getClubsTotalHashtags() {
-        return enumMapper.get("Hashtag");
+        List<EnumMapperVO> hashtagVOs = enumMapper.get("Hashtag");
+        return hashtagVOs.subList(0, hashtagVOs.size() - 1);
     }
 
 

@@ -7,6 +7,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideInfoException;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -45,18 +47,22 @@ public class Club extends BaseEntity {
 
 	private String introduction;
 
+	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	private Hashtag hashtag;
 
+	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	private Division division;
 
+	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	private College college;
 
+	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	private Department department;
@@ -75,16 +81,30 @@ public class Club extends BaseEntity {
 	@OneToMany(mappedBy = "club")
 	private List<Favorite> favorites = new ArrayList<>();
 
+	private boolean isAgreeToReview = false;
+
+	private boolean isAgreeToProvideInfo = false;
+
 	public void updateClub(String imageUrl, String introduction) {
 		this.imageUrl = imageUrl;
 		this.introduction = introduction;
 	}
 
-	public void deleteClub() {
+	public void delete() {
 		if (this.isDeleted == true) {
 			throw ClubAlreadyDeletedException.EXCEPTION;
 		}
 		this.isDeleted = true;
+	}
+
+	public void validateAgreeToReview(){
+		if(!isAgreeToReview)
+			throw ClubNotAgreeToProvideReviewException.EXCEPTION;
+	}
+
+	public void validateAgreeToProvideInfo(){
+		if(!isAgreeToProvideInfo)
+			throw ClubNotAgreeToProvideInfoException.EXCEPTION;
 	}
 
 	public void deleteReviews() {

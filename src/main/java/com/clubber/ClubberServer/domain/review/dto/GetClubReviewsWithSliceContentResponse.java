@@ -17,7 +17,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClubReviewsWithSliceContentResponse {
+public class GetClubReviewsWithSliceContentResponse {
 
 	private final Long clubId;
 
@@ -25,8 +25,8 @@ public class ClubReviewsWithSliceContentResponse {
 
 	private final SliceResponse<ClubReviewsWithContentDetailResponse> reviews;
 
-	public static ClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId, Pageable pageable){
-		return ClubReviewsWithSliceContentResponse.builder()
+	public static GetClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId, Pageable pageable){
+		return GetClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
 			.lastReviewId(SliceUtil.hasNext(reviews, pageable) ?
 				SliceUtil.getLastContent(reviews).getId() : null)

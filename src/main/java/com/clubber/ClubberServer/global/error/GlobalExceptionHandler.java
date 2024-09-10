@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
@@ -44,6 +45,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponse errorResponse =
 			new ErrorResponse(statusCode.value(), ex.getMessage(), uri);
 		return super.handleExceptionInternal(ex, errorResponse, headers, statusCode, request);
+	}
+
+	@ExceptionHandler({MethodArgumentTypeMismatchException.class})
+	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e){
+		return ResponseEntity.status(GlobalErrorCode.INVALID_METHOD_ARGUMENT_TYPE.getStatus())
+			.body(GlobalErrorCode.INVALID_METHOD_ARGUMENT_TYPE.getErrorReason());
 	}
 
 	@SneakyThrows

@@ -71,10 +71,7 @@ public class Review extends BaseEntity {
 		this.approvedStatus = approvedStatus;
 	}
 
-	public void setReviewKeywords(Keyword keyword) {
-		ReviewKeyword reviewKeyword = ReviewKeyword.of(this, keyword);
-		this.reviewKeywords.add(reviewKeyword);
-	}
+	
 
 	public static Review of(User user, Club club, String content) {
 		return Review.builder()

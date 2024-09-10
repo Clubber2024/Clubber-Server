@@ -41,9 +41,13 @@ public class AdminService {
 		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
 			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
-		if (!encoder.matches(loginRequest.getPassword(), admin.getPassword()))
-			throw AdminLoginFailedException.EXCEPTION;
+		validatePassword(loginRequest.getPassword(), admin.getPassword());
 		return createAdminsToken(admin);
+	}
+
+	private void validatePassword(String rawPassword, String encodedPassword) {
+		if (!encoder.matches(rawPassword, encodedPassword))
+			throw AdminLoginFailedException.EXCEPTION;
 	}
 
 	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
@@ -82,8 +86,7 @@ public class AdminService {
 
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
 		Admin admin = adminRepository.findById(adminId)
@@ -126,10 +129,10 @@ public class AdminService {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		Admin admin = adminRepository.findById(currentUserId)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		Club club = admin.getClub();
-		club.deleteClub();
-		club.deleteReviews();
-		club.deleteFavorites();
+		
+		admin.deleteClub();
+		admin.deleteClubReviews();
+		admin.deleteClubFavorites();
 		admin.withDraw();
 	}
 
