@@ -110,7 +110,7 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
+		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId, null);
 
 		return GetClubReviewsWithSliceContentResponse.of(reviews, clubId, pageable);
 	}
