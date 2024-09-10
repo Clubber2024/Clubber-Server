@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.util.StringUtils;
 
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
@@ -78,7 +79,7 @@ public class Review extends BaseEntity {
 			.user(user)
 			.club(club)
 			.content(content)
-			.approvedStatus((content == null || content.isBlank()) ? NULL_CONTENT : PENDING)
+			.approvedStatus( StringUtils.hasText(content) ? NULL_CONTENT : PENDING)
 			.build();
 	}
 
