@@ -18,9 +18,9 @@ public class GetClubReviewsKeywordStatsResponse {
 
     @Schema(description = "작성한 리뷰 키워드",
             example = "{\"CULTURE\": 10, \"FEE\": 20, \"ACTIVITY\": 30, \"CAREER\": 40, \"MANAGE\": 50}")
-    private final Map<Keyword, Long> keywordStats;
+    private final Map<String, Long> keywordStats;
 
-    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<Keyword, Long> keywordStats){
+    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<String, Long> keywordStats){
         return GetClubReviewsKeywordStatsResponse.builder()
                 .clubId(club.getId())
                 .keywordStats(keywordStats)
