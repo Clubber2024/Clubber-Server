@@ -16,14 +16,18 @@ import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Array;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentResponse;
+
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -57,34 +61,42 @@ public class ReviewServiceTest {
 		SecurityContext context = SecurityContextHolder.getContext();
 		context.setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities()));
 		user = User.builder().id(1L).build();
-		club = Club.builder().id(1L).build();
+		club = Club.builder().id(1L).isAgreeToReview(true).build();
 	}
 
 	@Test
 	void 리뷰작성_성공() throws Exception{
 		//given
 		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
-		// when(clubRepository.findById(anyLong())).thenReturn(Optional.of(club));
 		when(clubRepository.findClubByIdAndIsDeleted(anyLong(), eq(false))).thenReturn(Optional.of(club));
 		when(reviewRepository.existsByUserAndClub(any(), any())).thenReturn(false);
 
+		/**
+		 * request dto 생성자로 객체 생성 불가능 문제 추후 고민
+		 */
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = "{\n" +
 			"  \"content\": \"활동이 유익해요\",\n" +
 			"  \"keywords\": [\"FEE\", \"CULTURE\"]\n" +
 			"}";
-
-		// String을 CreateReviewClubWithContentRequest 객체로 변환
 		CreateReviewClubWithContentRequest request = objectMapper.readValue(json, CreateReviewClubWithContentRequest.class);
 
+		/**
+		 * cascade 파트 테스트는 jpatest로 추가 검증해야할 지 추후 고민
+		 */
 		Review savedReview = Review.of(user, club, request.getContent());
+		request.toReviewKeywordEntities(savedReview);
 		when(reviewRepository.save(any())).thenReturn(savedReview);
 
-		CreateReviewClubWithContentResponse reviewResponse = reviewService.createReviewsByContent(club.getId(),
+		CreateClubReviewsWithContentResponse reviewResponse = reviewService.createReviewsByContent(club.getId(),
 			request);
 
+		Set<String> keywordTitles= new HashSet<>();
+		keywordTitles.add(Keyword.CULTURE.getTitle());
+		keywordTitles.add(Keyword.FEE.getTitle());
+
 		assertEquals(reviewResponse.getContent(), request.getContent());
-		assertEquals(reviewResponse.getKeywords(), request.getKeywords());
+		assertEquals(reviewResponse.getKeywords(), keywordTitles);
 	}
 
 
