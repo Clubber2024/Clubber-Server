@@ -7,6 +7,8 @@ import lombok.*;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubIntoCardResponse { //clubId,clubName을 반환함
+
+    private boolean agreedToProvideInfo;
     private Long clubId;
     private String imageUrl;
     private String clubName;
@@ -15,6 +17,7 @@ public class GetClubIntoCardResponse { //clubId,clubName을 반환함
 
     public static GetClubIntoCardResponse from(Club club){
         return GetClubIntoCardResponse.builder()
+                .agreedToProvideInfo(club.isAgreeToProvideInfo())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())
