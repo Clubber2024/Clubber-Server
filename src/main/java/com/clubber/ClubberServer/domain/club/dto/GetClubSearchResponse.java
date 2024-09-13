@@ -12,6 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubSearchResponse {
 
+    private boolean isAgreeToProvideInfo;
     private Long clubId;
     private String imageUrl;
     private String clubName;
@@ -19,6 +20,7 @@ public class GetClubSearchResponse {
 
     public static GetClubSearchResponse from (Club club){
         return GetClubSearchResponse.builder()
+                .isAgreeToProvideInfo(club.isAgreeToProvideInfo())
                 .clubId(club.getId())
                 .imageUrl(club.getImageUrl())
                 .clubName(club.getName())

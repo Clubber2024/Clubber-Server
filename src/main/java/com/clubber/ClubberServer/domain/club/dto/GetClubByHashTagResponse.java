@@ -12,6 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubByHashTagResponse {
 
+	private boolean isAgreeToProvideInfo;
 	private Long clubId;
 	private String imageUrl;
 	private String clubName;
@@ -19,6 +20,7 @@ public class GetClubByHashTagResponse {
 
 	public static GetClubByHashTagResponse from(Club club) {
 		return GetClubByHashTagResponse.builder()
+				.isAgreeToProvideInfo(club.isAgreeToProvideInfo())
 				.clubId(club.getId())
 				.imageUrl(club.getImageUrl())
 				.clubName(club.getName())
