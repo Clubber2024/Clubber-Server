@@ -78,8 +78,8 @@ public class Review extends BaseEntity {
 		return Review.builder()
 			.user(user)
 			.club(club)
-			.content(content)
-			.approvedStatus( StringUtils.hasText(content) ? PENDING : NULL_CONTENT)
+			.content(hasContent(content) ? content : null)
+			.approvedStatus(hasContent(content) ? PENDING : NULL_CONTENT)
 			.build();
 	}
 
@@ -97,5 +97,9 @@ public class Review extends BaseEntity {
 
 	public void delete() {
 		this.approvedStatus = DELETED;
+	}
+
+	private static boolean hasContent(String content){
+		return StringUtils.hasText(content);
 	}
 }
