@@ -98,4 +98,8 @@ public class Review extends BaseEntity {
 	public void delete() {
 		this.approvedStatus = DELETED;
 	}
+
+	private static boolean hasContent(String content){
+		return StringUtils.hasText(content);
+	}
 }
