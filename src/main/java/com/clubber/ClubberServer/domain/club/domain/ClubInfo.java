@@ -23,6 +23,7 @@ public class ClubInfo extends BaseEntity{
 
     private Long totalView;
 
+    @Column(length = 1500)
     private String activity;
 
     public void increaseTotalView(){
