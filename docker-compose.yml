@@ -13,12 +13,25 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx/:/etc/nginx/
+      - ./cerbot/conf:/etc/letsencrypt
+      - ./cerbot/www:/var/www/certbot
     ports:
       - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - backend
     networks:
       - clubber
+
+  certbot:
+    container_name: cerbot/cerbot:arm32v6-latest
+    restart: unless-stopped
+    volumes:
+      - ./cerbot/conf:/etc/letsencrypt
+      - ./cerbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
 
 networks:
   clubber:
