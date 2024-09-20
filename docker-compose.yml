@@ -25,7 +25,8 @@ services:
       - clubber
 
   certbot:
-    container_name: cerbot/cerbot:arm32v6-latest
+    container_name: certbot
+    image: cerbot/cerbot:arm32v6-latest
     restart: unless-stopped
     volumes:
       - ./cerbot/conf:/etc/letsencrypt
