@@ -55,6 +55,16 @@ jobs:
       #          jwt.access-exp: ${{ secrets.JWT_ACCESS_EXP }}
       #          jwt.refresh-exp: ${{ secrets.JWT_REFRESH_EXP }}
 
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash

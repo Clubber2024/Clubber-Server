@@ -12,7 +12,6 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
 import com.clubber.ClubberServer.domain.image.dto.CreateRecruitsImagePresigneUrlRequest;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
 import java.net.URL;
@@ -21,9 +20,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -41,9 +40,7 @@ public class S3UploadPresignedService {
 
     private final ClubRepository clubRepository;
 
-    private final RecruitRepository recruitRepository;
-
-    public CreateImagePresignedUrlResponse createClubsImagePresignedUrl(ImageFileExtension fileExtension) {
+    public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(ImageFileExtension fileExtension) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
@@ -53,13 +50,12 @@ public class S3UploadPresignedService {
             throw ClubNotFoundException.EXCEPTION;
 
         String fixedFileExtension = fileExtension.getUploadExtension();
-        String fileName = getForClubFileName(clubId, fixedFileExtension);
+        String fileName = getForClubLogoFileName(clubId, fixedFileExtension);
         URL url = amazonS3.generatePresignedUrl(
                 getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
         return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
     }
 
-    @Transactional(readOnly = true)
     public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(CreateRecruitsImagePresigneUrlRequest request) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         Admin admin = adminRepository.findById(currentUserId)
@@ -69,15 +65,20 @@ public class S3UploadPresignedService {
         if(!clubRepository.existsClubByIdAndIsDeleted(clubId, false))
             throw ClubNotFoundException.EXCEPTION;
 
-        Long maxRecruitId = recruitRepository.findMaxRecruitId();
-        return request.getRecruitImageExtensions().stream().map(
-                fileExtension -> {
-                    String fixedFileExtension = fileExtension.getUploadExtension();
-                    String fileName = getForRecruitFileName(clubId, maxRecruitId + 1, fixedFileExtension);
-                    URL url = amazonS3.generatePresignedUrl(
-                            getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
-                    return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
-                }).collect(Collectors.toList());
+        List<ImageFileExtension> recruitImageExtensions = request.getRecruitImageExtensions();
+        UUID recruitFolder = UUID.randomUUID();
+        return recruitImageExtensions.stream()
+            .map((fileExtension) -> createRecruitImagePresignedUrlResponse(fileExtension, clubId, recruitFolder))
+            .collect(Collectors.toList());
+    }
+
+    private CreateImagePresignedUrlResponse createRecruitImagePresignedUrlResponse(
+        ImageFileExtension fileExtension, Long clubId, UUID recruitFolder){
+        String fixedFiledExtension = fileExtension.getUploadExtension();
+        String fileName = getForClubRecruitFileName(clubId, recruitFolder, fixedFiledExtension);
+        URL url = amazonS3.generatePresignedUrl(
+            getGeneratePresignedUrlRequest(bucket, fileName, fixedFiledExtension));
+        return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(
@@ -101,21 +102,23 @@ public class S3UploadPresignedService {
         return expiration;
     }
 
-    private String getForClubFileName(Long clubId, String fileExtension) {
+    private String getForClubLogoFileName(Long clubId, String fileExtension) {
         return "club/" +
                 clubId.toString() +
+                "/" +
+                "logo" +
                 "/" +
                 UUID.randomUUID() +
                 "." +
                 fileExtension;
     }
 
-    private String getForRecruitFileName(Long clubId, Long recruitId, String fileExtension) {
+    private static String getForClubRecruitFileName(Long clubId, UUID recruitFolder, String fileExtension) {
         return "club/" +
                 clubId.toString() +
                 "/" +
                 "recruit/" +
-                recruitId.toString() +
+                recruitFolder +
                 "/" +
                 UUID.randomUUID() +
                 "." +
