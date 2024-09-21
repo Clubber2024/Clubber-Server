@@ -12,7 +12,7 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      #- ./nginx/:/etc/nginx/
+      - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     ports:
@@ -29,10 +29,11 @@ services:
     image: certbot/certbot:latest
     restart: unless-stopped
     volumes:
-      - /home/ubuntu/certbot/conf:/etc/letsencrypt
-      - /home/ubuntu/certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
+    networks:
+      - clubber
 
 networks:
   clubber:
