@@ -20,7 +20,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserReviewResponse {
+public class GetUserReviewsResponse {
     private final Long userId;
 
     private final List<UserReviewDetailResponse> userReviews;
@@ -48,7 +48,7 @@ public class UserReviewResponse {
 
         @Schema(description = "리뷰 작성 시 선택한 키워드",
                 example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-        private final Set<Keyword> keywords;
+        private final Set<String> keywords;
 
         @Schema(description = "한줄평", example = "매주 정기회의가 있어서 시간 투자가 필요합니다!")
         private final String content;
@@ -66,10 +66,10 @@ public class UserReviewResponse {
         }
     }
 
-    public static UserReviewResponse of(User user, List<Review> reviews){
+    public static GetUserReviewsResponse of(User user, List<Review> reviews){
         List<UserReviewDetailResponse> reviewDetails = reviews.stream().map(UserReviewDetailResponse::of)
                 .collect(Collectors.toList());
-        return UserReviewResponse.builder()
+        return GetUserReviewsResponse.builder()
                 .userId(user.getId())
                 .userReviews(reviewDetails)
                 .build();

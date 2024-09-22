@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
+import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
@@ -8,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +27,7 @@ public class SearchController {
     @DisableSwaggerSecurity
     @Operation(summary="hashtag기반 검색")
     @GetMapping(params="hashtag")
-    public GetClubsByHashTagResponse searchByHashtag(@RequestParam(name="hashtag",required=false)String hashtag){
+    public GetClubsByHashTagResponse searchByHashtag(@RequestParam(name="hashtag",required=false) Hashtag hashtag){
         return clubService.getClubsHashtag(hashtag);
 
     }

@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,17 +52,26 @@ public class ReviewKeyword extends BaseEntity {
         this.keyword = keyword;
     }
 
-    public static ReviewKeyword of(Review review, Keyword keyword){
-        return ReviewKeyword.builder()
-                .review(review)
-                .keyword(keyword)
-                .build();
+    public String getKeywordTitle() {
+        return keyword.getTitle();
     }
 
-    public static Set<Keyword> from(List<ReviewKeyword> reviewKeywords){
+    public void setReview(Review review){
+        this.review = review;
+        review.getReviewKeywords().add(this);
+    }
+
+
+    public static ReviewKeyword from(Keyword keyword){
+        return ReviewKeyword.builder()
+            .keyword(keyword)
+            .build();
+    }
+
+    public static Set<String> from(List<ReviewKeyword> reviewKeywords){
         return reviewKeywords.stream()
-                .map(ReviewKeyword::getKeyword)
-                .collect(Collectors.toSet());
+                .map(ReviewKeyword::getKeywordTitle)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 }

@@ -58,4 +58,16 @@ public class Admin {
         this.accountState = AccountState.INACTIVE;
     }
 
+    public void deleteClub(){
+        club.delete();
+    }
+
+    public void deleteClubReviews(){
+        club.deleteReviews();
+    }
+
+    public void deleteClubFavorites(){
+        club.deleteFavorites();
+    }
+
 }

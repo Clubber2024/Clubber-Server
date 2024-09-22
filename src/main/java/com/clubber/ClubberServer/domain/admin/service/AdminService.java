@@ -1,7 +1,17 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -15,111 +25,115 @@ import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredExcept
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AdminService {
-    private final AdminRepository adminRepository;
-    private final PasswordEncoder encoder;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+	private final AdminRepository adminRepository;
+	private final PasswordEncoder encoder;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 
-    @Transactional
-    public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest){
-        Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
-                .orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
+	@Transactional
+	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
+		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
+			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
-        if(!encoder.matches(loginRequest.getPassword(), admin.getPassword()))
-            throw AdminLoginFailedException.EXCEPTION;
-        return createAdminsToken(admin);
-    }
+		validatePassword(loginRequest.getPassword(), admin.getPassword());
+		return createAdminsToken(admin);
+	}
 
-    private CreateAdminsLoginResponse createAdminsToken(Admin admin){
-        String accessToken = jwtTokenProvider.generateAccessToken(admin);
-        String refreshToken = jwtTokenProvider.generateRefreshToken(admin.getId());
-        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
-                jwtTokenProvider.getRefreshTokenTTlSecond());
-        RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
-        return CreateAdminsLoginResponse.of(admin, accessToken, savedRefreshToken.getRefreshToken());
-    }
+	private void validatePassword(String rawPassword, String encodedPassword) {
+		if (!encoder.matches(rawPassword, encodedPassword))
+			throw AdminLoginFailedException.EXCEPTION;
+	}
 
-    @Transactional(readOnly = true)
-    public GetAdminsProfileResponse getAdminsProfile() {
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(currentUserId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        return GetAdminsProfileResponse.from(admin);
-    }
+	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
+		String accessToken = jwtTokenProvider.generateAccessToken(admin);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(admin.getId());
+		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
+			jwtTokenProvider.getRefreshTokenTTlSecond());
+		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
+		return CreateAdminsLoginResponse.of(admin, accessToken, savedRefreshToken.getRefreshToken());
+	}
 
-    @Transactional
-    public UpdateAdminsPasswordResponse updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(currentUserId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	@Transactional(readOnly = true)
+	public GetAdminsProfileResponse getAdminsProfile() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		return GetAdminsProfileResponse.from(admin);
+	}
 
-        String rawPassword = updateAdminsPasswordRequest.getPassword();
-        admin.updatePassword(encoder.encode(rawPassword));
-        return UpdateAdminsPasswordResponse.of(admin);
-    }
+	@Transactional
+	public UpdateAdminsPasswordResponse updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-    @Transactional
-    public void logout() {
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        refreshTokenRepository.deleteById(currentUserId);
-    }
+		String rawPassword = updateAdminsPasswordRequest.getPassword();
+		admin.updatePassword(encoder.encode(rawPassword));
+		return UpdateAdminsPasswordResponse.of(admin);
+	}
 
-    @Transactional
-    public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken){
-        RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-                        refreshToken)
-                .orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-        Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        return createAdminsToken(admin);
-    }
+	@Transactional
+	public void logout() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		refreshTokenRepository.deleteById(currentUserId);
+	}
 
-    @Transactional
-    public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest requestDTO){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
+	@Transactional
+	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
+			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+		Admin admin = adminRepository.findById(adminId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		return createAdminsToken(admin);
+	}
 
-        Admin admin = adminRepository.findById(currentUserId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	@Transactional
+	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest requestDTO) {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
 
-        Club club=admin.getClub();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        club.updateClub(requestDTO.getImageUrl(),requestDTO.getIntroduction());
+		Club club = admin.getClub();
 
-        ClubInfo clubinfo=club.getClubInfo();
-        clubinfo.updateClubInfo(requestDTO.getInstagram(),requestDTO.getLeader(), requestDTO.getActivity(), requestDTO.getRoom());
+		club.updateClub(requestDTO.getImageUrl(), requestDTO.getIntroduction());
 
-        return UpdateClubPageResponse.of(club,clubinfo);
+		ClubInfo clubinfo = club.getClubInfo();
+		clubinfo.updateClubInfo(requestDTO.getInstagram(), requestDTO.getLeader(), requestDTO.getActivity(),
+			requestDTO.getRoom());
 
-    }
+		return UpdateClubPageResponse.of(club, clubinfo);
 
-    public GetClubResponse getAdminsMyPage(){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
+	}
 
-        Admin admin = adminRepository.findById(currentUserId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	public GetClubResponse getAdminsMyPage() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
 
-        Club club=admin.getClub();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
-    }
+		Club club = admin.getClub();
 
-    @Transactional
-    public void withDraw() {
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        Admin admin = adminRepository.findById(currentUserId)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-        admin.getClub().deleteClub();
-        admin.withDraw();
-    }
+		return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
+	}
+
+	@Transactional
+	public void withDraw() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		Admin admin = adminRepository.findById(currentUserId)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		
+		admin.deleteClub();
+		admin.deleteClubReviews();
+		admin.deleteClubFavorites();
+		admin.withDraw();
+	}
 
 }

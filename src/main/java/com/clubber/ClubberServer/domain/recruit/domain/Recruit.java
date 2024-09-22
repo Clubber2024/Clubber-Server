@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Recruit extends BaseEntity {
     private String title;
 
     @NotNull
+    @Column(length = 2000)
     private String content;
 
     private Long totalView;
@@ -38,11 +40,14 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
-    @OneToMany(mappedBy = "recruit")
-    @BatchSize(size = 10)
+    @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages;
 
     public void updateStatus(){this.isDeleted=true;}
+
+    public void increaseTotalview(){
+        this.totalView++;
+    }
 
     @Builder
     private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
