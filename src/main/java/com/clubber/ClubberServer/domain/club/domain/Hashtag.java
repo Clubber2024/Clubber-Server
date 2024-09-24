@@ -1,27 +1,30 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.enummapper.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Hashtag implements EnumMapperType {
 
-	MUSIC("음악", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/music.png"),
-	GAME("게임", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/game.png"),
-	PICTURE("사진", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/photo.png"),
-	PROGRAMMING("개발", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/programming.png"),
-	LANGUAGE("언어", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/language.png"),
-	SPORTS("운동", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/sports.png"),
-	DANCE("댄스", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/dance.png"),
-	VOLUNTEER("봉사", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/volunteer.png"),
-	RELIGION("종교", "https://clubber-bucket.s3.ap-northeast-2.amazonaws.com/hashtag/religion.png"),
-	STUDY("학술", null),
+	MUSIC("음악", "music.png"),
+	GAME("게임", "game.png"),
+	PICTURE("사진", "photo.png"),
+	PROGRAMMING("개발",  "programming.png"),
+	LANGUAGE("언어",  "language.png"),
+	SPORTS("운동",  "sports.png"),
+	DANCE("댄스",  "dance.png"),
+	VOLUNTEER("봉사", "volunteer.png"),
+	RELIGION("종교", "religion.png"),
+	STUDY("학술", "study.png"),
 	ETC("해당 없음", null);
+
+	private static final String HASHTAG_IMAGE_KEY = "hashtag/";
 
 	private final String title;
 
-	private final String imageUrl;
+	private final String imageKey;
 
 	@Override
 	public String getCode() {
@@ -35,6 +38,6 @@ public enum Hashtag implements EnumMapperType {
 
 	@Override
 	public String getImageUrl() {
-		return imageUrl;
+		return ImageVO.from(HASHTAG_IMAGE_KEY + imageKey);
 	}
 }
