@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
@@ -36,6 +37,14 @@ public class ReviewController {
 	@GetMapping("/deprecated")
 	public ClubReviewResponse getClubReviews(@PathVariable Long clubId) {
 		return reviewService.getClubReviews(clubId);
+	}
+
+
+	@Operation(summary = "동아리 리뷰 동의 여부 반환")
+	@DisableSwaggerSecurity
+	@GetMapping("/agree")
+	public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(@PathVariable Long clubId) {
+		return reviewService.getClubReviewAgreedStatus(clubId);
 	}
 
 	@Operation(summary = "개별 동아리 별 리뷰 키워드 통계")
