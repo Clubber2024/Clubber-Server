@@ -5,7 +5,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
@@ -70,6 +70,16 @@ public class ReviewService {
 
 		return CreateClubReviewsWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
 	}
+
+	@Transactional(readOnly = true)
+	public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId){
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+
+		return GetClubReviewAgreedStatusResponse.from(club);
+	}
+
+
 
 	@Transactional(readOnly = true)
 	public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
