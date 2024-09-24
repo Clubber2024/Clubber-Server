@@ -25,4 +25,8 @@ public class ImageVO {
 	public static ImageVO valueOf(String key){
 		return new ImageVO(key);
 	}
+
+	public static String from(String key){
+		return IMAGE_SERVER + key;
+	}
 }
