@@ -5,8 +5,11 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageVO {
 
 	private String imageKey;
