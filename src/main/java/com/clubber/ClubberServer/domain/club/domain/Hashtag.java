@@ -17,7 +17,7 @@ public enum Hashtag implements EnumMapperType {
 	DANCE("댄스",  "dance.png"),
 	VOLUNTEER("봉사", "volunteer.png"),
 	RELIGION("종교", "religion.png"),
-	STUDY("학술", null),
+	STUDY("학술", "study.png"),
 	ETC("해당 없음", null);
 
 	private static final String HASHTAG_IMAGE_KEY = "hashtag/";
