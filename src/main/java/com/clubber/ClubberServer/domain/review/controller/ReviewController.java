@@ -40,6 +40,7 @@ public class ReviewController {
 	}
 
 
+	@Operation(summary = "동아리 리뷰 동의 여부 반환")
 	@DisableSwaggerSecurity
 	@GetMapping("/agree")
 	public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(@PathVariable Long clubId) {
