@@ -8,6 +8,11 @@ services:
     networks:
       - clubber
 
+  frontend:
+    image: mjkim1229/clubber-client
+    expose:
+      - 3000
+
   nginx:
     image: nginx:latest
     volumes:
@@ -20,6 +25,7 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - backend
+      - frontend
     networks:
       - clubber
 
