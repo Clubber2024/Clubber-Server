@@ -23,4 +23,6 @@ public class JwtStatic {
     public static final String localClient = "http://localhost:3000";
 
     public static final String remoteClient = "http://13.125.141.171";
+
+    public static final String IMAGE_SERVER = "https://image.ssuclubber.com/"; 
 }
