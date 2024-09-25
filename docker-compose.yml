@@ -10,8 +10,10 @@ services:
 
   frontend:
     image: mjkim1229/clubber-front
-    expose:
-      - 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - clubber
 
   nginx:
     image: nginx:latest
