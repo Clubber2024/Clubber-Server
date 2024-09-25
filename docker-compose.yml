@@ -9,7 +9,7 @@ services:
       - clubber
 
   frontend:
-    image: mjkim1229/clubber-client
+    image: mjkim1229/clubber-front
     expose:
       - 3000
 
