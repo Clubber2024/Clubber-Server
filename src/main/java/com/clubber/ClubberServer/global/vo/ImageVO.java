@@ -6,21 +6,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageVO {
 
-	private String imageKey;
+	private String imageUrl;
 
 	@JsonValue
 	public String generateImageUrl(){
-		return IMAGE_SERVER + imageKey;
+		return IMAGE_SERVER + imageUrl;
 	}
 
 	public ImageVO(String key) {
-		this.imageKey = key;
+		this.imageUrl = key;
 	}
 	public static ImageVO valueOf(String key){
 		return new ImageVO(key);
