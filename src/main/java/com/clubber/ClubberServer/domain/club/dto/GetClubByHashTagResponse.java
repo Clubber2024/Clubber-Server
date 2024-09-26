@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ public class GetClubByHashTagResponse {
 
 	private boolean isAgreeToProvideInfo;
 	private Long clubId;
-	private String imageUrl;
+	private ImageVO imageUrl;
 	private String clubName;
 	private String introduction;
 

@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.favorite.dto;
 
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -26,7 +27,7 @@ public class GetFavoriteDetailsResponse {
 	private final String clubType;
 
 	@Schema(description = "동아리 이미지 url")
-	private final String imageUrl;
+	private final ImageVO imageUrl;
 
 	public static GetFavoriteDetailsResponse of(Favorite favorite) {
 		return GetFavoriteDetailsResponse.builder()
