@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.club.domain.College;
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,11 @@ public class GetClubResponse {
 	private String division;
 	private String college;
 	private String department;
-	private String imageUrl;
+	private ImageVO imageUrl;
 	private GetClubInfoResponse clubInfo;
 
 	public static GetClubResponse of(Club club, GetClubInfoResponse clubInfo) {
+		System.out.println("club.getImageUrl() = " + club.getImageUrl());
 		return GetClubResponse.builder()
 				.clubId(club.getId())
 				.clubName(club.getName())

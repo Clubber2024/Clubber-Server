@@ -12,7 +12,9 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideRevi
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -67,7 +69,8 @@ public class Club extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Department department;
 
-	private String imageUrl;
+	@Embedded
+	private ImageVO imageUrl;
 
 	private boolean isDeleted = false;
 
@@ -85,8 +88,8 @@ public class Club extends BaseEntity {
 
 	private boolean isAgreeToProvideInfo = false;
 
-	public void updateClub(String imageUrl, String introduction) {
-		this.imageUrl = imageUrl;
+	public void updateClub(String imageKey, String introduction) {
+		this.imageUrl = ImageVO.valueOf(imageKey);
 		this.introduction = introduction;
 	}
 
@@ -119,7 +122,7 @@ public class Club extends BaseEntity {
 
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
-		College college, Department department, String imageUrl, ClubInfo clubInfo) {
+		College college, Department department, ImageVO imageUrl, ClubInfo clubInfo) {
 		this.id = id;
 		this.name = name;
 		this.clubType = clubType;

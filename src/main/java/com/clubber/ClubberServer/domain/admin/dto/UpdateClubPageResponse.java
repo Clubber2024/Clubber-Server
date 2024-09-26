@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.admin.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.ClubberServer.global.vo.ImageVO;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +13,7 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateClubPageResponse {
-    private String imageUrl;
+    private ImageVO imageUrl;
     private String introduction;
     private String instagram;
     private String activity;

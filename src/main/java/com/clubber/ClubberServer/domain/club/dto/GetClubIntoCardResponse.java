@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.global.vo.ImageVO;
+
 import lombok.*;
 
 @Getter
@@ -10,7 +12,7 @@ public class GetClubIntoCardResponse { //clubId,clubName을 반환함
 
     private boolean isAgreeToProvideInfo;
     private Long clubId;
-    private String imageUrl;
+    private ImageVO imageUrl;
     private String clubName;
     private String introduction; //동아리에 대한 설명도 들처가야함
 
