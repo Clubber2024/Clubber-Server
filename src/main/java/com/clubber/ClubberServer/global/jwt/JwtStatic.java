@@ -22,7 +22,9 @@ public class JwtStatic {
 
     public static final String LOCAL_CLIENT = "http://localhost:3000";
 
-    public static final String REMOTE_CLIENT = "https://ssuclubber.com";
+    public static final String PROD_CLIENT = "https://ssuclubber.com";
+
+    public static final String DEV_CLIENT = "http://13.125.141.171/";
 
     public static final String IMAGE_SERVER = "https://image.ssuclubber.com/"; 
 }

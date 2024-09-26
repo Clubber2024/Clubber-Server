@@ -1,9 +1,7 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.LOCAL_CLIENT;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.LOCAL_SERVER;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.REMOTE_CLIENT;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
@@ -50,8 +48,10 @@ public class AuthController {
         }else {
             if(LOCAL_CLIENT.equals(Origin)){
                 kakaoToken = authService.getToken(code, LOCAL_CLIENT);
-            } else if (REMOTE_CLIENT.equals(Origin)) {
-                kakaoToken = authService.getToken(code, REMOTE_CLIENT);
+            } else if (PROD_CLIENT.equals(Origin)) {
+                kakaoToken = authService.getToken(code, PROD_CLIENT);
+            } else if (DEV_CLIENT.equals(Origin)) {
+                kakaoToken = authService.getToken(code, PROD_CLIENT);
             }
         }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
