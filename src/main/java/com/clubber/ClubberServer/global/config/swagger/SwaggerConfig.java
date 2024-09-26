@@ -27,11 +27,11 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Server localServer = new Server().url("http://localhost:8080").description("local");
+        Server LOCAL_SERVER = new Server().url("http://localhost:8080").description("local");
         Server devServer = new Server().url("http://13.125.141.171:8080").description("dev");
         return new OpenAPI().
                 info(swaggerInfo()).
-                servers(List.of(localServer, devServer))
+                servers(List.of(LOCAL_SERVER, devServer))
                 .components(authSetting())
                 .addSecurityItem(new SecurityRequirement()
                         .addList("Authorization")

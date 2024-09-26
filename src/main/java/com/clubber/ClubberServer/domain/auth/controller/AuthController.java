@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.localClient;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.localServer;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.remoteClient;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.LOCAL_CLIENT;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.LOCAL_SERVER;
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.REMOTE_CLIENT;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
@@ -45,13 +45,13 @@ public class AuthController {
             @RequestHeader(required = false) String Host,
             @RequestHeader(required = false) String Origin){
         KakaoTokenResponse kakaoToken = null;
-        if(localServer.equals(Host)) {
-            kakaoToken = authService.getToken(code, "http://"+ localServer);
+        if(LOCAL_SERVER.equals(Host)) {
+            kakaoToken = authService.getToken(code, "http://"+ LOCAL_SERVER);
         }else {
-            if(localClient.equals(Origin)){
-                kakaoToken = authService.getToken(code, localClient);
-            } else if (remoteClient.equals(Origin)) {
-                kakaoToken = authService.getToken(code, remoteClient);
+            if(LOCAL_CLIENT.equals(Origin)){
+                kakaoToken = authService.getToken(code, LOCAL_CLIENT);
+            } else if (REMOTE_CLIENT.equals(Origin)) {
+                kakaoToken = authService.getToken(code, REMOTE_CLIENT);
             }
         }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(

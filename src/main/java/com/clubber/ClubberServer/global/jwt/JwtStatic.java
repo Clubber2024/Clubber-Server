@@ -18,11 +18,11 @@ public class JwtStatic {
     public static final String BEARER = "Bearer ";
     public static final String TOKEN_ROLE = "role";
 
-    public static final String localServer = "localhost:8080";
+    public static final String LOCAL_SERVER = "localhost:8080";
 
-    public static final String localClient = "http://localhost:3000";
+    public static final String LOCAL_CLIENT = "http://localhost:3000";
 
-    public static final String remoteClient = "https://ssuclubber.com";
+    public static final String REMOTE_CLIENT = "https://ssuclubber.com";
 
     public static final String IMAGE_SERVER = "https://image.ssuclubber.com/"; 
 }
