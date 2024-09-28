@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 @Tag(name = "[모집글]")
 public class recruitController {
 
     private final RecruitService recruitService;
 
-    @GetMapping("/v1/clubs/{clubId}/recruit")
+    @GetMapping("/clubs/{clubId}/recruit")
     @DisableSwaggerSecurity
     @Operation(summary = "특정 동아리 모집글 조회")
     public PageResponse<GetOneRecruitResponse> getRecruitsByClubId(@PathVariable("clubId")Long clubId,
@@ -29,7 +30,7 @@ public class recruitController {
         return recruitService.getRecruitsByClubId(clubId,pageable);
     }
 
-    @GetMapping("/v1/recruits/main-page")
+    @GetMapping("/recruits/main-page")
     @DisableSwaggerSecurity
     @Operation(summary = "메인 페이지 홍보 게시판")
     public GetRecruitsMainPageResponse getRecruitsMainPage(){
@@ -37,7 +38,7 @@ public class recruitController {
     }
 
 
-    @GetMapping("/v1/recruits")
+    @GetMapping("/recruits")
     @DisableSwaggerSecurity
     @Operation(summary = "홍보 게시판에서 모든 모집글 조회")
     public PageResponse<GetOneRecruitResponse> getAllRecruitsPage(@PageableDefault(size = 5) Pageable pageable){

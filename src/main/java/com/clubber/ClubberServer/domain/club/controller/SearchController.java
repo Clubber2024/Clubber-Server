@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/clubs")
+@RequestMapping("/api/v1/clubs")
 @Tag(name="[검색]")
 public class SearchController {
 

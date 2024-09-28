@@ -17,26 +17,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 @Tag(name = "[동아리 계정 모집글 관련 API]")
 public class adminRecruitController {
 
     private final RecruitService recruitService;
 
-    @GetMapping("/v1/admins/recruits")
+    @GetMapping("/admins/recruits")
     @Operation(summary = "동아리 계정의 모든 모집글 조회")
     public PageResponse<GetOneRecruitResponse> getAllAdminRecruits(@PageableDefault(size = 5) Pageable pageable){
         return recruitService.getAllAdminRecruits(pageable);
     }
 
 
-    @PostMapping("/v1/admins/recruits")
+    @PostMapping("/admins/recruits")
     @Operation(summary = "동아리 계정 모집글 작성")
     public PostRecruitResponse postRecruitsPage(@RequestBody @Valid PostRecruitRequest request){
         return recruitService.postRecruitsPage(request);
     }
 
     //관리자 권한으로 모집글 삭제
-    @DeleteMapping("/v1/admins/recruits/{recruitId}")
+    @DeleteMapping("/admins/recruits/{recruitId}")
     @Operation(summary = "동아리 계정 모집글 삭제")
     public DeleteRecruitByIdResponse deleteRecruitsById(@PathVariable("recruitId")Long recruitId){
         return recruitService.deleteRecruitsById(recruitId);

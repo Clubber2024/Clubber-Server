@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/v1/clubs/{clubId}/reviews")
+@RequestMapping("/api/v1/clubs/{clubId}/reviews")
 @RequiredArgsConstructor
 @Tag(name = "[리뷰]")
 public class ReviewController {

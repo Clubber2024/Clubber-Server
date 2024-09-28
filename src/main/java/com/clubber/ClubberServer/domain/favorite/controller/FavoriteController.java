@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/clubs/{clubId}/favorites")
+@RequestMapping("/api/v1/clubs/{clubId}/favorites")
 @RequiredArgsConstructor
 @Tag(name = "[즐겨찾기]")
 public class FavoriteController {
