@@ -12,12 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 @Tag(name="[공지사항]")
 public class NoticeController {
     private final NoticeService noticeService;
@@ -25,14 +27,14 @@ public class NoticeController {
 
     @DisableSwaggerSecurity
     @Operation(summary="메인 페이지에서 공지사항 조회")
-    @GetMapping("/v1/notices/main-page")
+    @GetMapping("/notices/main-page")
     public List<GetNoticesAtMainResponse> getNoticesAtMain(){
         return noticeService.getNoticesAtMain();
     }
 
     @DisableSwaggerSecurity
     @Operation(summary="공지사항 조회")
-    @GetMapping("/v1/notices")
+    @GetMapping("/notices")
     public PageResponse<GetNoticeResponse> getNotices(@PageableDefault(size = 10) Pageable pageable){
         PageResponse<GetNoticeResponse> notices=noticeService.getNotices(pageable);
         return notices;

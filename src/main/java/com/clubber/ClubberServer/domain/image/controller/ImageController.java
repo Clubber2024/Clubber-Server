@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/images")
+@RequestMapping("/api/v1/images")
 @Tag(name = "[이미지 등록 URL 생성]")
 public class ImageController {
     private final S3UploadPresignedService s3UploadPresignedService;

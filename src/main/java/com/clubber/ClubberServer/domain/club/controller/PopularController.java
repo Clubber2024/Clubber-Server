@@ -20,7 +20,7 @@ public class PopularController {
 
     @DisableSwaggerSecurity
     @Operation(summary="인기순위 조회")
-    @GetMapping("/v1/clubs/popular")
+    @GetMapping("/api/v1/clubs/popular")
     public List<GetClubPopularResponse> getClubsPopular(){
         return clubService.getClubsPopular();
     }
