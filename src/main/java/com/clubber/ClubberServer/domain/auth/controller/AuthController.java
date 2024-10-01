@@ -41,18 +41,18 @@ public class AuthController {
     @DisableSwaggerSecurity
     public ResponseEntity<KakaoOauthResponse> getCredentialFromKakao(@RequestParam String code,
             @RequestHeader(required = false) String Host,
-            @RequestHeader(required = false) String Origin){
+            @RequestHeader(required = false) String Referer){
         KakaoTokenResponse kakaoToken = null;
-        if(LOCAL_SERVER.equals(Host)) {
-            kakaoToken = authService.getToken(code, "http://"+ LOCAL_SERVER);
-        }else {
-            if(LOCAL_CLIENT.equals(Origin)){
-                kakaoToken = authService.getToken(code, LOCAL_CLIENT);
-            } else if (PROD_CLIENT.equals(Origin)) {
-                kakaoToken = authService.getToken(code, PROD_CLIENT);
-            } else if (DEV_CLIENT.equals(Origin)) {
-                kakaoToken = authService.getToken(code, PROD_CLIENT);
+        if(Referer.contains(Host)){
+            if(Referer.contains("ssuclubber")){
+                //배포서버
+                kakaoToken =  authService.getToken(code, PROD_CLIENT);
+            }else {
+                //스테이징 서버
+                kakaoToken = authService.getToken(code, DEV_CLIENT);
             }
+        }else{
+            kakaoToken = authService.getToken(code, LOCAL_CLIENT);
         }
         KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
                 kakaoToken.getAccessToken());
