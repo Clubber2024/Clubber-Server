@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/auths")
 @RequiredArgsConstructor
@@ -42,6 +45,9 @@ public class AuthController {
     public ResponseEntity<KakaoOauthResponse> getCredentialFromKakao(@RequestParam String code,
             @RequestHeader(required = false) String Host,
             @RequestHeader(required = false) String Referer){
+        log.info("Host"+ Host);
+        log.info("Referer"+ Referer);
+
         KakaoTokenResponse kakaoToken = null;
         if(Referer.contains(Host)){
             if(Referer.contains("ssuclubber")){
