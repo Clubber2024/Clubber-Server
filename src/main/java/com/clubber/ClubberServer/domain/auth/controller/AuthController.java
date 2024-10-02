@@ -50,12 +50,12 @@ public class AuthController {
 
         KakaoTokenResponse kakaoToken = null;
         if(Referer.contains(Host)){
-            if(Referer.contains("ssuclubber")){
-                //배포서버
-                kakaoToken =  authService.getToken(code, PROD_CLIENT);
-            }else {
+            if(Referer.contains("dev")){
                 //스테이징 서버
-                kakaoToken = authService.getToken(code, DEV_CLIENT);
+                kakaoToken =  authService.getToken(code, DEV_CLIENT);
+            }else {
+                //개발 서버
+                kakaoToken = authService.getToken(code, PROD_CLIENT);
             }
         }else{
             kakaoToken = authService.getToken(code, LOCAL_CLIENT);
