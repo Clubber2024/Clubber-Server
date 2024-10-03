@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @Tag(name = "[모집글]")
 public class recruitController {
 
@@ -46,7 +46,7 @@ public class recruitController {
     }
 
 
-    @GetMapping("/v1/recruits/{recruitId}")
+    @GetMapping("/recruits/{recruitId}")
     @DisableSwaggerSecurity
     @Operation(summary = "홍보 게시판에서 개별 모집글 조회")
     public GetOneRecruitResponse getRecruitsByRecruitId(@PathVariable("recruitId")Long recruitId){

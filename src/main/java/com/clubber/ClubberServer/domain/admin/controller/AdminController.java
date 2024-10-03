@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admins")
+@RequestMapping("/v1/admins")
 @Tag(name = "[동아리 계정 API]")
 public class AdminController {
 

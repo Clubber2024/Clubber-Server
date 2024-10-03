@@ -27,8 +27,8 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Server LOCAL_SERVER = new Server().url("http://localhost:8080").description("local");
-        Server devServer = new Server().url("http://13.125.141.171:8080").description("dev");
+        Server LOCAL_SERVER = new Server().url("http://localhost:8080/api").description("local");
+        Server devServer = new Server().url("http://13.125.141.171:8080/api").description("dev");
         return new OpenAPI().
                 info(swaggerInfo()).
                 servers(List.of(LOCAL_SERVER, devServer))
