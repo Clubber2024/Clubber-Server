@@ -32,16 +32,14 @@ public class ClubService {
         if (clubs.isEmpty()){
             throw DivisionNotFoundException.EXCEPTION;
         }
-        else {
-            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubIntoCardResponse.from(club))
-                    .collect(Collectors.toList());
+        List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+                .map(club -> GetClubIntoCardResponse.from(club))
+                .collect(Collectors.toList());
 
-            return GetClubByDivisionResponse.of(division,clubDtos);
-        }
+        return GetClubByDivisionResponse.of(division,clubDtos);
+
 
     }
-
 
 
     // [소모임] - 특정 학과 소속 소모임들 반환
@@ -50,12 +48,10 @@ public class ClubService {
         if (clubs.isEmpty()){
             throw DepartmentNotFoundException.EXCEPTION;
         }
-        else{
-            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubIntoCardResponse.from(club))
-                    .collect(Collectors.toList());
-            return new DepartmentSmallDto(department, clubDtos);
-        }
+        List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+                .map(club -> GetClubIntoCardResponse.from(club))
+                .collect(Collectors.toList());
+        return new DepartmentSmallDto(department, clubDtos);
     }
 
     //[동아리 및 소모임] 개별 페이지 조회
