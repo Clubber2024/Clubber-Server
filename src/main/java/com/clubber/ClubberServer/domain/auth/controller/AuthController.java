@@ -43,19 +43,19 @@ public class AuthController {
     @GetMapping("/oauth/kakao")
     @DisableSwaggerSecurity
     public ResponseEntity<KakaoOauthResponse> getCredentialFromKakao(@RequestParam String code,
-            @RequestHeader(required = false) String Host,
-            @RequestHeader(required = false) String Referer){
+                                                                     @RequestHeader(required = false) String Host,
+                                                                     @RequestHeader(required = false) String Referer){
         log.info("Host"+ Host);
         log.info("Referer"+ Referer);
 
         KakaoTokenResponse kakaoToken = null;
         if(Referer.contains(Host)){
-            if(Referer.contains("dev")){
-                //스테이징 서버
-                kakaoToken =  authService.getToken(code, DEV_CLIENT);
+            if(Referer.contains("ssuclubber")){
+                //배포서버
+                kakaoToken =  authService.getToken(code, PROD_CLIENT);
             }else {
-                //개발 서버
-                kakaoToken = authService.getToken(code, PROD_CLIENT);
+                //스테이징 서버
+                kakaoToken = authService.getToken(code, DEV_CLIENT);
             }
         }else{
             kakaoToken = authService.getToken(code, LOCAL_CLIENT);
@@ -70,10 +70,10 @@ public class AuthController {
     }
 
     @Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API",
-    parameters = {
-            @Parameter(name = "refreshToken", description = "헤더에 리프레시 토큰 전달", in = ParameterIn.HEADER),
-            @Parameter(name = "refreshToken", description = "쿠키에 리프레시 토큰 전달 (추후에 적용)", in = ParameterIn.COOKIE)
-    })
+            parameters = {
+                    @Parameter(name = "refreshToken", description = "헤더에 리프레시 토큰 전달", in = ParameterIn.HEADER),
+                    @Parameter(name = "refreshToken", description = "쿠키에 리프레시 토큰 전달 (추후에 적용)", in = ParameterIn.COOKIE)
+            })
     @PostMapping("/refresh")
     @DisableSwaggerSecurity
     public ResponseEntity<KakaoOauthResponse> tokenRefresh(
