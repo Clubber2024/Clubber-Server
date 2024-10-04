@@ -77,7 +77,7 @@ jobs:
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker pull mjkim1229/clubber-client
+            sudo docker pull mjkim1229/clubber-front
             sudo docker-compose up -d
             sudo docker image prune -f
       
