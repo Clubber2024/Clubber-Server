@@ -17,7 +17,8 @@ public class CorsConfig implements WebMvcConfigurer {
         List<String> allowedOriginPatterns = new ArrayList<>();
 
         allowedOriginPatterns.add("http://localhost:3000");
-        allowedOriginPatterns.add("http://13.125.141.171");
+        allowedOriginPatterns.add("https://ssuclubber.com");
+        allowedOriginPatterns.add("https://dev.ssuclubber.com");
         String[] patterns = allowedOriginPatterns.toArray(String[]::new);
 
         registry.addMapping("/**")
