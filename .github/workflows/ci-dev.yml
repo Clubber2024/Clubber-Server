@@ -1,9 +1,9 @@
 name: CI-CD Dev
 
 on:
-  pull_request:
+  push:
     branches:
-      - dev
+      - refactor/#412-refactor-개발-서버-배포-방식-통일
 
 jobs:
   CI-CD:
