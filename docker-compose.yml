@@ -2,7 +2,7 @@
 services:
   backend:
     container_name: backend
-    image: mjkim1229/clubber
+    image: mjkim1229/clubber-backend
     ports:
       - "8080:8080"
     networks:
