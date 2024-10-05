@@ -1,6 +1,7 @@
 
 services:
   backend:
+    container_name: backend
     image: mjkim1229/clubber
     ports:
       - "8080:8080"
@@ -8,6 +9,7 @@ services:
       - clubber
 
   frontend:
+    container_name: frontend
     image: mjkim1229/clubber-front
     ports:
       - "3000:3000"
@@ -15,6 +17,7 @@ services:
       - clubber
 
   nginx:
+    container_name: nginx
     image: nginx:latest
     volumes:
       - ./nginx/:/etc/nginx/
