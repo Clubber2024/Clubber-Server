@@ -66,21 +66,6 @@ jobs:
           source: ./docker-compose.yml
           target: /home/ubuntu
 
-            #      - name: Deploy to prod
-            #        uses: appleboy/ssh-action@master
-            #        id: deploy-prod
-            #        with:
-            #          host: ${{ secrets.HOST_PROD }}
-            #          username: ubuntu
-            #          key: ${{ secrets.PRIVATE_KEY }}
-          #          envs: GITHUB_SHA
-          #          script: |
-          #            sudo docker ps
-          #            sudo docker rm -f $(docker ps -qa)
-          #            sudo docker pull ${{ secrets.DOCKER_REPO }}
-          #            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
-          #            sudo docker image prune -f
-
       - name: Deploy to prod
         uses: appleboy/ssh-action@master
         with:
