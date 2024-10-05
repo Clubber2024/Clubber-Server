@@ -55,7 +55,7 @@ jobs:
       - name: Docker build & push to dev
         run: |
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/clubber-backend .
-          docker push ${{ secrets.DOCKER_REPO }}clubber-backend
+          docker push ${{ secrets.DOCKER_REPO }}/clubber-backend
 
       - name: Copy docker-compose.yml to EC2
         uses: appleboy/scp-action@master
