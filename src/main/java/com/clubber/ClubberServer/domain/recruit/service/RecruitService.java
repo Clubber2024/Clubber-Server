@@ -199,7 +199,7 @@ public class RecruitService {
             throw RecruitUnauthorized.EXCEPTION;
         }
 
-        List<String> imageUrls = recruit.getRecruitImages().stream()
+        List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
