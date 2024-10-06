@@ -21,7 +21,7 @@ public class CreateImagePresignedUrlResponse {
     @Schema(description = "이미지 조회 가능 url")
     private final ImageVO imageUrl;
 
-    @Schema(description = "이미지 파일명")
+    @Schema(description = "이미지 key : 추후 수정 API에 요청")
     private final String key;
 
     public static CreateImagePresignedUrlResponse of(String presignedUrl, String key){
