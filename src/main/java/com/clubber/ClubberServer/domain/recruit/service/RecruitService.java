@@ -181,4 +181,25 @@ public class RecruitService {
         return GetOneRecruitResponse.of(recruit, imageUrls);
 
     }
+
+    public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+
+        if (recruit.getClub()!=admin.getClub()) {
+            throw RecruitUnauthorized.EXCEPTION;
+        }
+
+        List<String> imageUrls = recruit.getRecruitImages().stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return GetOneRecruitResponse.of(recruit, imageUrls);
+
+    }
 }
