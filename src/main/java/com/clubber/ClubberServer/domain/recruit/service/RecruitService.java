@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPa
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
@@ -98,7 +99,7 @@ public class RecruitService {
 
 
         if (recruit.getClub()!=admin.getClub()) {
-            throw RecruitUnauthorized.EXCEPTION;
+            throw RecruitDeleteUnauthorized.EXCEPTION;
         }
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
@@ -134,7 +135,6 @@ public class RecruitService {
 
 
 
-    //main page에서 모집글 조회하는 api
     @Transactional(readOnly = true)
     public GetRecruitsMainPageResponse getRecruitsMainPage(){
         List<Recruit> recruits = recruitRepository.findTop5ByOrderByIdDesc();
@@ -149,8 +149,6 @@ public class RecruitService {
 
         return GetRecruitsMainPageResponse.from(recruitsDto);
     }
-
-
 
 
 
@@ -177,6 +175,27 @@ public class RecruitService {
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         recruit.increaseTotalview();
+
+        List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return GetOneRecruitResponse.of(recruit, imageUrls);
+
+    }
+
+    public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+
+        if (recruit.getClub()!=admin.getClub()) {
+            throw RecruitUnauthorized.EXCEPTION;
+        }
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
