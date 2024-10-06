@@ -56,7 +56,7 @@ public class S3UploadPresignedService {
         log.info("fileName = " + fileName);
         URL url = amazonS3.generatePresignedUrl(
                 getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
-        return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
+        return CreateImagePresignedUrlResponse.of(url.toString(), fileName);
     }
 
     public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(CreateRecruitsImagePresigneUrlRequest request) {
@@ -81,7 +81,7 @@ public class S3UploadPresignedService {
         String fileName = getForClubRecruitFileName(clubId, recruitFolder, fixedFiledExtension);
         URL url = amazonS3.generatePresignedUrl(
             getGeneratePresignedUrlRequest(bucket, fileName, fixedFiledExtension));
-        return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
+        return CreateImagePresignedUrlResponse.of(url.toString(), fileName);
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(

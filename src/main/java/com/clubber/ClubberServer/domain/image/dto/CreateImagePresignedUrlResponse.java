@@ -24,7 +24,7 @@ public class CreateImagePresignedUrlResponse {
     @Schema(description = "이미지 파일명")
     private final String key;
 
-    public static CreateImagePresignedUrlResponse of(String presignedUrl, String key, String baseUrl){
+    public static CreateImagePresignedUrlResponse of(String presignedUrl, String key){
         return CreateImagePresignedUrlResponse.builder()
                 .presignedUrl(presignedUrl)
                 .imageUrl(ImageVO.valueOf(key))
