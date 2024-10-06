@@ -12,6 +12,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
+import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -74,6 +75,10 @@ public class AdminService {
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
 		String rawPassword = updateAdminsPasswordRequest.getPassword();
+
+		if(encoder.matches(rawPassword, admin.getPassword()))
+			throw AdminEqualsPreviousPasswordExcpetion.EXCEPTION;
+
 		admin.updatePassword(encoder.encode(rawPassword));
 		return UpdateAdminsPasswordResponse.of(admin);
 	}
