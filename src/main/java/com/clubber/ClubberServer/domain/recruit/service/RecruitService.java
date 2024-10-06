@@ -135,7 +135,6 @@ public class RecruitService {
 
 
 
-    //main page에서 모집글 조회하는 api
     @Transactional(readOnly = true)
     public GetRecruitsMainPageResponse getRecruitsMainPage(){
         List<Recruit> recruits = recruitRepository.findTop5ByOrderByIdDesc();
@@ -150,8 +149,6 @@ public class RecruitService {
 
         return GetRecruitsMainPageResponse.from(recruitsDto);
     }
-
-
 
 
 
