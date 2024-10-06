@@ -20,12 +20,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class S3UploadPresignedService {
 
     private final AmazonS3 amazonS3;
@@ -51,6 +53,7 @@ public class S3UploadPresignedService {
 
         String fixedFileExtension = fileExtension.getUploadExtension();
         String fileName = getForClubLogoFileName(clubId, fixedFileExtension);
+        log.info("fileName = " + fileName);
         URL url = amazonS3.generatePresignedUrl(
                 getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
         return CreateImagePresignedUrlResponse.of(url.toString(), fileName, baseUrl);
@@ -103,7 +106,8 @@ public class S3UploadPresignedService {
     }
 
     private String getForClubLogoFileName(Long clubId, String fileExtension) {
-        return "club/" +
+        return baseUrl
+                + "/club/" +
                 clubId.toString() +
                 "/" +
                 "logo" +
@@ -113,8 +117,9 @@ public class S3UploadPresignedService {
                 fileExtension;
     }
 
-    private static String getForClubRecruitFileName(Long clubId, UUID recruitFolder, String fileExtension) {
-        return "club/" +
+    private String getForClubRecruitFileName(Long clubId, UUID recruitFolder, String fileExtension) {
+        return baseUrl +
+                "/club/" +
                 clubId.toString() +
                 "/" +
                 "recruit/" +
