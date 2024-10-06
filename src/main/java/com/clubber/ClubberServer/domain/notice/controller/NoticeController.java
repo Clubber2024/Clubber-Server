@@ -42,7 +42,7 @@ public class NoticeController {
 
     @DisableSwaggerSecurity
     @Operation(summary="개별 공지사항 조회")
-    @GetMapping("/v1/notices/{noticeId}")
+    @GetMapping("/notices/{noticeId}")
     public GetNoticeResponse getNoticesDetail(@PathVariable("noticeId")Long noticeId)
     {
         return noticeService.getNoticesDetail(noticeId);
