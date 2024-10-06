@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.global.vo.ImageVO;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,20 +17,21 @@ public class RecruitImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageUrl;
+    @Enumerated
+    private ImageVO imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruit_id", nullable = false)
     private Recruit recruit;
 
     @Builder
-    private RecruitImage(Long id,String imageUrl,Recruit recruit){
+    private RecruitImage(Long id, ImageVO imageUrl,Recruit recruit){
         this.id=id;
         this.imageUrl=imageUrl;
         this.recruit=recruit;
     }
 
-    public static RecruitImage of(String imageUrl,Recruit recruit){
+    public static RecruitImage of(ImageVO imageUrl,Recruit recruit){
         return RecruitImage.builder()
                 .imageUrl(imageUrl)
                 .recruit(recruit)
