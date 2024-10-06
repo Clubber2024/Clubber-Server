@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPa
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
@@ -98,7 +99,7 @@ public class RecruitService {
 
 
         if (recruit.getClub()!=admin.getClub()) {
-            throw RecruitUnauthorized.EXCEPTION;
+            throw RecruitDeleteUnauthorized.EXCEPTION;
         }
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
