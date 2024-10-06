@@ -109,9 +109,7 @@ public class S3UploadPresignedService {
         return baseUrl
                 + "/club/" +
                 clubId.toString() +
-                "/" +
-                "logo" +
-                "/" +
+                "/logo/" +
                 UUID.randomUUID() +
                 "." +
                 fileExtension;
@@ -121,8 +119,7 @@ public class S3UploadPresignedService {
         return baseUrl +
                 "/club/" +
                 clubId.toString() +
-                "/" +
-                "recruit/" +
+                "/recruit/" +
                 recruitFolder +
                 "/" +
                 UUID.randomUUID() +
