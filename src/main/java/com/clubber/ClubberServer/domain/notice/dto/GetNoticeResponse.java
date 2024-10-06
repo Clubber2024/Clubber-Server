@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.notice.dto;
 
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -15,6 +16,7 @@ public class GetNoticeResponse {
     private String title;
     private String content;
     private Long totalView;
+    private ImageVO imageUrl;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
@@ -26,6 +28,7 @@ public class GetNoticeResponse {
                 .content(notice.getContent())
                 .totalView(notice.getTotalView())
                 .createdAt(notice.getCreatedAt())
+                .imageUrl(notice.getImageurl())
                 .build();
     }
 }

@@ -122,8 +122,7 @@ public class ClubService {
 
     // [해시태그] 해시태그 목록 반환 (enum)
     public List<EnumMapperVO> getClubsTotalHashtags() {
-        List<EnumMapperVO> hashtagVOs = enumMapper.get("Hashtag");
-        return hashtagVOs.subList(0, hashtagVOs.size() - 1);
+        return enumMapper.get("Hashtag");
     }
 
 

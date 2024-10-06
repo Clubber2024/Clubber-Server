@@ -19,6 +19,8 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepositor
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.vo.ImageVO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +53,7 @@ public class RecruitService {
         Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
 
         Page<GetOneRecruitResponse> recruitResponses = recruits.map(recruit -> {
-            List<String> imageUrls = recruit.getRecruitImages().stream()
+            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -75,7 +77,9 @@ public class RecruitService {
         recruitRepository.save(newRecruit);
 
         for (String imageUrl : requestDTO.getImageUrl()) {
-            recruitImageRepository.save(RecruitImage.of(imageUrl,newRecruit));
+            recruitImageRepository.save(RecruitImage.of(
+                ImageVO.valueOf(imageUrl),newRecruit)
+            );
         }
 
         return PostRecruitResponse.of(newRecruit,requestDTO.getImageUrl());
@@ -97,7 +101,7 @@ public class RecruitService {
             throw RecruitUnauthorized.EXCEPTION;
         }
 
-        List<String> imageUrls = recruit.getRecruitImages().stream()
+        List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
@@ -118,7 +122,7 @@ public class RecruitService {
         Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
-            List<String> imageUrls = recruit.getRecruitImages().stream()
+            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -155,7 +159,7 @@ public class RecruitService {
         Page<Recruit> recruits = recruitRepository.findRecruitsWithImages(pageable);
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
-            List<String> imageUrls = recruit.getRecruitImages().stream()
+            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -174,7 +178,7 @@ public class RecruitService {
 
         recruit.increaseTotalview();
 
-        List<String> imageUrls = recruit.getRecruitImages().stream()
+        List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
