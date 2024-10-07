@@ -1,10 +1,8 @@
 package com.clubber.ClubberServer.domain.recruit.controller;
 
 
-import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
 import com.clubber.ClubberServer.global.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,5 +46,12 @@ public class adminRecruitController {
     public GetOneRecruitResponse getOneAdminRecruitsById(@PathVariable("recruitId")Long recruitId){
         return recruitService.getOneAdminRecruitsById(recruitId);
     }
+
+//    @PatchMapping("/admins/recruits/{recruitId}")
+//    @Operation(summary= " 동아리 계정 개별 모집글 수정")
+//    public UpdateRecruitResponse changeAdminRecruits(@PathVariable("recruitId")Long recruitId,@RequestBody @Valid UpdateRecruitRequest pageRequest){
+//        return recruitService.changeAdminRecruits(recruitId,pageRequest);
+//    }
+
 
 }
