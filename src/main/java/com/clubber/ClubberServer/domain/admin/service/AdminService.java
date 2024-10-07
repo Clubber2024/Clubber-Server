@@ -108,7 +108,7 @@ public class AdminService {
 
 		Club club = admin.getClub();
 
-		club.updateClub(requestDTO.getImageUrl(), requestDTO.getIntroduction());
+		club.updateClub(requestDTO.getImageKey(), requestDTO.getIntroduction());
 
 		ClubInfo clubinfo = club.getClubInfo();
 		clubinfo.updateClubInfo(requestDTO.getInstagram(), requestDTO.getLeader(), requestDTO.getActivity(),

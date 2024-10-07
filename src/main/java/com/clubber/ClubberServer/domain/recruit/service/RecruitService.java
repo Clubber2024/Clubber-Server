@@ -77,13 +77,13 @@ public class RecruitService {
         Recruit newRecruit=Recruit.of(club,requestDTO);
         recruitRepository.save(newRecruit);
 
-        for (String imageUrl : requestDTO.getImageUrl()) {
+        for (String imageUrl : requestDTO.getImageKey()) {
             recruitImageRepository.save(RecruitImage.of(
                 ImageVO.valueOf(imageUrl),newRecruit)
             );
         }
 
-        return PostRecruitResponse.of(newRecruit,requestDTO.getImageUrl());
+        return PostRecruitResponse.of(newRecruit,requestDTO.getImageKey());
     }
 
 

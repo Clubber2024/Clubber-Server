@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UpdateClubPageRequest {
-    private String imageUrl;
+    private String imageKey;
     private String introduction;
     private String instagram;
     private String activity;
