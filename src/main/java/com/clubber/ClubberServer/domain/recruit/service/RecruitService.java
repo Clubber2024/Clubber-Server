@@ -28,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,13 +78,18 @@ public class RecruitService {
         Recruit newRecruit=Recruit.of(club,requestDTO);
         recruitRepository.save(newRecruit);
 
-        for (String imageUrl : requestDTO.getImageKey()) {
-            recruitImageRepository.save(RecruitImage.of(
-                ImageVO.valueOf(imageUrl),newRecruit)
-            );
-        }
+        List<RecruitImage> savedImages = requestDTO.getImageKey().stream()
+                .map(imageUrl -> recruitImageRepository.save(
+                        RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit))
+                )
+                .collect(Collectors.toList());
 
-        return PostRecruitResponse.of(newRecruit,requestDTO.getImageKey());
+        List<ImageVO> imageUrls = savedImages.stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
+
+        return PostRecruitResponse.of(newRecruit,imageUrls);
     }
 
 

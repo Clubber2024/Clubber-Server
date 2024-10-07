@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,10 @@ public class PostRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private List<String> imageUrls;
+    private List<ImageVO> imageUrls;
     private Long totalView;
 
-    public static PostRecruitResponse of(Recruit recruit, List<String> images){
+    public static PostRecruitResponse of(Recruit recruit, List<ImageVO> images){
         return PostRecruitResponse.builder()
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
