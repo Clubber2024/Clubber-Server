@@ -23,7 +23,7 @@ public class Notice extends BaseEntity {
     private String content;
 
     @Enumerated
-    private ImageVO imageurl;
+    private ImageVO imageUrl;
 
     private Long totalView;
 
@@ -36,11 +36,11 @@ public class Notice extends BaseEntity {
     }
 
     @Builder
-    private Notice(Long id,String title,String content,ImageVO imageurl,Long totalView,Owner owner){
+    private Notice(Long id,String title,String content,ImageVO imageUrl,Long totalView,Owner owner){
         this.id=id;
         this.title=title;
         this.content=content;
-        this.imageurl=imageurl;
+        this.imageUrl=imageUrl;
         this.totalView=totalView;
         this.owner=owner;
     }

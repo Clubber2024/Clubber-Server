@@ -21,7 +21,7 @@ public class GetOneRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private List<ImageVO> images;
+    private List<ImageVO> imageUrls;
     private Long totalView;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -34,7 +34,7 @@ public class GetOneRecruitResponse {
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .images(images)
+                .imageUrls(images)
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
                 .build();

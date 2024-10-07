@@ -28,7 +28,7 @@ public class GetNoticeResponse {
                 .content(notice.getContent())
                 .totalView(notice.getTotalView())
                 .createdAt(notice.getCreatedAt())
-                .imageUrl(notice.getImageurl())
+                .imageUrl(notice.getImageUrl())
                 .build();
     }
 }

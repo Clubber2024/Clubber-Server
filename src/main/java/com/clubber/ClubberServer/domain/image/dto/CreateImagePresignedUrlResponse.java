@@ -22,13 +22,13 @@ public class CreateImagePresignedUrlResponse {
     private final ImageVO imageUrl;
 
     @Schema(description = "이미지 key : 추후 수정 API에 요청")
-    private final String key;
+    private final String imageKey;
 
     public static CreateImagePresignedUrlResponse of(String presignedUrl, String key){
         return CreateImagePresignedUrlResponse.builder()
                 .presignedUrl(presignedUrl)
                 .imageUrl(ImageVO.valueOf(key))
-                .key(key)
+                .imageKey(key)
                 .build();
     }
 }

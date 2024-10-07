@@ -16,5 +16,5 @@ public class PostRecruitRequest {
     @NotNull
     private String content;
 
-    private List<String> imageUrl;
+    private List<String> imageKey;
 }
