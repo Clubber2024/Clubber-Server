@@ -15,7 +15,7 @@ public class PostRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private List<String> images;
+    private List<String> imageUrls;
     private Long totalView;
 
     public static PostRecruitResponse of(Recruit recruit, List<String> images){
@@ -23,7 +23,7 @@ public class PostRecruitResponse {
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .images(images)
+                .imageUrls(images)
                 .totalView(recruit.getTotalView())
                 .build();
     }
