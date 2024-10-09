@@ -211,23 +211,37 @@ public class RecruitService {
 
     }
 
-//    @Transactional
-//    public UpdateRecruitResponse changeAdminRecruits(Long recruitId,UpdateRecruitRequest requestPage){
-//
-//        Long currentUserId = SecurityUtils.getCurrentUserId();
-//
-//        Admin admin = adminRepository.findById(currentUserId)
-//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-//
-//        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
-//                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
-//
-//        if (recruit.getClub()!=admin.getClub()) {
-//            throw RecruitUnauthorized.EXCEPTION;
-//        }
-//
-//        recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent());
-//
-//        return UpdateRecruitResponse.of(recruit,imageUrls);
-//    }
+    @Transactional
+    public UpdateRecruitResponse changeAdminRecruits(Long recruitId,UpdateRecruitRequest requestPage){
+
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+
+        Admin admin = adminRepository.findById(currentUserId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+
+        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+                .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
+
+        if (recruit.getClub()!=admin.getClub()) {
+            throw RecruitUnauthorized.EXCEPTION;
+        }
+
+        recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent());
+
+
+        List<RecruitImage> savedImages = requestPage.getCreatedImageKeys().stream()
+                .map(imageUrl -> recruitImageRepository.save(
+                        RecruitImage.of(ImageVO.valueOf(imageUrl), recruit))
+                )
+                .collect(Collectors.toList());
+
+        //deletedImageKeys처리하는 로직 구현
+
+
+        List<ImageVO> imageUrls = savedImages.stream()
+                .map(RecruitImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return UpdateRecruitResponse.of(recruit,imageUrls);
+    }
 }

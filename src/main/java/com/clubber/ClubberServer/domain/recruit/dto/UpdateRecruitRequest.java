@@ -16,6 +16,8 @@ public class UpdateRecruitRequest {
     @NotNull
     private String content;
 
-    private List<String> imageUrl;
+    private List<String> deletedImageKeys;
+
+    private List<String> createdImageKeys;
 
 }

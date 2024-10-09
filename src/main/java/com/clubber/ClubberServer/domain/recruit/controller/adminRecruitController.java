@@ -47,11 +47,11 @@ public class adminRecruitController {
         return recruitService.getOneAdminRecruitsById(recruitId);
     }
 
-//    @PatchMapping("/admins/recruits/{recruitId}")
-//    @Operation(summary= " 동아리 계정 개별 모집글 수정")
-//    public UpdateRecruitResponse changeAdminRecruits(@PathVariable("recruitId")Long recruitId,@RequestBody @Valid UpdateRecruitRequest pageRequest){
-//        return recruitService.changeAdminRecruits(recruitId,pageRequest);
-//    }
+    @PatchMapping("/admins/recruits/{recruitId}")
+    @Operation(summary= " 동아리 계정 개별 모집글 수정")
+    public UpdateRecruitResponse changeAdminRecruits(@PathVariable("recruitId")Long recruitId,@RequestBody @Valid UpdateRecruitRequest pageRequest){
+        return recruitService.changeAdminRecruits(recruitId,pageRequest);
+    }
 
 
 }
