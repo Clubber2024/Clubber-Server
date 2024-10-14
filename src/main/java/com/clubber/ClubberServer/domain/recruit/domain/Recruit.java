@@ -24,6 +24,7 @@ public class Recruit extends BaseEntity {
     private Long id;
 
     @NotNull
+    @Column(length = 100)
     private String title;
 
     @NotNull

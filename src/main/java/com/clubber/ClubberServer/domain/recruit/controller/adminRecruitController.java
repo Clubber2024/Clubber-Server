@@ -43,4 +43,10 @@ public class adminRecruitController {
         return recruitService.deleteRecruitsById(recruitId);
     }
 
+    @GetMapping("/admins/recruits/{recruitId}")
+    @Operation(summary= " 동아리 계정 개별 모집글 조회")
+    public GetOneRecruitResponse getOneAdminRecruitsById(@PathVariable("recruitId")Long recruitId){
+        return recruitService.getOneAdminRecruitsById(recruitId);
+    }
+
 }

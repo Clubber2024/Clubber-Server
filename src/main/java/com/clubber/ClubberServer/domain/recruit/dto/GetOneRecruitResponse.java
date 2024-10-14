@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,20 +21,20 @@ public class GetOneRecruitResponse {
     private Long recruitId;
     private String title;
     private String content;
-    private List<String> images;
+    private List<ImageVO> imageUrls;
     private Long totalView;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
 
-    public static GetOneRecruitResponse of(Recruit recruit,List<String> images){
+    public static GetOneRecruitResponse of(Recruit recruit,List<ImageVO> images){
         return GetOneRecruitResponse.builder()
                 .clubId(recruit.getClub().getId())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
-                .images(images)
+                .imageUrls(images)
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
                 .build();

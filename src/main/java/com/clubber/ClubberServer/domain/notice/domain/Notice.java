@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.notice.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.owner.domain.Owner;
+import com.clubber.ClubberServer.global.vo.ImageVO;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,7 +22,8 @@ public class Notice extends BaseEntity {
 
     private String content;
 
-    private String imageurl;
+    @Enumerated
+    private ImageVO imageUrl;
 
     private Long totalView;
 
@@ -33,11 +36,11 @@ public class Notice extends BaseEntity {
     }
 
     @Builder
-    private Notice(Long id,String title,String content,String imageurl,Long totalView,Owner owner){
+    private Notice(Long id,String title,String content,ImageVO imageUrl,Long totalView,Owner owner){
         this.id=id;
         this.title=title;
         this.content=content;
-        this.imageurl=imageurl;
+        this.imageUrl=imageUrl;
         this.totalView=totalView;
         this.owner=owner;
     }
