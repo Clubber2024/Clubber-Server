@@ -61,14 +61,14 @@ jobs:
         if: contains(github.ref, 'dev')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
+          docker build -f Dockerfile.dev -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
 
       - name: docker build and push to prod
         if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend-prod .
+          docker build -f Dockerfile.prod -t ${{ secrets.DOCKER_REPO }}/clubber-backend-prod .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-prod
 
       - name: Copy docker-compose.yml to EC2 DEV
