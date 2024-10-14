@@ -27,9 +27,7 @@ jobs:
             
 
       - name: make application.yml
-        if: |
-          contains(github.ref, 'main')
-          contains(github.ref, 'dev')
+        if: contains(github.ref, 'main') || contains(github.ref, 'dev')
         run: |
           cd ./src/main/resources 
           touch ./application.yml 
@@ -37,7 +35,7 @@ jobs:
         shell: bash
 
       - name: make application-dev.yml
-        if : contains(github.ref, 'dev')
+        if: contains(github.ref, 'dev')
         run: |
           cd ./src/main/resources
           touch ./application-dev.yml
@@ -45,7 +43,7 @@ jobs:
         shell: bash
 
       - name: make application-prod.yml
-        if : contains(github.ref, 'main')
+        if: contains(github.ref, 'main')
         run: |
           cd ./src/main/resources
           touch ./application-prod.yml
@@ -60,21 +58,21 @@ jobs:
 
 
       - name: docker build and push to dev
-        if : contains(github.ref, 'dev')
+        if: contains(github.ref, 'dev')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
 
       - name: docker build and push to prod
-        if: contains(github.ref, 'prod')
+        if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend-prod .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-prod
 
       - name: Copy docker-compose.yml to EC2 DEV
-        if : contains(github.ref, 'dev')
+        if: contains(github.ref, 'dev')
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
@@ -84,7 +82,7 @@ jobs:
           target: /home/ubuntu
 
       - name: Copy docker-compose.yml to EC2 PROD
-        if : contains(github.ref, 'main')
+        if: contains(github.ref, 'main')
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_PROD }}
@@ -94,7 +92,7 @@ jobs:
           target: /home/ubuntu
 
       - name: Deploy to dev
-        if : contains(github.ref, 'dev')
+        if: contains(github.ref, 'dev')
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
@@ -109,7 +107,7 @@ jobs:
             sudo docker image prune -f
 
       - name: Deploy to prod
-        if : contains(github.ref, 'main')
+        if: contains(github.ref, 'main')
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_PROD }}
