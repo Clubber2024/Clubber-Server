@@ -49,8 +49,8 @@ jobs:
       - name: docker build and push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend .
-          docker push ${{ secrets.DOCKER_REPO }}/clubber-backend
+          docker build -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
+          docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
 
       - name: Copy docker-compose.yml to EC2
         uses: appleboy/scp-action@master
@@ -71,7 +71,7 @@ jobs:
           script: |
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-backend
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-front
             sudo docker-compose up -d
             sudo docker image prune -f
