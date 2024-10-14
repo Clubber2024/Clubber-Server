@@ -2,7 +2,7 @@
 services:
   backend:
     container_name: backend
-    image: mjkim1229/clubber-backend-dev
+    image: mjkim1229/clubber-backend-prod
     ports:
       - "8080:8080"
     networks:
@@ -10,7 +10,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: mjkim1229/clubber-front-dev
+    image: mjkim1229/clubber-front-prod
     ports:
       - "3000:3000"
     networks:
