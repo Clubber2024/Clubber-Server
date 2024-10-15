@@ -13,8 +13,8 @@ services:
   frontend:
     container_name: frontend
     image: mjkim1229/clubber-front-prod
-    expose:
-      - 3000
+    ports:
+      - "3000:3000"
     networks:
       - clubber
 
