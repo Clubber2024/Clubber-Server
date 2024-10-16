@@ -3,6 +3,8 @@ services:
   backend:
     container_name: backend
     image: mjkim1229/clubber-backend-dev
+    volumes:
+      - ./logs:/logs
     ports:
       - "8080:8080"
     networks:
@@ -11,8 +13,8 @@ services:
   frontend:
     container_name: frontend
     image: mjkim1229/clubber-front-dev
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     networks:
       - clubber
 
