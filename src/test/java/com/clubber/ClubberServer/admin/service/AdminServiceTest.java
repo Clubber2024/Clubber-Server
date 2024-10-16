@@ -18,6 +18,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.util.ServiceTest;
 import com.clubber.ClubberServer.util.WithMockCustomUser;
@@ -65,5 +66,17 @@ public class AdminServiceTest extends ServiceTest {
 		);
 	}
 
+	@DisplayName("관리자 회원탈퇴를 수행한다")
+	@WithMockCustomUser
+	@Test
+	void withDrawAdmin(){
+		adminService.withDraw();
+		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
+
+		assertAll(
+			() -> assertThat(admin).isNotNull(),
+			() -> assertThat(admin.get().getAccountState()).isEqualTo(AccountState.INACTIVE)
+		);
+	}
 
 }
