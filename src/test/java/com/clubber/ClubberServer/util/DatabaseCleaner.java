@@ -35,6 +35,11 @@ public class DatabaseCleaner {
 				"insert into admin (id, username, password, account_state, account_role, club_id) VALUES (10000000, '동아리 1', ?, 'ACTIVE', 'ADMIN', 10000000)", Admin.class)
 			.setParameter(1, encodedPassword) // 인코딩된 비밀번호를 쿼리에 설정
 			.executeUpdate();
+
+		//review 추가
+		entityManager.createNativeQuery(
+			"insert into review (id, club_id, content, approved_status, user_id) values (100000000, 10000000, '승인 대기 댓글', 'PENDING', 1000000)")
+			.executeUpdate();
 	}
 
 
