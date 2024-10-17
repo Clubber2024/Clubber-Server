@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
+import com.clubber.ClubberServer.global.helper.SpringEnvironmentHelper;
 import com.clubber.ClubberServer.global.jwt.JwtProperties;
 
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,20 @@ import lombok.RequiredArgsConstructor;
 public class CookieHelper {
 	private final JwtProperties jwtProperties;
 
+	private final SpringEnvironmentHelper springEnvironmentHelper;
+
 	public HttpHeaders getCookies(CreateAdminsLoginResponse createAdminsLoginResponse) {
+		String sameSite = "None";
+
+		if(springEnvironmentHelper.isProdProfile()){
+			sameSite = "Strict";
+		}
+
 		ResponseCookie accessToken = ResponseCookie
 			.from("accessToken", createAdminsLoginResponse.getAccessToken())
 			.maxAge(jwtProperties.getAccessExp())
 			.secure(false)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
@@ -29,7 +38,7 @@ public class CookieHelper {
 			.from("refreshToken", createAdminsLoginResponse.getRefreshToken())
 			.maxAge(jwtProperties.getRefreshExp())
 			.secure(false)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
@@ -41,11 +50,17 @@ public class CookieHelper {
 	}
 
 	public HttpHeaders getCookies(KakaoOauthResponse kakaoOauthResponse) {
+		String sameSite = "None";
+
+		if(springEnvironmentHelper.isProdProfile()){
+			sameSite = "Strict";
+		}
+
 		ResponseCookie accessToken = ResponseCookie
 			.from("accessToken", kakaoOauthResponse.getAccessToken())
 			.maxAge(jwtProperties.getAccessExp())
 			.secure(true)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
@@ -54,7 +69,7 @@ public class CookieHelper {
 			.from("refreshToken", kakaoOauthResponse.getRefreshToken())
 			.maxAge(jwtProperties.getRefreshExp())
 			.secure(true)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
@@ -66,11 +81,18 @@ public class CookieHelper {
 	}
 
 	public HttpHeaders deleteCookies() {
+
+		String sameSite = "None";
+
+		if(springEnvironmentHelper.isProdProfile()){
+			sameSite = "Strict";
+		}
+
 		ResponseCookie accessToken = ResponseCookie
 			.from("accessToken", null)
 			.maxAge(0)
 			.secure(true)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
@@ -79,7 +101,7 @@ public class CookieHelper {
 			.from("refreshToken", null)
 			.maxAge(0)
 			.secure(true)
-			.sameSite("Strict")
+			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
 			.build();
