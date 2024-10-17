@@ -26,7 +26,7 @@ public class CookieHelper {
 		ResponseCookie accessTokenCookie = ResponseCookie
 			.from("accessToken", accessToken)
 			.maxAge(jwtProperties.getAccessExp())
-			.secure(false)
+			.secure(true)
 			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
@@ -35,7 +35,7 @@ public class CookieHelper {
 		ResponseCookie refreshTokenCookie = ResponseCookie
 			.from("refreshToken", refreshToken)
 			.maxAge(jwtProperties.getRefreshExp())
-			.secure(false)
+			.secure(true)
 			.sameSite(sameSite)
 			.httpOnly(true)
 			.path("/")
