@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UpdateAdminsReviewStatusRequest {
 
     @Size(min = 1, message = "1개 이상 수정해야합니다")

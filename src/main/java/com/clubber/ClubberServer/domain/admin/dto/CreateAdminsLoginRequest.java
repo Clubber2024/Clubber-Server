@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateAdminsLoginRequest {
 
     @NotBlank(message = "아이디를 입력해주세요")
@@ -18,9 +20,4 @@ public class CreateAdminsLoginRequest {
     @NotBlank(message = "비밀번호를 입력해주세요")
     @Schema(description = "동아리 관리자 비밀번호", example = "123")
     private String password;
-
-    public CreateAdminsLoginRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 }
