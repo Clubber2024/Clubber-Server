@@ -15,6 +15,8 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -36,6 +38,9 @@ public class AdminServiceTest extends ServiceTest {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
+
+	@Autowired
+	private FavoriteRepository favoriteRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -93,6 +98,20 @@ public class AdminServiceTest extends ServiceTest {
 
 		for (Review deletedReview : deletedReviews) {
 			assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
+		}
+	}
+
+	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
+	@WithMockCustomUser
+	@Test
+	void withDrawAdminDeleteFavorite(){
+		adminService.withDraw();
+		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+
+		List<Favorite> deletedFavorites = favoriteRepository.findAllByClub(admin.getClub());
+
+		for (Favorite favorite : deletedFavorites) {
+			assertThat(favorite.isDeleted()).isEqualTo(true);
 		}
 	}
 
