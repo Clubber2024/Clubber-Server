@@ -54,7 +54,7 @@ public class CookieHelper {
 			sameSite = "Strict";
 		}
 
-		ResponseCookie accessToken = ResponseCookie
+		ResponseCookie accessTokenCookie = ResponseCookie
 			.from("accessToken", null)
 			.maxAge(0)
 			.secure(true)
@@ -63,7 +63,7 @@ public class CookieHelper {
 			.path("/")
 			.build();
 
-		ResponseCookie refreshToken = ResponseCookie
+		ResponseCookie refreshTokenCookie = ResponseCookie
 			.from("refreshToken", null)
 			.maxAge(0)
 			.secure(true)
@@ -73,8 +73,8 @@ public class CookieHelper {
 			.build();
 
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add(HttpHeaders.SET_COOKIE, accessToken.toString());
-		httpHeaders.add(HttpHeaders.SET_COOKIE, refreshToken.toString());
+		httpHeaders.add(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+		httpHeaders.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 		return httpHeaders;
 	}
 }
