@@ -45,7 +45,7 @@ public class AdminController {
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
 		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(loginRequest);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse))
+			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 
@@ -80,7 +80,8 @@ public class AdminController {
 		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
 			refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse))
+			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
+				createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 

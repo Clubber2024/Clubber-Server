@@ -65,7 +65,7 @@ public class AuthController {
         User user = authService.loginOrSignUp(userKakaoInfo);
         KakaoOauthResponse kakaoOauthResponse = authService.generateUserToken(user);
         return ResponseEntity.ok()
-                .headers(cookieHelper.getCookies(kakaoOauthResponse))
+                .headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(), kakaoOauthResponse.getRefreshToken()))
                 .body(kakaoOauthResponse);
     }
 
@@ -83,7 +83,8 @@ public class AuthController {
         KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(
                 refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
         return ResponseEntity.ok()
-                .headers(cookieHelper.getCookies(kakaoOauthResponse))
+                .headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(),
+                    kakaoOauthResponse.getRefreshToken()))
                 .body(kakaoOauthResponse);
     }
 
