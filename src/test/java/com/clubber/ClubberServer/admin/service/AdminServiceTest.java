@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
@@ -55,6 +56,20 @@ public class AdminServiceTest extends ServiceTest {
 		assertAll(
 			() -> assertThat(savedAdmin).isNotNull(),
 			() -> assertThat(savedAdmin.get().getUsername()).isEqualTo(VALID_ADMIN_REQUEST.getUsername())
+		);
+	}
+
+	@DisplayName("관리자 회원 정보를 조회한다.")
+	@WithMockCustomUser
+	@Test
+	void adminGetProfile(){
+		GetAdminsProfileResponse adminsProfile = adminService.getAdminsProfile();
+
+		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
+
+		assertAll(
+			() -> assertThat(admin.get().getId()).isNotNull(),
+			() -> assertThat(adminsProfile.getClubName()).isEqualTo(admin.get().getClub().getName())
 		);
 	}
 
