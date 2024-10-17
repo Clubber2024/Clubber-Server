@@ -25,10 +25,16 @@ public class DatabaseCleaner {
 	public void insertInitialData() {
 
 		String encodedPassword = encoder.encode("비밀번호 1");
+
+		//clubinfo 추가
+		entityManager.createNativeQuery(
+			"insert into club_info (id, room, activity, instagram, leader) "
+				+ "values (10000000, 1, 'activity', 'instagram', 'leader');").executeUpdate();
+
 		// club 추가
 		entityManager.createNativeQuery(
-			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review) "
-				+ "values (10000000, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true);").executeUpdate();
+			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id) "
+				+ "values (10000000, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 10000000);").executeUpdate();
 
 		// admin 추가
 		entityManager.createNativeQuery(
