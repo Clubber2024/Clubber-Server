@@ -40,6 +40,11 @@ public class DatabaseCleaner {
 		entityManager.createNativeQuery(
 			"insert into review (id, club_id, content, approved_status, user_id) values (100000000, 10000000, '승인 대기 댓글', 'PENDING', 1000000)")
 			.executeUpdate();
+
+		//favorite 추가
+		entityManager.createNativeQuery(
+				"insert into favorite (id, club_id, is_deleted, user_id) values (100000000, 10000000, false, 1000000)")
+			.executeUpdate();
 	}
 
 
