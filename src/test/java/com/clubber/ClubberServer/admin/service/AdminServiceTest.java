@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.admin.service;
 
 import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,9 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.util.ServiceTest;
@@ -29,6 +33,9 @@ public class AdminServiceTest extends ServiceTest {
 
 	@Autowired
 	private AdminRepository adminRepository;
+
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -73,6 +80,20 @@ public class AdminServiceTest extends ServiceTest {
 			() -> assertThat(admin).isNotNull(),
 			() -> assertThat(admin.get().getAccountState()).isEqualTo(AccountState.INACTIVE)
 		);
+	}
+
+	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
+	@WithMockCustomUser
+	@Test
+	void withDrawAdminDeleteReview(){
+		adminService.withDraw();
+		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+
+		List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
+
+		for (Review deletedReview : deletedReviews) {
+			assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
+		}
 	}
 
 }
