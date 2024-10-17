@@ -14,8 +14,11 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
@@ -23,6 +26,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import com.clubber.ClubberServer.util.ServiceTest;
 import com.clubber.ClubberServer.util.WithMockCustomUser;
 
@@ -42,6 +46,9 @@ public class AdminServiceTest extends ServiceTest {
 
 	@Autowired
 	private FavoriteRepository favoriteRepository;
+
+	@Autowired
+	private ClubRepository clubRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -128,6 +135,26 @@ public class AdminServiceTest extends ServiceTest {
 		for (Favorite favorite : deletedFavorites) {
 			assertThat(favorite.isDeleted()).isEqualTo(true);
 		}
+	}
+
+	@DisplayName("관리자 정보 수정을 수행한다")
+	@WithMockCustomUser
+	@Test
+	void updateAdminsPage(){
+		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(VALID_UPDATE_CLUB_PAGE_REQUEST);
+
+		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+		Optional<Club> updatedClub = clubRepository.findById(admin.getClub().getId());
+
+		assertAll(
+			() -> assertThat(updatedClub).isNotNull(),
+			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getImageKey()),
+			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getIntroduction()),
+			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getInstagram()),
+			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getActivity()),
+			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getRoom())
+		);
+
 	}
 
 }
