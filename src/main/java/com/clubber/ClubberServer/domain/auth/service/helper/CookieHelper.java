@@ -48,7 +48,6 @@ public class CookieHelper {
 	}
 
 	public HttpHeaders deleteCookies() {
-
 		String sameSite = "None";
 
 		if(springEnvironmentHelper.isProdProfile()){
