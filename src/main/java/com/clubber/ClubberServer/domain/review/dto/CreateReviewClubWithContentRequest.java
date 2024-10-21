@@ -12,11 +12,13 @@ import java.util.Set;
 
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateReviewClubWithContentRequest {
 
     @Size(max = 100, message = "리뷰 작성은 100자까지 가능합니다")
