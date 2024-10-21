@@ -36,6 +36,12 @@ public class DatabaseCleaner {
 			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id) "
 				+ "values (10000000, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 10000000);").executeUpdate();
 
+
+		entityManager.createNativeQuery(
+			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review) "
+				+ "values (10000001, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true);").executeUpdate();
+
+
 		// admin 추가
 		entityManager.createNativeQuery(
 				"insert into admin (id, username, password, account_state, account_role, club_id) VALUES (10000000, '동아리 1', ?, 'ACTIVE', 'ADMIN', 10000000)", Admin.class)
@@ -51,6 +57,12 @@ public class DatabaseCleaner {
 		entityManager.createNativeQuery(
 				"insert into favorite (id, club_id, is_deleted, user_id) values (100000000, 10000000, false, 1000000)")
 			.executeUpdate();
+
+		//user 추가
+		entityManager.createNativeQuery(
+			"insert into user(id, email, sns_type, sns_id, role, account_state) values (100000001, 'user@gmail.com', 'KAKAO', 1, 'USER', 'ACTIVE')"
+		).executeUpdate();
+
 	}
 
 
