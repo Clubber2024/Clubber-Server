@@ -41,8 +41,5 @@ public class ReviewServiceTest extends ServiceTest {
 			() -> assertThat(createdReview.get().getContent()).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getContent())
 			// () -> assertThat(ReviewKeyword.from(createdReview.get().getReviewKeywords())).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getKeywords())
 		);
-
-
 	}
-
 }
