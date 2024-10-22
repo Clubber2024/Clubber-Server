@@ -11,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.util.ServiceTest;
 import com.clubber.ClubberServer.util.WithMockCustomUser;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ReviewServiceTest extends ServiceTest {
 
 	@Autowired
@@ -42,4 +44,13 @@ public class ReviewServiceTest extends ServiceTest {
 			// () -> assertThat(ReviewKeyword.from(createdReview.get().getReviewKeywords())).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getKeywords())
 		);
 	}
+
+	@DisplayName("리뷰_중복작성시_예외발생")
+	@WithMockCustomUser(second = "USER")
+	@Test
+	void createDuplicateReview() {
+		assertThrows(UserAlreadyReviewedException.class,
+			() -> reviewService.createReviewsByContent(exampleId, VALID_REVIEW_CREATE_REQUEST));
+	}
+
 }
