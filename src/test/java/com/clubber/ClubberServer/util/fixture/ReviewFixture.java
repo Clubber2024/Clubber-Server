@@ -11,4 +11,7 @@ public class ReviewFixture {
 
 	public static final CreateReviewClubWithContentRequest EMPTY_KEYWORD_REVIEW_REQUEST =
 		new CreateReviewClubWithContentRequest("content", EnumSet.noneOf(Keyword.class));
+
+	public static final CreateReviewClubWithContentRequest LONG_SIZE_INVALID_REVIEW_REQUEST =
+		new CreateReviewClubWithContentRequest("a".repeat(101), EnumSet.of(Keyword.CULTURE));
 }
