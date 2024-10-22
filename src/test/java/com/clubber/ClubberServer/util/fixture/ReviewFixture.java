@@ -8,4 +8,7 @@ import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRe
 public class ReviewFixture {
 	public static final CreateReviewClubWithContentRequest VALID_REVIEW_CREATE_REQUEST =
 		new CreateReviewClubWithContentRequest("content", EnumSet.of(Keyword.CULTURE, Keyword.FEE));
+
+	public static final CreateReviewClubWithContentRequest EMPTY_KEYWORD_REVIEW_REQUEST =
+		new CreateReviewClubWithContentRequest("content", EnumSet.noneOf(Keyword.class));
 }
