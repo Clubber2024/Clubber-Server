@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.review;
+package com.clubber.ClubberServer.review.service;
 
 import static com.clubber.ClubberServer.util.fixture.ReviewFixture.*;
 
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
