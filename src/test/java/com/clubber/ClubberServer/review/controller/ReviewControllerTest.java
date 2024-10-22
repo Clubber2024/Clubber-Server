@@ -61,6 +61,20 @@ public class ReviewControllerTest {
 
 	}
 
+	@Test
+	@DisplayName("100자보다_긴_리뷰_예외발생")
+	@WithMockCustomUser(first = "10000001", second = "USER")
+	void longInvalidReview() throws Exception {
+		String review = objectMapper.writeValueAsString(LONG_SIZE_INVALID_REVIEW_REQUEST);
+
+		mockMvc.perform(post("/api/v1/clubs/1/reviews")
+				.contentType(MediaType.APPLICATION_JSON)
+				.headers(createUserCookie())
+				.content(review))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.reason", containsString("리뷰 작성은 100자까지 가능합니다")));
+	}
+
 	HttpHeaders createUserCookie() {
 		User user = User.builder().id(10000001L).snsId(1L).email("email").snsType(SnsType.KAKAO).build();
 		System.out.println("user.getRole() = " + user.getRole());
