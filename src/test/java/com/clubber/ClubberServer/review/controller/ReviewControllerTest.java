@@ -58,7 +58,6 @@ public class ReviewControllerTest {
 				.content(review))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", containsString("1개 이상의 키워드를 선택해주세요")));
-
 	}
 
 	@Test
@@ -77,7 +76,6 @@ public class ReviewControllerTest {
 
 	HttpHeaders createUserCookie() {
 		User user = User.builder().id(10000001L).snsId(1L).email("email").snsType(SnsType.KAKAO).build();
-		System.out.println("user.getRole() = " + user.getRole());
 		String accessToken = jwtTokenProvider.generateAccessToken(user);
 		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
 		return cookieHelper.getCookies(accessToken, refreshToken);
