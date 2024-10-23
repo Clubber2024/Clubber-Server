@@ -55,7 +55,8 @@ public class User extends BaseEntity {
 	private List<Favorite> favorites = new ArrayList<>();
 
 	@Builder
-	private User(String email, SnsType snsType, Long snsId) {
+	private User(Long id, String email, SnsType snsType, Long snsId) {
+		this.id = id;
 		this.email = email;
 		this.snsType = snsType;
 		this.snsId = snsId;

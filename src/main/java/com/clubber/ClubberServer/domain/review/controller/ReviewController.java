@@ -22,6 +22,7 @@ import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -75,7 +76,7 @@ public class ReviewController {
 	@Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
 	@PostMapping
 	public CreateClubReviewsWithContentResponse createReviewWithContent(
-		@RequestBody CreateReviewClubWithContentRequest reviewRequest,
+		@RequestBody @Valid CreateReviewClubWithContentRequest reviewRequest,
 		@PathVariable Long clubId) {
 		return reviewService.createReviewsByContent(clubId, reviewRequest);
 	}
