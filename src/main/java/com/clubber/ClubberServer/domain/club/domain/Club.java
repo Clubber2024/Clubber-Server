@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +91,9 @@ public class Club extends BaseEntity {
 	private boolean isAgreeToProvideInfo = false;
 
 	public void updateClub(String imageKey, String introduction) {
-		this.imageUrl = ImageVO.valueOf(imageKey);
+		if( !imageKey.startsWith(IMAGE_SERVER) ) {
+			this.imageUrl = ImageVO.valueOf(imageKey);
+		}
 		this.introduction = introduction;
 	}
 
