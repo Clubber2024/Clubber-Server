@@ -169,7 +169,7 @@ public class AdminServiceTest extends ServiceTest {
 		assertAll(
 			() -> assertThat(updatedClub).isNotNull(),
 			() -> assertThat(updatedClub.get().getImageUrl()).asString().doesNotStartWith(IMAGE_SERVER),
-			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo("기존imageUrl"),
+			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getImageKey().substring(IMAGE_SERVER.length())),
 			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getIntroduction()),
 			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getInstagram()),
 			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getActivity()),

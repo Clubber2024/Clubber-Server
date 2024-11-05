@@ -91,9 +91,7 @@ public class Club extends BaseEntity {
 	private boolean isAgreeToProvideInfo = false;
 
 	public void updateClub(String imageKey, String introduction) {
-		if( !imageKey.startsWith(IMAGE_SERVER) ) {
-			this.imageUrl = ImageVO.valueOf(imageKey);
-		}
+		this.imageUrl = ImageVO.valueOf(imageKey);
 		this.introduction = introduction;
 	}
 

@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import com.clubber.ClubberServer.global.image.ImageUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,7 +109,8 @@ public class AdminService {
 
 		Club club = admin.getClub();
 
-		club.updateClub(requestDTO.getImageKey(), requestDTO.getIntroduction());
+		String imageKey = ImageUtil.parseImageKey(requestDTO.getImageKey());
+		club.updateClub(imageKey, requestDTO.getIntroduction());
 
 		ClubInfo clubinfo = club.getClubInfo();
 		clubinfo.updateClubInfo(requestDTO.getInstagram(), requestDTO.getLeader(), requestDTO.getActivity(),
