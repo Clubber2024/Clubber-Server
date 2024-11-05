@@ -36,8 +36,8 @@ public class DatabaseCleaner {
 
 		// club 추가
 		entityManager.createNativeQuery(
-			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id) "
-				+ "values (?, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, ?);")
+			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
+				+ "values (?, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, ?, '기존imageUrl');")
 			.setParameter(1, exampleId)
 			.setParameter(2, exampleId)
 			.executeUpdate();

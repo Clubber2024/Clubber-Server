@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.admin.service;
 
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 
 import java.util.List;
@@ -31,7 +32,7 @@ import com.clubber.ClubberServer.util.ServiceTest;
 import com.clubber.ClubberServer.util.WithMockCustomUser;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class AdminServiceTest extends ServiceTest {
 
@@ -154,7 +155,25 @@ public class AdminServiceTest extends ServiceTest {
 			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getActivity()),
 			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getRoom())
 		);
-
 	}
 
+	@DisplayName("이미지_서버_url을_포함한_image_key_수정_요청은_수정반영되지않는다.")
+	@WithMockCustomUser
+	@Test
+	void updateAdminsPageWithImageServerURL(){
+		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST);
+
+		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+		Optional<Club> updatedClub = clubRepository.findById(admin.getClub().getId());
+
+		assertAll(
+			() -> assertThat(updatedClub).isNotNull(),
+			() -> assertThat(updatedClub.get().getImageUrl()).asString().doesNotStartWith(IMAGE_SERVER),
+			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getImageKey().substring(IMAGE_SERVER.length())),
+			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getIntroduction()),
+			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getInstagram()),
+			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getActivity()),
+			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getRoom())
+		);
+	}
 }

@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
