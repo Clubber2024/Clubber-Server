@@ -20,4 +20,10 @@ public class ImageUtilTest {
     void parseImageKeyTest() {
         assertThat(imageUtil.parseImageKey(IMAGE_SERVER + exampleKey)).isEqualTo(exampleKey);
     }
+
+    @DisplayName("이미지 url이 이미지 서버로 시작되지 않는다면 기존 이미지 url을 반환한다.")
+    @Test
+    void parseImageKeyNotStartWithImageServer() {
+        assertThat(imageUtil.parseImageKey(exampleKey)).isEqualTo(exampleKey);
+    }
 }
