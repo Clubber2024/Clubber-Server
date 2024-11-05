@@ -28,7 +28,7 @@ public class AdminControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@DisplayName("모집글 1500자 초과 시 에러발생")
+	@DisplayName("동아리 활동 1500자 초과 시 에러발생")
 	@WithMockCustomUser
 	@Test
 	void updateOverMaxSizeActiivty() throws Exception {
