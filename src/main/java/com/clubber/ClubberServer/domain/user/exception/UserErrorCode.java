@@ -5,7 +5,6 @@ import com.clubber.ClubberServer.global.error.ErrorReason;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-
 @AllArgsConstructor
 public enum UserErrorCode implements BaseErrorCode {
 
@@ -16,7 +15,6 @@ public enum UserErrorCode implements BaseErrorCode {
 
     ACCESS_TOKEN_NOT_EXIST(HttpStatus.FORBIDDEN.value(), "USER_404_1", "알맞은 Access Token을 넣어주세요"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "USER_404_1", "존재하지 않는 유저입니다.");
-
 
     @Override
     public ErrorReason getErrorReason() {
@@ -29,5 +27,4 @@ public enum UserErrorCode implements BaseErrorCode {
     private final Integer status;
     private final String code;
     private final String reason;
-
 }
