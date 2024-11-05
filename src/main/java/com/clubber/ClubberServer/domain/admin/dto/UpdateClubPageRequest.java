@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateClubPageRequest {
     private String imageKey;
+
+    @Size(max = 100, message = "최대 100자까지 작성 가능합니다.")
     private String introduction;
     private String instagram;
 
