@@ -117,7 +117,6 @@ public class AdminService {
 				updateClubPageRequest.getRoom());
 
 		return UpdateClubPageResponse.of(club, clubinfo);
-
 	}
 
 	public GetClubResponse getAdminsMyPage() {
