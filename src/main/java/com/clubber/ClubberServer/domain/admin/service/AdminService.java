@@ -101,7 +101,7 @@ public class AdminService {
 	}
 
 	@Transactional
-	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest requestDTO) {
+	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest updateClubPageRequest) {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 
 		Admin admin = adminRepository.findById(currentUserId)
@@ -109,15 +109,14 @@ public class AdminService {
 
 		Club club = admin.getClub();
 
-		String imageKey = ImageUtil.parseImageKey(requestDTO.getImageKey());
-		club.updateClub(imageKey, requestDTO.getIntroduction());
+		String imageKey = ImageUtil.parseImageKey(updateClubPageRequest.getImageKey());
+		club.updateClub(imageKey, updateClubPageRequest.getIntroduction());
 
 		ClubInfo clubinfo = club.getClubInfo();
-		clubinfo.updateClubInfo(requestDTO.getInstagram(), requestDTO.getLeader(), requestDTO.getActivity(),
-			requestDTO.getRoom());
+		clubinfo.updateClubInfo(updateClubPageRequest.getInstagram(), updateClubPageRequest.getLeader(), updateClubPageRequest.getActivity(),
+				updateClubPageRequest.getRoom());
 
 		return UpdateClubPageResponse.of(club, clubinfo);
-
 	}
 
 	public GetClubResponse getAdminsMyPage() {
