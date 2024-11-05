@@ -96,8 +96,8 @@ public class AdminController {
 
 	@Operation(summary = "개별 동아리 계정 페이지 수정")
 	@PatchMapping("/change-page")
-	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest) {
-		return adminService.updateAdminsPage(pageRequest);
+	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
+		return adminService.updateAdminsPage(updateClubPageRequest);
 	}
 
 	@Operation(summary = "동아리 계정 마이 페이지 첫화면")
