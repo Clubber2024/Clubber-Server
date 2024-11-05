@@ -19,4 +19,7 @@ public class AdminFixture {
 
 	public static final UpdateClubPageRequest OVER_MAX_LENGTH_ACTIVITY_UPDATE_PAGE_REQUEST =
 			new UpdateClubPageRequest("imagekey", "introduction", "instagram", "a".repeat(1501), "leader", 1000L);
+
+	public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
+			new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "activity", "leader", 1000L);
 }
