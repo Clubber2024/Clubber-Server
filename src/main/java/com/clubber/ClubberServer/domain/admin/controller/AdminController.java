@@ -105,5 +105,4 @@ public class AdminController {
 	public GetClubResponse getAdminsMyPage() {
 		return adminService.getAdminsMyPage();
 	}
-
 }
