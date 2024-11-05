@@ -15,6 +15,5 @@ public class AdminFixture {
 		new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정activity", "수정leader", 1000L);
 
 	public static final UpdateClubPageRequest IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST =
-		new UpdateClubPageRequest(IMAGE_SERVER + "기존imagekey","수정introduction", "수정instagram", "수정activity", "수정leader", 1000L);
-
+		new UpdateClubPageRequest(IMAGE_SERVER + "수정imagekey","수정introduction", "수정instagram", "수정activity", "수정leader", 1000L);
 }
