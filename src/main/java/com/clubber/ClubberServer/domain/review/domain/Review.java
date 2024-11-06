@@ -72,8 +72,6 @@ public class Review extends BaseEntity {
 		this.approvedStatus = approvedStatus;
 	}
 
-	
-
 	public static Review of(User user, Club club, String content) {
 		return Review.builder()
 			.user(user)

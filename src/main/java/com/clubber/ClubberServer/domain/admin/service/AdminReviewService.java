@@ -44,7 +44,7 @@ public class AdminReviewService {
 
 		return GetAdminsReviewByStatusResponse.from(reviews);
 	}
-	
+
 	@Transactional
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
 		UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
@@ -91,5 +91,4 @@ public class AdminReviewService {
 			ApprovedStatus.PENDING);
 		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable);
 	}
-
 }
