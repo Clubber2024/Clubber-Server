@@ -57,9 +57,7 @@ public class AdminReviewService {
 
 		ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
 		List<Review> findReviews = reviewRepository.findAllById(reviewIds);
-		if (findReviews.size() != reviewIds.size()) {
-			throw UserReviewsNotFoundException.EXCEPTION;
-		}
+		validateReviewExistence(findReviews, reviewIds);
 
 		for (Review review : findReviews) {
 			if (!admin.getClub().getId().equals(review.getClub().getId()))
@@ -68,6 +66,12 @@ public class AdminReviewService {
 			review.updateReviewStatus(approvedStatus);
 		}
 		return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, approvedStatus);
+	}
+
+	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
+		if (findReviews.size() != reviewIds.size()) {
+			throw UserReviewsNotFoundException.EXCEPTION;
+		}
 	}
 
 	@Transactional(readOnly = true)
