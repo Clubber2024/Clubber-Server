@@ -48,14 +48,13 @@ public class AdminReviewService {
 	@Transactional
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
 		UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
-
-		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
-
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
+		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
 		ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
+		
 		List<Review> findReviews = reviewRepository.findAllById(updateReviewRequestIds);
 		validateReviewExistence(findReviews, updateReviewRequestIds);
 
