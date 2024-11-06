@@ -83,18 +83,6 @@ public class Review extends BaseEntity {
 			.build();
 	}
 
-	public void approve() {
-		if (this.approvedStatus != ApprovedStatus.PENDING)
-			throw InvalidApprovedStatusException.EXCEPTION;
-		this.approvedStatus = ApprovedStatus.APPROVED;
-	}
-
-	public void reject() {
-		if (this.approvedStatus != ApprovedStatus.PENDING)
-			throw InvalidApprovedStatusException.EXCEPTION;
-		this.approvedStatus = ApprovedStatus.REJECTED;
-	}
-
 	public void updateReviewStatus(ApprovedStatus approvedStatus) {
 		if (this.approvedStatus != PENDING) {
 			throw InvalidApprovedStatusException.EXCEPTION;
