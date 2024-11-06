@@ -53,16 +53,16 @@ public class AdminReviewService {
 				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
 		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
-		ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
-		
+		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
+
 		List<Review> findReviews = reviewRepository.findAllById(updateReviewRequestIds);
 		validateReviewExistence(findReviews, updateReviewRequestIds);
 
 		for (Review review : findReviews) {
 			validateReviewClub(review, admin);
-			review.updateReviewStatus(approvedStatus);
+			review.updateReviewStatus(updateReviewApprovedStatus);
 		}
-		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds, approvedStatus);
+		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds, updateReviewApprovedStatus);
 	}
 
 	private static void validateReviewClub(Review review, Admin admin) {
