@@ -95,6 +95,13 @@ public class Review extends BaseEntity {
 		this.approvedStatus = ApprovedStatus.REJECTED;
 	}
 
+	public void updateReviewStatus(ApprovedStatus approvedStatus) {
+		if (this.approvedStatus != PENDING) {
+			throw InvalidApprovedStatusException.EXCEPTION;
+		}
+		this.approvedStatus = approvedStatus; 
+	}
+
 	public void delete() {
 		this.approvedStatus = DELETED;
 	}
