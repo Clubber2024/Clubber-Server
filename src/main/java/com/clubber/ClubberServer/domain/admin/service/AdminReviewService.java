@@ -60,12 +60,15 @@ public class AdminReviewService {
 		validateReviewExistence(findReviews, reviewIds);
 
 		for (Review review : findReviews) {
-			if (!admin.getClub().getId().equals(review.getClub().getId()))
-				throw ReviewClubNotMatchException.EXCEPTION;
-
+			validateReviewClub(review, admin);
 			review.updateReviewStatus(approvedStatus);
 		}
 		return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, approvedStatus);
+	}
+
+	private static void validateReviewClub(Review review, Admin admin) {
+		if (!admin.getClub().getId().equals(review.getClub().getId()))
+			throw ReviewClubNotMatchException.EXCEPTION;
 	}
 
 	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
