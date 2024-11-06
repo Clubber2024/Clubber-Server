@@ -44,24 +44,12 @@ public class AdminReviewController {
 		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
 	}
 
-	//    @Operation(summary = "동아리 계정에서 리뷰 승인 요청")
-	//    @PatchMapping("/{reviewId}/approve")
-	//    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(@PathVariable Long reviewId){
-	//        return adminReviewService.updateAdminsReviewApprove(reviewId);
-	//    }
-
 	@Operation(summary = "동아리 계정에서 리뷰 승인 / 거절 요청")
 	@PatchMapping("/decision")
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatusResponse(@Valid @RequestBody
 	UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
 		return adminReviewService.updateAdminsReviewsApprovedStatus(updateAdminsReviewStatusRequest);
 	}
-
-	//    @Operation(summary = "동아리 계정에서 리뷰 미승인 요청", description = "미승인 시 더 이상 동아리 계정에서 대기 리뷰로 보이지 않음")
-	//    @PatchMapping("/{reviewId}/reject")
-	//    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(@PathVariable Long reviewId){
-	//        return adminReviewService.updateAdminsReviewReject(reviewId);
-	//    }
 
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping

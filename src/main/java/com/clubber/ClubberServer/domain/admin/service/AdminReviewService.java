@@ -45,58 +45,36 @@ public class AdminReviewService {
 		return GetAdminsReviewByStatusResponse.from(reviews);
 	}
 
-	//    @Transactional
-	//    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewApprove(Long reviewId) {
-	//        Long currentUserId = SecurityUtils.getCurrentUserId();
-	//        Admin admin = adminRepository.findById(currentUserId)
-	//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-	//
-	//        Review review = reviewRepository.findById(reviewId).get();
-	//        if(!admin.getClub().getId().equals(review.getClub().getId()))
-	//            throw ReviewClubNotMatchException.EXCEPTION;
-	//
-	//        review.approve();
-	//        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.APPROVED);
-	//    }
 	@Transactional
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
 		UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
-
-		List<Long> reviewIds = updateAdminsReviewStatusRequest.getReviewIds();
-
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-		ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
-		for (Long reviewId : reviewIds) {
-			Review review = reviewRepository.findById(reviewId)
-				.orElseThrow(() -> UserReviewsNotFoundException.EXCEPTION);
+		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
+		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
 
-			if (!admin.getClub().getId().equals(review.getClub().getId()))
-				throw ReviewClubNotMatchException.EXCEPTION;
+		List<Review> findReviews = reviewRepository.findAllById(updateReviewRequestIds);
+		validateReviewExistence(findReviews, updateReviewRequestIds);
 
-			if (approvedStatus == ApprovedStatus.APPROVED)
-				review.approve();
-			else if (approvedStatus == ApprovedStatus.REJECTED) {
-				review.reject();
-			}
+		for (Review review : findReviews) {
+			validateReviewClub(review, admin);
+			review.updateReviewStatus(updateReviewApprovedStatus);
 		}
-		return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, approvedStatus);
+		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds, updateReviewApprovedStatus);
 	}
 
-	//    @Transactional
-	//    public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewReject(Long reviewId) {
-	//        Long currentUserId = SecurityUtils.getCurrentUserId();
-	//        Admin admin = adminRepository.findById(currentUserId)
-	//                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-	//
-	//        Review review = reviewRepository.findById(reviewId).get();
-	//        if(!admin.getClub().getId().equals(review.getClub().getId()))
-	//            throw ReviewClubNotMatchException.EXCEPTION;
-	//        review.reject();
-	//        return UpdateAdminsReviewApprovedStatusResponse.of(admin, review, ApprovedStatus.REJECTED);
-	//    }
+	private static void validateReviewClub(Review review, Admin admin) {
+		if (!admin.getClub().getId().equals(review.getClub().getId()))
+			throw ReviewClubNotMatchException.EXCEPTION;
+	}
+
+	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
+		if (findReviews.size() != reviewIds.size()) {
+			throw UserReviewsNotFoundException.EXCEPTION;
+		}
+	}
 
 	@Transactional(readOnly = true)
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable) {
@@ -121,5 +99,4 @@ public class AdminReviewService {
 			ApprovedStatus.PENDING);
 		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable);
 	}
-
 }

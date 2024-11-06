@@ -4,6 +4,7 @@ import static com.clubber.ClubberServer.util.fixture.AdminReviewFixture.*;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.clubber.ClubberServer.util.WithMockCustomUser;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AdminReviewServiceTest extends ServiceTest {
 
@@ -54,4 +56,11 @@ public class AdminReviewServiceTest extends ServiceTest {
 			.allMatch(review -> review.getApprovedStatus() == ApprovedStatus.REJECTED);
 	}
 
+	@DisplayName("존재하지 않는 리뷰를 승인/거절하는 경우 예외가 발생한다.")
+	@WithMockCustomUser
+	@Test
+	void updateAdminsNotFoundReviews(){
+		assertThrows(UserReviewsNotFoundException.class,
+				() -> adminReviewService.updateAdminsReviewsApprovedStatus(UPDATE_ADMIN_NOT_FOUND_REVIEW_REQUEST));
+	}
 }
