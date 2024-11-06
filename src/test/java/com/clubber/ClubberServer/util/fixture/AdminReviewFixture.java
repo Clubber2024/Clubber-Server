@@ -12,6 +12,8 @@ public class AdminReviewFixture {
 	private static final List<Long> reviewIds = Arrays.asList(100000000L);
 	private static final List<Long> notFoundReviewIds = List.of(10000001L);
 
+	private static final List<Long> emptyReviewIds = List.of();
+
 	public static final UpdateAdminsReviewStatusRequest VALID_UPDATE_ADMINS_REVIEW_STATUS_REQEUST_APPROVE
 		= new UpdateAdminsReviewStatusRequest(reviewIds, ApprovedStatus.APPROVED);
 
@@ -20,4 +22,7 @@ public class AdminReviewFixture {
 
 	public static final UpdateAdminsReviewStatusRequest UPDATE_ADMIN_NOT_FOUND_REVIEW_REQUEST
 			= new UpdateAdminsReviewStatusRequest(notFoundReviewIds, ApprovedStatus.REJECTED);
+
+	public static final UpdateAdminsReviewStatusRequest UPDATE_ADMINS_EMPTY_REVIEWS
+			= new UpdateAdminsReviewStatusRequest(emptyReviewIds, ApprovedStatus.REJECTED);
 }
