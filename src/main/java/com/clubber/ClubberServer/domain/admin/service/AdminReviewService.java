@@ -76,11 +76,7 @@ public class AdminReviewService {
 			if (!admin.getClub().getId().equals(review.getClub().getId()))
 				throw ReviewClubNotMatchException.EXCEPTION;
 
-			if (approvedStatus == ApprovedStatus.APPROVED)
-				review.approve();
-			else if (approvedStatus == ApprovedStatus.REJECTED) {
-				review.reject();
-			}
+			review.updateReviewStatus(approvedStatus);
 		}
 		return UpdateAdminsReviewApprovedStatusResponse.of(admin, reviewIds, approvedStatus);
 	}
