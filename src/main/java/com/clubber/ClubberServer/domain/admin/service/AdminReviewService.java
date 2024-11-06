@@ -58,6 +58,9 @@ public class AdminReviewService {
 		ApprovedStatus approvedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
 		List<Review> findReviews = reviewRepository.findAllById(reviewIds);
 		for (Review review : findReviews) {
+			if (!reviewIds.contains(review.getId())) {
+				throw UserReviewsNotFoundException.EXCEPTION; 
+			}
 
 			if (!admin.getClub().getId().equals(review.getClub().getId()))
 				throw ReviewClubNotMatchException.EXCEPTION;
