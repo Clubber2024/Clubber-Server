@@ -29,8 +29,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.clubber.ClubberServer.global.jwt.JwtStatic.IMAGE_SERVER;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +61,8 @@ public class RecruitService {
 
         Page<GetOneRecruitResponse> recruitResponses = recruits.map(recruit -> {
             List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted())
+                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -78,16 +85,23 @@ public class RecruitService {
         Recruit newRecruit=Recruit.of(club,requestDTO);
         recruitRepository.save(newRecruit);
 
+        AtomicLong order = new AtomicLong(1L);
+
         List<RecruitImage> savedImages = requestDTO.getImageKey().stream()
-                .map(imageUrl -> recruitImageRepository.save(
-                        RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit))
-                )
+                .map(imageUrl -> {
+                    RecruitImage recruitImage = recruitImageRepository.save(
+                            RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit)
+                    );
+                    recruitImage.updateOrderNum(order.getAndIncrement()); // orderNum 설정
+                    return recruitImage;
+                })
                 .collect(Collectors.toList());
+
 
         List<ImageVO> imageUrls = savedImages.stream()
+                .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
-
 
         return PostRecruitResponse.of(newRecruit,imageUrls);
     }
@@ -109,6 +123,8 @@ public class RecruitService {
         }
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                .filter(recruitImage -> !recruitImage.isDeleted())
+                .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
@@ -120,7 +136,6 @@ public class RecruitService {
     }
 
 
-
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitResponse> getRecruitsByClubId(Long clubId,Pageable pageable){
         Club club=clubRepository.findById(clubId)
@@ -130,6 +145,8 @@ public class RecruitService {
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
             List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted())
+                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -164,6 +181,8 @@ public class RecruitService {
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
             List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted())
+                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                     .map(RecruitImage::getImageUrl)
                     .collect(Collectors.toList());
             return GetOneRecruitResponse.of(recruit, imageUrls);
@@ -183,6 +202,8 @@ public class RecruitService {
         recruit.increaseTotalview();
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                .filter(recruitImage -> !recruitImage.isDeleted())
+                .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
@@ -204,8 +225,11 @@ public class RecruitService {
         }
 
         List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
+                .filter(recruitImage -> !recruitImage.isDeleted())
+                .sorted(Comparator.comparing(RecruitImage::getOrderNum))
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
+
 
         return GetOneRecruitResponse.of(recruit, imageUrls);
 
@@ -228,20 +252,42 @@ public class RecruitService {
 
         recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent());
 
+        List<RecruitImage> recruitImages = recruit.getRecruitImages().stream() // 현재 해당 게시글의 모든 이미지 조회
+                .filter(recruitImage -> !recruitImage.isDeleted())
+                .collect(Collectors.toList());
 
-        List<RecruitImage> savedImages = requestPage.getCreatedImageKeys().stream()
-                .map(imageUrl -> recruitImageRepository.save(
-                        RecruitImage.of(ImageVO.valueOf(imageUrl), recruit))
+
+        recruitImages.stream()
+                .filter(recruitImage -> requestPage.getDeletedImageUrls().stream()
+                        .anyMatch(deleteImage -> deleteImage.substring(IMAGE_SERVER.length()).equals(recruitImage.getImageUrl().getImageUrl())))
+                .forEach(RecruitImage::updateStatus);
+
+
+        List<RecruitImage> newImages = requestPage.getNewImageKeys().stream() // 추가 요청 들어온것들은 recruitImage객체 생성하여 저장
+                .map(imageKey -> recruitImageRepository.save(
+                        RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
                 )
                 .collect(Collectors.toList());
 
-        //deletedImageKeys처리하는 로직 구현
 
+        List<RecruitImage> revisedRecruitImages = recruitImageRepository.findByRecruitAndIsDeletedFalse(recruit);
 
-        List<ImageVO> imageUrls = savedImages.stream()
-                .map(RecruitImage::getImageUrl)
-                .collect(Collectors.toList());
+        AtomicLong order = new AtomicLong(1L);
 
-        return UpdateRecruitResponse.of(recruit,imageUrls);
+        List<String> finalImages = requestPage.getImages();
+        for (String image : finalImages){
+            if (image.startsWith(IMAGE_SERVER)){
+                revisedRecruitImages.stream()
+                        .filter(recruitImage-> recruitImage.getImageUrl().getImageUrl().equals(image.substring(IMAGE_SERVER.length())))
+                        .forEach(recruitImage -> recruitImage.updateOrderNum(order.getAndIncrement()));
+            }
+            else{
+                newImages.stream()
+                        .filter(recruitImage-> recruitImage.getImageUrl().getImageUrl().equals(image))
+                        .forEach(recruitImage -> recruitImage.updateOrderNum(order.getAndIncrement()));
+            }
+        }
+
+        return UpdateRecruitResponse.of(recruit,requestPage.getImages());
     }
 }

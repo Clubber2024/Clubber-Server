@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,8 +17,14 @@ public class UpdateRecruitRequest {
     @NotNull
     private String content;
 
-    private List<String> deletedImageKeys;
+    private List<String> deletedImageUrls; //삭제
 
-    private List<String> createdImageKeys;
+    private List<String> newImageKeys; //추가
+
+    private List<String> remainImageUrls; //유지
+
+    private List<String> images; //최종(추가+유지) - 저장할 순서대로 담겨져 있음
+
+    private List<Long> order;
 
 }
