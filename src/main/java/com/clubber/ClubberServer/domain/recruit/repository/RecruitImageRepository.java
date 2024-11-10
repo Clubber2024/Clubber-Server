@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface RecruitImageRepository extends JpaRepository<RecruitImage,Long> {
     List<RecruitImage> findByRecruit(Recruit recruit);
+    List<RecruitImage> findByRecruitAndIsDeletedFalse(Recruit recruit);
+    List<RecruitImage> findByRecruitAndIsDeletedFalseOrderByOrderNumAsc(Recruit recruit);
 
 }
