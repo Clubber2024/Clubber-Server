@@ -84,6 +84,8 @@ public class ReviewService {
 		List<KeywordStat> keywordStatList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
+		KeywordStats keywordStats = new KeywordStats();
+		keywordStats.updateKeywordStat(keywordStatList);
 		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
 	}
 
