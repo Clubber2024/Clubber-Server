@@ -91,12 +91,6 @@ public class ReviewService {
 		List<KeywordStat> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
-		Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
-		keywordStats.stream()
-			.forEach(stats -> keywordMap.put(stats.getKeyword(), stats.getCount()));
-		Arrays.stream(Keyword.values())
-			.forEach(keyword -> keywordMap.putIfAbsent(keyword, 0L));
-
 		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
 	}
 
