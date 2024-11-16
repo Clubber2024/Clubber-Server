@@ -23,7 +23,7 @@ public class adminRecruitController {
 
     @GetMapping("/admins/recruits")
     @Operation(summary = "동아리 계정의 모든 모집글 조회")
-    public PageResponse<GetOneRecruitResponse> getAllAdminRecruits(@PageableDefault(size = 5) Pageable pageable){
+    public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(@PageableDefault(size = 5) Pageable pageable){
         return recruitService.getAllAdminRecruits(pageable);
     }
 

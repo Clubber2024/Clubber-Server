@@ -49,7 +49,7 @@ public class RecruitService {
 
 
     @Transactional(readOnly = true)
-    public PageResponse<GetOneRecruitResponse> getAllAdminRecruits(Pageable pageable){
+    public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(Pageable pageable){
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
         Admin admin = adminRepository.findById(currentUserId)
@@ -57,19 +57,18 @@ public class RecruitService {
 
         Club club=admin.getClub();
 
-        Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
+        Page<Recruit> recruits = recruitRepository.findRecruitsByClub(club,pageable);
 
-        Page<GetOneRecruitResponse> recruitResponses = recruits.map(recruit -> {
-            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
-                    .filter(recruitImage -> !recruitImage.isDeleted())
-                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
+        Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
+            ImageVO imageUrl = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
                     .map(RecruitImage::getImageUrl)
-                    .collect(Collectors.toList());
-            return GetOneRecruitResponse.of(recruit, imageUrls);
+                    .findFirst()
+                    .orElse(null);
+            return GetOneRecruitInListResponse.of(recruit, imageUrl);
         });
 
         return PageResponse.of(recruitResponses);
-
     }
 
 
@@ -114,9 +113,8 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+        Recruit recruit=recruitRepository.findRecruitById(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
-
 
         if (recruit.getClub()!=admin.getClub()) {
             throw RecruitDeleteUnauthorized.EXCEPTION;
@@ -128,11 +126,13 @@ public class RecruitService {
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
+        recruit.getRecruitImages().stream()
+                .filter(recruitImage -> !recruitImage.isDeleted())
+                .forEach(RecruitImage::updateStatus);
 
         recruit.updateStatus();
 
         return DeleteRecruitByIdResponse.from(recruit,imageUrls);
-
     }
 
 
@@ -141,7 +141,7 @@ public class RecruitService {
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
-        Page<Recruit> recruits = recruitRepository.findRecruitsWithImagesByClub(club,pageable);
+        Page<Recruit> recruits = recruitRepository.findRecruitsByClub(club,pageable);
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
             List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
@@ -153,7 +153,6 @@ public class RecruitService {
         });
 
         return PageResponse.of(recruitDto);
-
     }
 
 
@@ -176,27 +175,26 @@ public class RecruitService {
 
 
     @Transactional(readOnly = true)
-    public PageResponse<GetOneRecruitResponse> getAllRecruitsPage(Pageable pageable){
-        Page<Recruit> recruits = recruitRepository.findRecruitsWithImages(pageable);
+    public PageResponse<GetOneRecruitInListResponse> getAllRecruitsPage(Pageable pageable){
+        Page<Recruit> recruits = recruitRepository.findRecruits(pageable);
 
-        Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
-            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
-                    .filter(recruitImage -> !recruitImage.isDeleted())
-                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
+        Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
+            ImageVO imageUrl = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
                     .map(RecruitImage::getImageUrl)
-                    .collect(Collectors.toList());
-            return GetOneRecruitResponse.of(recruit, imageUrls);
+                    .findFirst()
+                    .orElse(null);
+            return GetOneRecruitInListResponse.of(recruit, imageUrl);
         });
 
-        return PageResponse.of(recruitDto);
-
+        return PageResponse.of(recruitResponses);
     }
 
 
     @Transactional
     public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
 
-        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+        Recruit recruit=recruitRepository.findRecruitById(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         recruit.increaseTotalview();
@@ -208,7 +206,6 @@ public class RecruitService {
                 .collect(Collectors.toList());
 
         return GetOneRecruitResponse.of(recruit, imageUrls);
-
     }
 
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
@@ -217,7 +214,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+        Recruit recruit=recruitRepository.findRecruitById(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -230,9 +227,7 @@ public class RecruitService {
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
-
         return GetOneRecruitResponse.of(recruit, imageUrls);
-
     }
 
     @Transactional
@@ -243,7 +238,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitWithImagesById(recruitId)
+        Recruit recruit=recruitRepository.findRecruitById(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {

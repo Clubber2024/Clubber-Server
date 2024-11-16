@@ -18,7 +18,6 @@ public class UpdateRecruitResponse {
     @NotNull
     private String content;
 
-//    private List<ImageVO> imageUrls;
     private List<String> imageUrls;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
