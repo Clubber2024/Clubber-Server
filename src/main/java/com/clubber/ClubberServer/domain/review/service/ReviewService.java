@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import com.clubber.ClubberServer.domain.review.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,6 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -88,7 +81,7 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		List<KeywordStat> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+		List<KeywordStat> keywordStatList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
 		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
