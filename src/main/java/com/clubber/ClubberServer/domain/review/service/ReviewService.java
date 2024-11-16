@@ -86,7 +86,7 @@ public class ReviewService {
 
 		KeywordStats keywordStats = new KeywordStats();
 		keywordStats.updateKeywordStat(keywordStatList);
-		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
+		return GetClubReviewsKeywordStatsResponse.of(club, keywordStats);
 	}
 
 	//동아리 별 리뷰 조회 : Page 별 조회 
