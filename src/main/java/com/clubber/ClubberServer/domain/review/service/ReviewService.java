@@ -72,8 +72,6 @@ public class ReviewService {
 		return GetClubReviewAgreedStatusResponse.from(club);
 	}
 
-
-
 	@Transactional(readOnly = true)
 	public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
