@@ -23,7 +23,7 @@ import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContent
 import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -88,7 +88,7 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+		List<KeywordStat> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
 		Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
