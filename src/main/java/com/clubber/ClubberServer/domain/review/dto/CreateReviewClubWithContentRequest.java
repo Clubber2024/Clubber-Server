@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
 
+import com.clubber.ClubberServer.global.validator.Enum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
 import java.util.Set;
@@ -27,7 +28,10 @@ public class CreateReviewClubWithContentRequest {
 
     @Size(min = 1, message = "1개 이상의 키워드를 선택해주세요")
     @Schema(description = "선택하려는 키워드")
-    private Set<Keyword> keywords = EnumSet.noneOf(Keyword.class);
+    private Set<@Enum(
+            target = Keyword.class,
+            message = "유효하지 않은 리뷰 키워드입니다"
+    ) Keyword> keywords = EnumSet.noneOf(Keyword.class);
 
     public void toReviewKeywordEntities(Review review){
         keywords.stream()

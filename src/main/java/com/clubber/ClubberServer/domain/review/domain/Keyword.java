@@ -22,8 +22,8 @@ public enum Keyword implements EnumMapperType {
     public static Keyword from(String req){
         return Arrays.stream(Keyword.values())
                 .filter(keyword -> keyword.getCode().equals(req))
-                .findFirst()
-                .orElseThrow(() -> ReviewEnumNotMatchedException.EXCEPTION);
+                .findAny()
+                .orElse(null);
     }
 
     @Override
