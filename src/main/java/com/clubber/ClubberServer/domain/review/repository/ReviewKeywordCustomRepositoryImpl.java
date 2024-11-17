@@ -5,7 +5,7 @@ import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -25,10 +25,9 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
     }
 
     @Override
-    public List<KeywordStats> queryReviewKeywordStatsByClubId(Long clubId) {
-
+    public List<KeywordStat> queryReviewKeywordStatsByClubId(Long clubId) {
         return queryFactory
-                .select(Projections.fields(KeywordStats.class,
+                .select(Projections.fields(KeywordStat.class,
                         reviewKeyword.keyword, reviewKeyword.count().as("count")))
                 .from(reviewKeyword)
                 .where(review.club.id.eq(clubId))

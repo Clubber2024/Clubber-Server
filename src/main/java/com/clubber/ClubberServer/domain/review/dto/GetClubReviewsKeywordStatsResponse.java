@@ -28,10 +28,10 @@ public class GetClubReviewsKeywordStatsResponse {
                 + "🏻 \"운영진들이 일을 잘해요\": 50}")
     private final Map<String, Long> keywordStats;
 
-    public static GetClubReviewsKeywordStatsResponse of (Club club, Map<Keyword, Long> keywordStats){
+    public static GetClubReviewsKeywordStatsResponse of (Club club, KeywordStats keywordStats){
         return GetClubReviewsKeywordStatsResponse.builder()
                 .clubId(club.getId())
-                .keywordStats(convertKeyType(keywordStats))
+                .keywordStats(convertKeyType(keywordStats.getKeywordMap()))
                 .build();
     }
 

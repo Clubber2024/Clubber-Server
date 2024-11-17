@@ -1,10 +1,8 @@
 package com.clubber.ClubberServer.domain.review.service;
 
-import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
+import com.clubber.ClubberServer.domain.review.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,17 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -79,8 +68,6 @@ public class ReviewService {
 		return GetClubReviewAgreedStatusResponse.from(club);
 	}
 
-
-
 	@Transactional(readOnly = true)
 	public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
@@ -88,16 +75,12 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		List<KeywordStats> keywordStats = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+		List<KeywordStat> keywordStatList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
-		Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
-		keywordStats.stream()
-			.forEach(stats -> keywordMap.put(stats.getKeyword(), stats.getCount()));
-		Arrays.stream(Keyword.values())
-			.forEach(keyword -> keywordMap.putIfAbsent(keyword, 0L));
-
-		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
+		KeywordStats keywordStats = new KeywordStats();
+		keywordStats.updateKeywordStat(keywordStatList);
+		return GetClubReviewsKeywordStatsResponse.of(club, keywordStats);
 	}
 
 	//동아리 별 리뷰 조회 : Page 별 조회 
