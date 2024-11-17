@@ -32,6 +32,7 @@ public class CreateReviewClubWithContentRequest {
 
     @Size(min = 1, message = "1개 이상의 키워드를 선택해주세요")
     @Schema(description = "선택하려는 키워드")
+    @Unique
     private List<@Enum(
                 target = Keyword.class,
                 message = "유효하지 않은 리뷰 키워드입니다"
