@@ -26,7 +26,6 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
 
     @Override
     public List<KeywordStat> queryReviewKeywordStatsByClubId(Long clubId) {
-
         return queryFactory
                 .select(Projections.fields(KeywordStat.class,
                         reviewKeyword.keyword, reviewKeyword.count().as("count")))
