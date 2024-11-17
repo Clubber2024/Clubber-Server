@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.review.service;
 
-import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import com.clubber.ClubberServer.domain.review.dto.*;
 import org.springframework.data.domain.Page;
@@ -14,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
