@@ -22,8 +22,7 @@ public interface RecruitRepository extends JpaRepository<Recruit,Long>{
 
     Page<Recruit> findByIsDeletedFalseAndClubOrderByIdDesc(@Param("club") Club club,Pageable pageable);
 
-    @Query("SELECT r FROM Recruit r WHERE r.isDeleted = false ORDER BY r.id DESC ")
-    Page<Recruit> findRecruits(Pageable pageable);
+    Page<Recruit> findByIsDeletedFalseOrderByIdDesc(Pageable pageable);
 
     Optional<Recruit> findRecruitById(@Param("recruitId") Long recruitId);
 

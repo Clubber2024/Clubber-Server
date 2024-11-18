@@ -176,7 +176,7 @@ public class RecruitService {
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getAllRecruitsPage(Pageable pageable){
-        Page<Recruit> recruits = recruitRepository.findRecruits(pageable);
+        Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseOrderByIdDesc(pageable);
 
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
             ImageVO imageUrl = recruit.getRecruitImages().stream()
