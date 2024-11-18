@@ -57,7 +57,7 @@ public class RecruitService {
 
         Club club=admin.getClub();
 
-        Page<Recruit> recruits = recruitRepository.findRecruitsByClub(club,pageable);
+        Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseAndClubOrderByIdDesc(club,pageable);
 
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
             ImageVO imageUrl = recruit.getRecruitImages().stream()
@@ -141,7 +141,7 @@ public class RecruitService {
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
-        Page<Recruit> recruits = recruitRepository.findRecruitsByClub(club,pageable);
+        Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseAndClubOrderByIdDesc(club,pageable);
 
         Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
             List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
