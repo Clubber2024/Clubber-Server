@@ -17,6 +17,10 @@ public class UserWithdraw {
 
     public void withDraw() {
         User user = authService.deleteKakaoUser();
+        unlinkKakao(user);
+    }
+
+    private void unlinkKakao(User user) {
         String header = "KakaoAK " + kakaoProperties.getAdminKey();
         UnlinkKaKaoTarget unlinkKakaoTarget = UnlinkKaKaoTarget.from(user.getSnsId());
         kakaoInfoClient.unlink(header, unlinkKakaoTarget);
