@@ -130,7 +130,7 @@ public class RecruitService {
                 .filter(recruitImage -> !recruitImage.isDeleted())
                 .forEach(RecruitImage::updateStatus);
 
-        recruit.updateStatus();
+        recruit.deleteRecruit();
 
         return DeleteRecruitByIdResponse.from(recruit,imageUrls);
     }
