@@ -54,15 +54,17 @@ public class AuthController {
         log.info("Referer"+ Referer);
 
         KakaoOauthResponse kakaoOauthResponse = null;
+
         if(Referer.contains(Host)){
             if(Referer.contains("dev")){
-                //스테이징 서버
+                //개발 서버
                 kakaoOauthResponse = userRegister.register(code, DEV_CLIENT);
             }else {
-                //개발 서버
+                //운영 서버
                 kakaoOauthResponse = userRegister.register(code, PROD_CLIENT);
             }
         }else{
+            //로컬 클라이언트에서 호출 (클라이언트 로컬 개발 시)
             kakaoOauthResponse = userRegister.register(code, LOCAL_CLIENT);
         }
         return ResponseEntity.ok()
