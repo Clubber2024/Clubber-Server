@@ -5,6 +5,7 @@ import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -85,6 +86,9 @@ public class Club extends BaseEntity {
 
 	@OneToMany(mappedBy = "club")
 	private List<Favorite> favorites = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club")
+	private List<Recruit> recruits = new ArrayList<>(); 
 
 	private boolean isAgreeToReview = false;
 
