@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.auth.controller;
 
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 
+import com.clubber.ClubberServer.domain.auth.component.UserRegister;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "[인증]")
 public class AuthController {
+    private final UserRegister userRegister;
 
     private final AuthService authService;
 
@@ -48,22 +50,18 @@ public class AuthController {
         log.info("Host"+ Host);
         log.info("Referer"+ Referer);
 
-        KakaoTokenResponse kakaoToken = null;
+        KakaoOauthResponse kakaoOauthResponse = null;
         if(Referer.contains(Host)){
             if(Referer.contains("dev")){
                 //스테이징 서버
-                kakaoToken =  authService.getToken(code, DEV_CLIENT);
+                kakaoOauthResponse = userRegister.register(code, DEV_CLIENT);
             }else {
                 //개발 서버
-                kakaoToken = authService.getToken(code, PROD_CLIENT);
+                kakaoOauthResponse = userRegister.register(code, PROD_CLIENT);
             }
         }else{
-            kakaoToken = authService.getToken(code, LOCAL_CLIENT);
+            kakaoOauthResponse = userRegister.register(code, LOCAL_CLIENT);
         }
-        KakaoUserInfoResponse userKakaoInfo = authService.getUserKakaoInfo(
-                kakaoToken.getAccessToken());
-        User user = authService.loginOrSignUp(userKakaoInfo);
-        KakaoOauthResponse kakaoOauthResponse = authService.generateUserToken(user);
         return ResponseEntity.ok()
                 .headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(), kakaoOauthResponse.getRefreshToken()))
                 .body(kakaoOauthResponse);
