@@ -80,7 +80,6 @@ public class AuthController {
     public ResponseEntity<KakaoOauthResponse> tokenRefresh(
             @CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
             @RequestHeader(value = "refreshToken", required = false, defaultValue = "") String refreshToken){
-
         KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(
                 refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
         return ResponseEntity.ok()
@@ -92,13 +91,11 @@ public class AuthController {
     @Operation(summary = "카카오 로그아웃")
     @PostMapping("/logout")
     public ResponseEntity logOutKakaoUser(){
-
         authService.logoutKakaoUser();
         return ResponseEntity.ok()
                 .headers(cookieHelper.deleteCookies())
                 .body(null);
     }
-
 
     @Operation(summary = "카카오 회원탈퇴")
     @DeleteMapping("/withdraw")
