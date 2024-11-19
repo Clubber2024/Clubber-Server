@@ -83,14 +83,14 @@ public class AuthService {
 	}
 
 	@Transactional
-	public void withDrawKakaoUser() {
+	public User deleteKakaoUser() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		User user = userRepository.findById(currentUserId)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 		user.deleteFavorites();
-		unlinkKakao(user);
 		refreshTokenRepository.deleteById(user.getId());
 		user.withDraw();
+		return user;
 	}
 
 	private void unlinkKakao(User user) {
