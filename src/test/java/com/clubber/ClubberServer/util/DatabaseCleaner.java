@@ -78,9 +78,11 @@ public class DatabaseCleaner {
 			.setParameter(3, exampleId)
 			.executeUpdate();
 
-
-
+		//recruit 추가
+		entityManager.createNativeQuery(
+				"insert into recruit(id, title, content, total_view, is_deleted, club_id) values (?, 'title', 'content', 1, false, ?)")
+				.setParameter(1, exampleId)
+				.setParameter(2, exampleId)
+				.executeUpdate();
 	}
-
-
 }

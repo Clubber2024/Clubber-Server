@@ -66,6 +66,10 @@ public class Admin {
         club.deleteReviews();
     }
 
+    public void deleteClubRecruits() {
+        club.deleteRecruits();
+    }
+
     public void deleteClubFavorites(){
         club.deleteFavorites();
     }
