@@ -45,7 +45,9 @@ public class Recruit extends BaseEntity {
     @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages;
 
-    public void deleteRecruit(){this.isDeleted=true;}
+    public void deleteRecruit(){
+        this.isDeleted=true;
+    }
 
     public void increaseTotalview(){
         this.totalView++;
