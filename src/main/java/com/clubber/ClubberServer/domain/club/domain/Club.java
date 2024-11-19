@@ -124,7 +124,9 @@ public class Club extends BaseEntity {
 		favorites.stream().forEach(Favorite::delete);
 	}
 
-
+	public void deleteRecruits() {
+		recruits.stream().forEach(Recruit::delete);
+	}
 
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
