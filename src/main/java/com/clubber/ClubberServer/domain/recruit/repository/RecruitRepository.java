@@ -15,18 +15,15 @@ import java.util.Optional;
 
 public interface RecruitRepository extends JpaRepository<Recruit,Long>{
 
-    @Query("SELECT DISTINCT r FROM Recruit r LEFT JOIN r.recruitImages WHERE r.isDeleted = false ORDER BY r.id DESC")
-    Page<Recruit> findRecruitsWithImages(Pageable pageable);
-
-    @Query("SELECT DISTINCT r FROM Recruit r LEFT JOIN r.recruitImages WHERE r.club = :club AND r.isDeleted = false ORDER BY r.id DESC")
-    Page<Recruit> findRecruitsWithImagesByClub(@Param("club") Club club, Pageable pageable);
-
-    @Query("SELECT r FROM Recruit r LEFT JOIN FETCH r.recruitImages WHERE r.id = :recruitId AND r.isDeleted = false ORDER BY r.id DESC")
-    Optional<Recruit> findRecruitWithImagesById(@Param("recruitId") Long recruitId);
-
     @Query("SELECT COALESCE(MAX(id), 0) FROM Recruit")
     Long findMaxRecruitId();
 
     List<Recruit> findTop5ByOrderByIdDesc();
+
+    Page<Recruit> findByIsDeletedFalseAndClubOrderByIdDesc(@Param("club") Club club,Pageable pageable);
+
+    Page<Recruit> findByIsDeletedFalseOrderByIdDesc(Pageable pageable);
+
+    Optional<Recruit> findRecruitById(@Param("recruitId") Long recruitId);
 
 }
