@@ -16,8 +16,9 @@ public class UserWithdraw {
     private final AuthService authService;
 
     public void withDraw() {
-        User user = authService.deleteKakaoUser();
+        User user = authService.getCurrentUser();
         unlinkKakao(user);
+        authService.deleteKakaoUser(user);
     }
 
     private void unlinkKakao(User user) {

@@ -65,13 +65,17 @@ public class AuthService {
 	}
 
 	@Transactional
-	public User deleteKakaoUser() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		User user = userRepository.findById(currentUserId)
-			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
+	public User deleteKakaoUser(User user) {
 		user.deleteFavorites();
-		user.withDraw();
+		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
 		return user;
+	}
+
+	@Transactional(readOnly = true)
+	public User getCurrentUser() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		return userRepository.findById(currentUserId)
+				.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 	}
 }
