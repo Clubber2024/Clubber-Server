@@ -33,11 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "[인증]")
 public class AuthController {
     private final UserRegister userRegister;
-
     private final AuthService authService;
-
     private final CookieHelper cookieHelper;
-
     private final UserWithdraw userWithdraw;
 
     @Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
