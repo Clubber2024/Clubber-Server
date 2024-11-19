@@ -26,4 +26,5 @@ public interface RecruitRepository extends JpaRepository<Recruit,Long>{
 
     Optional<Recruit> findRecruitById(@Param("recruitId") Long recruitId);
 
+    List<Recruit> findAllByClub(Club club);
 }

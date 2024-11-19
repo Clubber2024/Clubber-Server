@@ -6,6 +6,9 @@ import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 import java.util.List;
 import java.util.Optional;
 
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
+import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,7 @@ import com.clubber.ClubberServer.util.WithMockCustomUser;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AdminServiceTest extends ServiceTest {
 
@@ -54,6 +58,8 @@ public class AdminServiceTest extends ServiceTest {
 	@Autowired
 	private PasswordEncoder encoder;
 
+	@Autowired
+	private RecruitRepository recruitRepository;
 
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
@@ -135,6 +141,20 @@ public class AdminServiceTest extends ServiceTest {
 
 		for (Favorite favorite : deletedFavorites) {
 			assertThat(favorite.isDeleted()).isEqualTo(true);
+		}
+	}
+
+	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 모집글이 모두 삭제된다.")
+	@WithMockCustomUser
+	@Test
+	void withDrawAdminDeleteRecruit(){
+		adminService.withDraw();
+		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+
+		List<Recruit> deletedRecruits = recruitRepository.findAllByClub(admin.getClub());
+
+		for (Recruit deletedRecruit : deletedRecruits) {
+			assertEquals(deletedRecruit.isDeleted(), true);
 		}
 	}
 
