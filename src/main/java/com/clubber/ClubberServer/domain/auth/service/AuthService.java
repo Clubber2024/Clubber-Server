@@ -40,18 +40,6 @@ public class AuthService {
 
 	private final RefreshTokenRepository refreshTokenRepository;
 
-	public KakaoTokenResponse getToken(String code, String origin) {
-
-		return kakaoOauthClient.kakaoAuth(
-			kakaoProperties.getClientId(),
-			origin + kakaoProperties.getRedirectUrl(),
-			code);
-	}
-
-	public KakaoUserInfoResponse getUserKakaoInfo(String accessToken) {
-		return kakaoInfoClient.getUserInfo(BEARER + accessToken);
-	}
-
 	@Transactional
 	public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		return userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
