@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.domain.auth.controller;
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
 
 import com.clubber.ClubberServer.domain.auth.component.UserRegister;
+import com.clubber.ClubberServer.domain.auth.component.UserWithdraw;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -40,6 +41,8 @@ public class AuthController {
     private final AuthService authService;
 
     private final CookieHelper cookieHelper;
+
+    private final UserWithdraw userWithdraw;
 
     @Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
     @GetMapping("/oauth/kakao")
@@ -100,8 +103,7 @@ public class AuthController {
     @Operation(summary = "카카오 회원탈퇴")
     @DeleteMapping("/withdraw")
     public ResponseEntity withDrawKakaoUser(){
-
-        authService.withDrawKakaoUser();
+        userWithdraw.withDraw();
         return ResponseEntity.ok()
                 .headers(cookieHelper.deleteCookies())
                 .body(null);
