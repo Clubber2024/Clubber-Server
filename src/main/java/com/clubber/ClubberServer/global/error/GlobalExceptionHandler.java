@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.global.error;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.discord.DiscordMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -76,10 +77,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
     
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<Object> handleAllException(Exception e) {
+	public ResponseEntity<Object> handleAllException(Exception e, WebRequest request) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
 		log.error("INTERNAL SERVER ERROR", e);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
+	}
+
+	private DiscordMessage createDiscordMessage(Exception e, WebRequest request) {
+		List<DiscordMessage.Embed> embedList = List.of(DiscordMessage.Embed
+				.builder()
+				.title("에러 정보")
+				.description("에러 설명")
+				.build());
+
+		return DiscordMessage.builder()
+				.content("에러 발생 내용")
+				.embeds(embedList)
+				.build();
 	}
 }
