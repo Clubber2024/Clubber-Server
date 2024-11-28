@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class DiscordFeignConfig {
 
     @Bean
-    public Client feignClient() {
+    public Client feignDiscordClient() {
         return new Client.Default(null, null);
     }
 }
