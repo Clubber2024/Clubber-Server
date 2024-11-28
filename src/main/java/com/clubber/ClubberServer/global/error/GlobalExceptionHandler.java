@@ -2,7 +2,9 @@ package com.clubber.ClubberServer.global.error;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.discord.DiscordClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.discord.DiscordMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,7 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+	public final DiscordClient discorClient;
 
 	@ExceptionHandler(BaseException.class)
 	public ResponseEntity<ErrorResponse> handleBaseException(
@@ -80,8 +85,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleAllException(Exception e, WebRequest request) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
 		log.error("INTERNAL SERVER ERROR", e);
+		sendDiscordAlarm(e, request);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
+	}
+
+	private void sendDiscordAlarm(Exception e, WebRequest request) {
+		discorClient.sendAlarm(createDiscordMessage(e, request));
 	}
 
 	private DiscordMessage createDiscordMessage(Exception e, WebRequest request) {
