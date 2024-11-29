@@ -1,7 +1,7 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.discord;
+package com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord;
 
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.config.DiscordFeignConfig;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.discord.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.exception.config.DiscordFeignConfig;
+import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;

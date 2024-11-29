@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.discord;
+package com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

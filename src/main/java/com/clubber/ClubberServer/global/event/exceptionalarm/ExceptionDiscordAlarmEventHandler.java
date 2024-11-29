@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.global.event.exceptionalarm;
 
-import com.clubber.ClubberServer.global.helper.SpringEnvironmentHelper;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.discord.DiscordClient;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.discord.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord.DiscordClient;
+import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
