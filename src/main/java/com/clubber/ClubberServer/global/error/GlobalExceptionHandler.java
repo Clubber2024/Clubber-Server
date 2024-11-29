@@ -112,6 +112,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	private String getErrorStackTrace(Exception e) {
 		StringWriter stringWriter = new StringWriter();
 		e.printStackTrace(new PrintWriter(stringWriter));
-		return stringWriter.toString(); 
+		return stringWriter.toString();
+	}
+
+	private String getRequestFullPath(WebRequest webRequest) {
+		HttpServletRequest request = ((ServletWebRequest) webRequest).getRequest();
+		return request.getMethod() + request.getRequestURL();
 	}
 }
