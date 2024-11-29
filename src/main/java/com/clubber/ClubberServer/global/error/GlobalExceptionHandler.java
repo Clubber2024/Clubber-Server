@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.global.error;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.discord.DiscordClient;
@@ -100,7 +102,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		List<DiscordMessage.Embed> embedList = List.of(DiscordMessage.Embed
 				.builder()
 				.title("에러 테스트중입니다.")
-				.description("에러 설명")
+				.description(getDescription(e, request))
 				.build());
 
 		return DiscordMessage.builder()
@@ -118,5 +120,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	private String getRequestFullPath(WebRequest webRequest) {
 		HttpServletRequest request = ((ServletWebRequest) webRequest).getRequest();
 		return request.getMethod() + request.getRequestURL();
+	}
+
+	private String getDescription(Exception e, WebRequest request) {
+		return "발생 시간 : " + LocalDateTime.now() + "\n"
+				+ "요청 URL : " + getRequestFullPath(request) + "\n"
+				+ "에러 사항 : " + getErrorStackTrace(e).substring(0, 1000) + "\n";
 	}
 }
