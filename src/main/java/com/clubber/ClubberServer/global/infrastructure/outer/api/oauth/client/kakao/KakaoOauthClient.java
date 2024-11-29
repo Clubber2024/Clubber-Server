@@ -2,13 +2,14 @@ package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.k
 
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.config.KakaoOauthConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoTokenResponse;
+import com.clubber.ClubberServer.global.infrastructure.outer.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "KakaoAuthClient",
-        configuration = KakaoOauthConfig.class,
+        configuration = FeignConfig.class,
         url = "https://kauth.kakao.com"
 )
 public interface KakaoOauthClient {

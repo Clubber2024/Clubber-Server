@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord;
 
+import com.clubber.ClubberServer.global.infrastructure.outer.config.FeignConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.exception.config.DiscordFeignConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(
         name = "discord-client",
         url = "${discord.web-hook}",
-        configuration = DiscordFeignConfig.class)
+        configuration = FeignConfig.class)
 public interface DiscordClient {
 
     @PostMapping
