@@ -22,7 +22,6 @@ import java.util.List;
 public class ExceptionDiscordAlarmEventHandler {
 
     private final DiscordClient discordClient;
-    public final SpringEnvironmentHelper springEnvironmentHelper;
 
     @EventListener
     public void listenExceptionAlarmEvent(ExceptionAlarmEvent event) {
