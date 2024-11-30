@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.global.error;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -23,7 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+	public final ExceptionAlarmEventPublisher publisher;
 
 	@ExceptionHandler(BaseException.class)
 	public ResponseEntity<ErrorResponse> handleBaseException(
@@ -74,11 +79,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessages.toString(), uri);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
-    
+
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<Object> handleAllException(Exception e) {
+	public ResponseEntity<Object> handleAllException(Exception e, WebRequest request) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
 		log.error("INTERNAL SERVER ERROR", e);
+		publisher.throwExceptionAlarmEvent(e, request);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
 	}

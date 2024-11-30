@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto;
+package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao;
 
 import com.clubber.ClubberServer.domain.user.domain.SnsType;
 import com.clubber.ClubberServer.domain.user.domain.User;
