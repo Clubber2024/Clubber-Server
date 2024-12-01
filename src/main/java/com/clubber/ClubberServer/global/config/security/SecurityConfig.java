@@ -67,8 +67,10 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/exceptions/**")
 					.permitAll()
-					.anyRequest()
-					.hasRole("USER"));
+						.requestMatchers("/actuator/**")
+						.permitAll()
+						.anyRequest()
+						.hasRole("USER"));
 		return http.build();
 	}
 
