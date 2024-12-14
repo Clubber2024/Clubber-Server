@@ -49,7 +49,7 @@ public class recruitController {
     @GetMapping("/recruits/{recruitId}")
     @DisableSwaggerSecurity
     @Operation(summary = "홍보 게시판에서 개별 모집글 조회")
-    public GetOneRecruitResponse getRecruitsByRecruitId(@PathVariable("recruitId")Long recruitId){
+    public GetOneRecruitWithClubResponse getRecruitsByRecruitId(@PathVariable("recruitId")Long recruitId){
         return recruitService.getRecruitsByRecruitId(recruitId);
     }
 
