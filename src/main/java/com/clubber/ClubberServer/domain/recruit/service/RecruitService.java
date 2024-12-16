@@ -192,7 +192,7 @@ public class RecruitService {
 
 
     @Transactional
-    public GetOneRecruitResponse getRecruitsByRecruitId(Long recruitId){
+    public GetOneRecruitWithClubResponse getRecruitsByRecruitId(Long recruitId){
 
         Recruit recruit=recruitRepository.findRecruitById(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
@@ -205,7 +205,7 @@ public class RecruitService {
                 .map(RecruitImage::getImageUrl)
                 .collect(Collectors.toList());
 
-        return GetOneRecruitResponse.of(recruit, imageUrls);
+        return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
