@@ -6,11 +6,12 @@ import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.global.enummapper.EnumMapper;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -43,7 +44,6 @@ public class ClubService {
     }
 
 
-
     // [소모임] - 특정 학과 소속 소모임들 반환
     public DepartmentSmallDto getClubsByDepartment(Department department){
         List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
@@ -70,8 +70,6 @@ public class ClubService {
         return GetClubResponse.of(club,GetClubInfoResponse.from(club.getClubInfo()));
 
     }
-
-
 
     // 동아리명 및 소모임명으로 검색
     public GetClubsSearchResponse getClubsByName(String clubName){
@@ -109,6 +107,11 @@ public class ClubService {
 
         return GetClubsByHashTagResponse.of(hashtag,clubDtos);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<GetClubPopularResponse> getClubsPopularTemp() {
+        return clubRepository.findAllOrderByTotalViewDesc();
     }
 
 

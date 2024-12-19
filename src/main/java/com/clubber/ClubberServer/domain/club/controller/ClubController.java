@@ -2,10 +2,7 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
-import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
-import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
-import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
-import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
@@ -76,4 +73,10 @@ public class ClubController {
         return clubService.getCollegesWithDepartments();
     }
 
+    @DisableSwaggerSecurity
+    @Operation(summary = "인기 순위 반환 개선용(추후 적용)")
+    @GetMapping("/popular/temp")
+    public List<GetClubPopularResponse> getPopularClubs() {
+        return clubService.getClubsPopularTemp();
+    }
 }
