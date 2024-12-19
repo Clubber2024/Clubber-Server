@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = @Index(name = "club_info_idx_total_view", columnList = "total_view"))
 public class ClubInfo extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
