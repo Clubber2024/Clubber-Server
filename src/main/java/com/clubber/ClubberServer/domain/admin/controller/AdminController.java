@@ -45,7 +45,7 @@ public class AdminController {
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
 		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(loginRequest);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse))
+			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 
@@ -80,7 +80,8 @@ public class AdminController {
 		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
 			refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse))
+			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
+				createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 
@@ -95,8 +96,8 @@ public class AdminController {
 
 	@Operation(summary = "개별 동아리 계정 페이지 수정")
 	@PatchMapping("/change-page")
-	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest pageRequest) {
-		return adminService.updateAdminsPage(pageRequest);
+	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
+		return adminService.updateAdminsPage(updateClubPageRequest);
 	}
 
 	@Operation(summary = "동아리 계정 마이 페이지 첫화면")
@@ -104,5 +105,4 @@ public class AdminController {
 	public GetClubResponse getAdminsMyPage() {
 		return adminService.getAdminsMyPage();
 	}
-
 }

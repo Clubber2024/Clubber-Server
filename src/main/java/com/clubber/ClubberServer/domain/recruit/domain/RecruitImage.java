@@ -24,6 +24,10 @@ public class RecruitImage extends BaseEntity {
     @JoinColumn(name = "recruit_id", nullable = false)
     private Recruit recruit;
 
+    private Long orderNum;
+
+    private boolean isDeleted=false;
+
     @Builder
     private RecruitImage(Long id, ImageVO imageUrl,Recruit recruit){
         this.id=id;
@@ -37,5 +41,9 @@ public class RecruitImage extends BaseEntity {
                 .recruit(recruit)
                 .build();
     }
+
+    public void updateStatus(){this.isDeleted=true;}
+
+    public void updateOrderNum(Long orderNum){this.orderNum=orderNum;}
 
 }

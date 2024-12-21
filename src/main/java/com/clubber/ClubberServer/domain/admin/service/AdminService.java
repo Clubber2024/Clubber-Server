@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import com.clubber.ClubberServer.global.image.ImageUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +101,7 @@ public class AdminService {
 	}
 
 	@Transactional
-	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest requestDTO) {
+	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest updateClubPageRequest) {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 
 		Admin admin = adminRepository.findById(currentUserId)
@@ -108,14 +109,14 @@ public class AdminService {
 
 		Club club = admin.getClub();
 
-		club.updateClub(requestDTO.getImageKey(), requestDTO.getIntroduction());
+		String imageKey = ImageUtil.parseImageKey(updateClubPageRequest.getImageKey());
+		club.updateClub(imageKey, updateClubPageRequest.getIntroduction());
 
 		ClubInfo clubinfo = club.getClubInfo();
-		clubinfo.updateClubInfo(requestDTO.getInstagram(), requestDTO.getLeader(), requestDTO.getActivity(),
-			requestDTO.getRoom());
+		clubinfo.updateClubInfo(updateClubPageRequest.getInstagram(), updateClubPageRequest.getLeader(), updateClubPageRequest.getActivity(),
+				updateClubPageRequest.getRoom());
 
 		return UpdateClubPageResponse.of(club, clubinfo);
-
 	}
 
 	public GetClubResponse getAdminsMyPage() {
@@ -138,6 +139,7 @@ public class AdminService {
 		admin.deleteClub();
 		admin.deleteClubReviews();
 		admin.deleteClubFavorites();
+		admin.deleteClubRecruits();
 		admin.withDraw();
 	}
 

@@ -66,6 +66,12 @@ dependencies {
 	//reflections
 	implementation 'org.reflections:reflections:0.9.11'
 
+	//spring-security-test
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	//spring-boot-actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 sonar {

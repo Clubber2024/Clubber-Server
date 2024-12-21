@@ -1,15 +1,25 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 public class KeywordStats {
-    private Keyword keyword;
+    private Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
-    private Long count;
+    public KeywordStats() {
+        Arrays.stream(Keyword.values())
+                .forEach(keyword -> keywordMap.put(keyword, 0L));
+    }
 
+    public void updateKeywordStat(List<KeywordStat> keywordStatList) {
+        for (KeywordStat keywordStat : keywordStatList) {
+            keywordMap.put(keywordStat.getKeyword(), keywordStat.getCount());
+        }
+    }
 }

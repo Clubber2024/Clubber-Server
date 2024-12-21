@@ -67,8 +67,12 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/exceptions/**")
 					.permitAll()
-					.anyRequest()
-					.hasRole("USER"));
+						.requestMatchers("/actuator/**")
+						.permitAll()
+						.requestMatchers("/api/v1/clubs/popular/temp")
+						.permitAll()
+						.anyRequest()
+						.hasRole("USER"));
 		return http.build();
 	}
 

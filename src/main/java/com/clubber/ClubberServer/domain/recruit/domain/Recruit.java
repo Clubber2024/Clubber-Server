@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
+import com.clubber.ClubberServer.global.vo.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -44,11 +45,19 @@ public class Recruit extends BaseEntity {
     @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages;
 
-    public void updateStatus(){this.isDeleted=true;}
+    public void delete(){
+        this.isDeleted=true;
+    }
 
     public void increaseTotalview(){
         this.totalView++;
     }
+
+    public void updateRecruitPage(String title, String content){
+        this.title=title;
+        this.content=content;
+    }
+
 
     @Builder
     private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
