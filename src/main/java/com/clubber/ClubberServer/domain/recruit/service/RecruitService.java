@@ -27,14 +27,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.IMAGE_SERVER;
 
 @Service
@@ -113,7 +109,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -194,7 +190,7 @@ public class RecruitService {
     @Transactional
     public GetOneRecruitWithClubResponse getRecruitsByRecruitId(Long recruitId){
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         recruit.increaseTotalview();
@@ -214,7 +210,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -238,7 +234,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
