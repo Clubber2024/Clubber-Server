@@ -71,6 +71,8 @@ public class SecurityConfig {
 						.permitAll()
 						.requestMatchers("/api/v1/clubs/popular/temp")
 						.permitAll()
+						.requestMatchers("/api/v1/example/**")
+						.permitAll()
 						.anyRequest()
 						.hasRole("USER"));
 		return http.build();
