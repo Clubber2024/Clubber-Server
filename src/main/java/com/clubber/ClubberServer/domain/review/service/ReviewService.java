@@ -112,6 +112,11 @@ public class ReviewService {
 		return enumMapper.get("Keyword");
 	}
 
+	@Transactional
+	public void saveReview(Review review) {
+		reviewRepository.save(review);
+	}
+
 	/**
 	 * 양방향 테스트 용도 메서드 
 	 */
