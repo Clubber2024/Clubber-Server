@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.review.service;
 import java.util.List;
 
 import com.clubber.ClubberServer.domain.review.dto.*;
+import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class ReviewService {
 	private final UserRepository userRepository;
 	private final ClubRepository clubRepository;
 	private final EnumMapper enumMapper;
+	private final ReviewApproveEvnetPublisher publisher;
 
 	@Transactional
 	public CreateClubReviewsWithContentResponse createReviewsByContent(Long clubId,
@@ -57,6 +59,7 @@ public class ReviewService {
 
 		Review savedReview = reviewRepository.save(review);
 
+		publisher.throwReviewApproveEvent(savedReview);
 		return CreateClubReviewsWithContentResponse.of(savedReview, savedReview.getReviewKeywords());
 	}
 
