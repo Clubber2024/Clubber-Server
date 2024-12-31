@@ -26,8 +26,8 @@ public class ClubService {
 
     private final EnumMapper enumMapper;
 
-
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
+    @Transactional(readOnly = true)
     public GetClubByDivisionResponse getClubsByDivision(Division division){
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()){
@@ -43,8 +43,8 @@ public class ClubService {
 
     }
 
-
     // [소모임] - 특정 학과 소속 소모임들 반환
+    @Transactional(readOnly = true)
     public DepartmentSmallDto getClubsByDepartment(Department department){
         List<Club> clubs=clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()){
@@ -72,6 +72,7 @@ public class ClubService {
     }
 
     // 동아리명 및 소모임명으로 검색
+    @Transactional(readOnly = true)
     public GetClubsSearchResponse getClubsByName(String clubName){
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
 
@@ -94,6 +95,7 @@ public class ClubService {
 
 
     // 특정 해시태그 반환
+    @Transactional(readOnly = true)
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag){
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
 
@@ -114,7 +116,7 @@ public class ClubService {
         return clubRepository.findAllOrderByTotalViewDesc();
     }
 
-
+    @Transactional(readOnly = true)
     public List<GetClubPopularResponse> getClubsPopular(){
         Pageable topTen = PageRequest.of(0, 10);
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
@@ -133,6 +135,7 @@ public class ClubService {
     public List<EnumMapperVO> getDivisionNames(){
         return enumMapper.get("Division");
     }
+
 
 
     // [소모임] - 단과대 & 학과명 반환 (enum)
