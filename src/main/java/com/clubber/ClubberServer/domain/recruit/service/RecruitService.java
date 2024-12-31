@@ -204,6 +204,7 @@ public class RecruitService {
         return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
+    @Transactional(readOnly = true)
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
