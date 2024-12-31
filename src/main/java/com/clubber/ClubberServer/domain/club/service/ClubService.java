@@ -126,14 +126,12 @@ public class ClubService {
     }
 
     // [해시태그] 해시태그 목록 반환 (enum)
-    @Transactional(readOnly = true)
     public List<EnumMapperVO> getClubsTotalHashtags() {
         return enumMapper.get("Hashtag");
     }
 
 
     // [중앙 동아리] - 분과명 반환 (enum)
-    @Transactional(readOnly = true)
     public List<EnumMapperVO> getDivisionNames(){
         return enumMapper.get("Division");
     }
@@ -141,7 +139,6 @@ public class ClubService {
 
 
     // [소모임] - 단과대 & 학과명 반환 (enum)
-    @Transactional(readOnly = true)
     public List<CollegeResponse> getCollegesWithDepartments() {
         List<EnumMapperVO> colleges = enumMapper.get("College");
 
