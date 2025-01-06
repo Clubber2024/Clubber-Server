@@ -20,6 +20,7 @@ public class  GetOneRecruitWithClubResponse {
 
     private Long clubId;
     private String clubName;
+    private String clubType;
     private ImageVO clubImage;
     private Long recruitId;
     private String title;
@@ -34,6 +35,7 @@ public class  GetOneRecruitWithClubResponse {
         return GetOneRecruitWithClubResponse.builder()
                 .clubId(club.getId())
                 .clubName(club.getName())
+                .clubType(club.getClubType().getTitle())
                 .clubImage(club.getImageUrl())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
