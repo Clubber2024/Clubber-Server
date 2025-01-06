@@ -35,7 +35,7 @@ public class  GetOneRecruitWithClubResponse {
         return GetOneRecruitWithClubResponse.builder()
                 .clubId(club.getId())
                 .clubName(club.getName())
-                .clubType(club.getClubType().getTitle())
+                .clubType(club.getClubType().getCode().equals("CENTER")? club.getDivision().getTitle() : club.getCollege().getTitle())
                 .clubImage(club.getImageUrl())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
