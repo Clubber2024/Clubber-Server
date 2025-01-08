@@ -25,7 +25,7 @@ public class recruitController {
     @GetMapping("/clubs/{clubId}/recruit")
     @DisableSwaggerSecurity
     @Operation(summary = "특정 동아리 모집글 조회")
-    public PageResponse<GetOneRecruitResponse> getRecruitsByClubId(@PathVariable("clubId")Long clubId,
+    public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(@PathVariable("clubId")Long clubId,
                                                                         @PageableDefault(size = 5) Pageable pageable){
         return recruitService.getRecruitsByClubId(clubId,pageable);
     }
