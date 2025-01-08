@@ -15,25 +15,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetOneRecruitInListResponse {
 
-    private Long clubId;
     private Long recruitId;
     private String title;
     private String content;
     private ImageVO imageUrl;
-    private Long totalView;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
-
-    public static GetOneRecruitInListResponse of(Recruit recruit,ImageVO imageUrl){
+    public static GetOneRecruitInListResponse of(Recruit recruit,String content,ImageVO imageUrl){
         return GetOneRecruitInListResponse.builder()
-                .clubId(recruit.getClub().getId())
                 .recruitId(recruit.getId())
                 .title(recruit.getTitle())
-                .content(recruit.getContent())
+                .content(content)
                 .imageUrl(imageUrl)
-                .totalView(recruit.getTotalView())
-                .createdAt(recruit.getCreatedAt())
                 .build();
     }
 }
