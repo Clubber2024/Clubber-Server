@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.page;
+package com.clubber.ClubberServer.global.common.slice;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
 package com.clubber.ClubberServer.domain.recruit.controller;
 
 
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
-import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

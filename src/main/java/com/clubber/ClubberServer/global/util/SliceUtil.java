@@ -1,7 +1,8 @@
-package com.clubber.ClubberServer.global.page;
+package com.clubber.ClubberServer.global.util;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import org.springframework.data.domain.Pageable;
 
 public class SliceUtil {

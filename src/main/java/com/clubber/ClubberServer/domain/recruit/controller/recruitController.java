@@ -1,11 +1,10 @@
 package com.clubber.ClubberServer.domain.recruit.controller;
 
 import com.clubber.ClubberServer.domain.recruit.dto.*;
-import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

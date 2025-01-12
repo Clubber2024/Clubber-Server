@@ -19,7 +19,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

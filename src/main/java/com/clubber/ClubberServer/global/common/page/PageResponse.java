@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.page;
+package com.clubber.ClubberServer.global.common.page;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
