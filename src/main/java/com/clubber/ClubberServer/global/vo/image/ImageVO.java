@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.vo.image;
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.*;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

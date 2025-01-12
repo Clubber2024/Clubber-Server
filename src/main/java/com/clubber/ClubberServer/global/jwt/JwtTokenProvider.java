@@ -1,12 +1,12 @@
 package com.clubber.ClubberServer.global.jwt;
 
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.ACCESS_TOKEN;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.MILLI_TO_SECOND;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.REFRESH_TOKEN;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.TOKEN_ISSUER;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.TOKEN_ROLE;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.TOKEN_TYPE;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.ACCESS_TOKEN;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.MILLI_TO_SECOND;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.REFRESH_TOKEN;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_ISSUER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_ROLE;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_TYPE;
 
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;

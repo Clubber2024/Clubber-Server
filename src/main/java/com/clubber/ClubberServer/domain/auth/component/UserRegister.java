@@ -11,7 +11,7 @@ import com.clubber.ClubberServer.global.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.BEARER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARER;
 
 @Component
 @RequiredArgsConstructor

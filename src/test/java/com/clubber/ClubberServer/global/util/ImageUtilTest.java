@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.global.util;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 import static org.assertj.core.api.Assertions.*;
 public class ImageUtilTest {
     private final String exampleKey = "imagekey";

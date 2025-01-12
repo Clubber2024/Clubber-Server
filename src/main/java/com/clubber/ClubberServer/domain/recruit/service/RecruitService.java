@@ -30,7 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import static com.clubber.ClubberServer.global.common.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 @Service
 @RequiredArgsConstructor

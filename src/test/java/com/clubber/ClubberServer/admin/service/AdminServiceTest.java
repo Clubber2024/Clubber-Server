@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.admin.service;
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.*;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 
 import java.util.List;

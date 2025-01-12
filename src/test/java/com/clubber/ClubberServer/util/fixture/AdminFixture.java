@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.util.fixture;
 
-import static com.clubber.ClubberServer.global.common.ClubberStatic.*;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
