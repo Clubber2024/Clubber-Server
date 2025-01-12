@@ -15,6 +15,7 @@ import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.TokenExpiredException;
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
+import com.clubber.ClubberServer.global.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;

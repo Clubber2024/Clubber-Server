@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.properties;
+package com.clubber.ClubberServer.global.properties;
 
 import lombok.Getter;
 import lombok.Setter;

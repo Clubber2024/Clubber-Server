@@ -7,7 +7,7 @@ import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.ka
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.kakao.KakaoOauthClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.properties.KakaoProperties;
+import com.clubber.ClubberServer.global.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
