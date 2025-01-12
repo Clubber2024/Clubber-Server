@@ -1,7 +1,11 @@
-package com.clubber.ClubberServer.global.error;
+package com.clubber.ClubberServer.global.config.response;
 
 import java.util.List;
 
+import com.clubber.ClubberServer.global.error.BaseErrorCode;
+import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.error.ErrorReason;
+import com.clubber.ClubberServer.global.error.GlobalErrorCode;
 import com.clubber.ClubberServer.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
