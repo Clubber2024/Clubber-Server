@@ -8,8 +8,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.GlobalErrorCode;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.GlobalErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;

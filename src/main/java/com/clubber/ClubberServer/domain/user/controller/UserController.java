@@ -1,20 +1,16 @@
 package com.clubber.ClubberServer.domain.user.controller;
 
 
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
-import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
-import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

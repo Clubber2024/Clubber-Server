@@ -6,17 +6,14 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
 
-import com.clubber.ClubberServer.global.validator.Enum;
+import com.clubber.ClubberServer.global.validator.enums.Enum;
 import com.clubber.ClubberServer.global.validator.unique.Unique;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

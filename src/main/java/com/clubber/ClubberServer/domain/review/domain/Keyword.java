@@ -1,12 +1,10 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
 
-import com.clubber.ClubberServer.domain.review.exception.ReviewEnumNotMatchedException;
-import com.clubber.ClubberServer.global.enummapper.EnumMapperType;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
 public enum Keyword implements EnumMapperType {

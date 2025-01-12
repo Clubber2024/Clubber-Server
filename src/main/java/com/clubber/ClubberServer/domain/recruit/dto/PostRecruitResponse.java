@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

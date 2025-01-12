@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.common.service;
 
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.ErrorReason;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.ErrorReason;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;

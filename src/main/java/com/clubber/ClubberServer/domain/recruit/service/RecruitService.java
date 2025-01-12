@@ -19,8 +19,8 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.page.PageResponse;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.IMAGE_SERVER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 @Service
 @RequiredArgsConstructor

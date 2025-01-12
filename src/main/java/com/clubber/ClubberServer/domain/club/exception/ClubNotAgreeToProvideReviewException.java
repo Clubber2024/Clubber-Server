@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.exception;
 
-import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 
 public class ClubNotAgreeToProvideReviewException extends BaseException {
     public static final BaseException EXCEPTION = new ClubNotAgreeToProvideReviewException();

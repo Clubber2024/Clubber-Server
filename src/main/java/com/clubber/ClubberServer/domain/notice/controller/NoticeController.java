@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.notice.dto.GetNoticeResponse;
 import com.clubber.ClubberServer.domain.notice.dto.GetNoticesAtMainResponse;
 import com.clubber.ClubberServer.domain.notice.service.NoticeService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.page.PageResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

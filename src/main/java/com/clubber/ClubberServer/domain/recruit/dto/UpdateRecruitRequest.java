@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
-import com.clubber.ClubberServer.global.vo.ImageVO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;

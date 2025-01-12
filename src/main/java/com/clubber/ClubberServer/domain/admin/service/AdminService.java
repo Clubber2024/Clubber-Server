@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.global.image.ImageUtil;
+import com.clubber.ClubberServer.global.util.ImageUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

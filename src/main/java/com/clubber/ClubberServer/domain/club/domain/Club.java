@@ -1,7 +1,5 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,7 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideRevi
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

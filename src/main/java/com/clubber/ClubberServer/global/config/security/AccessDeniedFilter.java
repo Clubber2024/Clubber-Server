@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.global.config.security;
 
 import com.clubber.ClubberServer.domain.user.exception.UserErrorCode;
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

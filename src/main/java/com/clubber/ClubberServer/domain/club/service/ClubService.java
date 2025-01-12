@@ -4,8 +4,8 @@ import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.global.enummapper.EnumMapper;
-import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

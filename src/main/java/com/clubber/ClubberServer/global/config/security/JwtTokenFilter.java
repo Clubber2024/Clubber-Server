@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.config.security;
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.AUTH_HEADER;
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.AUTH_HEADER;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARER;
 
 import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;

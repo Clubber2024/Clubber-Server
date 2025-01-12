@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.exception;
 
-import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 
 public class HashtagNotFoundException extends BaseException {
     public static final BaseException EXCEPTION = new HashtagNotFoundException();

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.global.page.SliceResponse;
-import com.clubber.ClubberServer.global.page.SliceUtil;
+import com.clubber.ClubberServer.global.common.slice.SliceResponse;
+import com.clubber.ClubberServer.global.util.SliceUtil;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

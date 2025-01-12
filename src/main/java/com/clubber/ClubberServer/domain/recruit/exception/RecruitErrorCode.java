@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.exception;
 
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.ErrorReason;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.ErrorReason;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 @AllArgsConstructor
