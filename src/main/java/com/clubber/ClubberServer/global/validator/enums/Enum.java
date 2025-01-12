@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.validator;
+package com.clubber.ClubberServer.global.validator.enums;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
