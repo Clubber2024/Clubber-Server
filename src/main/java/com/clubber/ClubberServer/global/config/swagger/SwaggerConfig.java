@@ -3,8 +3,8 @@ package com.clubber.ClubberServer.global.config.swagger;
 
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.ErrorReason;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.ErrorReason;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.customizers.OperationCustomizer;

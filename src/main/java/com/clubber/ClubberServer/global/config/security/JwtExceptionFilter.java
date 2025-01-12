@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.global.config.security;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
-import com.clubber.ClubberServer.global.error.BaseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

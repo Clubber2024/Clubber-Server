@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.error;
+package com.clubber.ClubberServer.global.exception;
 
 public interface BaseErrorCode {
     public ErrorReason getErrorReason();
