@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.s3;
+package com.clubber.ClubberServer.global.config.s3;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

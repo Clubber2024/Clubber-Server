@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.s3;
+package com.clubber.ClubberServer.global.config.s3;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

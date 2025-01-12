@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.image.dto;
 
-import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
+import com.clubber.ClubberServer.global.config.s3.ImageFileExtension;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
