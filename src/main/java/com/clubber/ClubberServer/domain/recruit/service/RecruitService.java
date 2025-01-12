@@ -21,20 +21,15 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.ImageVO;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static com.clubber.ClubberServer.global.jwt.JwtStatic.IMAGE_SERVER;
 
 @Service
@@ -45,7 +40,6 @@ public class RecruitService {
     private final ClubRepository clubRepository;
     private final RecruitRepository recruitRepository;
     private final RecruitImageRepository recruitImageRepository;
-
 
 
     @Transactional(readOnly = true)
@@ -60,12 +54,13 @@ public class RecruitService {
         Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseAndClubOrderByIdDesc(club,pageable);
 
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
+            String content = recruit.getContent().substring(0, Math.min(recruit.getContent().length(), 60));
             ImageVO imageUrl = recruit.getRecruitImages().stream()
                     .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
                     .map(RecruitImage::getImageUrl)
                     .findFirst()
                     .orElse(null);
-            return GetOneRecruitInListResponse.of(recruit, imageUrl);
+            return GetOneRecruitInListResponse.of(recruit, content, imageUrl);
         });
 
         return PageResponse.of(recruitResponses);
@@ -113,7 +108,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()-> RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -137,22 +132,22 @@ public class RecruitService {
 
 
     @Transactional(readOnly = true)
-    public PageResponse<GetOneRecruitResponse> getRecruitsByClubId(Long clubId,Pageable pageable){
+    public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,Pageable pageable){
         Club club=clubRepository.findById(clubId)
                 .orElseThrow(()-> ClubIdNotFoundException.EXCEPTION);
 
         Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseAndClubOrderByIdDesc(club,pageable);
 
-        Page<GetOneRecruitResponse> recruitDto = recruits.map(recruit -> {
-            List<ImageVO> imageUrls = recruit.getRecruitImages().stream()
-                    .filter(recruitImage -> !recruitImage.isDeleted())
-                    .sorted(Comparator.comparing(RecruitImage::getOrderNum))
+        Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
+            String content = recruit.getContent().substring(0, Math.min(recruit.getContent().length(), 60));
+            ImageVO imageUrl = recruit.getRecruitImages().stream()
+                    .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
                     .map(RecruitImage::getImageUrl)
-                    .collect(Collectors.toList());
-            return GetOneRecruitResponse.of(recruit, imageUrls);
+                    .findFirst()
+                    .orElse(null);
+            return GetOneRecruitInListResponse.of(recruit, content, imageUrl);
         });
-
-        return PageResponse.of(recruitDto);
+        return PageResponse.of(recruitResponses);
     }
 
 
@@ -179,12 +174,13 @@ public class RecruitService {
         Page<Recruit> recruits = recruitRepository.findByIsDeletedFalseOrderByIdDesc(pageable);
 
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
+            String content = recruit.getContent().substring(0, Math.min(recruit.getContent().length(), 60));
             ImageVO imageUrl = recruit.getRecruitImages().stream()
                     .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
                     .map(RecruitImage::getImageUrl)
                     .findFirst()
                     .orElse(null);
-            return GetOneRecruitInListResponse.of(recruit, imageUrl);
+            return GetOneRecruitInListResponse.of(recruit,content,imageUrl);
         });
 
         return PageResponse.of(recruitResponses);
@@ -194,7 +190,7 @@ public class RecruitService {
     @Transactional
     public GetOneRecruitWithClubResponse getRecruitsByRecruitId(Long recruitId){
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         recruit.increaseTotalview();
@@ -208,13 +204,14 @@ public class RecruitService {
         return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
+    @Transactional(readOnly = true)
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId){
         Long currentUserId = SecurityUtils.getCurrentUserId();
 
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -238,7 +235,7 @@ public class RecruitService {
         Admin admin = adminRepository.findById(currentUserId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        Recruit recruit=recruitRepository.findRecruitById(recruitId)
+        Recruit recruit=recruitRepository.findByIdAndIsDeletedFalse(recruitId)
                 .orElseThrow(()->RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub()!=admin.getClub()) {
@@ -251,19 +248,16 @@ public class RecruitService {
                 .filter(recruitImage -> !recruitImage.isDeleted())
                 .collect(Collectors.toList());
 
-
         recruitImages.stream()
                 .filter(recruitImage -> requestPage.getDeletedImageUrls().stream()
                         .anyMatch(deleteImage -> deleteImage.substring(IMAGE_SERVER.length()).equals(recruitImage.getImageUrl().getImageUrl())))
                 .forEach(RecruitImage::updateStatus);
-
 
         List<RecruitImage> newImages = requestPage.getNewImageKeys().stream() // 추가 요청 들어온것들은 recruitImage객체 생성하여 저장
                 .map(imageKey -> recruitImageRepository.save(
                         RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
                 )
                 .collect(Collectors.toList());
-
 
         List<RecruitImage> revisedRecruitImages = recruitImageRepository.findByRecruitAndIsDeletedFalse(recruit);
 

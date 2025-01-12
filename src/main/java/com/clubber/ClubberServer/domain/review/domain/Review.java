@@ -88,6 +88,12 @@ public class Review extends BaseEntity {
 		this.approvedStatus = approvedStatus; 
 	}
 
+	public void autoUpdateReviewStatus() {
+		if (this.approvedStatus == PENDING) {
+			this.approvedStatus = APPROVED;
+		}
+	}
+
 	public void delete() {
 		this.approvedStatus = DELETED;
 	}
