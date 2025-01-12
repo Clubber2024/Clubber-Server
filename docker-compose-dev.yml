@@ -2,7 +2,7 @@
 services:
   backend:
     container_name: backend
-    image: mjkim1229/clubber-backend-dev
+    image: ssuclubber/clubber-backend-dev
     environment:
       - TZ=Asia/Seoul
     volumes:
@@ -14,7 +14,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: mjkim1229/clubber-front-dev
+    image: ssuclubber/clubber-front-dev
     environment:
       - TZ=Asia/Seoul
     expose:
