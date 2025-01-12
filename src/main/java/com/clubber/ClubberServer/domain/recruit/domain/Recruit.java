@@ -3,18 +3,14 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import com.clubber.ClubberServer.global.vo.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
-
+import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Entity
@@ -36,14 +32,13 @@ public class Recruit extends BaseEntity {
 
     private boolean isDeleted=false;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     @NotNull
     private Club club;
 
     @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<RecruitImage> recruitImages;
+    private List<RecruitImage> recruitImages = new ArrayList<>();
 
     public void delete(){
         this.isDeleted=true;
@@ -60,7 +55,7 @@ public class Recruit extends BaseEntity {
 
 
     @Builder
-    private Recruit(Long id,String title,String content,Long totalView,Club club,boolean isDeleted,List<RecruitImage> recruitImages){
+    private Recruit(Long id,String title,String content,Long totalView,Club club,List<RecruitImage> recruitImages){
         this.id=id;
         this.title=title;
         this.content=content;
