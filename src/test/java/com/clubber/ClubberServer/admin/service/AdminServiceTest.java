@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.admin.service;
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
+import static com.clubber.ClubberServer.global.common.ClubberStatic.*;
 import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
-import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.vo.ImageVO;
 import com.clubber.ClubberServer.util.ServiceTest;
 import com.clubber.ClubberServer.util.WithMockCustomUser;
 

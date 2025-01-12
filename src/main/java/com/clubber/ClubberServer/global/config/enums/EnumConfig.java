@@ -1,8 +1,9 @@
-package com.clubber.ClubberServer.global.enummapper;
+package com.clubber.ClubberServer.global.config.enums;
 
 
 import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

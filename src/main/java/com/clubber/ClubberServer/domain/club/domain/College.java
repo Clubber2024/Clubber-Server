@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
-import com.clubber.ClubberServer.global.enummapper.EnumMapperType;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.util.EnumSet;

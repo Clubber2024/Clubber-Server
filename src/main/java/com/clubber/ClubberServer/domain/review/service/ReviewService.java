@@ -21,8 +21,8 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.enummapper.EnumMapper;
-import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

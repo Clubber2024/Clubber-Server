@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.faq.domain;
 
-import com.clubber.ClubberServer.global.enummapper.EnumMapperType;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 
 import lombok.AllArgsConstructor;
 

@@ -11,7 +11,7 @@ import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.propertie
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.BEARER;
+import static com.clubber.ClubberServer.global.common.ClubberStatic.BEARER;
 
 @Component
 @RequiredArgsConstructor

@@ -1,10 +1,10 @@
-package com.clubber.ClubberServer.global.jwt;
+package com.clubber.ClubberServer.global.common;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JwtStatic {
+public class ClubberStatic {
     public static final int MILLI_TO_SECOND = 1000;
     public static final String TOKEN_TYPE = "type";
     public static final String TOKEN_ISSUER = "Clubber";

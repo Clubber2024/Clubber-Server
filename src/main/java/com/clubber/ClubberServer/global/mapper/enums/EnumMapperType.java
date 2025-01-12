@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.enummapper;
+package com.clubber.ClubberServer.global.mapper.enums;
 
 public interface EnumMapperType {
 	String getCode();

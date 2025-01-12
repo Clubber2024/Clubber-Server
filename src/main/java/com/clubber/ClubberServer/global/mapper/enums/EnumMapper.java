@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.enummapper;
+package com.clubber.ClubberServer.global.mapper.enums;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
-import static com.clubber.ClubberServer.global.jwt.JwtStatic.*;
+import static com.clubber.ClubberServer.global.common.ClubberStatic.*;
 
 import com.clubber.ClubberServer.domain.auth.component.UserRegister;
 import com.clubber.ClubberServer.domain.auth.component.UserWithdraw;
