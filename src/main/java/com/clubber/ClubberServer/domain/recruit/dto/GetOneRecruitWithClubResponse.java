@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

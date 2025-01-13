@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.config.swagger;
 
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
+import com.clubber.ClubberServer.global.exception.BaseErrorCode;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

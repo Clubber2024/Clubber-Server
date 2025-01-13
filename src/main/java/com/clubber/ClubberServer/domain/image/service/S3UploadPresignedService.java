@@ -13,7 +13,7 @@ import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
 import com.clubber.ClubberServer.domain.image.dto.CreateRecruitsImagePresigneUrlRequest;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.infrastructure.s3.ImageFileExtension;
+import com.clubber.ClubberServer.global.config.s3.ImageFileExtension;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;

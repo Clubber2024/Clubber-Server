@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.global.dto;
 
 
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.ErrorReason;
+import com.clubber.ClubberServer.global.exception.ErrorReason;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
