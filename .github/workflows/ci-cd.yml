@@ -84,7 +84,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY_DEV }}
+          key: ${{ secrets.SSH_KEY_DEV }}
           source: ./docker-compose-dev.yml, ./prometheus.yml
           target: /home/ubuntu
 
@@ -94,7 +94,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_PROD }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY_PROD }}
           source: ./docker-compose-prod.yml
           target: /home/ubuntu
 
