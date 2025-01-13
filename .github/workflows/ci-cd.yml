@@ -64,6 +64,13 @@ jobs:
           docker build -f Dockerfile.dev -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
 
+      - name: docker build and push to dev nginx
+        if: contains(github.ref, 'dev')
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile.nginx.dev -t ${{ secrets.DOCKER_REPO }}/clubber-nginx-dev .
+          docker push ${{ secrets.DOCKER_REPO }}/clubber-nginx-dev
+
       - name: docker build and push to prod
         if: contains(github.ref, 'main')
         run: |
@@ -103,6 +110,7 @@ jobs:
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-front-dev
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-nginx-dev
             sudo docker-compose -f docker-compose-dev.yml up -d
             sudo docker image prune -f
 
