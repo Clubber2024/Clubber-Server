@@ -104,7 +104,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_DEV }}
           username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY_DEV }}
+          key: ${{ secrets.SSH_KEY_DEV }}
           script: |
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
@@ -120,7 +120,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_PROD }}
           username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY_PROD }}
           script: |
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
