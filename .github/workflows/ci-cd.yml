@@ -83,8 +83,8 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
-          username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY_DEV }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY_DEV }}
           source: ./docker-compose-dev.yml, ./prometheus.yml
           target: /home/ubuntu
 
@@ -93,8 +93,8 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_PROD }}
-          username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY_PROD }}
           source: ./docker-compose-prod.yml
           target: /home/ubuntu
 
