@@ -44,7 +44,7 @@ public class FavoriteService {
 	public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
 		User user = userReadService.getUser();
 
-		Favorite favorite = favoriteRepository.findByIdAndDeleted(favoriteId, false)
+		Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
 			.orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
 
 		favorite.checkUser(user.getId());

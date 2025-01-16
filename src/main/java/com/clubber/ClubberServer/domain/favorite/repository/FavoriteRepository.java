@@ -12,7 +12,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> , Favo
 
     boolean existsByUserAndClubAndIsDeleted(User user, Club club, boolean isDeleted);
 
-    Optional<Favorite> findByIdAndDeleted(Long aLong, boolean isDeleted);
+    Optional<Favorite> findByIdAndIsDeleted(Long aLong, boolean isDeleted);
 
     List<Favorite> findAllByClub(Club club);
 }
