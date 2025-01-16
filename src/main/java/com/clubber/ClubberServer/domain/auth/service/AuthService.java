@@ -19,6 +19,7 @@ import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
 	private final UserRepository userRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
@@ -50,8 +51,9 @@ public class AuthService {
 
 	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
-				.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+				refreshToken)
+			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long id = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
 		User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
@@ -70,12 +72,5 @@ public class AuthService {
 		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
 		return user;
-	}
-
-	@Transactional(readOnly = true)
-	public User getCurrentUser() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		return userRepository.findById(currentUserId)
-				.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 	}
 }
