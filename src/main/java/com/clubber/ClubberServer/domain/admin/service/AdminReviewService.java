@@ -23,22 +23,32 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.exception.ReviewClubNotMatchException;
 import com.clubber.ClubberServer.domain.review.exception.UserReviewsNotFoundException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
-import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AdminReviewService {
+
 	private final ReviewRepository reviewRepository;
-	private final AdminRepository adminRepository;
+	private final AdminReadService adminReadService;
 	private final ClubRepository clubRepository;
+
+	private static void validateReviewClub(Review review, Admin admin) {
+		if (!admin.getClub().getId().equals(review.getClub().getId())) {
+			throw ReviewClubNotMatchException.EXCEPTION;
+		}
+	}
+
+	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
+		if (findReviews.size() != reviewIds.size()) {
+			throw UserReviewsNotFoundException.EXCEPTION;
+		}
+	}
 
 	@Transactional(readOnly = true)
 	public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus() {
-		Long adminId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(adminId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdmin();
 		List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
 			ApprovedStatus.PENDING, admin.getClub());
 
@@ -48,9 +58,7 @@ public class AdminReviewService {
 	@Transactional
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
 		UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdmin();
 
 		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
 		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
@@ -62,25 +70,13 @@ public class AdminReviewService {
 			validateReviewClub(review, admin);
 			review.updateReviewStatus(updateReviewApprovedStatus);
 		}
-		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds, updateReviewApprovedStatus);
-	}
-
-	private static void validateReviewClub(Review review, Admin admin) {
-		if (!admin.getClub().getId().equals(review.getClub().getId()))
-			throw ReviewClubNotMatchException.EXCEPTION;
-	}
-
-	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
-		if (findReviews.size() != reviewIds.size()) {
-			throw UserReviewsNotFoundException.EXCEPTION;
-		}
+		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds,
+			updateReviewApprovedStatus);
 	}
 
 	@Transactional(readOnly = true)
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable) {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdmin();
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
@@ -88,14 +84,14 @@ public class AdminReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetAdminPendingReviewsWithSliceResponse getAdminPendingReviewsWithSliceResponse(Pageable pageable, Long lastReviewId){
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	public GetAdminPendingReviewsWithSliceResponse getAdminPendingReviewsWithSliceResponse(
+		Pageable pageable, Long lastReviewId) {
+		Admin admin = adminReadService.getAdmin();
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, lastReviewId,
+		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
+			lastReviewId,
 			ApprovedStatus.PENDING);
 		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable);
 	}

@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
 import static com.clubber.ClubberServer.domain.club.domain.QClub.*;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.*;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.*;
 
@@ -30,7 +31,8 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 		return queryFactory.selectFrom(review)
 			.join(review.reviewKeywords, reviewKeyword).fetchJoin()
 			.join(review.club, club).fetchJoin()
-			.where(review.user.eq(user))
+			.where(review.user.eq(user)
+				.and(review.approvedStatus.ne(DELETED)))
 			.orderBy(review.id.desc())
 			.fetch();
 	}
@@ -40,7 +42,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
 		List<Long> ids = queryFactory.select(review.id)
 			.from(review)
-			.where(review.club.id.eq(club.getId()))
+			.where(review.club.id.eq(club.getId())
+				.and(review.approvedStatus.ne(DELETED))
+			)
 			.orderBy(review.id.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -54,13 +58,16 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
 		JPAQuery<Long> countQuery = queryFactory.select(review.count())
 			.from(review)
-			.where(review.club.id.eq(club.getId()));
+			.where(review.club.id.eq(club.getId())
+				.and(review.approvedStatus.ne(DELETED))
+			);
 
 		return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
 	}
 
 	@Override
-	public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId, ApprovedStatus approvedStatus) {
+	public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId,
+		ApprovedStatus approvedStatus) {
 		return queryFactory.selectFrom(review)
 			.where(review.club.id.eq(club.getId()),
 				ltReviewId(reviewId),
@@ -70,15 +77,15 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 			.fetch();
 	}
 
-	private BooleanExpression ltReviewId(Long reviewId){
-		if(reviewId == null){
+	private BooleanExpression ltReviewId(Long reviewId) {
+		if (reviewId == null) {
 			return null;
 		}
 		return review.id.lt(reviewId);
 	}
 
 	private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
-		if(approvedStatus == null){
+		if (approvedStatus == null) {
 			return null;
 		}
 		return review.approvedStatus.eq(approvedStatus);

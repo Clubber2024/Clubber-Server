@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.user.service;
 
-
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
@@ -10,9 +9,6 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
-import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
-import com.clubber.ClubberServer.domain.user.repository.UserRepository;
-import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,44 +22,35 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
 
-    private final UserRepository userRepository;
+	private final FavoriteRepository favoriteRepository;
 
-    private final FavoriteRepository favoriteRepository;
+	private final ReviewRepository reviewRepository;
 
-    private final ReviewRepository reviewRepository;
+	private final UserReadService userReadService;
 
-    public GetUsersProfileResponse getUserProfile(){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        User user = userRepository.findById(currentUserId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-        return GetUsersProfileResponse.of(user);
-    }
+	public GetUsersProfileResponse getUserProfile() {
+		User user = userReadService.getUser();
+		return GetUsersProfileResponse.of(user);
+	}
 
-    public GetUserFavoritesResponse getUserFavorites(){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        User user = userRepository.findById(currentUserId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+	public GetUserFavoritesResponse getUserFavorites() {
+		User user = userReadService.getUser();
+		List<Favorite> favorites = favoriteRepository.queryFavoritesByUserId(user.getId());
+		return GetUserFavoritesResponse.of(user, favorites);
+	}
 
-        List<Favorite> favorites = favoriteRepository.queryFavoritesByUserId(user.getId());
-        return GetUserFavoritesResponse.of(user, favorites);
-    }
+	public GetUserReviewsResponse getUserReviews() {
+		User user = userReadService.getUser();
+		List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
+		return GetUserReviewsResponse.of(user, reviews);
+	}
 
-    public GetUserReviewsResponse getUserReviews(){
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        User user = userRepository.findById(currentUserId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
-        return GetUserReviewsResponse.of(user, reviews);
-
-    }
-
-    public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
-        Long currentUserId = SecurityUtils.getCurrentUserId();
-        Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(currentUserId,
-                pageable);
-        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(GetFavoriteDetailsResponse::of);
-        return PageResponse.of(favoriteResponses);
-    }
-
+	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
+		User user = userReadService.getUser();
+		Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(user.getId(),
+			pageable);
+		Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
+			GetFavoriteDetailsResponse::of);
+		return PageResponse.of(favoriteResponses);
+	}
 }
