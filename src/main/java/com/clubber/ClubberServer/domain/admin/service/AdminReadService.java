@@ -1,8 +1,11 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,7 @@ public class AdminReadService {
 
 	public Admin getAdmin() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
-		return adminRepository.findById(currentUserId)
+		return adminRepository.findAdminByIdAndAccountState(currentUserId, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
 }
