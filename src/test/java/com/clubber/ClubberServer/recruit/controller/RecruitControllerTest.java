@@ -35,64 +35,81 @@ public class RecruitControllerTest {
     }
 
     @Test
-    @DisplayName("title없이_모집글작성_실패")
+    @DisplayName("title이_null일때_모집글작성_실패")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createRecruitWithNoTitle() throws Exception{
+    void createRecruitWithNullTitle() throws Exception{
 
         mockMvc.perform(post("/api/v1/admins/recruits")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\"title\": null, \"content\": \"hihi\", \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
-          .andExpect(status().isBadRequest());
+             .andExpect(status().isBadRequest());
 
     }
 
     @Test
-    @DisplayName("content없이_모집글작성_실패")
+    @DisplayName("content이_null일때_모집글작성_실패")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createRecruitWithNoContent() throws Exception{
+    void createRecruitWithNullContent() throws Exception{
 
         mockMvc.perform(post("/api/v1/admins/recruits")
-              .contentType(MediaType.APPLICATION_JSON)
-              .characterEncoding("UTF-8")
-              .content("{\"title\": \"hihi\",  \"content\": null, \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
-           .andExpect(status().isBadRequest());
+               .contentType(MediaType.APPLICATION_JSON)
+               .characterEncoding("UTF-8")
+               .content("{\"title\": \"hihi\",  \"content\": null, \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
+             .andExpect(status().isBadRequest());
 
     }
 
-//    @Test
-//    @DisplayName("모집글_수정_성공")
-//    @WithMockUser(username = "admin", roles = {"ADMIN"})
-//    void createRecruitSuccess() throws Exception{
-//        String requestJson = """
-//
-//        {
-//            "title": "Test title",
-//            "content": "Test Content",
-//            "deletedImageUrls": [
-//                "https://example.com/image1.jpg"
-//            ],
-//            "newImageKeys": [
-//                "key1",
-//                "key2"
-//            ],
-//            "remainImageUrls": [
-//                "https://example.com/image2.jpg",
-//                "https://example.com/image3.jpg"
-//            ],
-//            "images": [
-//                "key1",
-//                "https://example.com/image3.jpg",
-//                "https://example.com/image2.jpg",
-//                "key2"
-//            ]
-//        }
-//        """;
-//
-//        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/admins/recruits/{recruitId}",1)
-//              .contentType(MediaType.APPLICATION_JSON)
-//              .content(requestJson))
-//           .andExpect(status().is2xxSuccessful());
-//}
+    @Test
+    @DisplayName("title이_\"\"일때_모집글작성_실패")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void createRecruitWithEmptyTitle() throws Exception{
+
+        mockMvc.perform(post("/api/v1/admins/recruits")
+               .contentType(MediaType.APPLICATION_JSON)
+               .characterEncoding("UTF-8")
+              .content("{\"title\": \"\", \"content\": \"hihi\", \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
+             .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @DisplayName("content가_\"\"일때_모집글작성_실패")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void createRecruitWithEmptyContent() throws Exception{
+
+        mockMvc.perform(post("/api/v1/admins/recruits")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\"title\": \"모집글 제목\", \"content\": \"\", \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
+               .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @DisplayName("title이_\" \"일때_모집글작성_실패")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void createRecruitWithSpaceTitle() throws Exception{
+
+        mockMvc.perform(post("/api/v1/admins/recruits")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\"title\": \" \", \"content\": \"hihi\", \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
+              .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @DisplayName("content가_\" \"일때_모집글작성_실패")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void createRecruitWithSpaceContent() throws Exception{
+
+        mockMvc.perform(post("/api/v1/admins/recruits")
+               .contentType(MediaType.APPLICATION_JSON)
+               .characterEncoding("UTF-8")
+               .content("{\"title\": \"모집글 제목\", \"content\": \" \", \"imageKey\": [\"imageKey1\", \"imageKey2\"]}"))
+              .andExpect(status().isBadRequest());
+
+    }
 
 }
