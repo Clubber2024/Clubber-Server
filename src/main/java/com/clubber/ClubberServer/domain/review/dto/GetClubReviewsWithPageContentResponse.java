@@ -1,18 +1,10 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 import org.springframework.data.domain.Page;
 
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.global.page.PageResponse;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

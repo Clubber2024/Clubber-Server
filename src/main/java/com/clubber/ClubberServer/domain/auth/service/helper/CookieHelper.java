@@ -5,7 +5,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 import com.clubber.ClubberServer.global.helper.SpringEnvironmentHelper;
-import com.clubber.ClubberServer.global.jwt.JwtProperties;
+import com.clubber.ClubberServer.global.properties.JwtProperties;
 
 import lombok.RequiredArgsConstructor;
 

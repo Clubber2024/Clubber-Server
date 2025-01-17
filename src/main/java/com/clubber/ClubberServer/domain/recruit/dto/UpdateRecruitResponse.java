@@ -1,8 +1,9 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.global.vo.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -13,15 +14,19 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateRecruitResponse {
-    @NotNull
-    private String title;
-    @NotNull
-    private String content;
 
-    private List<String> imageUrls;
+    @Schema(description = "모집글 제목", example = "클러버 부원을 모집합니다")
+    private final String title;
 
+    @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
+    private final String content;
+
+    @Schema(description = "등록된 imageurls",  example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
+    private final List<String> imageUrls;
+
+    @Schema(description = "모집글 수정 일자", example = "2025-01-05", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
     public static UpdateRecruitResponse of(Recruit recruit,List<String> imageUrls){
         return UpdateRecruitResponse.builder()
@@ -31,4 +36,5 @@ public class UpdateRecruitResponse {
                 .updatedAt(recruit.getUpdatedAt())
                 .build();
     }
+
 }

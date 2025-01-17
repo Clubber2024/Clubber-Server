@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.user.exception;
 
-import com.clubber.ClubberServer.global.error.BaseErrorCode;
-import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 
 public class TokenExpiredException extends BaseException {
 

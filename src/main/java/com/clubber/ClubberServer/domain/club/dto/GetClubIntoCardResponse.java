@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
 import lombok.*;
 

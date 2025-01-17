@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.global.enummapper.EnumMapperVO;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.*;
 import java.util.List;
 import java.util.stream.Collectors;

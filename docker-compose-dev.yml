@@ -2,19 +2,25 @@
 services:
   backend:
     container_name: backend
-    image: mjkim1229/clubber-backend-dev
+    image: ssuclubber/clubber-backend-dev
     environment:
       - TZ=Asia/Seoul
     volumes:
       - ./logs:/logs
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://backend:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
       - clubber
 
   frontend:
     container_name: frontend
-    image: mjkim1229/clubber-front-dev
+    image: ssuclubber/clubber-front-dev
     environment:
       - TZ=Asia/Seoul
     expose:
@@ -24,13 +30,14 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:latest
+    image: ssuclubber/clubber-nginx-dev
     environment:
       - TZ=Asia/Seoul
     volumes:
       - ./nginx/:/etc/nginx/
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
+      - /var/lib/GeoIP/GeoLite2-Country.mmdb:/var/lib/GeoIP/GeoLite2-Country.mmdb
     ports:
       - "80:80"
       - "443:443"

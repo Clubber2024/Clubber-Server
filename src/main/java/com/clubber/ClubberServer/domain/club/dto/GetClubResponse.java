@@ -1,11 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Department;
-import com.clubber.ClubberServer.domain.club.domain.Division;
-import com.clubber.ClubberServer.domain.club.domain.Hashtag;
-import com.clubber.ClubberServer.global.vo.ImageVO;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.favorite.exception;
 
-import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 
 public class FavoriteAlreadyDeleteException extends BaseException {
 

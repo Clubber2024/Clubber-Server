@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.exception;
 
 
 
-import com.clubber.ClubberServer.global.error.BaseException;
+import com.clubber.ClubberServer.global.exception.BaseException;
 
 
 public class InvalidApprovedStatusException extends BaseException {

@@ -6,7 +6,9 @@ import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AdminRepository extends JpaRepository<Admin, Long>{
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-    Optional<Admin> findByUsernameAndAccountState(String username, AccountState accountState);
+	Optional<Admin> findByUsernameAndAccountState(String username, AccountState accountState);
+
+	Optional<Admin> findAdminByIdAndAccountState(Long id, AccountState accountState);
 }
