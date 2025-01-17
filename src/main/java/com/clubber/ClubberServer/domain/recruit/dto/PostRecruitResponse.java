@@ -13,11 +13,11 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostRecruitResponse {
-    private Long recruitId;
-    private String title;
-    private String content;
-    private List<ImageVO> imageUrls;
-    private Long totalView;
+    private final Long recruitId;
+    private final String title;
+    private final String content;
+    private final List<ImageVO> imageUrls;
+    private final Long totalView;
 
     public static PostRecruitResponse of(Recruit recruit, List<ImageVO> images){
         return PostRecruitResponse.builder()

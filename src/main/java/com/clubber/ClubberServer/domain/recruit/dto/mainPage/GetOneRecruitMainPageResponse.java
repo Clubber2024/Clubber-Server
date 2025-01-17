@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetOneRecruitMainPageResponse {
-    private Long clubId;
-    private Long recruitId;
-    private String title;
+    private final Long clubId;
+    private final Long recruitId;
+    private final String title;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;

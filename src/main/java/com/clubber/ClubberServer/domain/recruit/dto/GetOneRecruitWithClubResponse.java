@@ -18,15 +18,15 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class  GetOneRecruitWithClubResponse {
 
-    private Long clubId;
-    private String clubName;
-    private String clubType;
-    private ImageVO clubImage;
-    private Long recruitId;
-    private String title;
-    private String content;
-    private List<ImageVO> imageUrls;
-    private Long totalView;
+    private final Long clubId;
+    private final String clubName;
+    private final String clubType;
+    private final ImageVO clubImage;
+    private final Long recruitId;
+    private final String title;
+    private final String content;
+    private final List<ImageVO> imageUrls;
+    private final Long totalView;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;

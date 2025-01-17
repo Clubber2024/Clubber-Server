@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetRecruitResponse {
-    private Long recruitId;
-    private String title;
-    private String content;
-    private Long totalView;
-    private LocalDateTime createdAt;
+    private final Long recruitId;
+    private final String title;
+    private final String content;
+    private final Long totalView;
+    private final LocalDateTime createdAt;
 
     public static GetRecruitResponse from(Recruit recruit){
         return GetRecruitResponse.builder()
