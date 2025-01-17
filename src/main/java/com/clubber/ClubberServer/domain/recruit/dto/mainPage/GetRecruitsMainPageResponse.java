@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetRecruitsMainPageResponse {
 
-    private List<GetOneRecruitMainPageResponse> recruits;
+    private final List<GetOneRecruitMainPageResponse> recruits;
 
     public static GetRecruitsMainPageResponse from(List<GetOneRecruitMainPageResponse> recruits){
         return GetRecruitsMainPageResponse.builder()

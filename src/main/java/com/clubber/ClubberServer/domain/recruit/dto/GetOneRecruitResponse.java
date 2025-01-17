@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,16 +18,27 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetOneRecruitResponse {
 
-    private Long clubId;
-    private Long recruitId;
-    private String title;
-    private String content;
-    private List<ImageVO> imageUrls;
-    private Long totalView;
+    @Schema(description = "club id", example = "1")
+    private final Long clubId;
 
+    @Schema(description = "모집글 id", example = "10")
+    private final Long recruitId;
+
+    @Schema(description = "모집글 제목", example = "클러버 부원 모집")
+    private final String title;
+
+    @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
+    private final String content;
+
+    @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
+    private final List<ImageVO> imageUrls;
+
+    @Schema(description = "조회수", example = "32")
+    private final Long totalView;
+
+    @Schema(description = "모집글 생성 일자", example = "2025-01-05", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
-
+    private final LocalDateTime createdAt;
 
     public static GetOneRecruitResponse of(Recruit recruit,List<ImageVO> images){
         return GetOneRecruitResponse.builder()
