@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostRecruitRequest {
+
     @NotNull
     @NotBlank
     @Schema(description = "모집글 제목", example = "클러버 부원을 모집합니다")
@@ -24,4 +25,5 @@ public class PostRecruitRequest {
 
     @Schema(description = "모집글 이미지 목록", example = "[\"image1\",\"image2\"]")
     private List<String> imageKey;
+
 }

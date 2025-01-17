@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class DeleteRecruitByIdResponse {
+
     @Schema(description = "메세지", example = "해당 모집글이 삭제되었습니다.")
     private final String message;
 
@@ -38,8 +40,9 @@ public class DeleteRecruitByIdResponse {
     @Schema(description = "조회수",  example = "32")
     private final Long totalView;
 
+    @Schema(description = "모집글 생성 일자", example = "2025-01-05", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
-
 
     public static DeleteRecruitByIdResponse from(Recruit recruit,List<ImageVO> images){
         return DeleteRecruitByIdResponse.builder()

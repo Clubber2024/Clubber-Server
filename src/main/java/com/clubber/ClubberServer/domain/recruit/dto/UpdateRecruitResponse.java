@@ -24,6 +24,7 @@ public class UpdateRecruitResponse {
     @Schema(description = "등록된 imageurls",  example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image3\"]")
     private final List<String> imageUrls;
 
+    @Schema(description = "모집글 수정 일자", example = "2025-01-05", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime updatedAt;
 
@@ -35,4 +36,5 @@ public class UpdateRecruitResponse {
                 .updatedAt(recruit.getUpdatedAt())
                 .build();
     }
+
 }

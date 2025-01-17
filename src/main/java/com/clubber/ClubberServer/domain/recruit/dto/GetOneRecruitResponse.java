@@ -30,15 +30,15 @@ public class GetOneRecruitResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
-    @Schema(description = "모집글 이미지url", example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image2\"]")
+    @Schema(description = "모집글 imageUrls", example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image2\"]")
     private final List<ImageVO> imageUrls;
 
     @Schema(description = "조회수", example = "32")
     private final Long totalView;
 
+    @Schema(description = "모집글 생성 일자", example = "2025-01-05", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
-
+    private final LocalDateTime createdAt;
 
     public static GetOneRecruitResponse of(Recruit recruit,List<ImageVO> images){
         return GetOneRecruitResponse.builder()
