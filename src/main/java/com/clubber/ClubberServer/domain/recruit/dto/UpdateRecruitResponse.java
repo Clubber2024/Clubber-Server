@@ -21,7 +21,7 @@ public class UpdateRecruitResponse {
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private final String content;
 
-    @Schema(description = "등록된 imageurls",  example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image3\"]")
+    @Schema(description = "등록된 imageurls",  example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
     private final List<String> imageUrls;
 
     @Schema(description = "모집글 수정 일자", example = "2025-01-05", type = "string")

@@ -22,7 +22,7 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
-    @Schema(description = "모집글 대표 이미지", example = "www.clubber/amazon/club/image2")
+    @Schema(description = "모집글 대표 이미지", example = "https://image.ssuclubber.com/club/image2")
     private final ImageVO imageUrl;
 
     public static GetOneRecruitInListResponse of(Recruit recruit,String content,ImageVO imageUrl){

@@ -28,7 +28,7 @@ public class  GetOneRecruitWithClubResponse {
     @Schema(description = "clubType", example = "중앙동아리")
     private final String clubType;
 
-    @Schema(description = "club 대표 이미지", example = "www.clubber/amazon/club/1")
+    @Schema(description = "club 대표 이미지", example = "https://image.ssuclubber.com/club/image1")
     private final ImageVO clubImage;
 
     @Schema(description = "모집글 id", example = "10")
@@ -40,7 +40,7 @@ public class  GetOneRecruitWithClubResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
-    @Schema(description = "모집글 imageUrls",  example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image3\"]")
+    @Schema(description = "모집글 imageUrls",  example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private final List<ImageVO> imageUrls;
 
     @Schema(description = "조회수", example = "32")

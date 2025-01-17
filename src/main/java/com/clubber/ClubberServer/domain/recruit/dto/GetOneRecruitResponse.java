@@ -30,7 +30,7 @@ public class GetOneRecruitResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
-    @Schema(description = "모집글 imageUrls", example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image2\"]")
+    @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
     private final List<ImageVO> imageUrls;
 
     @Schema(description = "조회수", example = "32")
