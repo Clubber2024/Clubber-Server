@@ -1,9 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +11,12 @@ import java.util.Map;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchResponse {
 
-    Map<String, List<GetClubSearchResponse>> clubs;
+    @Schema(description = "검색 결과 동아리 목록")
+    private final Map<String, List<GetClubSearchResponse>> clubs;
 
     public static GetClubsSearchResponse of (Map<String, List<GetClubSearchResponse>> groupedClubs){
         return GetClubsSearchResponse.builder()
                 .clubs(groupedClubs)
                 .build();
     }
-
 }

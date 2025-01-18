@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.club.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +14,20 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubByHashTagResponse {
 
-	private boolean isAgreeToProvideInfo;
-	private Long clubId;
-	private ImageVO imageUrl;
-	private String clubName;
-	private String introduction;
+	@Schema(description = "정보 제공 동의 여부", example = "false")
+	private final boolean isAgreeToProvideInfo;
+
+	@Schema(description = "동아리 id", example = "1")
+	private final Long clubId;
+
+	@Schema(description = "동아리 대표 로고", example = "https://image.ssuclubber.com/club/image1")
+	private final ImageVO imageUrl;
+
+	@Schema(description = "동아리명", example = "클러버")
+	private final String clubName;
+
+	@Schema(description = "동아리 소개", example = "숭실대학교 동아리 정보 제공 웹서비스 클러버")
+	private final String introduction;
 
 	public static GetClubByHashTagResponse from(Club club) {
 		return GetClubByHashTagResponse.builder()
@@ -28,5 +38,4 @@ public class GetClubByHashTagResponse {
 				.introduction(club.getIntroduction())
 				.build();
 	}
-
 }
