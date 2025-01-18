@@ -1,15 +1,11 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +39,7 @@ public class ClubReviewsWithContentDetailResponse {
 			.reviewId(review.getId())
 			.userId(review.getUser().getId())
 			.dateTime(review.getCreatedAt())
-			.content(review.getApprovedStatus() == ApprovedStatus.APPROVED ? review.getContent() : null)
+			.content(review.getContentForUser())
 			.build();
 	}
 }

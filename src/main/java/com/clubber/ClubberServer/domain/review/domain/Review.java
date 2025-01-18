@@ -81,11 +81,15 @@ public class Review extends BaseEntity {
 			.build();
 	}
 
+	private static boolean hasContent(String content) {
+		return StringUtils.hasText(content);
+	}
+
 	public void updateReviewStatus(ApprovedStatus approvedStatus) {
 		if (this.approvedStatus != PENDING) {
 			throw InvalidApprovedStatusException.EXCEPTION;
 		}
-		this.approvedStatus = approvedStatus; 
+		this.approvedStatus = approvedStatus;
 	}
 
 	public void autoUpdateReviewStatus() {
@@ -98,7 +102,10 @@ public class Review extends BaseEntity {
 		this.approvedStatus = DELETED;
 	}
 
-	private static boolean hasContent(String content){
-		return StringUtils.hasText(content);
+	public String getContentForUser() {
+		if (approvedStatus == APPROVED) {
+			return content;
+		}
+		return null;
 	}
 }
