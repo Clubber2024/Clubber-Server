@@ -1,16 +1,22 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubPopularResponse {
-    private Long clubId;
-    private String clubName;
-    private Long totalView;
 
+    @Schema(description = "동아리 id", example = "1")
+    private final Long clubId;
+
+    @Schema(description = "동아리명", example = "클러버")
+    private final String clubName;
+
+    @Schema(description = "조회수", example = "32")
+    private final Long totalView;
 
     public static GetClubPopularResponse from(Club club) {
         return GetClubPopularResponse.builder()
