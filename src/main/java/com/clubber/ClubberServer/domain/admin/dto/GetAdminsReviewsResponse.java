@@ -39,7 +39,7 @@ public class GetAdminsReviewsResponse {
 	@Getter
 	@Builder(access = AccessLevel.PRIVATE)
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
-	private static class GetAdminsReviewDetailsResponse {
+	public static class GetAdminsReviewDetailsResponse {
 
 		@Schema(description = "리뷰 id", example = "1")
 		private final Long reviewId;
@@ -58,23 +58,23 @@ public class GetAdminsReviewsResponse {
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
 		private final LocalDateTime dateTime;
 
-		private static GetAdminsReviewDetailsResponse from(Review review) {
+		public static GetAdminsReviewDetailsResponse of(Review review, Set<String> keywords) {
 			return GetAdminsReviewDetailsResponse.builder()
 				.reviewId(review.getId())
 				.approvedStatus(review.getApprovedStatus())
-				.keywords(ReviewKeyword.from(review.getReviewKeywords()))
+				.keywords(keywords)
 				.content(review.getContent())
 				.dateTime(review.getCreatedAt())
 				.build();
 		}
 	}
 
-	public static GetAdminsReviewsResponse of(Admin admin, Club club, Page<Review> reviews) {
+	public static GetAdminsReviewsResponse of(Admin admin, Club club, PageResponse<GetAdminsReviewDetailsResponse> clubReviews) {
 		return GetAdminsReviewsResponse.builder()
 			.adminId(admin.getId())
 			.clubId(club.getId())
 			.clubName(club.getName())
-			.clubReviews(PageResponse.of(reviews.map(GetAdminsReviewDetailsResponse::from)))
+			.clubReviews(clubReviews)
 			.build();
 	}
 }

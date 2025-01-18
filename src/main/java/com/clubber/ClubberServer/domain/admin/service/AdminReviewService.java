@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class AdminReviewService {
 	private final ReviewRepository reviewRepository;
 	private final AdminReadService adminReadService;
 	private final ClubRepository clubRepository;
+	private final ReviewMapper reviewMapper;
 
 	private static void validateReviewClub(Review review, Admin admin) {
 		if (!admin.getClub().getId().equals(review.getClub().getId())) {
@@ -80,7 +82,7 @@ public class AdminReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
-		return GetAdminsReviewsResponse.of(admin, club, reviews);
+		return reviewMapper.getAdminsReviewsResponse(admin, club, reviews);
 	}
 
 	@Transactional(readOnly = true)

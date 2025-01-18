@@ -1,15 +1,21 @@
 package com.clubber.ClubberServer.domain.review.mapper;
 
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse.GetAdminsReviewDetailsResponse;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse.UserReviewDetailResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,6 +39,15 @@ public class ReviewMapper {
 			.collect(Collectors.toList());
 	}
 
+	private static Page<GetAdminsReviewDetailsResponse> getAdminsReviewDetailsResponses(
+		Page<Review> reviewPages) {
+		return reviewPages.map(review -> {
+			List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
+			Set<String> keywords = getKeywords(reviewKeywords);
+			return GetAdminsReviewDetailsResponse.of(review, keywords);
+		});
+	}
+
 	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(
 		Review review) {
 		Set<String> keywords = getKeywords(review.getReviewKeywords());
@@ -43,5 +58,12 @@ public class ReviewMapper {
 		List<UserReviewDetailResponse> userReviewDetailResponse = getUserReviewDetailResponse(
 			reviews);
 		return GetUserReviewsResponse.of(user, userReviewDetailResponse);
+	}
+
+	public GetAdminsReviewsResponse getAdminsReviewsResponse(
+		Admin admin, Club club, Page<Review> reviews) {
+		Page<GetAdminsReviewDetailsResponse> adminsReviewDetailsResponses = getAdminsReviewDetailsResponses(
+			reviews);
+		return GetAdminsReviewsResponse.of(admin, club, PageResponse.of(adminsReviewDetailsResponses));
 	}
 }
