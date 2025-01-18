@@ -1,6 +1,4 @@
-package com.clubber.ClubberServer.review.service;
-
-import static com.clubber.ClubberServer.util.fixture.ReviewFixture.*;
+package com.clubber.ClubberServer.integration.domain.review.service;
 
 import java.util.Optional;
 
@@ -14,9 +12,11 @@ import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentR
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
-import com.clubber.ClubberServer.util.ServiceTest;
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.ServiceTest;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.VALID_REVIEW_CREATE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.exampleId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 

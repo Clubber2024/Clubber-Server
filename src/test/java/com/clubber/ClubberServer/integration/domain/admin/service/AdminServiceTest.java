@@ -1,8 +1,8 @@
-package com.clubber.ClubberServer.admin.service;
+package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
-import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
 
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +29,13 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.util.ServiceTest;
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.ServiceTest;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_ADMIN_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_CLUB_PAGE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

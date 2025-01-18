@@ -1,6 +1,4 @@
-package com.clubber.ClubberServer.admin.service;
-
-import static com.clubber.ClubberServer.util.fixture.AdminReviewFixture.*;
+package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import java.util.List;
 
@@ -14,9 +12,12 @@ import com.clubber.ClubberServer.domain.admin.service.AdminReviewService;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
-import com.clubber.ClubberServer.util.ServiceTest;
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.ServiceTest;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 
+import static com.clubber.ClubberServer.integration.util.fixture.AdminReviewFixture.UPDATE_ADMIN_NOT_FOUND_REVIEW_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminReviewFixture.VALID_UPDATE_ADMINS_REVIEW_STATUS_REQEUST_APPROVE;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminReviewFixture.VALID_UPDATE_ADMINS_REVIEW_STATUS_REQEUST_REJECT;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

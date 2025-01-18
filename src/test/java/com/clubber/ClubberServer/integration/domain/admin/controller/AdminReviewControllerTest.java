@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.admin.controller;
+package com.clubber.ClubberServer.integration.domain.admin.controller;
 
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.clubber.ClubberServer.util.fixture.AdminReviewFixture.UPDATE_ADMINS_EMPTY_REVIEWS;
-import static com.clubber.ClubberServer.util.fixture.AdminReviewFixture.UPDATE_ADMINS_OVER_MAX_REVIEWS;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminReviewFixture.UPDATE_ADMINS_EMPTY_REVIEWS;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminReviewFixture.UPDATE_ADMINS_OVER_MAX_REVIEWS;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

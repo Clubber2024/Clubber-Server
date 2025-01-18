@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.recruit.controller;
+package com.clubber.ClubberServer.integration.domain.recruit.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

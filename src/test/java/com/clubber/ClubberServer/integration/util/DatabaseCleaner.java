@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.util;
+package com.clubber.ClubberServer.integration.util;
 
-import static com.clubber.ClubberServer.util.fixture.ReviewFixture.*;
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

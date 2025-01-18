@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.util.fixture;
+package com.clubber.ClubberServer.integration.util.fixture;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 

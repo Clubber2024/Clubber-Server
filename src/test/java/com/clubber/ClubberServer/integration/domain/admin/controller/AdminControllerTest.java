@@ -1,6 +1,7 @@
-package com.clubber.ClubberServer.admin.controller;
+package com.clubber.ClubberServer.integration.domain.admin.controller;
 
-import static com.clubber.ClubberServer.util.fixture.AdminFixture.*;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.OVER_MAX_LENGTH_ACTIVITY_UPDATE_PAGE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

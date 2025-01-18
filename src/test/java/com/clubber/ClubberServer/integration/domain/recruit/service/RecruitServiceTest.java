@@ -1,9 +1,9 @@
-package com.clubber.ClubberServer.recruit.service;
+package com.clubber.ClubberServer.integration.domain.recruit.service;
 
 
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
-import com.clubber.ClubberServer.util.ServiceTest;
+import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

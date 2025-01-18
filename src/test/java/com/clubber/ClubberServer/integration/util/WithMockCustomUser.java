@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.util;
+package com.clubber.ClubberServer.integration.util;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

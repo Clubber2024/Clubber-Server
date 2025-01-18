@@ -1,5 +1,7 @@
-package com.clubber.ClubberServer.global.util;
+package com.clubber.ClubberServer.unit.global.util;
 
+import com.clubber.ClubberServer.global.util.ImageUtil;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ public class ImageUtilTest {
     @DisplayName("이미지 url이 이미지 서버로 시작된다면 이미지키가 파싱된다.")
     @Test
     void parseImageKeyTest() {
-        assertThat(ImageUtil.parseImageKey(IMAGE_SERVER + exampleKey)).isEqualTo(exampleKey);
+        Assertions.assertThat(ImageUtil.parseImageKey(IMAGE_SERVER + exampleKey)).isEqualTo(exampleKey);
     }
 
     @DisplayName("이미지 url이 이미지 서버로 시작되지 않는다면 기존 이미지 url을 반환한다.")

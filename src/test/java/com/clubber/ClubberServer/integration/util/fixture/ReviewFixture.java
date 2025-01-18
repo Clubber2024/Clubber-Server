@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.util.fixture;
+package com.clubber.ClubberServer.integration.util.fixture;
 
 import java.util.EnumSet;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.util;
+package com.clubber.ClubberServer.integration.util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,7 @@
-package com.clubber.ClubberServer.review.controller;
+package com.clubber.ClubberServer.integration.domain.review.controller;
 
-import static com.clubber.ClubberServer.util.fixture.ReviewFixture.*;
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.EMPTY_KEYWORD_REVIEW_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.LONG_SIZE_INVALID_REVIEW_REQUEST;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -8,26 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
-import com.clubber.ClubberServer.domain.review.controller.ReviewController;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.user.domain.SnsType;
-import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.global.config.security.JwtExceptionFilter;
-import com.clubber.ClubberServer.global.config.security.JwtTokenFilter;
-import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
-import com.clubber.ClubberServer.util.DatabaseCleaner;
-import com.clubber.ClubberServer.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
