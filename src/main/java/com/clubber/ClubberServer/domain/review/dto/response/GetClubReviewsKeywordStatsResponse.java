@@ -1,13 +1,11 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,14 +1,12 @@
-package com.clubber.ClubberServer.domain.review.dto;
-
-import org.springframework.data.domain.Page;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)

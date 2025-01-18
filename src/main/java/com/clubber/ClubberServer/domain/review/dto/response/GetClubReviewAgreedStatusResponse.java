@@ -1,7 +1,6 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

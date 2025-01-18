@@ -1,10 +1,9 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.request.CreateReviewClubWithContentRequest;
 
 public class ReviewFixture {
 

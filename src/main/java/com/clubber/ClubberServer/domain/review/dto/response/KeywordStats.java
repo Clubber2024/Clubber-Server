@@ -1,12 +1,11 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public class KeywordStats {

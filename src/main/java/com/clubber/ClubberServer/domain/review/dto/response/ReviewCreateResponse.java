@@ -1,11 +1,9 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.EnumSet;
 import java.util.List;

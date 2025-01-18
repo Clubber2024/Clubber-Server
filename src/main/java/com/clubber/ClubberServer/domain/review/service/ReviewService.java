@@ -4,16 +4,14 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.request.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewAgreedStatusResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsKeywordStatsResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithPageContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithSliceContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.KeywordStat;
+import com.clubber.ClubberServer.domain.review.dto.response.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -125,18 +123,5 @@ public class ReviewService {
 	@Transactional
 	public void saveReview(Review review) {
 		reviewRepository.save(review);
-	}
-
-	/**
-	 * 양방향 테스트 용도 메서드
-	 */
-	@Deprecated
-	@Transactional(readOnly = true)
-	public ClubReviewResponse getClubReviews(Long clubId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		List<ReviewKeyword> reviewKeywords = reviewKeywordRepository.queryReviewKeywordByClubId(
-			club.getId());
-		return ClubReviewResponse.of(club, reviewKeywords);
 	}
 }

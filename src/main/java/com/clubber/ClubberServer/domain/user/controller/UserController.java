@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.user.controller;
 
 
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetUserReviewsResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;

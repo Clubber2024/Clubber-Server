@@ -1,19 +1,16 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.request;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
-
 import com.clubber.ClubberServer.global.validator.enums.Enum;
 import com.clubber.ClubberServer.global.validator.unique.Unique;
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

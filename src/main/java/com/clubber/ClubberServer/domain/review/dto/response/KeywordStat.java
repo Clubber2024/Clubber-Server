@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import lombok.Getter;

@@ -1,7 +1,6 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.user.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -74,21 +72,4 @@ public class GetUserReviewsResponse {
                 .userReviews(reviewDetails)
                 .build();
     }
-
-    /**
-     * Review에서 일대다 관계인 ReviewKeyword 조회로 리팩토링하면서 사용 하지 않음
-     */
-//    private static List<UserReviewDetailResponse> getCollectUserReviewDetailResponse(
-//            Map<Review, List<Keyword>> reviewListMap) {
-//
-//        return reviewListMap.entrySet().stream()
-//                .map(e -> UserReviewDetailResponse.of(e.getKey(), e.getValue()))
-//                .collect(Collectors.toList());
-//    }
-
-//    private static Map<Review, List<Keyword>> getReviewListMap(List<ReviewKeyword> keywords) {
-//        return keywords.stream()
-//                .collect(Collectors.groupingBy(ReviewKeyword::getReview,
-//                        Collectors.mapping(ReviewKeyword::getKeyword, Collectors.toList())));
-//    }
 }
