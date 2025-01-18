@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -28,6 +29,8 @@ public class UserService {
 
 	private final UserReadService userReadService;
 
+	private final ReviewMapper reviewMapper;
+
 	public GetUsersProfileResponse getUserProfile() {
 		User user = userReadService.getUser();
 		return GetUsersProfileResponse.of(user);
@@ -42,7 +45,7 @@ public class UserService {
 	public GetUserReviewsResponse getUserReviews() {
 		User user = userReadService.getUser();
 		List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
-		return GetUserReviewsResponse.of(user, reviews);
+		return reviewMapper.getUserReviewsResponse(user, reviews);
 	}
 
 	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {

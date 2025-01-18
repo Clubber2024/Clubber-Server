@@ -2,8 +2,10 @@ package com.clubber.ClubberServer.domain.review.mapper;
 
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.response.ClubReviewsWithContentDetailResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse.UserReviewDetailResponse;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,14 +15,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReviewMapper {
 
-	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(Review review) {
+	private static Set<String> getKeywords(List<ReviewKeyword> reviewKeywords) {
+		return reviewKeywords.stream()
+			.map(ReviewKeyword::getKeywordTitle)
+			.collect(Collectors.toCollection(LinkedHashSet::new));
+	}
+
+	private static List<UserReviewDetailResponse> getUserReviewDetailResponse(
+		List<Review> reviews) {
+		return reviews.stream()
+			.map(
+				review -> {
+					Set<String> keywords = getKeywords(review.getReviewKeywords());
+					return UserReviewDetailResponse.of(review, keywords);
+				}
+			)
+			.collect(Collectors.toList());
+	}
+
+	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(
+		Review review) {
 		Set<String> keywords = getKeywords(review.getReviewKeywords());
 		return CreateClubReviewsWithContentResponse.of(review, keywords);
 	}
 
-	private static Set<String> getKeywords(List<ReviewKeyword> reviewKeywords){
-		return reviewKeywords.stream()
-			.map(ReviewKeyword::getKeywordTitle)
-			.collect(Collectors.toCollection(LinkedHashSet::new));
+	public GetUserReviewsResponse getUserReviewsResponse(User user, List<Review> reviews) {
+		List<UserReviewDetailResponse> userReviewDetailResponse = getUserReviewDetailResponse(
+			reviews);
+		return GetUserReviewsResponse.of(user, userReviewDetailResponse);
 	}
 }
