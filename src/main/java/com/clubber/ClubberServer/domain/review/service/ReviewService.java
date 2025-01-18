@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithSl
 import com.clubber.ClubberServer.domain.review.dto.response.KeywordStat;
 import com.clubber.ClubberServer.domain.review.dto.response.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
+import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -35,7 +36,7 @@ public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
 	private final ReviewKeywordRepository reviewKeywordRepository;
-	private final UserRepository userRepository;
+	private final ReviewMapper reviewMapper;
 	private final ClubRepository clubRepository;
 	private final EnumMapper enumMapper;
 	private final ReviewApproveEvnetPublisher publisher;
@@ -61,8 +62,7 @@ public class ReviewService {
 		Review savedReview = reviewRepository.save(review);
 
 		publisher.throwReviewApproveEvent(savedReview);
-		return CreateClubReviewsWithContentResponse.of(savedReview,
-			savedReview.getReviewKeywords());
+		return reviewMapper.getCreateClubReviewsWithContentResponse(savedReview);
 	}
 
 	@Transactional(readOnly = true)

@@ -1,9 +1,7 @@
 package com.clubber.ClubberServer.domain.review.dto.response;
 
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,11 +21,11 @@ public class CreateClubReviewsWithContentResponse {
 
     private final Set<String> keywords;
 
-    public static CreateClubReviewsWithContentResponse of(Review review, List<ReviewKeyword> reviewKeywords) {
+    public static CreateClubReviewsWithContentResponse of(Review review, Set<String> keywords) {
         return CreateClubReviewsWithContentResponse.builder()
                 .reviewId(review.getId())
                 .content(review.getContent())
-                .keywords(ReviewKeyword.from(reviewKeywords))
+                .keywords(keywords)
                 .build();
     }
 }
