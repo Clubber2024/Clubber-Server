@@ -113,7 +113,7 @@ public class ReviewService {
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId,
 			null);
 
-		return GetClubReviewsWithSliceContentResponse.of(reviews, clubId, pageable);
+		return reviewMapper.getClubReviewsWithSliceContentResponse(clubId, reviews, pageable);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {

@@ -9,15 +9,19 @@ import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.response.ClubReviewsWithContentDetailResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithPageContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse.UserReviewDetailResponse;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
+import com.clubber.ClubberServer.global.common.slice.SliceResponse;
+import com.clubber.ClubberServer.global.util.SliceUtil;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -57,6 +61,36 @@ public class ReviewMapper {
 			Set<String> keywords = getKeywords(reviewKeywords);
 			return ClubReviewsWithContentDetailResponse.of(review, keywords);
 		});
+	}
+
+	private static List<ClubReviewsWithContentDetailResponse> getClubReviewsWithContentDetailResponseList(
+		List<Review> reviews) {
+		return reviews.stream()
+			.map(review -> {
+					List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
+					Set<String> keywords = getKeywords(reviewKeywords);
+					return ClubReviewsWithContentDetailResponse.of(review, keywords);
+				}
+			)
+			.collect(Collectors.toList());
+	}
+
+	private static Long getLastReviewId(List<Review> reviews, Pageable pageable) {
+		if (SliceUtil.hasNext(reviews, pageable)) {
+			return SliceUtil.getLastContent(reviews).getId();
+		}
+		return null;
+	}
+
+	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContentResponse(
+		Long clubId, List<Review> reviews, Pageable pageable) {
+		List<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponseList = getClubReviewsWithContentDetailResponseList(
+			reviews);
+		SliceResponse<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponseSliceResponse = SliceUtil.valueOf(
+			clubReviewsWithContentDetailResponseList, pageable);
+		Long lastReviewId = getLastReviewId(reviews, pageable);
+		return GetClubReviewsWithSliceContentResponse.of(clubId, lastReviewId,
+			clubReviewsWithContentDetailResponseSliceResponse);
 	}
 
 	public GetClubReviewsWithPageContentResponse getClubReviewsWithPageContentResponse(

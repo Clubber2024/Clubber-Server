@@ -1,15 +1,10 @@
 package com.clubber.ClubberServer.domain.review.dto.response;
 
-import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
-import com.clubber.ClubberServer.global.util.SliceUtil;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.domain.Pageable;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -22,18 +17,11 @@ public class GetClubReviewsWithSliceContentResponse {
 
 	private final SliceResponse<ClubReviewsWithContentDetailResponse> reviews;
 
-	public static GetClubReviewsWithSliceContentResponse of(List<Review> reviews, Long clubId, Pageable pageable){
+	public static GetClubReviewsWithSliceContentResponse of(Long clubId, Long lastReviewId, SliceResponse<ClubReviewsWithContentDetailResponse> reviews){
 		return GetClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
-			.lastReviewId(SliceUtil.hasNext(reviews, pageable) ?
-				SliceUtil.getLastContent(reviews).getId() : null)
-			.reviews(SliceUtil.valueOf(from(reviews), pageable))
+			.lastReviewId(lastReviewId)
+			.reviews(reviews)
 			.build();
-	}
-
-	private static List<ClubReviewsWithContentDetailResponse> from(List<Review> reviews){
-		return reviews.stream()
-			.map(ClubReviewsWithContentDetailResponse::of)
-			.collect(Collectors.toList());
 	}
 }
