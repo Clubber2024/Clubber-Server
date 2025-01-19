@@ -4,12 +4,12 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
@@ -42,8 +42,8 @@ public class ReviewService {
 	private final UserReadService userReadService;
 
 	@Transactional
-	public CreateClubReviewsWithContentResponse createReviewsByContent(Long clubId,
-		@Valid CreateReviewClubWithContentRequest reviewRequest) {
+	public CreateClubReviewResponse createReviewsByContent(Long clubId,
+		@Valid CreateClubReviewRequest reviewRequest) {
 		User user = userReadService.getUser();
 
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
@@ -89,7 +89,7 @@ public class ReviewService {
 
 	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
-	public GetClubReviewsWithPageContentResponse getClubReviewsWithContent(Long clubId,
+	public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
 		Pageable pageable) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
@@ -102,7 +102,7 @@ public class ReviewService {
 
 	//동아리 별 리뷰 조회 : No Offset 구현 
 	@Transactional(readOnly = true)
-	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContent(Long clubId,
+	public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
 		Pageable pageable, Long reviewId) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);

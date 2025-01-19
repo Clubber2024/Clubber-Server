@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
@@ -32,7 +32,7 @@ public class ReviewServiceTest extends ServiceTest {
 	@WithMockCustomUser(first = "100000001", second = "USER")
 	@Test
 	void createReviewSuccess() {
-		CreateClubReviewsWithContentResponse reviewCreateResponse = reviewService.createReviewsByContent( 10000001L
+		CreateClubReviewResponse reviewCreateResponse = reviewService.createReviewsByContent( 10000001L
 			, VALID_REVIEW_CREATE_REQUEST);
 
 		Optional<Review> createdReview = reviewRepository.findById(reviewCreateResponse.getReviewId());

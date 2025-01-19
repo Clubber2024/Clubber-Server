@@ -9,14 +9,14 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetClubReviewsWithPageContentResponse {
+public class GetClubReviewsPageResponse {
 
 	private final Long clubId;
 
 	private final PageResponse<ClubReviewResponse> reviews;
 
-	public static GetClubReviewsWithPageContentResponse of(PageResponse<ClubReviewResponse> reviews, Long clubId) {
-		return GetClubReviewsWithPageContentResponse
+	public static GetClubReviewsPageResponse of(PageResponse<ClubReviewResponse> reviews, Long clubId) {
+		return GetClubReviewsPageResponse
 			.builder()
 			.clubId(clubId)
 			.reviews(reviews)

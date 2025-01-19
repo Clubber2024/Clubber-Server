@@ -6,9 +6,9 @@ import com.clubber.ClubberServer.domain.admin.dto.AdminReviewResponse;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
@@ -27,11 +27,11 @@ import org.springframework.stereotype.Component;
 public class ReviewMapper {
 
 	// 동아리 별 리뷰 조회 (page)
-	public GetClubReviewsWithPageContentResponse getClubReviewsWithPageContentResponse(Page<Review> reviews,
+	public GetClubReviewsPageResponse getClubReviewsWithPageContentResponse(Page<Review> reviews,
 		Long clubId) {
 		PageResponse<ClubReviewResponse> clubReviewsWithContentDetailPageResponse = toClubReviewsWithContentDetailPageResponse(
 			reviews);
-		return GetClubReviewsWithPageContentResponse.of(
+		return GetClubReviewsPageResponse.of(
 			clubReviewsWithContentDetailPageResponse, clubId);
 	}
 
@@ -46,14 +46,14 @@ public class ReviewMapper {
 	}
 
 	// 동아리 별 리뷰 조회 (No Offset)
-	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContentResponse(
+	public GetClubReviewsSliceResponse getClubReviewsWithSliceContentResponse(
 		Long clubId, List<Review> reviews, Pageable pageable) {
 		List<ClubReviewResponse> clubReviewResponseList = getClubReviewsWithContentDetailResponseList(
 			reviews);
 		SliceResponse<ClubReviewResponse> clubReviewsWithContentDetailResponseSliceResponse = SliceUtil.valueOf(
 			clubReviewResponseList, pageable);
 		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
-		return GetClubReviewsWithSliceContentResponse.of(clubId, lastReviewId,
+		return GetClubReviewsSliceResponse.of(clubId, lastReviewId,
 			clubReviewsWithContentDetailResponseSliceResponse);
 	}
 
@@ -106,9 +106,9 @@ public class ReviewMapper {
 	}
 
 	// 리뷰 작성
-	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(
+	public CreateClubReviewResponse getCreateClubReviewsWithContentResponse(
 		Review review) {
 		Set<String> keywords = ReviewUtil.extractKeywords(review);
-		return CreateClubReviewsWithContentResponse.of(review, keywords);
+		return CreateClubReviewResponse.of(review, keywords);
 	}
 }

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateReviewClubWithContentRequest {
+public class CreateClubReviewRequest {
 
     @Size(max = 100, message = "리뷰 작성은 100자까지 가능합니다")
     @Schema(description = "작성하고자하는 한줄평", example = "활동이 재밌어요")

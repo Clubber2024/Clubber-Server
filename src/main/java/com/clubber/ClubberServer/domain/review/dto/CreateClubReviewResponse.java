@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateClubReviewsWithContentResponse {
+public class CreateClubReviewResponse {
 
     @Schema(description = "작성된 리뷰 id", example = "1")
     private final Long reviewId;
@@ -21,8 +21,8 @@ public class CreateClubReviewsWithContentResponse {
 
     private final Set<String> keywords;
 
-    public static CreateClubReviewsWithContentResponse of(Review review, Set<String> keywords) {
-        return CreateClubReviewsWithContentResponse.builder()
+    public static CreateClubReviewResponse of(Review review, Set<String> keywords) {
+        return CreateClubReviewResponse.builder()
                 .reviewId(review.getId())
                 .content(review.getContent())
                 .keywords(keywords)
