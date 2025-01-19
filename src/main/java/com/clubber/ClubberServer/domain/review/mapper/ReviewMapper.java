@@ -37,12 +37,12 @@ public class ReviewMapper {
 
 	private static PageResponse<ClubReviewResponse> toClubReviewPageResponse(
 		Page<Review> reviewPages) {
-		Page<ClubReviewResponse> clubReviewsWithContentDetailResponsePage =
+		Page<ClubReviewResponse> clubReviewResponsePage =
 			reviewPages.map(review -> {
 			Set<String> keywords = ReviewUtil.extractKeywords(review);
 			return ClubReviewResponse.of(review, keywords);
 		});
-		return PageResponse.of(clubReviewsWithContentDetailResponsePage);
+		return PageResponse.of(clubReviewResponsePage);
 	}
 
 	// 동아리 별 리뷰 조회 (No Offset)
@@ -50,11 +50,11 @@ public class ReviewMapper {
 		Long clubId, List<Review> reviews, Pageable pageable) {
 		List<ClubReviewResponse> clubReviewResponseList = getClubReviewResponseList(
 			reviews);
-		SliceResponse<ClubReviewResponse> clubReviewsWithContentDetailResponseSliceResponse = SliceUtil.valueOf(
+		SliceResponse<ClubReviewResponse> clubReviewSliceResponse = SliceUtil.valueOf(
 			clubReviewResponseList, pageable);
 		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
 		return GetClubReviewsSliceResponse.of(clubId, lastReviewId,
-			clubReviewsWithContentDetailResponseSliceResponse);
+			clubReviewSliceResponse);
 	}
 
 	private static List<ClubReviewResponse> getClubReviewResponseList(
@@ -97,12 +97,12 @@ public class ReviewMapper {
 
 	private static PageResponse<AdminReviewResponse> getAdminsReviewResponse(
 		Page<Review> reviewPages) {
-		Page<AdminReviewResponse> getAdminsReviewDetailsResponsePage = reviewPages.map(
+		Page<AdminReviewResponse> getAdminReviewsPageResponse = reviewPages.map(
 			review -> {
 				Set<String> keywords = ReviewUtil.extractKeywords(review);
 				return AdminReviewResponse.of(review, keywords);
 			});
-		return PageResponse.of(getAdminsReviewDetailsResponsePage);
+		return PageResponse.of(getAdminReviewsPageResponse);
 	}
 
 	// 리뷰 작성
