@@ -1,17 +1,14 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
-
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import com.clubber.ClubberServer.global.util.SliceUtil;
-
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
