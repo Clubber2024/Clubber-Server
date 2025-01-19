@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
-import com.clubber.ClubberServer.domain.review.dto.response.KeywordStat;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 
 import java.util.List;
 

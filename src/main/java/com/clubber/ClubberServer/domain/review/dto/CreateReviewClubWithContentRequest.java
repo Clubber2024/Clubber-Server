@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.dto.request;
+package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;

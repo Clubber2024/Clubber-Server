@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithPageContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.request.CreateReviewClubWithContentRequest;
-import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
-import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithSliceContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithPageContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.CreateReviewClubWithContentRequest;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 

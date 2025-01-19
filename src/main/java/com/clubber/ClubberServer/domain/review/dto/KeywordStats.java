@@ -1,6 +1,7 @@
-package com.clubber.ClubberServer.domain.review.dto.response;
+package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
