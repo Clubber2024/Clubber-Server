@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review.mapper;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.AdminReviewResponse;
@@ -111,6 +112,17 @@ public class ReviewMapper {
 		return reviews.stream()
 			.map(GetAdminsPendingReviews::from)
 			.collect(Collectors.toList());
+	}
+
+	//대기 상태 리뷰 조회 (관리자, No-offset)
+	public GetAdminPendingReviewsSliceResponse getGetAdminPendingReviewSliceResponse(
+		List<Review> reviews, Pageable pageable){
+		List<GetAdminsPendingReviews> getAdminPendingReviewList = getGetAdminPendingReviewList(
+			reviews);
+		SliceResponse<GetAdminsPendingReviews> getAdminsPendingReviewsSliceResponse = SliceUtil.valueOf(
+			getAdminPendingReviewList, pageable);
+		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
+		return GetAdminPendingReviewsSliceResponse.of(getAdminsPendingReviewsSliceResponse, lastReviewId);
 	}
 
 	// 리뷰 작성

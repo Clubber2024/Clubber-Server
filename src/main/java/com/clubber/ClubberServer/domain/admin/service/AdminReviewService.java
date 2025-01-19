@@ -81,7 +81,7 @@ public class AdminReviewService {
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
 			lastReviewId,
 			ApprovedStatus.PENDING);
-		return GetAdminPendingReviewsSliceResponse.of(reviews, pageable);
+		return reviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
 	}
 
 	private static void validateReviewClub(Review review, Admin admin) {
