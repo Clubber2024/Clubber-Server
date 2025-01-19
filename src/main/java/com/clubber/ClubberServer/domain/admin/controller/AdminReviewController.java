@@ -33,8 +33,8 @@ public class AdminReviewController {
 
 	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회", description = "승인 대기 중인 리뷰의 한줄평 목록 반환")
 	@GetMapping("/pending")
-	public List<GetAdminsPendingReviews> getAdminReviewsByApprovedStatus() {
-		return adminReviewService.getAdminReviewsByApprovedStatus();
+	public List<GetAdminsPendingReviews> getAdminPendingReviews() {
+		return adminReviewService.getAdminPendingReviews();
 	}
 
 	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회 (더보기)", description = "추후 적용해주세요")

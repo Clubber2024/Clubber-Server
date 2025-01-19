@@ -47,7 +47,7 @@ public class AdminReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<GetAdminsPendingReviews> getAdminReviewsByApprovedStatus() {
+	public List<GetAdminsPendingReviews> getAdminPendingReviews() {
 		Admin admin = adminReadService.getAdmin();
 		List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
 			ApprovedStatus.PENDING, admin.getClub());
