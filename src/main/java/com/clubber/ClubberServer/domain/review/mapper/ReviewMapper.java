@@ -6,7 +6,9 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse.GetAd
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.dto.response.ClubReviewsWithContentDetailResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithPageContentResponse;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse.UserReviewDetailResponse;
@@ -48,6 +50,24 @@ public class ReviewMapper {
 		});
 	}
 
+	private static Page<ClubReviewsWithContentDetailResponse> getPageClubReviewsWithContentDetailResponse(
+		Page<Review> reviewPages) {
+		return reviewPages.map(review -> {
+			List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
+			Set<String> keywords = getKeywords(reviewKeywords);
+			return ClubReviewsWithContentDetailResponse.of(review, keywords);
+		});
+	}
+
+	public GetClubReviewsWithPageContentResponse getClubReviewsWithPageContentResponse(
+		Page<Review> reviews,
+		Long clubId) {
+		PageResponse<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponsePageResponse = PageResponse.of(
+			getPageClubReviewsWithContentDetailResponse(reviews));
+		return GetClubReviewsWithPageContentResponse.of(
+			clubReviewsWithContentDetailResponsePageResponse, clubId);
+	}
+
 	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(
 		Review review) {
 		Set<String> keywords = getKeywords(review.getReviewKeywords());
@@ -64,6 +84,7 @@ public class ReviewMapper {
 		Admin admin, Club club, Page<Review> reviews) {
 		Page<GetAdminsReviewDetailsResponse> adminsReviewDetailsResponses = getAdminsReviewDetailsResponses(
 			reviews);
-		return GetAdminsReviewsResponse.of(admin, club, PageResponse.of(adminsReviewDetailsResponses));
+		return GetAdminsReviewsResponse.of(admin, club,
+			PageResponse.of(adminsReviewDetailsResponses));
 	}
 }

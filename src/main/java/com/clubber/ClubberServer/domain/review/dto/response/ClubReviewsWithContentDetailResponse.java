@@ -33,9 +33,9 @@ public class ClubReviewsWithContentDetailResponse {
 	@Schema(description = "해당 동아리 된 한줄평 중 승인된 한줄평의 내용", example = "활동이 재밌어요")
 	private final String content;
 
-	public static ClubReviewsWithContentDetailResponse of(Review review) {
+	public static ClubReviewsWithContentDetailResponse of(Review review, Set<String> keywords) {
 		return ClubReviewsWithContentDetailResponse.builder()
-			.keywords(ReviewKeyword.from(review.getReviewKeywords()))
+			.keywords(keywords)
 			.reviewId(review.getId())
 			.userId(review.getUser().getId())
 			.dateTime(review.getCreatedAt())

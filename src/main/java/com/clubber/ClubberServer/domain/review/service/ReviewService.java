@@ -98,7 +98,7 @@ public class ReviewService {
 		club.validateAgreeToReview();
 
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
-		return GetClubReviewsWithPageContentResponse.of(reviews, club.getId());
+		return reviewMapper.getClubReviewsWithPageContentResponse(reviews, clubId);
 	}
 
 	//동아리 별 리뷰 조회 : No Offset 구현 
