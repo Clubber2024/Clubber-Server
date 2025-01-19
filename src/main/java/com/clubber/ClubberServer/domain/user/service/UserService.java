@@ -45,7 +45,7 @@ public class UserService {
 	public GetUserReviewsResponse getUserReviews() {
 		User user = userReadService.getUser();
 		List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
-		return reviewMapper.getUserReviewsResponse(user, reviews);
+		return reviewMapper.getGetUserReviewResponse(user, reviews);
 	}
 
 	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {

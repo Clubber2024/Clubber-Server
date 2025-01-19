@@ -61,7 +61,7 @@ public class ReviewService {
 		Review savedReview = reviewRepository.save(review);
 
 		publisher.throwReviewApproveEvent(savedReview);
-		return reviewMapper.getCreateClubReviewsWithContentResponse(savedReview);
+		return reviewMapper.getCreateClubReviewResponse(savedReview);
 	}
 
 	@Transactional(readOnly = true)
@@ -97,7 +97,7 @@ public class ReviewService {
 		club.validateAgreeToReview();
 
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
-		return reviewMapper.getClubReviewsWithPageContentResponse(reviews, clubId);
+		return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
 	}
 
 	//동아리 별 리뷰 조회 : No Offset 구현 
@@ -112,7 +112,7 @@ public class ReviewService {
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId,
 			null);
 
-		return reviewMapper.getClubReviewsWithSliceContentResponse(clubId, reviews, pageable);
+		return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {

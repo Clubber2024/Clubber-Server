@@ -80,7 +80,7 @@ public class AdminReviewService {
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
-		return reviewMapper.getAdminsReviewsResponse(admin, club, reviews);
+		return reviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
 	}
 
 	@Transactional(readOnly = true)
