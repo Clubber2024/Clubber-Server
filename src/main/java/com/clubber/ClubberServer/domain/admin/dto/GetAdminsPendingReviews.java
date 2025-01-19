@@ -27,14 +27,7 @@ public class GetAdminsPendingReviews {
     @Schema(description = "한줄평", example = "분위기가 좋아요")
     private final String content;
 
-    public static List<GetAdminsPendingReviews> from(List<Review> reviews){
-        return reviews.stream()
-                .map((r) -> GetAdminsPendingReviews.from(r))
-                .collect(Collectors.toList());
-
-    }
-
-    private static GetAdminsPendingReviews from(Review review){
+    public static GetAdminsPendingReviews from(Review review){
         return GetAdminsPendingReviews.builder()
                 .reviewId(review.getId())
                 .writtenDate(review.getCreatedAt())

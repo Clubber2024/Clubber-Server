@@ -34,25 +34,13 @@ public class AdminReviewService {
 	private final ClubRepository clubRepository;
 	private final ReviewMapper reviewMapper;
 
-	private static void validateReviewClub(Review review, Admin admin) {
-		if (!admin.getClub().getId().equals(review.getClub().getId())) {
-			throw ReviewClubNotMatchException.EXCEPTION;
-		}
-	}
-
-	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
-		if (findReviews.size() != reviewIds.size()) {
-			throw UserReviewsNotFoundException.EXCEPTION;
-		}
-	}
-
 	@Transactional(readOnly = true)
 	public List<GetAdminsPendingReviews> getAdminPendingReviews() {
 		Admin admin = adminReadService.getAdmin();
 		List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
 			ApprovedStatus.PENDING, admin.getClub());
 
-		return GetAdminsPendingReviews.from(reviews);
+		return reviewMapper.getGetAdminPendingReviewList(reviews);
 	}
 
 	@Transactional
@@ -94,5 +82,17 @@ public class AdminReviewService {
 			lastReviewId,
 			ApprovedStatus.PENDING);
 		return GetAdminPendingReviewsSliceResponse.of(reviews, pageable);
+	}
+
+	private static void validateReviewClub(Review review, Admin admin) {
+		if (!admin.getClub().getId().equals(review.getClub().getId())) {
+			throw ReviewClubNotMatchException.EXCEPTION;
+		}
+	}
+
+	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
+		if (findReviews.size() != reviewIds.size()) {
+			throw UserReviewsNotFoundException.EXCEPTION;
+		}
 	}
 }
