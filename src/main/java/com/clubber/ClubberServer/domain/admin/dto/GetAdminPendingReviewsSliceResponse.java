@@ -16,17 +16,17 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetAdminPendingReviewsWithSliceResponse {
+public class GetAdminPendingReviewsSliceResponse {
 
 	private final Long lastReviewId; 
 
-	private final SliceResponse<GetAdminsReviewByStatusResponse> reviews;
+	private final SliceResponse<GetAdminsPendingReviews> reviews;
 
-	public static GetAdminPendingReviewsWithSliceResponse of(List<Review> reviews, Pageable pageable){
-		return GetAdminPendingReviewsWithSliceResponse.builder()
+	public static GetAdminPendingReviewsSliceResponse of(List<Review> reviews, Pageable pageable){
+		return GetAdminPendingReviewsSliceResponse.builder()
 			.lastReviewId(SliceUtil.hasNext(reviews, pageable) ?
 				SliceUtil.getLastContent(reviews).getId() : null)
-			.reviews(SliceUtil.valueOf(GetAdminsReviewByStatusResponse.from(reviews), pageable))
+			.reviews(SliceUtil.valueOf(GetAdminsPendingReviews.from(reviews), pageable))
 			.build(); 
 	}
 }

@@ -15,9 +15,9 @@ public class GetClubReviewsWithSliceContentResponse {
 
 	private final Long lastReviewId;
 
-	private final SliceResponse<ClubReviewsWithContentDetailResponse> reviews;
+	private final SliceResponse<ClubReviewResponse> reviews;
 
-	public static GetClubReviewsWithSliceContentResponse of(Long clubId, Long lastReviewId, SliceResponse<ClubReviewsWithContentDetailResponse> reviews){
+	public static GetClubReviewsWithSliceContentResponse of(Long clubId, Long lastReviewId, SliceResponse<ClubReviewResponse> reviews){
 		return GetClubReviewsWithSliceContentResponse.builder()
 			.clubId(clubId)
 			.lastReviewId(lastReviewId)

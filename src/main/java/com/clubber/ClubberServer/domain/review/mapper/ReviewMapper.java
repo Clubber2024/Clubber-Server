@@ -2,17 +2,17 @@ package com.clubber.ClubberServer.domain.review.mapper;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse.GetAdminsReviewDetailsResponse;
+import com.clubber.ClubberServer.domain.admin.dto.AdminReviewResponse;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.dto.response.ClubReviewsWithContentDetailResponse;
+import com.clubber.ClubberServer.domain.review.dto.response.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.CreateClubReviewsWithContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithPageContentResponse;
 import com.clubber.ClubberServer.domain.review.dto.response.GetClubReviewsWithSliceContentResponse;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
-import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse.UserReviewDetailResponse;
+import com.clubber.ClubberServer.domain.user.dto.UserReviewResponse;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import com.clubber.ClubberServer.global.util.SliceUtil;
@@ -29,18 +29,18 @@ public class ReviewMapper {
 	// 동아리 별 리뷰 조회 (page)
 	public GetClubReviewsWithPageContentResponse getClubReviewsWithPageContentResponse(Page<Review> reviews,
 		Long clubId) {
-		PageResponse<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailPageResponse = toClubReviewsWithContentDetailPageResponse(
+		PageResponse<ClubReviewResponse> clubReviewsWithContentDetailPageResponse = toClubReviewsWithContentDetailPageResponse(
 			reviews);
 		return GetClubReviewsWithPageContentResponse.of(
 			clubReviewsWithContentDetailPageResponse, clubId);
 	}
 
-	private static PageResponse<ClubReviewsWithContentDetailResponse> toClubReviewsWithContentDetailPageResponse(
+	private static PageResponse<ClubReviewResponse> toClubReviewsWithContentDetailPageResponse(
 		Page<Review> reviewPages) {
-		Page<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponsePage =
+		Page<ClubReviewResponse> clubReviewsWithContentDetailResponsePage =
 			reviewPages.map(review -> {
 			Set<String> keywords = ReviewUtil.extractKeywords(review);
-			return ClubReviewsWithContentDetailResponse.of(review, keywords);
+			return ClubReviewResponse.of(review, keywords);
 		});
 		return PageResponse.of(clubReviewsWithContentDetailResponsePage);
 	}
@@ -48,21 +48,21 @@ public class ReviewMapper {
 	// 동아리 별 리뷰 조회 (No Offset)
 	public GetClubReviewsWithSliceContentResponse getClubReviewsWithSliceContentResponse(
 		Long clubId, List<Review> reviews, Pageable pageable) {
-		List<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponseList = getClubReviewsWithContentDetailResponseList(
+		List<ClubReviewResponse> clubReviewResponseList = getClubReviewsWithContentDetailResponseList(
 			reviews);
-		SliceResponse<ClubReviewsWithContentDetailResponse> clubReviewsWithContentDetailResponseSliceResponse = SliceUtil.valueOf(
-			clubReviewsWithContentDetailResponseList, pageable);
+		SliceResponse<ClubReviewResponse> clubReviewsWithContentDetailResponseSliceResponse = SliceUtil.valueOf(
+			clubReviewResponseList, pageable);
 		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
 		return GetClubReviewsWithSliceContentResponse.of(clubId, lastReviewId,
 			clubReviewsWithContentDetailResponseSliceResponse);
 	}
 
-	private static List<ClubReviewsWithContentDetailResponse> getClubReviewsWithContentDetailResponseList(
+	private static List<ClubReviewResponse> getClubReviewsWithContentDetailResponseList(
 		List<Review> reviews) {
 		return reviews.stream()
 			.map(review -> {
 					Set<String> keywords = ReviewUtil.extractKeywords(review);
-					return ClubReviewsWithContentDetailResponse.of(review, keywords);
+					return ClubReviewResponse.of(review, keywords);
 				}
 			)
 			.collect(Collectors.toList());
@@ -70,18 +70,18 @@ public class ReviewMapper {
 
 	// 리뷰 조회 (일반 회원)
 	public GetUserReviewsResponse getUserReviewsResponse(User user, List<Review> reviews) {
-		List<UserReviewDetailResponse> userReviewDetailResponse = getUserReviewDetailResponse(
+		List<UserReviewResponse> userReviewResponse = getUserReviewDetailResponse(
 			reviews);
-		return GetUserReviewsResponse.of(user, userReviewDetailResponse);
+		return GetUserReviewsResponse.of(user, userReviewResponse);
 	}
 
-	private static List<UserReviewDetailResponse> getUserReviewDetailResponse(
+	private static List<UserReviewResponse> getUserReviewDetailResponse(
 		List<Review> reviews) {
 		return reviews.stream()
 			.map(
 				review -> {
 					Set<String> keywords = ReviewUtil.extractKeywords(review);
-					return UserReviewDetailResponse.of(review, keywords);
+					return UserReviewResponse.of(review, keywords);
 				}
 			)
 			.collect(Collectors.toList());
@@ -90,17 +90,17 @@ public class ReviewMapper {
 	// 리뷰 조회 (관리자)
 	public GetAdminsReviewsResponse getAdminsReviewsResponse(
 		Admin admin, Club club, Page<Review> reviews) {
-		PageResponse<GetAdminsReviewDetailsResponse> adminsReviewDetailsPageResponse = getAdminsReviewDetailsResponses(
+		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewDetailsResponses(
 			reviews);
 		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
 	}
 
-	private static PageResponse<GetAdminsReviewDetailsResponse> getAdminsReviewDetailsResponses(
+	private static PageResponse<AdminReviewResponse> getAdminsReviewDetailsResponses(
 		Page<Review> reviewPages) {
-		Page<GetAdminsReviewDetailsResponse> getAdminsReviewDetailsResponsePage = reviewPages.map(
+		Page<AdminReviewResponse> getAdminsReviewDetailsResponsePage = reviewPages.map(
 			review -> {
 				Set<String> keywords = ReviewUtil.extractKeywords(review);
-				return GetAdminsReviewDetailsResponse.of(review, keywords);
+				return AdminReviewResponse.of(review, keywords);
 			});
 		return PageResponse.of(getAdminsReviewDetailsResponsePage);
 	}

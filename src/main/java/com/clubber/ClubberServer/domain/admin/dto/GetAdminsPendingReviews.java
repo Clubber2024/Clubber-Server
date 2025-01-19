@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,7 +15,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetAdminsReviewByStatusResponse {
+public class GetAdminsPendingReviews {
 
     @Schema(description = "리뷰 id", example = "1")
     private final Long reviewId;
@@ -29,15 +28,15 @@ public class GetAdminsReviewByStatusResponse {
     @Schema(description = "한줄평", example = "분위기가 좋아요")
     private final String content;
 
-    public static List<GetAdminsReviewByStatusResponse> from(List<Review> reviews){
+    public static List<GetAdminsPendingReviews> from(List<Review> reviews){
         return reviews.stream()
-                .map((r) ->GetAdminsReviewByStatusResponse.from(r))
+                .map((r) -> GetAdminsPendingReviews.from(r))
                 .collect(Collectors.toList());
 
     }
 
-    private static GetAdminsReviewByStatusResponse from(Review review){
-        return GetAdminsReviewByStatusResponse.builder()
+    private static GetAdminsPendingReviews from(Review review){
+        return GetAdminsPendingReviews.builder()
                 .reviewId(review.getId())
                 .writtenDate(review.getCreatedAt())
                 .content(review.getContent())

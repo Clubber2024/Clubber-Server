@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminPendingReviewsWithSliceResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewByStatusResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewStatusRequest;
-import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusRequest;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -49,21 +47,21 @@ public class AdminReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<GetAdminsReviewByStatusResponse> getAdminReviewsByApprovedStatus() {
+	public List<GetAdminsPendingReviews> getAdminReviewsByApprovedStatus() {
 		Admin admin = adminReadService.getAdmin();
 		List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
 			ApprovedStatus.PENDING, admin.getClub());
 
-		return GetAdminsReviewByStatusResponse.from(reviews);
+		return GetAdminsPendingReviews.from(reviews);
 	}
 
 	@Transactional
 	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
-		UpdateAdminsReviewStatusRequest updateAdminsReviewStatusRequest) {
+		UpdateAdminsReviewApprovedStatusRequest updateAdminsReviewApprovedStatusRequest) {
 		Admin admin = adminReadService.getAdmin();
 
-		List<Long> updateReviewRequestIds = updateAdminsReviewStatusRequest.getReviewIds();
-		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewStatusRequest.getApprovedStatus();
+		List<Long> updateReviewRequestIds = updateAdminsReviewApprovedStatusRequest.getReviewIds();
+		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewApprovedStatusRequest.getApprovedStatus();
 
 		List<Review> findReviews = reviewRepository.findAllById(updateReviewRequestIds);
 		validateReviewExistence(findReviews, updateReviewRequestIds);
@@ -86,7 +84,7 @@ public class AdminReviewService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetAdminPendingReviewsWithSliceResponse getAdminPendingReviewsWithSliceResponse(
+	public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponse(
 		Pageable pageable, Long lastReviewId) {
 		Admin admin = adminReadService.getAdmin();
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
@@ -95,6 +93,6 @@ public class AdminReviewService {
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
 			lastReviewId,
 			ApprovedStatus.PENDING);
-		return GetAdminPendingReviewsWithSliceResponse.of(reviews, pageable);
+		return GetAdminPendingReviewsSliceResponse.of(reviews, pageable);
 	}
 }

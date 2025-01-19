@@ -13,9 +13,9 @@ public class GetClubReviewsWithPageContentResponse {
 
 	private final Long clubId;
 
-	private final PageResponse<ClubReviewsWithContentDetailResponse> reviews;
+	private final PageResponse<ClubReviewResponse> reviews;
 
-	public static GetClubReviewsWithPageContentResponse of(PageResponse<ClubReviewsWithContentDetailResponse> reviews, Long clubId) {
+	public static GetClubReviewsWithPageContentResponse of(PageResponse<ClubReviewResponse> reviews, Long clubId) {
 		return GetClubReviewsWithPageContentResponse
 			.builder()
 			.clubId(clubId)

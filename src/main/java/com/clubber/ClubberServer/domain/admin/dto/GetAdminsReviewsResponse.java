@@ -1,17 +1,8 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import org.springframework.data.domain.Page;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -34,42 +25,9 @@ public class GetAdminsReviewsResponse {
 	private final String clubName;
 
 	@Schema(description = "리뷰 목록")
-	private final PageResponse<GetAdminsReviewDetailsResponse> clubReviews;
+	private final PageResponse<AdminReviewResponse> clubReviews;
 
-	@Getter
-	@Builder(access = AccessLevel.PRIVATE)
-	@AllArgsConstructor(access = AccessLevel.PRIVATE)
-	public static class GetAdminsReviewDetailsResponse {
-
-		@Schema(description = "리뷰 id", example = "1")
-		private final Long reviewId;
-
-		@Schema(description = "리뷰 상태", example = "APPROVED")
-		private final ApprovedStatus approvedStatus;
-
-		@Schema(description = "작성한 리뷰 키워드",
-			example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
-		private final Set<String> keywords;
-
-		@Schema(description = "리뷰 한줄평", example = "분위기가 좋아요")
-		private final String content;
-
-		@Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
-		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
-		private final LocalDateTime dateTime;
-
-		public static GetAdminsReviewDetailsResponse of(Review review, Set<String> keywords) {
-			return GetAdminsReviewDetailsResponse.builder()
-				.reviewId(review.getId())
-				.approvedStatus(review.getApprovedStatus())
-				.keywords(keywords)
-				.content(review.getContent())
-				.dateTime(review.getCreatedAt())
-				.build();
-		}
-	}
-
-	public static GetAdminsReviewsResponse of(Admin admin, Club club, PageResponse<GetAdminsReviewDetailsResponse> clubReviews) {
+	public static GetAdminsReviewsResponse of(Admin admin, Club club, PageResponse<AdminReviewResponse> clubReviews) {
 		return GetAdminsReviewsResponse.builder()
 			.adminId(admin.getId())
 			.clubId(club.getId())

@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.unit.domain.review;
+package com.clubber.ClubberServer.unit.domain.review.service;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
