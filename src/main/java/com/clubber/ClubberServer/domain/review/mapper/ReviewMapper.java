@@ -27,8 +27,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReviewMapper {
 
-	private static Set<String> getKeywords(List<ReviewKeyword> reviewKeywords) {
-		return reviewKeywords.stream()
+	private static Set<String> extractKeywords(Review review) {
+		return review.getReviewKeywords()
+			.stream()
 			.map(ReviewKeyword::getKeywordTitle)
 			.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
@@ -38,7 +39,7 @@ public class ReviewMapper {
 		return reviews.stream()
 			.map(
 				review -> {
-					Set<String> keywords = getKeywords(review.getReviewKeywords());
+					Set<String> keywords = extractKeywords(review);
 					return UserReviewDetailResponse.of(review, keywords);
 				}
 			)
@@ -48,8 +49,7 @@ public class ReviewMapper {
 	private static Page<GetAdminsReviewDetailsResponse> getAdminsReviewDetailsResponses(
 		Page<Review> reviewPages) {
 		return reviewPages.map(review -> {
-			List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
-			Set<String> keywords = getKeywords(reviewKeywords);
+			Set<String> keywords = extractKeywords(review);
 			return GetAdminsReviewDetailsResponse.of(review, keywords);
 		});
 	}
@@ -57,8 +57,7 @@ public class ReviewMapper {
 	private static Page<ClubReviewsWithContentDetailResponse> getPageClubReviewsWithContentDetailResponse(
 		Page<Review> reviewPages) {
 		return reviewPages.map(review -> {
-			List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
-			Set<String> keywords = getKeywords(reviewKeywords);
+			Set<String> keywords = extractKeywords(review);
 			return ClubReviewsWithContentDetailResponse.of(review, keywords);
 		});
 	}
@@ -67,8 +66,7 @@ public class ReviewMapper {
 		List<Review> reviews) {
 		return reviews.stream()
 			.map(review -> {
-					List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
-					Set<String> keywords = getKeywords(reviewKeywords);
+					Set<String> keywords = extractKeywords(review);
 					return ClubReviewsWithContentDetailResponse.of(review, keywords);
 				}
 			)
@@ -104,7 +102,7 @@ public class ReviewMapper {
 
 	public CreateClubReviewsWithContentResponse getCreateClubReviewsWithContentResponse(
 		Review review) {
-		Set<String> keywords = getKeywords(review.getReviewKeywords());
+		Set<String> keywords = extractKeywords(review);
 		return CreateClubReviewsWithContentResponse.of(review, keywords);
 	}
 
