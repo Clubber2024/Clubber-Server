@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetUsersProfileResponse {
+public class GetUserProfileResponse {
 
     @Schema(description = "유저 id", example = "1")
     private final Long id;
@@ -19,8 +19,8 @@ public class GetUsersProfileResponse {
     @Schema(description = "유저 이메일", example = "ssuclubber@gmail.com")
     private final String email;
 
-    public static GetUsersProfileResponse of(User user){
-        return GetUsersProfileResponse.builder()
+    public static GetUserProfileResponse of(User user){
+        return GetUserProfileResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .build();

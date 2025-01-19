@@ -9,7 +9,7 @@ import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserProfileResponse;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +31,9 @@ public class UserService {
 
 	private final ReviewMapper reviewMapper;
 
-	public GetUsersProfileResponse getUserProfile() {
+	public GetUserProfileResponse getUserProfile() {
 		User user = userReadService.getUser();
-		return GetUsersProfileResponse.of(user);
+		return GetUserProfileResponse.of(user);
 	}
 
 	public GetUserFavoritesResponse getUserFavorites() {

@@ -4,7 +4,7 @@ package com.clubber.ClubberServer.domain.user.controller;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserProfileResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +26,7 @@ public class UserController {
 
     @Operation(summary = "회원 정보 조회")
     @GetMapping("/me")
-    public GetUsersProfileResponse getUserProfile(){
+    public GetUserProfileResponse getUserProfile(){
         return userService.getUserProfile();
     }
 
