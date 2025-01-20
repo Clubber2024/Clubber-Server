@@ -18,25 +18,12 @@ import org.junit.jupiter.api.Test;
 
 public class ReviewDomainTest {
 
-	private static Review getReview(ApprovedStatus approvedStatus) {
-		return Review.builder()
-			.id(1L)
-			.content("content")
-			.approvedStatus(approvedStatus)
-			.build();
-	}
-
 	// 일반 사용자 content 조회
 	@Test
 	@DisplayName("승인 상태의 댓글이 아니라면 사용자들에게 보여주는 content는 null이 반환된다.")
 	void getPendingReviewContentForUser() {
 		//given
-		ApprovedStatus[] approvedStatuses = ApprovedStatus.values();
-
-		//when
-		List<ApprovedStatus> approvedStatusExceptApproved = Arrays.stream(approvedStatuses)
-			.filter(approvedStatus -> approvedStatus != APPROVED)
-			.collect(Collectors.toList());
+		List<ApprovedStatus> approvedStatusExceptApproved = getApprovedStatusListExcept(APPROVED);
 
 		//then
 		assertAll(
@@ -83,9 +70,7 @@ public class ReviewDomainTest {
 		ApprovedStatus[] approvedStatuses = ApprovedStatus.values();
 
 		//when
-		List<ApprovedStatus> approvedStatusExceptPending = Arrays.stream(approvedStatuses)
-			.filter(approvedStatus -> approvedStatus != PENDING)
-			.collect(Collectors.toList());
+		List<ApprovedStatus> approvedStatusExceptPending = getApprovedStatusListExcept(PENDING);
 
 		//then
 		approvedStatusExceptPending.stream()
@@ -94,5 +79,19 @@ public class ReviewDomainTest {
 				assertThrows(InvalidApprovedStatusException.class,
 					() -> review.updateReviewStatus(approvedStatus));
 			});
+	}
+
+	private static List<ApprovedStatus> getApprovedStatusListExcept(ApprovedStatus excludedApprovedStatus) {
+		return Arrays.stream(ApprovedStatus.values())
+			.filter(approvedStatus -> approvedStatus != excludedApprovedStatus)
+			.collect(Collectors.toList());
+	}
+
+	private static Review getReview(ApprovedStatus approvedStatus) {
+		return Review.builder()
+			.id(1L)
+			.content("content")
+			.approvedStatus(approvedStatus)
+			.build();
 	}
 }
