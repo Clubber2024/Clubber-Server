@@ -1,5 +1,9 @@
 package com.clubber.ClubberServer.domain.review.util;
 
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
+
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.global.util.SliceUtil;
@@ -9,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class ReviewUtil {
@@ -25,5 +30,26 @@ public class ReviewUtil {
 			return SliceUtil.getLastContent(reviews).getId();
 		}
 		return null;
+	}
+
+	public static String checkBlankContent(String content) {
+		if (hasContent(content)) {
+			return content;
+		}
+		return null;
+	}
+
+	public static ApprovedStatus checkBlankContentApprovedStatus(String content) {
+		if (hasContent(content)) {
+			return PENDING;
+		}
+		return NULL_CONTENT;
+	}
+
+	public static boolean hasContent(String content) {
+		if (StringUtils.hasText(content)) {
+			return true;
+		}
+		return false;
 	}
 }
