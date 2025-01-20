@@ -5,6 +5,7 @@ import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.basic.BasicMenuUI.ChangeHandler;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.util.StringUtils;
@@ -73,12 +74,27 @@ public class Review extends BaseEntity {
 	}
 
 	public static Review of(User user, Club club, String content) {
+		boolean hasContent = hasContent(content);
 		return Review.builder()
 			.user(user)
 			.club(club)
-			.content(hasContent(content) ? content : null)
-			.approvedStatus(hasContent(content) ? PENDING : NULL_CONTENT)
+			.content(checkBlankContent(content, hasContent))
+			.approvedStatus(checkBlankContentApprovedStatus(content, hasContent))
 			.build();
+	}
+
+	private static String checkBlankContent(String content, boolean hasContent) {
+		if (hasContent == true) {
+			return content;
+		}
+		return null;
+	}
+
+	private static ApprovedStatus checkBlankContentApprovedStatus(String content, boolean hasContent) {
+		if (hasContent == true) {
+			return PENDING;
+		}
+		return NULL_CONTENT;
 	}
 
 	private static boolean hasContent(String content) {
