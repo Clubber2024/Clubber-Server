@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+
 import com.clubber.ClubberServer.global.util.ImageUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,7 +45,7 @@ public class AdminService {
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
 		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(),
-				AccountState.ACTIVE)
+				ACTIVE)
 			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
 		validatePassword(loginRequest.getPassword(), admin.getPassword());
@@ -99,7 +101,7 @@ public class AdminService {
 				refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-		Admin admin = adminRepository.findById(adminId)
+		Admin admin = adminRepository.findAdminByIdAndAccountState(adminId, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		return createAdminsToken(admin);
 	}
