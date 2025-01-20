@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.unit.domain.review.domain;
 
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,15 +24,13 @@ public class ReviewDomainTest {
 		//given
 		List<ApprovedStatus> approvedStatusExceptApproved = getApprovedStatusListExcept(APPROVED);
 
-		//then
-		assertAll(
-			approvedStatusExceptApproved.stream()
-				.map(
-					approvedStatus -> {
-						Review review = getReview(approvedStatus);
-						return () -> assertNull(review.getContentForUser());
-					})
-		);
+		//when & then
+		approvedStatusExceptApproved
+			.stream()
+				.forEach(approvedStatus -> {
+					Review review = getReview(approvedStatus);
+					assertNull(review.getContentForUser());
+				});
 	}
 
 	@Test
@@ -67,12 +64,9 @@ public class ReviewDomainTest {
 	@DisplayName("승인 대기 상태의 댓글이 아닌 경우, InvalidApprovedStatusException가 발생한다.")
 	void updateReviewApprovedStatusExceptPending() {
 		//given
-		ApprovedStatus[] approvedStatuses = ApprovedStatus.values();
-
-		//when
 		List<ApprovedStatus> approvedStatusExceptPending = getApprovedStatusListExcept(PENDING);
 
-		//then
+		//when & then
 		approvedStatusExceptPending.stream()
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
