@@ -134,7 +134,23 @@ public class ReviewDomainTest {
 		Review review = getReview(DELETED);
 
 		//when & then
-		assertThrows(ReviewAlreadyDeletedException.class, () -> review.delete()); 
+		assertThrows(ReviewAlreadyDeletedException.class, () -> review.delete());
+	}
+
+	@Test
+	@DisplayName("삭제되지 않은 리뷰 상태이면 올바르게 삭제된다.")
+	void deleteReviewNotDeletedApprovedStatus() {
+		//given
+		List<ApprovedStatus> approvedStatusListExceptDeleted = getApprovedStatusListExcept(DELETED);
+
+		//when & then
+		approvedStatusListExceptDeleted
+			.stream()
+			.forEach(approvedStatus -> {
+				Review review = getReview(approvedStatus);
+				review.delete();
+				assertEquals(review.getApprovedStatus(), DELETED);
+			});
 	}
 
 	private static List<ApprovedStatus> getApprovedStatusListExcept(
