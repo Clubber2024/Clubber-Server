@@ -51,9 +51,7 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		if (reviewRepository.existsByUserAndClub(user, club)) {
-			throw UserAlreadyReviewedException.EXCEPTION;
-		}
+		validateReviewExists(club, user);
 
 		Review review = reviewRequest.toReviewEntity(user, club);
 		reviewRequest.toReviewKeywordEntities(review);
@@ -62,6 +60,12 @@ public class ReviewService {
 
 		publisher.throwReviewApproveEvent(savedReview);
 		return reviewMapper.getCreateClubReviewResponse(savedReview);
+	}
+
+	private void validateReviewExists(Club club, User user) {
+		if (reviewRepository.existsByClubAndUserAndNotApprovedStatusDeleted(club, user)) {
+			throw UserAlreadyReviewedException.EXCEPTION;
+		}
 	}
 
 	@Transactional(readOnly = true)
