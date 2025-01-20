@@ -1,14 +1,18 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.user.domain.User;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,6 +105,24 @@ public class ReviewDomainTest {
 				review.autoUpdateReviewStatus();
 				assertEquals(review.getApprovedStatus(), approvedStatus);
 			});
+	}
+
+	@Test
+	@DisplayName("빈 값의 content가 들어왔을 때, content 값은 null, ApprovedStatus은 NULL_CONTENT이다")
+	void saveBlankContentReview() {
+		//given
+		final String blankString = "  ";
+		User user = User.builder().id(1L).build();
+		Club club = Club.builder().id(1L).build();
+
+		//when
+		Review review = Review.of(user, club, blankString);
+
+		//then
+		assertAll(
+			() -> assertEquals(review.getContent(), null),
+			() -> assertEquals(review.getApprovedStatus(), NULL_CONTENT)
+		);
 	}
 
 	private static List<ApprovedStatus> getApprovedStatusListExcept(
