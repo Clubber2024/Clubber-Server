@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -12,6 +13,7 @@ import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusExc
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import java.util.Arrays;
 import java.util.List;
@@ -123,6 +125,16 @@ public class ReviewDomainTest {
 			() -> assertEquals(review.getContent(), null),
 			() -> assertEquals(review.getApprovedStatus(), NULL_CONTENT)
 		);
+	}
+
+	@Test
+	@DisplayName("이미 삭제된 리뷰를 삭제하면 ReviewAlreadyDeletedException가 발생한다.")
+	void deleteAlreadyDeletedReview() {
+		//given
+		Review review = getReview(DELETED);
+
+		//when & then
+		assertThrows(ReviewAlreadyDeletedException.class, () -> review.delete()); 
 	}
 
 	private static List<ApprovedStatus> getApprovedStatusListExcept(

@@ -7,6 +7,7 @@ import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PEND
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import jakarta.persistence.CascadeType;
@@ -94,6 +95,9 @@ public class Review extends BaseEntity {
 	}
 
 	public void delete() {
+		if (approvedStatus == DELETED){
+			throw ReviewAlreadyDeletedException.EXCEPTION;
+		}
 		this.approvedStatus = DELETED;
 	}
 
