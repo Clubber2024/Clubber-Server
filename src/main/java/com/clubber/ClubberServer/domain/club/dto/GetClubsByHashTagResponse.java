@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.club.dto;
 
 
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import java.util.List;
 
@@ -10,8 +11,11 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsByHashTagResponse {
 
-    private String hashtag;
-    private List<GetClubByHashTagResponse> clubs;
+    @Schema(description = "해시태그", example = "개발")
+    private final String hashtag;
+
+    @Schema(description = "해시태그 동아리 목록")
+    private final List<GetClubByHashTagResponse> clubs;
 
     public static GetClubsByHashTagResponse of (Hashtag hashtag, List<GetClubByHashTagResponse> clubs){
         return GetClubsByHashTagResponse.builder()

@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.Division;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -8,10 +9,13 @@ import java.util.List;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetClubByDivisionResponse { //각 분과별 dto
+public class GetClubByDivisionResponse {
 
-    private String division;
-    private List<GetClubIntoCardResponse> clubs;
+    @Schema(description = "분과명", example = "연대사업분과")
+    private final String division;
+
+    @Schema(description = "분과 소속 동아리 목록")
+    private final List<GetClubIntoCardResponse> clubs;
 
     public static GetClubByDivisionResponse of (Division division, List<GetClubIntoCardResponse> clubs){
         return GetClubByDivisionResponse.builder()
@@ -19,5 +23,4 @@ public class GetClubByDivisionResponse { //각 분과별 dto
                 .clubs(clubs)
                 .build();
     }
-
 }

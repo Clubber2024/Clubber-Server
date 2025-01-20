@@ -3,19 +3,28 @@ package com.clubber.ClubberServer.domain.club.dto;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetClubIntoCardResponse { //clubId,clubName을 반환함
+public class GetClubIntoCardResponse {
 
-    private boolean isAgreeToProvideInfo;
-    private Long clubId;
-    private ImageVO imageUrl;
-    private String clubName;
-    private String introduction; //동아리에 대한 설명도 들처가야함
+    @Schema(description = "정보 제공 동의 여부", example = "false")
+    private final boolean isAgreeToProvideInfo;
 
+    @Schema(description = "동아리 id", example = "1")
+    private final Long clubId;
+
+    @Schema(description = "동아리 대표 로고", example = "https://image.ssuclubber.com/club/image1")
+    private final ImageVO imageUrl;
+
+    @Schema(description = "동아리명", example = "클러버")
+    private final String clubName;
+
+    @Schema(description = "동아리 소개", example = "숭실대학교 동아리 정보 제공 웹서비스 클러버")
+    private final String introduction;
 
     public static GetClubIntoCardResponse from(Club club){
         return GetClubIntoCardResponse.builder()
@@ -26,5 +35,4 @@ public class GetClubIntoCardResponse { //clubId,clubName을 반환함
                 .introduction(club.getIntroduction())
                 .build();
     }
-
 }
