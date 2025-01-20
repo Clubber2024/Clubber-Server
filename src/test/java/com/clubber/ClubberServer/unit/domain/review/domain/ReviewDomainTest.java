@@ -27,10 +27,10 @@ public class ReviewDomainTest {
 		//when & then
 		approvedStatusExceptApproved
 			.stream()
-				.forEach(approvedStatus -> {
-					Review review = getReview(approvedStatus);
-					assertNull(review.getContentForUser());
-				});
+			.forEach(approvedStatus -> {
+				Review review = getReview(approvedStatus);
+				assertNull(review.getContentForUser());
+			});
 	}
 
 	@Test
@@ -75,7 +75,36 @@ public class ReviewDomainTest {
 			});
 	}
 
-	private static List<ApprovedStatus> getApprovedStatusListExcept(ApprovedStatus excludedApprovedStatus) {
+	@Test
+	@DisplayName("승인 대기 상태의 댓글의 경우에, 자동 승인이 수행된다.")
+	void updateAutoReviewApprovedPendingStatus() {
+		//given
+		Review review = getReview(PENDING);
+
+		//when
+		review.autoUpdateReviewStatus();
+
+		//then
+		assertEquals(review.getApprovedStatus(), APPROVED);
+	}
+
+	@Test
+	@DisplayName("승인 대기 상태의 댓글이 아닌 경우, 자동 승인이 수행되지 않아 기존 승인 상태가 된다.")
+	void updateAutoReviewApprovedExceptPendingStatus() {
+		//given
+		List<ApprovedStatus> approvedStatusListExceptPending = getApprovedStatusListExcept(PENDING);
+
+		//when & then
+		approvedStatusListExceptPending.stream()
+			.forEach(approvedStatus -> {
+				Review review = getReview(approvedStatus);
+				review.autoUpdateReviewStatus();
+				assertEquals(review.getApprovedStatus(), approvedStatus);
+			});
+	}
+
+	private static List<ApprovedStatus> getApprovedStatusListExcept(
+		ApprovedStatus excludedApprovedStatus) {
 		return Arrays.stream(ApprovedStatus.values())
 			.filter(approvedStatus -> approvedStatus != excludedApprovedStatus)
 			.collect(Collectors.toList());
