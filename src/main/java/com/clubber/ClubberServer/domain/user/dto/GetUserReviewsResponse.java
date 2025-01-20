@@ -15,10 +15,10 @@ public class GetUserReviewsResponse {
 
     private final List<UserReviewResponse> userReviews;
 
-    public static GetUserReviewsResponse of(User user, List<UserReviewResponse> userReviewRespons){
+    public static GetUserReviewsResponse of(User user, List<UserReviewResponse> userReviewResponse){
         return GetUserReviewsResponse.builder()
                 .userId(user.getId())
-                .userReviews(userReviewRespons)
+                .userReviews(userReviewResponse)
                 .build();
     }
 }
