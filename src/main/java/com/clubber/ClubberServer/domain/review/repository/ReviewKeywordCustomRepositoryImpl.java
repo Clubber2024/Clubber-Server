@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
 import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
@@ -20,7 +21,8 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
     public List<ReviewKeyword> queryReviewKeywordByClubId(Long clubId) {
         return queryFactory.selectFrom(reviewKeyword)
                 .join(reviewKeyword.review, review).fetchJoin()
-                .where(review.club.id.eq(clubId))
+                .where(review.club.id.eq(clubId)
+                    .and(review.approvedStatus.ne(DELETED)))
                 .fetch();
     }
 
@@ -30,7 +32,8 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .select(Projections.fields(KeywordStat.class,
                         reviewKeyword.keyword, reviewKeyword.count().as("count")))
                 .from(reviewKeyword)
-                .where(review.club.id.eq(clubId))
+                .where(review.club.id.eq(clubId)
+                    .and(review.approvedStatus.ne(DELETED)))
                 .join(reviewKeyword.review, review)
                 .groupBy(reviewKeyword.keyword)
                 .fetch();
@@ -43,23 +46,8 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .from(reviewKeyword)
                 .join(reviewKeyword.review, review).fetchJoin()
                 .join(review.club, club).fetchJoin()
-                .where(review.user.id.eq(userId))
+                .where(review.user.id.eq(userId)
+                    .and(review.approvedStatus.ne(DELETED)))
                 .fetch();
     }
-
-    /**
-     *fetch join에서 on을 지원하지 않아 outer join으로 구현 실패 : 추후에 방법 찾아보기  
-     */
-//    @Override
-//    public List<ReviewKeyword> queryReviewByClubId(Long clubId) {
-//        return queryFactory
-//                .select(reviewKeyword)
-//                .from(reviewKeyword)
-//                .leftJoin(reviewKeyword.review).fetchJoin()
-//                //.on(review.approvedStatus.eq(ApprovedStatus.APPROVED))
-//                .where(review.club.id.eq(clubId))
-//                .fetch();
-//    }
-
-
 }
