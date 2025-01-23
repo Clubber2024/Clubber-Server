@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.unit.domain.review.service;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.FEE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static reactor.core.publisher.Mono.when;
@@ -38,7 +39,7 @@ public class ReviewServiceTest {
 	@Test
 	void keywordResponseTest() {
 		//given
-		List<KeywordStat> keywordStats = getKewordStats();
+		List<KeywordStat> keywordStats = getKeywordStats();
 		Club club = getClub();
 
 		doReturn(Optional.of(club))
@@ -47,16 +48,17 @@ public class ReviewServiceTest {
 
 		doReturn(keywordStats)
 			.when(reviewKeywordRepository)
-			.queryReviewKeywordByClubId(any(Long.class));
+			.queryReviewKeywordStatsByClubId(any(Long.class));
 		//when
-		GetClubReviewsKeywordStatsResponse clubReviewKeywordStats = reviewService.getClubReviewKeywordStats(1L);
+		GetClubReviewsKeywordStatsResponse clubReviewKeywordStats = reviewService.getClubReviewKeywordStats(
+			1L);
 
 		//then
 		Map<String, Long> keywordStatsResponse = clubReviewKeywordStats.getKeywordStats();
 		assertEquals(keywordStatsResponse.get(FEE.getTitle()), 20L);
 	}
 
-	private static List<KeywordStat> getKewordStats() {
+	private static List<KeywordStat> getKeywordStats() {
 		return List.of(
 			new KeywordStat(Keyword.ACTIVITY, 10L),
 			new KeywordStat(FEE, 20L),
@@ -68,6 +70,7 @@ public class ReviewServiceTest {
 
 	private static Club getClub() {
 		return Club.builder()
+			.id(1L)
 			.isAgreeToReview(true)
 			.build();
 	}
