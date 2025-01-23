@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.unit.domain.review.service;
+package com.clubber.ClubberServer.unit.domain.review.vo;
 
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.ACTIVITY;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.CAREER;
@@ -16,11 +16,11 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ReviewServiceTest {
+public class ReviewKeywordVOTest {
 
 
 	@Test
-	@DisplayName("keywordStat 리스트가 주어졌을 때, KeywordStats안의 Map에 매핑된다..")
+	@DisplayName("keywordStat 리스트가 주어졌을 때, KeywordStatVO안의 Map에 매핑된다..")
 	void keywordStatsTest() {
 		//given
 		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
