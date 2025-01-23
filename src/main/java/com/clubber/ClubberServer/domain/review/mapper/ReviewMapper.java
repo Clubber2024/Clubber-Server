@@ -8,8 +8,7 @@ import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
@@ -77,8 +76,8 @@ public class ReviewMapper {
 	}
 
 	public GetClubReviewsKeywordStatsResponse getGetClubReviewsKeywordStatsResponse(Club club,
-		KeywordStats keywordStats) {
-		Map<Keyword, Long> keywordMap = keywordStats.getKeywordMap();
+		KeywordStatsVO keywordStatsVO) {
+		Map<Keyword, Long> keywordMap = keywordStatsVO.getKeywordMap();
 		return GetClubReviewsKeywordStatsResponse.of(club, convertKeyType(keywordMap));
 	}
 

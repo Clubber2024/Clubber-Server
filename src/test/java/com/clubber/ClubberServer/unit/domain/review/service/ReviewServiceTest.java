@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -23,14 +23,14 @@ public class ReviewServiceTest {
 	@DisplayName("keywordStat 리스트가 주어졌을 때, KeywordStats안의 Map에 매핑된다..")
 	void keywordStatsTest() {
 		//given
-		KeywordStats keywordStats = new KeywordStats();
+		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
 		List<KeywordStat> keywordStatList = getKeywordStats();
 
 		//when
-		keywordStats.updateKeywordStat(keywordStatList);
+		keywordStatsVO.updateKeywordStat(keywordStatList);
 
 		//then
-		Map<Keyword, Long> keywordMap = keywordStats.getKeywordMap();
+		Map<Keyword, Long> keywordMap = keywordStatsVO.getKeywordMap();
 		assertAll(
 			() -> assertEquals(10L, keywordMap.get(ACTIVITY)),
 			() -> assertEquals(20L, keywordMap.get(FEE)),

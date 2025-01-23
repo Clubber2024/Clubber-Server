@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.dto;
+package com.clubber.ClubberServer.domain.review.vo;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
@@ -9,10 +9,10 @@ import java.util.Map;
 import lombok.Getter;
 
 @Getter
-public class KeywordStats {
-    private Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
+public class KeywordStatsVO {
+    private final Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
-    public KeywordStats() {
+    public KeywordStatsVO() {
         Arrays.stream(Keyword.values())
                 .forEach(keyword -> keywordMap.put(keyword, 0L));
     }

@@ -11,7 +11,7 @@ import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsRes
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
@@ -86,9 +86,9 @@ public class ReviewService {
 		List<KeywordStat> keywordStatList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
-		KeywordStats keywordStats = new KeywordStats();
-		keywordStats.updateKeywordStat(keywordStatList);
-		return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStats);
+		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
+		keywordStatsVO.updateKeywordStat(keywordStatList);
+		return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
 	}
 
 	//동아리 별 리뷰 조회 : Page 별 조회 

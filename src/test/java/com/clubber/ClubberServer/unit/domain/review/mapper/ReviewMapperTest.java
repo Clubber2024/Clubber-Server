@@ -12,11 +12,10 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,14 +30,14 @@ public class ReviewMapperTest {
 	@Test
 	void testKeywordMapping() {
 		//given
-		KeywordStats keywordStats = new KeywordStats();
-		keywordStats.updateKeywordStat(getKeywordStats());
+		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
+		keywordStatsVO.updateKeywordStat(getKeywordStats());
 
 		Club club = getClub();
 
 		//when
 		GetClubReviewsKeywordStatsResponse getClubReviewsKeywordStatsResponse = reviewMapper.getGetClubReviewsKeywordStatsResponse(
-			club, keywordStats);
+			club, keywordStatsVO);
 
 		//then
 		Map<String, Long> keywordMap = getClubReviewsKeywordStatsResponse.getKeywordStats();
