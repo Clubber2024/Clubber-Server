@@ -4,7 +4,7 @@ import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELE
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
-import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDTO;
+import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -16,9 +16,9 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public List<KeywordCountStatDTO> queryReviewKeywordStatsByClubId(Long clubId) {
+	public List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId) {
 		return queryFactory
-			.select(Projections.fields(KeywordCountStatDTO.class,
+			.select(Projections.fields(KeywordCountStatDto.class,
 				reviewKeyword.keyword, reviewKeyword.count().as("count")))
 			.from(reviewKeyword)
 			.where(review.club.id.eq(clubId)

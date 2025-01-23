@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDTO;
+import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import java.util.List;
@@ -52,13 +52,13 @@ public class ReviewMapperTest {
 		);
 	}
 
-	private static List<KeywordCountStatDTO> getKeywordStats() {
+	private static List<KeywordCountStatDto> getKeywordStats() {
 		return List.of(
-			new KeywordCountStatDTO(Keyword.ACTIVITY, 10L),
-			new KeywordCountStatDTO(FEE, 20L),
-			new KeywordCountStatDTO(Keyword.CAREER, 30L),
-			new KeywordCountStatDTO(Keyword.CULTURE, 40L),
-			new KeywordCountStatDTO(Keyword.MANAGE, 50L)
+			new KeywordCountStatDto(Keyword.ACTIVITY, 10L),
+			new KeywordCountStatDto(FEE, 20L),
+			new KeywordCountStatDto(Keyword.CAREER, 30L),
+			new KeywordCountStatDto(Keyword.CULTURE, 40L),
+			new KeywordCountStatDto(Keyword.MANAGE, 50L)
 		);
 	}
 

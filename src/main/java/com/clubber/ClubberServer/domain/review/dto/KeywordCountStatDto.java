@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class KeywordCountStatDTO {
+public class KeywordCountStatDto {
 
 	private Keyword keyword;
 

@@ -10,7 +10,7 @@ import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResp
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDTO;
+import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
@@ -83,11 +83,11 @@ public class ReviewService {
 
 		club.validateAgreeToReview();
 
-		List<KeywordCountStatDTO> keywordCountStatDTOList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+		List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
 		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
-		keywordStatsVO.updateKeywordStat(keywordCountStatDTOList);
+		keywordStatsVO.updateKeywordStat(keywordCountStatDtoList);
 		return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
 	}
 
