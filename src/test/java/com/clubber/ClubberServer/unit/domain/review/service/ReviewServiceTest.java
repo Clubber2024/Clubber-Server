@@ -7,63 +7,36 @@ import static com.clubber.ClubberServer.domain.review.domain.Keyword.FEE;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.MANAGE;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
-import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
-import com.clubber.ClubberServer.domain.review.service.ReviewService;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 public class ReviewServiceTest {
 
-	@InjectMocks
-	private ReviewService reviewService;
-
-	@Mock
-	private ReviewKeywordRepository reviewKeywordRepository;
-
-	@Mock
-	private ClubRepository clubRepository;
 
 	@Test
-	void keywordResponseTest() {
+	@DisplayName("keywordStat 리스트가 주어졌을 때, KeywordStats안의 Map에 매핑된다..")
+	void keywordStatsTest() {
 		//given
-		List<KeywordStat> keywordStats = getKeywordStats();
-		Club club = getClub();
+		KeywordStats keywordStats = new KeywordStats();
+		List<KeywordStat> keywordStatList = getKeywordStats();
 
-		doReturn(Optional.of(club))
-			.when(clubRepository)
-			.findClubByIdAndIsDeleted(any(Long.class), eq(false));
-
-		doReturn(keywordStats)
-			.when(reviewKeywordRepository)
-			.queryReviewKeywordStatsByClubId(any(Long.class));
 		//when
-		GetClubReviewsKeywordStatsResponse clubReviewKeywordStats = reviewService.getClubReviewKeywordStats(
-			1L);
+		keywordStats.updateKeywordStat(keywordStatList);
 
 		//then
-		Map<String, Long> keywordStatsResponse = clubReviewKeywordStats.getKeywordStats();
+		Map<Keyword, Long> keywordMap = keywordStats.getKeywordMap();
 		assertAll(
-			() -> assertEquals(keywordStatsResponse.get(ACTIVITY.getTitle()), 10L),
-			() -> assertEquals(keywordStatsResponse.get(FEE.getTitle()), 20L),
-			() -> assertEquals(keywordStatsResponse.get(CAREER.getTitle()), 30L),
-			() -> assertEquals(keywordStatsResponse.get(CULTURE.getTitle()), 40L),
-			() -> assertEquals(keywordStatsResponse.get(MANAGE.getTitle()), 50L)
+			() -> assertEquals(10L, keywordMap.get(ACTIVITY)),
+			() -> assertEquals(20L, keywordMap.get(FEE)),
+			() -> assertEquals(30L, keywordMap.get(CAREER)),
+			() -> assertEquals(40L, keywordMap.get(CULTURE)),
+			() -> assertEquals(50L, keywordMap.get(MANAGE))
 		);
 	}
 
@@ -75,12 +48,5 @@ public class ReviewServiceTest {
 			new KeywordStat(Keyword.CULTURE, 40L),
 			new KeywordStat(Keyword.MANAGE, 50L)
 		);
-	}
-
-	private static Club getClub() {
-		return Club.builder()
-			.id(1L)
-			.isAgreeToReview(true)
-			.build();
 	}
 }
