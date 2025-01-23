@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
+import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDTO;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class ReviewKeywordVOTest {
 	void keywordStatsTest() {
 		//given
 		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
-		List<KeywordStat> keywordStatList = getKeywordStats();
+		List<KeywordCountStatDTO> keywordStatList = getKeywordStats();
 
 		//when
 		keywordStatsVO.updateKeywordStat(keywordStatList);
@@ -40,13 +40,13 @@ public class ReviewKeywordVOTest {
 		);
 	}
 
-	private static List<KeywordStat> getKeywordStats() {
+	private static List<KeywordCountStatDTO> getKeywordStats() {
 		return List.of(
-			new KeywordStat(Keyword.ACTIVITY, 10L),
-			new KeywordStat(FEE, 20L),
-			new KeywordStat(Keyword.CAREER, 30L),
-			new KeywordStat(Keyword.CULTURE, 40L),
-			new KeywordStat(Keyword.MANAGE, 50L)
+			new KeywordCountStatDTO(Keyword.ACTIVITY, 10L),
+			new KeywordCountStatDTO(FEE, 20L),
+			new KeywordCountStatDTO(Keyword.CAREER, 30L),
+			new KeywordCountStatDTO(Keyword.CULTURE, 40L),
+			new KeywordCountStatDTO(Keyword.MANAGE, 50L)
 		);
 	}
 }

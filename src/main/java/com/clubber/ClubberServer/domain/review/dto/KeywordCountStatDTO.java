@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class KeywordStat {
-    private Keyword keyword;
+public class KeywordCountStatDTO {
 
-    private Long count;
+	private Keyword keyword;
 
+	private Long count;
 }

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.review.vo;
 
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
+import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDTO;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -17,9 +17,9 @@ public class KeywordStatsVO {
                 .forEach(keyword -> keywordMap.put(keyword, 0L));
     }
 
-    public void updateKeywordStat(List<KeywordStat> keywordStatList) {
-        for (KeywordStat keywordStat : keywordStatList) {
-            keywordMap.put(keywordStat.getKeyword(), keywordStat.getCount());
+    public void updateKeywordStat(List<KeywordCountStatDTO> keywordCountStatDTOList) {
+        for (KeywordCountStatDTO keywordCountStatDTO : keywordCountStatDTOList) {
+            keywordMap.put(keywordCountStatDTO.getKeyword(), keywordCountStatDTO.getCount());
         }
     }
 }
