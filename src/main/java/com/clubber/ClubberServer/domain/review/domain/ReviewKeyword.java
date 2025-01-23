@@ -44,18 +44,14 @@ public class ReviewKeyword extends BaseEntity {
 		this.keyword = keyword;
 	}
 
-	public static ReviewKeyword from(Keyword keyword) {
+	public static ReviewKeyword of(Keyword keyword, Review review) {
 		return ReviewKeyword.builder()
 			.keyword(keyword)
+			.review(review)
 			.build();
 	}
 
 	public String getKeywordTitle() {
 		return keyword.getTitle();
-	}
-
-	public void setReview(Review review) {
-		this.review = review;
-		review.getReviewKeywords().add(this);
 	}
 }

@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.review.mapper;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
@@ -10,6 +11,7 @@ import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
+import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import com.clubber.ClubberServer.global.util.SliceUtil;
@@ -90,4 +92,18 @@ public class ReviewMapper {
 				(oldValue, newValue) -> oldValue,
 				LinkedHashMap::new));
 	}
+
+	public Review toReviewEntity(User user, Club club, String content) {
+		return Review.of(user, club, content);
+	}
+
+	//ReviewKeyword 엔티티 객체 만든 후, Review 와 양방향 매핑
+	public void mapReviewToKeyword(Review review, List<Keyword> keywords) {
+		keywords
+			.forEach(keyword -> {
+				ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, review);
+				review.addReviewKeyword(reviewKeyword);
+			});
+	}
 }
+

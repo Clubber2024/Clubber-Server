@@ -53,8 +53,8 @@ public class ReviewService {
 
 		validateReviewExists(club, user);
 
-		Review review = reviewRequest.toReviewEntity(user, club);
-		reviewRequest.toReviewKeywordEntities(review);
+		Review review = reviewMapper.toReviewEntity(user, club, reviewRequest.getContent());
+		reviewMapper.mapReviewToKeyword(review, reviewRequest.getKeywords());
 
 		Review savedReview = reviewRepository.save(review);
 

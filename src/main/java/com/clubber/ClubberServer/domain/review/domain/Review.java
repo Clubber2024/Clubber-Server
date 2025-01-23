@@ -63,6 +63,10 @@ public class Review extends BaseEntity {
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
+	public void addReviewKeyword(ReviewKeyword reviewKeyword) {
+		this.reviewKeywords.add(reviewKeyword);
+	}
+
 	@Builder
 	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus) {
 		this.id = id;
