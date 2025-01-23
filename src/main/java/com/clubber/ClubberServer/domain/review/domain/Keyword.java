@@ -8,29 +8,29 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Keyword implements EnumMapperType {
-    CULTURE("😃 \" 분위기가 좋아요\""),
-    FEE("💵 \"회비가 적당해요\""),
-    ACTIVITY("🕺🏻 \"활동 참여가 자유로워요\""),
-    CAREER("🏆 \"대외활동에 좋아요\""),
-    MANAGE("👍🏻 \"운영진들이 일을 잘해요\"");
+	CULTURE("😃 \" 분위기가 좋아요\""),
+	FEE("💵 \"회비가 적당해요\""),
+	ACTIVITY("🕺🏻 \"활동 참여가 자유로워요\""),
+	CAREER("🏆 \"대외활동에 좋아요\""),
+	MANAGE("👍🏻 \"운영진들이 일을 잘해요\"");
 
-    private final String title;
+	private final String title;
 
-    @JsonCreator
-    public static Keyword from(String req){
-        return Arrays.stream(Keyword.values())
-                .filter(keyword -> keyword.getCode().equals(req))
-                .findAny()
-                .orElse(null);
-    }
+	@JsonCreator
+	public static Keyword from(String req) {
+		return Arrays.stream(Keyword.values())
+			.filter(keyword -> keyword.getCode().equals(req))
+			.findAny()
+			.orElse(null);
+	}
 
-    @Override
-    public String getCode() {
-        return name();
-    }
+	@Override
+	public String getCode() {
+		return name();
+	}
 
-    @Override
-    public String getTitle() {
-        return title;
-    }
+	@Override
+	public String getTitle() {
+		return title;
+	}
 }
