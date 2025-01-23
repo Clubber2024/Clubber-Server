@@ -71,7 +71,7 @@ public class ReviewController {
 	public CreateClubReviewResponse createReviewWithContent(
 		@RequestBody @Valid CreateClubReviewRequest reviewRequest,
 		@PathVariable Long clubId) {
-		return reviewService.createReviewsByContent(clubId, reviewRequest);
+		return reviewService.createReview(clubId, reviewRequest);
 	}
 
 }

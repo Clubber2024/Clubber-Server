@@ -32,7 +32,7 @@ public class ReviewServiceTest extends ServiceTest {
 	@WithMockCustomUser(first = "100000001", second = "USER")
 	@Test
 	void createReviewSuccess() {
-		CreateClubReviewResponse reviewCreateResponse = reviewService.createReviewsByContent( 10000001L
+		CreateClubReviewResponse reviewCreateResponse = reviewService.createReview( 10000001L
 			, VALID_REVIEW_CREATE_REQUEST);
 
 		Optional<Review> createdReview = reviewRepository.findById(reviewCreateResponse.getReviewId());
@@ -50,7 +50,7 @@ public class ReviewServiceTest extends ServiceTest {
 	@Test
 	void createDuplicateReview() {
 		assertThrows(UserAlreadyReviewedException.class,
-			() -> reviewService.createReviewsByContent(exampleId, VALID_REVIEW_CREATE_REQUEST));
+			() -> reviewService.createReview(exampleId, VALID_REVIEW_CREATE_REQUEST));
 	}
 
 }

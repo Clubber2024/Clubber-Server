@@ -42,7 +42,7 @@ public class ReviewService {
 	private final UserReadService userReadService;
 
 	@Transactional
-	public CreateClubReviewResponse createReviewsByContent(Long clubId,
+	public CreateClubReviewResponse createReview(Long clubId,
 		@Valid CreateClubReviewRequest reviewRequest) {
 		User user = userReadService.getUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
