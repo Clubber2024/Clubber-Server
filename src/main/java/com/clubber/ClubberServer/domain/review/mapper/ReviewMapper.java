@@ -98,7 +98,7 @@ public class ReviewMapper {
 	}
 
 	//ReviewKeyword 엔티티 객체 만든 후, Review 와 양방향 매핑
-	public void mapReviewToKeyword(Review review, List<Keyword> keywords) {
+	public void mapReviewToKeywords(Review review, List<Keyword> keywords) {
 		keywords
 			.forEach(keyword -> {
 				ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, review);

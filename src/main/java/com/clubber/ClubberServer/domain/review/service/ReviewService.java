@@ -45,17 +45,14 @@ public class ReviewService {
 	public CreateClubReviewResponse createReviewsByContent(Long clubId,
 		@Valid CreateClubReviewRequest reviewRequest) {
 		User user = userReadService.getUser();
-
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
 		club.validateAgreeToReview();
-
 		validateReviewExists(club, user);
 
 		Review review = reviewMapper.toReviewEntity(user, club, reviewRequest.getContent());
-		reviewMapper.mapReviewToKeyword(review, reviewRequest.getKeywords());
-
+		reviewMapper.mapReviewToKeywords(review, reviewRequest.getKeywords());
 		Review savedReview = reviewRepository.save(review);
 
 		publisher.throwReviewApproveEvent(savedReview);
