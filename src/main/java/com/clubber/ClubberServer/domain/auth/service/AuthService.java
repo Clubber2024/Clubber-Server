@@ -1,9 +1,5 @@
 package com.clubber.ClubberServer.domain.auth.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
-
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
@@ -14,13 +10,16 @@ import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
-import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
 	private final UserRepository userRepository;
-	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenService jwtTokenService;
 	private final RefreshTokenRepository refreshTokenRepository;
 
 	@Transactional
@@ -35,27 +34,14 @@ public class AuthService {
 	}
 
 	@Transactional
-	public KakaoOauthResponse generateUserToken(User user) {
-		String accessToken = jwtTokenProvider.generateAccessToken(user);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
-		saveRefreshTokenEntity(user, refreshToken);
-		return KakaoOauthResponse.of(user, accessToken, refreshToken);
-	}
-
-	private void saveRefreshTokenEntity(User user, String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(user.getId(), refreshToken,
-			jwtTokenProvider.getRefreshTokenTTlSecond());
-		refreshTokenRepository.save(refreshTokenEntity);
-	}
-
-	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
-				.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-		Long id = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+				refreshToken)
+			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+		Long id = jwtTokenService.parseRefreshToken(refreshTokenEntity);
 		User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
-		return generateUserToken(user);
+		return jwtTokenService.generateUserToken(user);
 	}
 
 	@Transactional
@@ -70,12 +56,5 @@ public class AuthService {
 		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
 		return user;
-	}
-
-	@Transactional(readOnly = true)
-	public User getCurrentUser() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		return userRepository.findById(currentUserId)
-				.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 	}
 }

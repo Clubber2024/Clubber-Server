@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+
 import com.clubber.ClubberServer.global.util.ImageUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,14 +35,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
+
 	private final AdminRepository adminRepository;
+	private final AdminReadService adminReadService;
 	private final PasswordEncoder encoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
-		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(), AccountState.ACTIVE)
+		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(),
+				ACTIVE)
 			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
 		validatePassword(loginRequest.getPassword(), admin.getPassword());
@@ -48,8 +53,9 @@ public class AdminService {
 	}
 
 	private void validatePassword(String rawPassword, String encodedPassword) {
-		if (!encoder.matches(rawPassword, encodedPassword))
+		if (!encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminLoginFailedException.EXCEPTION;
+		}
 	}
 
 	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
@@ -58,27 +64,26 @@ public class AdminService {
 		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
 			jwtTokenProvider.getRefreshTokenTTlSecond());
 		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
-		return CreateAdminsLoginResponse.of(admin, accessToken, savedRefreshToken.getRefreshToken());
+		return CreateAdminsLoginResponse.of(admin, accessToken,
+			savedRefreshToken.getRefreshToken());
 	}
 
 	@Transactional(readOnly = true)
 	public GetAdminsProfileResponse getAdminsProfile() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdmin();
 		return GetAdminsProfileResponse.from(admin);
 	}
 
 	@Transactional
-	public UpdateAdminsPasswordResponse updateAdminsPassword(UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	public UpdateAdminsPasswordResponse updateAdminsPassword(
+		UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+		Admin admin = adminReadService.getAdmin();
 
 		String rawPassword = updateAdminsPasswordRequest.getPassword();
 
-		if(encoder.matches(rawPassword, admin.getPassword()))
+		if (encoder.matches(rawPassword, admin.getPassword())) {
 			throw AdminEqualsPreviousPasswordExcpetion.EXCEPTION;
+		}
 
 		admin.updatePassword(encoder.encode(rawPassword));
 		return UpdateAdminsPasswordResponse.of(admin);
@@ -92,20 +97,18 @@ public class AdminService {
 
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(refreshToken)
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+				refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-		Admin admin = adminRepository.findById(adminId)
+		Admin admin = adminRepository.findAdminByIdAndAccountState(adminId, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		return createAdminsToken(admin);
 	}
 
 	@Transactional
 	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest updateClubPageRequest) {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdmin();
 
 		Club club = admin.getClub();
 
@@ -113,34 +116,27 @@ public class AdminService {
 		club.updateClub(imageKey, updateClubPageRequest.getIntroduction());
 
 		ClubInfo clubinfo = club.getClubInfo();
-		clubinfo.updateClubInfo(updateClubPageRequest.getInstagram(), updateClubPageRequest.getLeader(), updateClubPageRequest.getActivity(),
-				updateClubPageRequest.getRoom());
+		clubinfo.updateClubInfo(updateClubPageRequest.getInstagram(),
+			updateClubPageRequest.getLeader(), updateClubPageRequest.getActivity(),
+			updateClubPageRequest.getRoom());
 
 		return UpdateClubPageResponse.of(club, clubinfo);
 	}
 
 	public GetClubResponse getAdminsMyPage() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-
+		Admin admin = adminReadService.getAdmin();
 		Club club = admin.getClub();
-
 		return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
 	}
 
 	@Transactional
 	public void withDraw() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		Admin admin = adminRepository.findById(currentUserId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		
+		Admin admin = adminReadService.getAdmin();
+
 		admin.deleteClub();
 		admin.deleteClubReviews();
 		admin.deleteClubFavorites();
 		admin.deleteClubRecruits();
 		admin.withDraw();
 	}
-
 }

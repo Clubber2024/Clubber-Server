@@ -1,19 +1,15 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import org.springframework.util.StringUtils;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
 
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
+import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,10 +24,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -76,16 +76,24 @@ public class Review extends BaseEntity {
 		return Review.builder()
 			.user(user)
 			.club(club)
-			.content(hasContent(content) ? content : null)
-			.approvedStatus(hasContent(content) ? PENDING : NULL_CONTENT)
+			.content(ReviewUtil.checkBlankContent(content))
+			.approvedStatus(ReviewUtil.checkBlankContentApprovedStatus(content))
 			.build();
+	}
+
+	//양방향 매핑 메서드
+	public void addKeywords(List<Keyword> keywords) {
+		keywords.forEach(keyword -> {
+			ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
+			this.reviewKeywords.add(reviewKeyword);
+		});
 	}
 
 	public void updateReviewStatus(ApprovedStatus approvedStatus) {
 		if (this.approvedStatus != PENDING) {
 			throw InvalidApprovedStatusException.EXCEPTION;
 		}
-		this.approvedStatus = approvedStatus; 
+		this.approvedStatus = approvedStatus;
 	}
 
 	public void autoUpdateReviewStatus() {
@@ -95,10 +103,16 @@ public class Review extends BaseEntity {
 	}
 
 	public void delete() {
+		if (approvedStatus == DELETED) {
+			throw ReviewAlreadyDeletedException.EXCEPTION;
+		}
 		this.approvedStatus = DELETED;
 	}
 
-	private static boolean hasContent(String content){
-		return StringUtils.hasText(content);
+	public String getContentForUser() {
+		if (approvedStatus == APPROVED) {
+			return content;
+		}
+		return null;
 	}
 }
