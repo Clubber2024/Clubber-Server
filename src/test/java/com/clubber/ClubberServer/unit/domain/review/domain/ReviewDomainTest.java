@@ -65,7 +65,6 @@ public class ReviewDomainTest {
 
 		//when & then
 		approvedStatusExceptApproved
-			.stream()
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
 				assertNull(review.getContentForUser());
@@ -89,7 +88,7 @@ public class ReviewDomainTest {
 		String contentForUser = review.getContentForUser();
 
 		//then
-		assertEquals(contentForUser, "content");
+		assertEquals("content", contentForUser);
 	}
 
 	// 수동 승인
@@ -103,7 +102,7 @@ public class ReviewDomainTest {
 		review.updateReviewStatus(APPROVED);
 
 		//then
-		assertEquals(review.getApprovedStatus(), APPROVED);
+		assertEquals(APPROVED, review.getApprovedStatus());
 	}
 
 	@Test
@@ -113,7 +112,7 @@ public class ReviewDomainTest {
 		List<ApprovedStatus> approvedStatusExceptPending = getApprovedStatusListExcept(PENDING);
 
 		//when & then
-		approvedStatusExceptPending.stream()
+		approvedStatusExceptPending
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
 				assertThrows(InvalidApprovedStatusException.class,
@@ -131,7 +130,7 @@ public class ReviewDomainTest {
 		review.autoUpdateReviewStatus();
 
 		//then
-		assertEquals(review.getApprovedStatus(), APPROVED);
+		assertEquals(APPROVED, review.getApprovedStatus());
 	}
 
 	@Test
@@ -141,7 +140,7 @@ public class ReviewDomainTest {
 		List<ApprovedStatus> approvedStatusListExceptPending = getApprovedStatusListExcept(PENDING);
 
 		//when & then
-		approvedStatusListExceptPending.stream()
+		approvedStatusListExceptPending
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
 				review.autoUpdateReviewStatus();
@@ -162,8 +161,8 @@ public class ReviewDomainTest {
 
 		//then
 		assertAll(
-			() -> assertEquals(review.getContent(), null),
-			() -> assertEquals(review.getApprovedStatus(), NULL_CONTENT)
+			() -> assertNull(review.getContent()),
+			() -> assertEquals(NULL_CONTENT, review.getApprovedStatus())
 		);
 	}
 
@@ -174,7 +173,7 @@ public class ReviewDomainTest {
 		Review review = getReview(DELETED);
 
 		//when & then
-		assertThrows(ReviewAlreadyDeletedException.class, () -> review.delete());
+		assertThrows(ReviewAlreadyDeletedException.class, review::delete);
 	}
 
 	@Test
@@ -185,11 +184,10 @@ public class ReviewDomainTest {
 
 		//when & then
 		approvedStatusListExceptDeleted
-			.stream()
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
 				review.delete();
-				assertEquals(review.getApprovedStatus(), DELETED);
+				assertEquals(DELETED, review.getApprovedStatus());
 			});
 	}
 }
