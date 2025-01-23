@@ -11,11 +11,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-@Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReviewUtil {
 
 	public static Set<String> extractKeywords(Review review) {
@@ -39,17 +40,17 @@ public class ReviewUtil {
 		return null;
 	}
 
-	public static ApprovedStatus checkBlankContentApprovedStatus(String content) {
-		if (hasContent(content)) {
-			return PENDING;
-		}
-		return NULL_CONTENT;
-	}
-
 	public static boolean hasContent(String content) {
 		if (StringUtils.hasText(content)) {
 			return true;
 		}
 		return false;
+	}
+
+	public static ApprovedStatus checkBlankContentApprovedStatus(String content) {
+		if (hasContent(content)) {
+			return PENDING;
+		}
+		return NULL_CONTENT;
 	}
 }
