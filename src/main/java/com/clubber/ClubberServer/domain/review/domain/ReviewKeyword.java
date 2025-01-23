@@ -2,8 +2,6 @@ package com.clubber.ClubberServer.domain.review.domain;
 
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
-import com.clubber.ClubberServer.domain.review.domain.Review;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,47 +28,46 @@ import org.hibernate.type.SqlTypes;
 @Getter
 public class ReviewKeyword extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
-    @NotNull
-    private Review review;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "review_id")
+	@NotNull
+	private Review review;
 
-    @NotNull
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Enumerated(EnumType.STRING)
-    private Keyword keyword;
+	@NotNull
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
+	private Keyword keyword;
 
-    @Builder
-    private ReviewKeyword(Long id, Review review, Keyword keyword) {
-        this.id = id;
-        this.review = review;
-        this.keyword = keyword;
-    }
+	@Builder
+	private ReviewKeyword(Long id, Review review, Keyword keyword) {
+		this.id = id;
+		this.review = review;
+		this.keyword = keyword;
+	}
 
-    public String getKeywordTitle() {
-        return keyword.getTitle();
-    }
+	public static ReviewKeyword from(Keyword keyword) {
+		return ReviewKeyword.builder()
+			.keyword(keyword)
+			.build();
+	}
 
-    public void setReview(Review review){
-        this.review = review;
-        review.getReviewKeywords().add(this);
-    }
+	public static Set<String> from(List<ReviewKeyword> reviewKeywords) {
+		return reviewKeywords.stream()
+			.map(ReviewKeyword::getKeywordTitle)
+			.collect(Collectors.toCollection(LinkedHashSet::new));
+	}
 
+	public String getKeywordTitle() {
+		return keyword.getTitle();
+	}
 
-    public static ReviewKeyword from(Keyword keyword){
-        return ReviewKeyword.builder()
-            .keyword(keyword)
-            .build();
-    }
-
-    public static Set<String> from(List<ReviewKeyword> reviewKeywords){
-        return reviewKeywords.stream()
-                .map(ReviewKeyword::getKeywordTitle)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
+	public void setReview(Review review) {
+		this.review = review;
+		review.getReviewKeywords().add(this);
+	}
 
 }

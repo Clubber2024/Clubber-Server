@@ -95,7 +95,7 @@ public class Review extends BaseEntity {
 	}
 
 	public void delete() {
-		if (approvedStatus == DELETED){
+		if (approvedStatus == DELETED) {
 			throw ReviewAlreadyDeletedException.EXCEPTION;
 		}
 		this.approvedStatus = DELETED;

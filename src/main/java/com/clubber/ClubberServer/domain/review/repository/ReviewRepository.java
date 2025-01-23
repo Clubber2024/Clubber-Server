@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewCustomRepository {
 
-    List<Review> findByApprovedStatusAndClubOrderByIdDesc(ApprovedStatus status, Club club);
+	List<Review> findByApprovedStatusAndClubOrderByIdDesc(ApprovedStatus status, Club club);
 
-    List<Review> findAllByClub(Club club);
+	List<Review> findAllByClub(Club club);
 }
