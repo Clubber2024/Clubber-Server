@@ -1,15 +1,23 @@
 package com.clubber.ClubberServer.domain.review.mapper;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.dto.ClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStat;
+import com.clubber.ClubberServer.domain.review.dto.KeywordStats;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import com.clubber.ClubberServer.global.util.SliceUtil;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
@@ -32,9 +40,9 @@ public class ReviewMapper {
 		Page<Review> reviewPages) {
 		Page<ClubReviewResponse> clubReviewResponsePage =
 			reviewPages.map(review -> {
-			Set<String> keywords = ReviewUtil.extractKeywords(review);
-			return ClubReviewResponse.of(review, keywords);
-		});
+				Set<String> keywords = ReviewUtil.extractKeywords(review);
+				return ClubReviewResponse.of(review, keywords);
+			});
 		return PageResponse.of(clubReviewResponsePage);
 	}
 
@@ -66,5 +74,21 @@ public class ReviewMapper {
 		Review review) {
 		Set<String> keywords = ReviewUtil.extractKeywords(review);
 		return CreateClubReviewResponse.of(review, keywords);
+	}
+
+	public GetClubReviewsKeywordStatsResponse getGetClubReviewsKeywordStatsResponse(Club club,
+		KeywordStats keywordStats) {
+		Map<Keyword, Long> keywordMap = keywordStats.getKeywordMap();
+		return GetClubReviewsKeywordStatsResponse.of(club, convertKeyType(keywordMap));
+	}
+
+	//리뷰 키워드 통계의 key값을 Keyword에서 문자열 내용으로 변환
+	private static Map<String, Long> convertKeyType(Map<Keyword, Long> keywordStats) {
+		return keywordStats.entrySet().stream()
+			.collect(Collectors.toMap(
+				entry -> entry.getKey().getTitle(),
+				Entry::getValue,
+				(oldValue, newValue) -> oldValue,
+				LinkedHashMap::new));
 	}
 }
