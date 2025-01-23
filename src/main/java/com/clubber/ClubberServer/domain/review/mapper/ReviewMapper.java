@@ -92,9 +92,5 @@ public class ReviewMapper {
 				(oldValue, newValue) -> oldValue,
 				LinkedHashMap::new));
 	}
-
-	public Review toReviewEntity(User user, Club club, String content) {
-		return Review.of(user, club, content);
-	}
 }
 
