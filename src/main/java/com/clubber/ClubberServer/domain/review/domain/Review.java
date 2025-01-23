@@ -63,10 +63,6 @@ public class Review extends BaseEntity {
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-	public void addReviewKeyword(ReviewKeyword reviewKeyword) {
-		this.reviewKeywords.add(reviewKeyword);
-	}
-
 	@Builder
 	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus) {
 		this.id = id;
@@ -83,6 +79,14 @@ public class Review extends BaseEntity {
 			.content(ReviewUtil.checkBlankContent(content))
 			.approvedStatus(ReviewUtil.checkBlankContentApprovedStatus(content))
 			.build();
+	}
+
+	//양방향 매핑 메서드
+	public void addKeywords(List<Keyword> keywords) {
+		keywords.forEach(keyword -> {
+			ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
+			this.reviewKeywords.add(reviewKeyword);
+		});
 	}
 
 	public void updateReviewStatus(ApprovedStatus approvedStatus) {

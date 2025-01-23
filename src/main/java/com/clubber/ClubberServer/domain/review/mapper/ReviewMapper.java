@@ -96,14 +96,5 @@ public class ReviewMapper {
 	public Review toReviewEntity(User user, Club club, String content) {
 		return Review.of(user, club, content);
 	}
-
-	//ReviewKeyword 엔티티 객체 만든 후, Review 와 양방향 매핑
-	public void mapReviewToKeywords(Review review, List<Keyword> keywords) {
-		keywords
-			.forEach(keyword -> {
-				ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, review);
-				review.addReviewKeyword(reviewKeyword);
-			});
-	}
 }
 

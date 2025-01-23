@@ -51,8 +51,8 @@ public class ReviewService {
 		club.validateAgreeToReview();
 		validateReviewExists(club, user);
 
-		Review review = reviewMapper.toReviewEntity(user, club, reviewRequest.getContent());
-		reviewMapper.mapReviewToKeywords(review, reviewRequest.getKeywords());
+		Review review = Review.of(user, club, reviewRequest.getContent());
+		review.addKeywords(reviewRequest.getKeywords());
 		Review savedReview = reviewRepository.save(review);
 
 		publisher.throwReviewApproveEvent(savedReview);
