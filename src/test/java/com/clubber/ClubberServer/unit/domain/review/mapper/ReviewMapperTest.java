@@ -5,15 +5,13 @@ import static com.clubber.ClubberServer.domain.review.domain.Keyword.CAREER;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.CULTURE;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.FEE;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.MANAGE;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
-import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -41,24 +39,24 @@ public class ReviewMapperTest {
 
 		//then
 		Map<String, Long> keywordMap = getClubReviewsKeywordStatsResponse.getKeywordStats();
-		Long clubId = getClubReviewsKeywordStatsResponse.getClubId();
-		assertAll(
-			() -> assertEquals(club.getId(), clubId),
-			() -> assertEquals(10L, keywordMap.get(ACTIVITY.getTitle())),
-			() -> assertEquals(20L, keywordMap.get(FEE.getTitle())),
-			() -> assertEquals(30L, keywordMap.get(CAREER.getTitle())),
-			() -> assertEquals(40L, keywordMap.get(CULTURE.getTitle())),
-			() -> assertEquals(50L, keywordMap.get(MANAGE.getTitle()))
-		);
+
+		assertThat(keywordMap)
+			.containsExactlyInAnyOrderEntriesOf(Map.of(
+				ACTIVITY.getTitle(), 10L,
+				FEE.getTitle(), 20L,
+				CAREER.getTitle(), 30L,
+				CULTURE.getTitle(), 40L,
+				MANAGE.getTitle(), 50L
+			));
 	}
 
 	private static List<KeywordCountStatDto> getKeywordStats() {
 		return List.of(
-			new KeywordCountStatDto(Keyword.ACTIVITY, 10L),
+			new KeywordCountStatDto(ACTIVITY, 10L),
 			new KeywordCountStatDto(FEE, 20L),
-			new KeywordCountStatDto(Keyword.CAREER, 30L),
-			new KeywordCountStatDto(Keyword.CULTURE, 40L),
-			new KeywordCountStatDto(Keyword.MANAGE, 50L)
+			new KeywordCountStatDto(CAREER, 30L),
+			new KeywordCountStatDto(CULTURE, 40L),
+			new KeywordCountStatDto(MANAGE, 50L)
 		);
 	}
 
