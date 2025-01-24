@@ -24,7 +24,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-            
 
       - name: make application.yml
         if: contains(github.ref, 'main') || contains(github.ref, 'dev')
