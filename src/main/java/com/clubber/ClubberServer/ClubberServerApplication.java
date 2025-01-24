@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-@ConfigurationPropertiesScan
+@ConfigurationPropertiesScan(basePackages = "com.clubber.ClubberServer.global.properties")
 @SpringBootApplication
 public class ClubberServerApplication {
 
