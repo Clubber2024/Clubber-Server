@@ -13,41 +13,41 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 public class AuthDetails implements UserDetails {
 
-    private String userId;
-    private String role;
+	private String userId;
+	private String role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_"+role));
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
+	}
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
+	@Override
+	public String getPassword() {
+		return null;
+	}
 
-    @Override
-    public String getUsername() {
-        return userId;
-    }
+	@Override
+	public String getUsername() {
+		return userId;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return false;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return false;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return false;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+	@Override
+	public boolean isEnabled() {
+		return false;
+	}
 }

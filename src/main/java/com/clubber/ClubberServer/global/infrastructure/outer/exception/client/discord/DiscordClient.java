@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Component
 @FeignClient(
-        name = "discord-client",
-        url = "${discord.web-hook}",
-        configuration = FeignConfig.class)
+	name = "discord-client",
+	url = "${discord.web-hook}",
+	configuration = FeignConfig.class)
 public interface DiscordClient {
 
-    @PostMapping
-    void sendAlarm(@RequestBody DiscordMessage discordMessage);
+	@PostMapping
+	void sendAlarm(@RequestBody DiscordMessage discordMessage);
 }

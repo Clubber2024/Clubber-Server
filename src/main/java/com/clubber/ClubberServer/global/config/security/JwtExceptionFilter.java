@@ -18,27 +18,28 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
-    private final ObjectMapper objectMapper;
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
-        try{
-            filterChain.doFilter(request, response);
-        }catch (BaseException e){
-            responseToClient(response,
-                    getErrorResponse(e, request.getRequestURI().toString()));
-        }
-    }
+	private final ObjectMapper objectMapper;
 
-    private ErrorResponse getErrorResponse(BaseException e, String path){
-        return new ErrorResponse(e.getErrorReason(), path);
-    }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+		FilterChain filterChain) throws ServletException, IOException {
+		try {
+			filterChain.doFilter(request, response);
+		} catch (BaseException e) {
+			responseToClient(response,
+				getErrorResponse(e, request.getRequestURI().toString()));
+		}
+	}
 
-    private void responseToClient(HttpServletResponse response, ErrorResponse errorResponse)
-            throws IOException {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(errorResponse.getStatus());
-        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
-    }
+	private void responseToClient(HttpServletResponse response, ErrorResponse errorResponse)
+		throws IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setStatus(errorResponse.getStatus());
+		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+	}
+
+	private ErrorResponse getErrorResponse(BaseException e, String path) {
+		return new ErrorResponse(e.getErrorReason(), path);
+	}
 }

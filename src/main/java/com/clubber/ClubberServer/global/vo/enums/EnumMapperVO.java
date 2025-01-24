@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class EnumMapperVO {
+
 	private final String code;
 	private final String title;
 	private final String imageUrl;
