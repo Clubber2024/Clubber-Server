@@ -4,11 +4,12 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.dto.GetUserReviewsResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
-import com.clubber.ClubberServer.domain.user.dto.GetUsersProfileResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetUserProfileResponse;
+import com.clubber.ClubberServer.domain.user.mapper.UserMapper;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,11 @@ public class UserService {
 
 	private final UserReadService userReadService;
 
-	public GetUsersProfileResponse getUserProfile() {
+	private final UserMapper userMapper;
+
+	public GetUserProfileResponse getUserProfile() {
 		User user = userReadService.getUser();
-		return GetUsersProfileResponse.of(user);
+		return GetUserProfileResponse.of(user);
 	}
 
 	public GetUserFavoritesResponse getUserFavorites() {
@@ -42,7 +45,7 @@ public class UserService {
 	public GetUserReviewsResponse getUserReviews() {
 		User user = userReadService.getUser();
 		List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
-		return GetUserReviewsResponse.of(user, reviews);
+		return userMapper.getGetUserReviewResponse(user, reviews);
 	}
 
 	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {

@@ -128,7 +128,7 @@ public class Club extends BaseEntity {
 
 	@Builder
 	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
-		College college, Department department, ImageVO imageUrl, ClubInfo clubInfo) {
+		College college, Department department, ImageVO imageUrl, ClubInfo clubInfo, boolean isAgreeToReview, boolean isAgreeToProvideInfo) {
 		this.id = id;
 		this.name = name;
 		this.clubType = clubType;
@@ -139,5 +139,7 @@ public class Club extends BaseEntity {
 		this.department = department;
 		this.imageUrl = imageUrl;
 		this.clubInfo = clubInfo;
+		this.isAgreeToReview = isAgreeToReview;
+		this.isAgreeToProvideInfo = isAgreeToProvideInfo;
 	}
 }

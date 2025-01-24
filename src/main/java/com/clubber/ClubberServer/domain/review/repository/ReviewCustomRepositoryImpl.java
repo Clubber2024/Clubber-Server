@@ -1,15 +1,9 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
-import static com.clubber.ClubberServer.domain.club.domain.QClub.*;
+import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
-import static com.clubber.ClubberServer.domain.review.domain.QReview.*;
-import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.*;
-
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
+import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
+import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
@@ -18,8 +12,11 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 @RequiredArgsConstructor
 public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
@@ -89,5 +86,16 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 			return null;
 		}
 		return review.approvedStatus.eq(approvedStatus);
+	}
+
+	@Override
+	public boolean existsByClubAndUserAndNotApprovedStatusDeleted(Club club, User user) {
+		return queryFactory.selectOne()
+			.from(review)
+			.where(review.club.id.eq(club.getId())
+				.and(review.user.id.eq(user.getId()))
+				.and(review.approvedStatus.ne(DELETED))
+			)
+			.fetchFirst() != null;
 	}
 }
