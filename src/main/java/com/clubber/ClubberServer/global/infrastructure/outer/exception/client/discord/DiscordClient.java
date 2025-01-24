@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord;
 
-import com.clubber.ClubberServer.global.infrastructure.outer.config.FeignConfig;
-import com.clubber.ClubberServer.global.infrastructure.outer.exception.config.DiscordFeignConfig;
+import com.clubber.ClubberServer.global.config.feign.FeignConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
