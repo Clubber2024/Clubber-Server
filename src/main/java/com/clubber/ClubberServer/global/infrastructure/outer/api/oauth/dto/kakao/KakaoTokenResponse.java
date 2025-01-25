@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(SnakeCaseStrategy.class)
 public class KakaoTokenResponse {
-    private String accessToken;
-    private String refreshToken;
-    private String idToken;
+
+	private String accessToken;
+	private String refreshToken;
+	private String idToken;
 }

@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("oauth")
 public class KakaoProperties {
 
-    private final String clientId;
-    private final String redirectUrl;
-    private final String adminKey;
+	private final String clientId;
+	private final String redirectUrl;
+	private final String adminKey;
 }

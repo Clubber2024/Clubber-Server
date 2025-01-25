@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.global.config.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,8 +11,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -63,18 +62,19 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/faqs")
 					.permitAll()
-					.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
+					.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
+						"/v3/api-docs")
 					.permitAll()
 					.requestMatchers("/exceptions/**")
 					.permitAll()
-						.requestMatchers("/actuator/**")
-						.permitAll()
-						.requestMatchers("/api/v1/clubs/popular/temp")
-						.permitAll()
-						.requestMatchers("/api/v1/example/**")
-						.permitAll()
-						.anyRequest()
-						.hasRole("USER"));
+					.requestMatchers("/actuator/**")
+					.permitAll()
+					.requestMatchers("/api/v1/clubs/popular/temp")
+					.permitAll()
+					.requestMatchers("/api/v1/example/**")
+					.permitAll()
+					.anyRequest()
+					.hasRole("USER"));
 		return http.build();
 	}
 

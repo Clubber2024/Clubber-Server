@@ -1,13 +1,16 @@
 package com.clubber.ClubberServer.global.config.response;
 
-import java.util.List;
-
+import com.clubber.ClubberServer.global.dto.ErrorResponse;
+import com.clubber.ClubberServer.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
 import com.clubber.ClubberServer.global.exception.BaseErrorCode;
 import com.clubber.ClubberServer.global.exception.BaseException;
 import com.clubber.ClubberServer.global.exception.ErrorReason;
 import com.clubber.ClubberServer.global.exception.GlobalErrorCode;
-import com.clubber.ClubberServer.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,12 +23,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import com.clubber.ClubberServer.global.dto.ErrorResponse;
-
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
@@ -49,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
 		HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
 
-		ServletWebRequest servletWebRequest = (ServletWebRequest)request;
+		ServletWebRequest servletWebRequest = (ServletWebRequest) request;
 		String uri = servletWebRequest.getRequest().getRequestURI();
 		ErrorResponse errorResponse =
 			new ErrorResponse(statusCode.value(), ex.getMessage(), uri);
@@ -57,7 +54,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler({MethodArgumentTypeMismatchException.class})
-	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e){
+	protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+		MethodArgumentTypeMismatchException e) {
 		return ResponseEntity.status(GlobalErrorCode.INVALID_METHOD_ARGUMENT_TYPE.getStatus())
 			.body(GlobalErrorCode.INVALID_METHOD_ARGUMENT_TYPE.getErrorReason());
 	}
@@ -77,10 +75,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 
 		//uri 추출
-		ServletWebRequest servletWebRequest = (ServletWebRequest)request;
+		ServletWebRequest servletWebRequest = (ServletWebRequest) request;
 		String uri = servletWebRequest.getRequest().getRequestURI();
 
-		ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessages.toString(), uri);
+		ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessages.toString(),
+			uri);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 
