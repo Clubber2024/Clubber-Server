@@ -13,7 +13,7 @@ public class MailService {
 
 	private final JavaMailSender mailSender;
 
-	@Async("MailExecutor")
+	@Async
 	public void send(String from, String to, String subject) {
 		MimeMessagePreparator messagePreparator =
 			mimeMessage -> {

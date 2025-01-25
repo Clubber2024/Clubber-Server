@@ -14,14 +14,13 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class AsyncConfig implements AsyncConfigurer {
 
-	@Override
 	@Bean
+	@Override
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(2);
 		executor.setMaxPoolSize(5);
 		executor.setQueueCapacity(10);
-		executor.setThreadNamePrefix("MailExecutor");
 		executor.initialize();
 		return executor;
 	}
