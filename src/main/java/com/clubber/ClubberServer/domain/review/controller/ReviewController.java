@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.review.controller;
 
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,9 +53,11 @@ public class ReviewController {
 	@DisableSwaggerSecurity
 	@GetMapping
 	public GetClubReviewsPageResponse getClubReviewsWithContentByClubId(
-		@PathVariable Long clubId,
-		Pageable pageable) {
-		return reviewService.getClubReviewsWithContent(clubId, pageable);
+		@PathVariable Long clubId, Pageable pageable,
+		@RequestParam(required = false) ApprovedStatus approvedStatus,
+		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
+		return reviewService.getClubReviewsWithContent(clubId, pageable, approvedStatus,
+			verifiedStatus);
 	}
 
 	@Operation(summary = "개별 동아리 별 리뷰 조회 No Offset(Slice)")

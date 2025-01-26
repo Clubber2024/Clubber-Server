@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -57,8 +59,10 @@ public class AdminReviewController {
 
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
-	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable) {
-		return adminReviewService.getAdminsReviews(pageable);
+	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
+		@RequestParam(required = false) ApprovedStatus approvedStatus,
+		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
+		return adminReviewService.getAdminsReviews(pageable, approvedStatus, verifiedStatus);
 	}
 
 	@Operation(summary = "리뷰 인증")
