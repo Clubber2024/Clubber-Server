@@ -13,6 +13,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -97,5 +98,14 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 				.and(review.approvedStatus.ne(DELETED))
 			)
 			.fetchFirst() != null;
+	}
+
+	@Override
+	public Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId) {
+		return Optional.ofNullable(queryFactory
+			.selectFrom(review)
+			.where(review.id.eq(reviewId)
+				.and(review.approvedStatus.ne(DELETED)))
+			.fetchOne());
 	}
 }
