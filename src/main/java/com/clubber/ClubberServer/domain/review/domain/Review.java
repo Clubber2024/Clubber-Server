@@ -3,11 +3,13 @@ package com.clubber.ClubberServer.domain.review.domain;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
+import static com.clubber.ClubberServer.domain.review.domain.VerifiedStatus.VERIFIED;
 
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
+import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyVerifiedException;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
@@ -121,6 +123,13 @@ public class Review extends BaseEntity {
 			throw ReviewAlreadyDeletedException.EXCEPTION;
 		}
 		this.approvedStatus = DELETED;
+	}
+
+	public void verify() {
+		if (verifiedStatus == VERIFIED) {
+			throw ReviewAlreadyVerifiedException.EXCEPTION;
+		}
+		this.verifiedStatus = VERIFIED;
 	}
 
 	public String getContentForUser() {
