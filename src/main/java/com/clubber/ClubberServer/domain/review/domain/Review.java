@@ -60,16 +60,21 @@ public class Review extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private ApprovedStatus approvedStatus;
 
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	@Enumerated(EnumType.STRING)
+	private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
+
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
 	@Builder
-	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus) {
+	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
 		this.id = id;
 		this.club = club;
 		this.user = user;
 		this.content = content;
 		this.approvedStatus = approvedStatus;
+		this.verifiedStatus = verifiedStatus;
 	}
 
 	public static Review of(User user, Club club, String content) {

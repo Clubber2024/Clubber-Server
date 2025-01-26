@@ -9,6 +9,7 @@ import static com.clubber.ClubberServer.domain.review.domain.Keyword.CAREER;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.CULTURE;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.FEE;
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.MANAGE;
+import static com.clubber.ClubberServer.domain.review.domain.VerifiedStatus.NOT_VERIFIED;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -189,5 +190,12 @@ public class ReviewDomainTest {
 				review.delete();
 				assertEquals(DELETED, review.getApprovedStatus());
 			});
+	}
+
+	@Test
+	@DisplayName("리뷰 저장시 인증 상태는 기본값이 저장된다")
+	void getDefaultReviewVerifiedStatus() {
+		Review review = getReview(PENDING);
+		assertEquals(NOT_VERIFIED, review.getVerifiedStatus());
 	}
 }
