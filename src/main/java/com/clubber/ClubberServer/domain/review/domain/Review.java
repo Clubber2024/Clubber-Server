@@ -10,7 +10,9 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -58,31 +60,38 @@ public class Review extends BaseEntity {
 
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private ApprovedStatus approvedStatus;
 
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
+
+	@Embedded
+	private ImageVO authImageVo;
 
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
 	@Builder
-	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
+	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus,
+		ImageVO imageVO) {
 		this.id = id;
 		this.club = club;
 		this.user = user;
 		this.content = content;
 		this.approvedStatus = approvedStatus;
-		this.verifiedStatus = verifiedStatus;
+		this.authImageVo = imageVO;
 	}
 
-	public static Review of(User user, Club club, String content) {
+	public static Review of(User user, Club club, String content, String authImage) {
 		return Review.builder()
 			.user(user)
 			.club(club)
 			.content(ReviewUtil.checkBlankContent(content))
 			.approvedStatus(ReviewUtil.checkBlankContentApprovedStatus(content))
+			.imageVO(ImageVO.valueOf(authImage))
 			.build();
 	}
 
