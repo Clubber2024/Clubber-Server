@@ -78,7 +78,7 @@ public class AdminReviewService {
 		Admin admin = adminReadService.getAdmin();
 		Review review = reviewRepository.findByIdAndNotDeletedApprovedStatus(reviewId)
 			.orElseThrow(() -> ReviewNotFoundException.EXCEPTION);
-
+		validateReviewClub(review, admin);
 		review.verify();
 		return UpdateAdminsReviewVerifyResponse.of(review, admin);
 	}
