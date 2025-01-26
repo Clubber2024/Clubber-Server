@@ -1,5 +1,5 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-enum VerifiedStatus {
+public enum VerifiedStatus {
 	VERIFIED, NOT_VERIFIED
 }
