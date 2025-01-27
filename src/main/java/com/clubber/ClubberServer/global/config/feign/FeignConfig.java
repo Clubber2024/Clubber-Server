@@ -1,13 +1,15 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.config;
+package com.clubber.ClubberServer.global.config.feign;
 
 import feign.Request;
 import feign.Retryer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
+@EnableFeignClients(basePackages = "com.clubber.ClubberServer.global.infrastructure")
 public class FeignConfig {
     //Feign 사용시 TimeOut 설정
     private static final long CONNECTION_TIMEOUT = 10;

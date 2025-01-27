@@ -6,10 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @RequiredArgsConstructor
-@ConfigurationProperties("oauth")
-public class KakaoProperties {
+@ConfigurationProperties("mail")
+public class MailProperties {
 
-	private final String clientId;
-	private final String redirectUrl;
-	private final String adminKey;
+	private final String host;
+	private final String username;
+	private final String password;
 }

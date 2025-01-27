@@ -72,6 +72,9 @@ dependencies {
 	//spring-boot-actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	//java mail sender
+	implementation'org.springframework.boot:spring-boot-starter-mail'
 }
 
 sonar {

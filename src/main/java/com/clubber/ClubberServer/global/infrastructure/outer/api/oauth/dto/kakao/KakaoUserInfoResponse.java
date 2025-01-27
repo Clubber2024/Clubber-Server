@@ -11,25 +11,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(SnakeCaseStrategy.class)
 public class KakaoUserInfoResponse {
-    long id;
 
-    private KakaoAccount kakaoAccount;
-    @Getter
-    @NoArgsConstructor
-    @JsonNaming(SnakeCaseStrategy.class)
-    public static class KakaoAccount{
-        private String email;
-    }
+	long id;
 
-    public String getEmail(){
-        return kakaoAccount.getEmail();
-    }
+	private KakaoAccount kakaoAccount;
 
-    public User toEntity(){
-        return User.builder()
-                .email(getEmail())
-                .snsType(SnsType.KAKAO)
-                .snsId(id)
-                .build();
-    }
+	public User toEntity() {
+		return User.builder()
+			.email(getEmail())
+			.snsType(SnsType.KAKAO)
+			.snsId(id)
+			.build();
+	}
+
+	public String getEmail() {
+		return kakaoAccount.getEmail();
+	}
+
+	@Getter
+	@NoArgsConstructor
+	@JsonNaming(SnakeCaseStrategy.class)
+	public static class KakaoAccount {
+
+		private String email;
+	}
 }

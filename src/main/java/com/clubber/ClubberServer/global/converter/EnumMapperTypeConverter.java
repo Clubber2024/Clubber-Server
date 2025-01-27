@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.global.converter;
 
 import com.clubber.ClubberServer.global.exception.EnumTypeNotValidException;
-
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import jakarta.persistence.AttributeConverter;

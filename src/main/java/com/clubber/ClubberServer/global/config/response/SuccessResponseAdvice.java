@@ -15,22 +15,24 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice(basePackages = "com.clubber")
 public class SuccessResponseAdvice implements ResponseBodyAdvice {
 
-    @Override
-    public boolean supports(MethodParameter returnType, Class converterType) { return true; }
+	@Override
+	public boolean supports(MethodParameter returnType, Class converterType) {
+		return true;
+	}
 
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType,
-            MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request,
-            ServerHttpResponse response) {
+	@Override
+	public Object beforeBodyWrite(Object body, MethodParameter returnType,
+		MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request,
+		ServerHttpResponse response) {
 
-        HttpServletResponse servletResponse =
-                ((ServletServerHttpResponse) response).getServletResponse();
-        int status = servletResponse.getStatus();
-        HttpStatus resolve = HttpStatus.resolve(status);
+		HttpServletResponse servletResponse =
+			((ServletServerHttpResponse) response).getServletResponse();
+		int status = servletResponse.getStatus();
+		HttpStatus resolve = HttpStatus.resolve(status);
 
-        if(resolve.is2xxSuccessful()){
-            return new SuccessResponse(body);
-        }
-        return body;
-    }
+		if (resolve.is2xxSuccessful()) {
+			return new SuccessResponse(body);
+		}
+		return body;
+	}
 }

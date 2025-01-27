@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public class SuccessResponse {
 
-    private final boolean success = true;
-    private final LocalDateTime timeStamp;
-    private final Object data;
+	private final boolean success = true;
+	private final LocalDateTime timeStamp;
+	private final Object data;
 
-    public SuccessResponse(Object data) {
-        this.data = data;
-        this.timeStamp = LocalDateTime.now();
-    }
+	public SuccessResponse(Object data) {
+		this.data = data;
+		this.timeStamp = LocalDateTime.now();
+	}
 }
