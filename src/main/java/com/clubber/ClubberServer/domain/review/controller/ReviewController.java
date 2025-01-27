@@ -54,9 +54,8 @@ public class ReviewController {
 	@GetMapping
 	public GetClubReviewsPageResponse getClubReviewsWithContentByClubId(
 		@PathVariable Long clubId, Pageable pageable,
-		@RequestParam(required = false) ApprovedStatus approvedStatus,
 		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
-		return reviewService.getClubReviewsWithContent(clubId, pageable, approvedStatus,
+		return reviewService.getClubReviewsWithContent(clubId, pageable,
 			verifiedStatus);
 	}
 

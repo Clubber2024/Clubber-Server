@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.review.service;
 
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
+
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -95,13 +97,13 @@ public class ReviewService {
 	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
 	public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-		Pageable pageable, ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
+		Pageable pageable, VerifiedStatus verifiedStatus) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
 		club.validateAgreeToReview();
 
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, approvedStatus,
+		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null,
 			verifiedStatus);
 		return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
 	}
