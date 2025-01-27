@@ -19,7 +19,7 @@ public class KeywordStatsVO {
 
     public void updateKeywordStat(List<KeywordCountStatDto> keywordCountStatDtoList) {
         for (KeywordCountStatDto keywordCountStatDTO : keywordCountStatDtoList) {
-            keywordMap.put(keywordCountStatDTO.getKeyword(), keywordCountStatDTO.getCount());
+            keywordMap.put(keywordCountStatDTO.keyword(), keywordCountStatDTO.count());
         }
     }
 }
