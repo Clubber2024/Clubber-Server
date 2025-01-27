@@ -12,7 +12,9 @@ public enum ReviewErrorCode implements BaseErrorCode {
 	REVIEW_KEYWORD_ENUM_NOT_MATCHED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_3",
 		"잘못된 리뷰 키워드 값입니다."),
 	USER_REVIEWS_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_4", "적절하지 않은 리뷰 ID입니다."),
-	REVIEW_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_5", "이미 삭제된 리뷰입니다.");
+	REVIEW_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_5", "이미 삭제된 리뷰입니다."),
+	REVIEW_ALREADY_VERIFIED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_6", "이미 인증된 리뷰입니다."),
+	REVIEW_NOT_FOUND(HttpStatus.NO_CONTENT.value(), "REVIEW_404_1", "존재하지 않는 리뷰입니다.");
 
 	private final Integer status;
 	private final String code;

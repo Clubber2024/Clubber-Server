@@ -3,7 +3,9 @@ package com.clubber.ClubberServer.domain.review.service;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
@@ -28,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,8 @@ public class ReviewService {
 		club.validateAgreeToReview();
 		validateReviewExists(club, user);
 
-		Review review = Review.of(user, club, reviewRequest.getContent());
+		Review review = Review.of(user, club, reviewRequest.getContent(),
+			reviewRequest.getAuthImage());
 		review.addKeywords(reviewRequest.getKeywords());
 		Review savedReview = reviewRepository.save(review);
 
@@ -91,13 +95,14 @@ public class ReviewService {
 	//동아리 별 리뷰 조회 : Page 별 조회 
 	@Transactional(readOnly = true)
 	public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-		Pageable pageable) {
+		Pageable pageable, ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
 		club.validateAgreeToReview();
 
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
+		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, approvedStatus,
+			verifiedStatus);
 		return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
 	}
 

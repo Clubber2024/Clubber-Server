@@ -20,6 +20,7 @@ import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import java.util.Arrays;
@@ -157,7 +158,7 @@ public class ReviewDomainTest {
 		Club club = Club.builder().id(1L).build();
 
 		//when
-		Review review = Review.of(user, club, blankString);
+		Review review = Review.of(user, club, blankString, "image");
 
 		//then
 		assertAll(
@@ -189,5 +190,12 @@ public class ReviewDomainTest {
 				review.delete();
 				assertEquals(DELETED, review.getApprovedStatus());
 			});
+	}
+
+	@Test
+	@DisplayName("리뷰 저장시 인증 상태는 기본값이 저장된다")
+	void getDefaultReviewVerifiedStatus() {
+		Review review = getReview(PENDING);
+		assertEquals(VerifiedStatus.NOT_VERIFIED, review.getVerifiedStatus());
 	}
 }
