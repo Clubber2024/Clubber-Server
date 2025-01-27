@@ -19,17 +19,23 @@ public class RecruitMapper {
     public PageResponse<GetOneRecruitInListResponse> getRecruitsPageResponse(
         Page<Recruit> recruits) {
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
-            String content = recruit.getContent()
-                .substring(0, Math.min(recruit.getContent().length(), 60));
-            ImageVO imageUrl = recruit.getRecruitImages().stream()
-                .filter(
-                    recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
-                .map(RecruitImage::getImageUrl)
-                .findFirst()
-                .orElse(null);
+            String content = getContentPreview(recruit);
+            ImageVO imageUrl = getFirstImageUrl(recruit.getRecruitImages());
             return GetOneRecruitInListResponse.of(recruit, content, imageUrl);
         });
         return PageResponse.of(recruitResponses);
+    }
+
+    private String getContentPreview(Recruit recruit) {
+        return recruit.getContent().substring(0, Math.min(recruit.getContent().length(), 60));
+    }
+
+    private ImageVO getFirstImageUrl(List<RecruitImage> recruitImages) {
+        return recruitImages.stream()
+            .filter(recruitImage -> !recruitImage.isDeleted() && recruitImage.getOrderNum() == 1)
+            .map(RecruitImage::getImageUrl)
+            .findFirst()
+            .orElse(null);
     }
 
     public List<ImageVO> getDeletedRecruitImages(Recruit recruit) {
@@ -56,7 +62,7 @@ public class RecruitMapper {
         return PostRecruitResponse.of(newRecruit, imageUrls);
     }
 
-    public List<ImageVO> getRecruitImages(Recruit recruit) {
+    private List<ImageVO> getRecruitImages(Recruit recruit) {
         return recruit.getRecruitImages().stream()
             .filter(recruitImage -> !recruitImage.isDeleted())
             .sorted(Comparator.comparing(RecruitImage::getOrderNum))
