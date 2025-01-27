@@ -3,12 +3,11 @@ package com.clubber.ClubberServer.domain.notice.dto;
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -25,11 +24,11 @@ public class GetNoticesAtMainResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static GetNoticesAtMainResponse from(Notice notice){
-        return  GetNoticesAtMainResponse.builder()
-                .noticeId(notice.getId())
-                .title(notice.getTitle())
-                .createdAt(notice.getCreatedAt())
-                .build();
+    public static GetNoticesAtMainResponse from(Notice notice) {
+        return GetNoticesAtMainResponse.builder()
+            .noticeId(notice.getId())
+            .title(notice.getTitle())
+            .createdAt(notice.getCreatedAt())
+            .build();
     }
 }

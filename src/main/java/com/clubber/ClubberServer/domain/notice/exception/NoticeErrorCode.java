@@ -16,9 +16,9 @@ public enum NoticeErrorCode implements BaseErrorCode {
     @Override
     public ErrorReason getErrorReason() {
         return ErrorReason.builder()
-                .status(status)
-                .code(code)
-                .reason(reason)
-                .build();
+            .status(status)
+            .code(code)
+            .reason(reason)
+            .build();
     }
 }

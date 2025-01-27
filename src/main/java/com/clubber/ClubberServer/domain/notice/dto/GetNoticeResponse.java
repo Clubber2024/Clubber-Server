@@ -32,14 +32,14 @@ public class GetNoticeResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static GetNoticeResponse from(Notice notice){
+    public static GetNoticeResponse from(Notice notice) {
         return GetNoticeResponse.builder()
-                .noticeId(notice.getId())
-                .title(notice.getTitle())
-                .content(notice.getContent())
-                .totalView(notice.getTotalView())
-                .createdAt(notice.getCreatedAt())
-                .imageUrl(notice.getImageUrl())
-                .build();
+            .noticeId(notice.getId())
+            .title(notice.getTitle())
+            .content(notice.getContent())
+            .totalView(notice.getTotalView())
+            .createdAt(notice.getCreatedAt())
+            .imageUrl(notice.getImageUrl())
+            .build();
     }
 }

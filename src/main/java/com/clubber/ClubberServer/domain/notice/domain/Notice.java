@@ -3,8 +3,14 @@ package com.clubber.ClubberServer.domain.notice.domain;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.owner.domain.Owner;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,21 +34,22 @@ public class Notice extends BaseEntity {
 
     private Long totalView;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    public void increaseTotalView(){
+    public void increaseTotalView() {
         this.totalView++;
     }
 
     @Builder
-    private Notice(Long id,String title,String content,ImageVO imageUrl,Long totalView,Owner owner){
-        this.id=id;
-        this.title=title;
-        this.content=content;
-        this.imageUrl=imageUrl;
-        this.totalView=totalView;
-        this.owner=owner;
+    private Notice(Long id, String title, String content, ImageVO imageUrl, Long totalView,
+        Owner owner) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.totalView = totalView;
+        this.owner = owner;
     }
 }
