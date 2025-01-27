@@ -40,6 +40,10 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	public Page<Review> queryReviewByClub(Club club, Pageable pageable,
 		ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
 
+		/**
+		 * 커버링 인덱스 적용
+		 */
+
 		List<Long> ids = queryFactory.select(review.id)
 			.from(review)
 			.where(review.club.id.eq(club.getId())
