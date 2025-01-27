@@ -26,13 +26,13 @@ public class NoticeService {
 
     @Transactional(readOnly = true)
     public List<GetNoticesAtMainResponse> getNoticesAtMain(){
-        List<Notice> notices=noticeRepository.findTop5ByOrderByIdDesc();
+        List<Notice> notices=noticeRepository.queryTop5Notice();
         return noticeMapper.getNoticesAtMain(notices);
     }
 
     @Transactional(readOnly = true)
     public PageResponse<GetNoticeResponse> getNotices(Pageable pageable){
-        Page<Notice> notices=noticeRepository.findByOrderByIdDesc(pageable);
+        Page<Notice> notices=noticeRepository.queryNotice(pageable);
         return noticeMapper.getNotices(notices);
     }
 
