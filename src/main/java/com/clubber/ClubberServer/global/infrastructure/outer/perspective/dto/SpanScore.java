@@ -1,5 +1,8 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.perspective.dto;
 
+import lombok.Getter;
+
+@Getter
 public class SpanScore {
 	private int begin;
 	private int end;

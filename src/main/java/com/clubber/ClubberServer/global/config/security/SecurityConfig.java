@@ -73,6 +73,8 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/example/**")
 					.permitAll()
+					.requestMatchers("/api/v1/perspective/**")
+					.permitAll()
 					.anyRequest()
 					.hasRole("USER"));
 		return http.build();
