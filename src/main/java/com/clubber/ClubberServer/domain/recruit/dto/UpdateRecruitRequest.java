@@ -2,11 +2,10 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,7 +19,7 @@ public class UpdateRecruitRequest {
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private String content;
 
-    @Schema(description = "삭제할 imageurls",  example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
+    @Schema(description = "삭제할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private List<String> deletedImageUrls;
 
     @Schema(description = "새로운 imagekeys", example = "[\"newImage1\",\"newImage2\"]")

@@ -3,9 +3,11 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -28,13 +30,13 @@ public class GetRecruitResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static GetRecruitResponse from(Recruit recruit){
+    public static GetRecruitResponse from(Recruit recruit) {
         return GetRecruitResponse.builder()
-                .recruitId(recruit.getId())
-                .title(recruit.getTitle())
-                .content(recruit.getContent())
-                .totalView(recruit.getTotalView())
-                .createdAt(recruit.getCreatedAt())
-                .build();
+            .recruitId(recruit.getId())
+            .title(recruit.getTitle())
+            .content(recruit.getContent())
+            .totalView(recruit.getTotalView())
+            .createdAt(recruit.getCreatedAt())
+            .build();
     }
 }

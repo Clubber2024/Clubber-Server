@@ -1,11 +1,10 @@
 package com.clubber.ClubberServer.domain.recruit.dto.mainPage;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
 
 
 @Getter
@@ -15,10 +14,10 @@ public class GetRecruitsMainPageResponse {
 
     private final List<GetOneRecruitMainPageResponse> recruits;
 
-    public static GetRecruitsMainPageResponse from(List<GetOneRecruitMainPageResponse> recruits){
+    public static GetRecruitsMainPageResponse from(List<GetOneRecruitMainPageResponse> recruits) {
         return GetRecruitsMainPageResponse.builder()
-                .recruits(recruits)
-                .build();
+            .recruits(recruits)
+            .build();
     }
 
 }
