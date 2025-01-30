@@ -25,12 +25,13 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "모집글 대표 이미지", example = "https://image.ssuclubber.com/club/image2")
     private final ImageVO imageUrl;
 
-    public static GetOneRecruitInListResponse of(Recruit recruit,String content,ImageVO imageUrl){
+    public static GetOneRecruitInListResponse of(Recruit recruit, String content,
+        ImageVO imageUrl) {
         return GetOneRecruitInListResponse.builder()
-                .recruitId(recruit.getId())
-                .title(recruit.getTitle())
-                .content(content)
-                .imageUrl(imageUrl)
-                .build();
+            .recruitId(recruit.getId())
+            .title(recruit.getTitle())
+            .content(content)
+            .imageUrl(imageUrl)
+            .build();
     }
 }

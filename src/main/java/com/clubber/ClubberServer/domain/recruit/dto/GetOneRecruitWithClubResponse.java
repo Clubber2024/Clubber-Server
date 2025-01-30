@@ -5,19 +5,18 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class  GetOneRecruitWithClubResponse {
+public class GetOneRecruitWithClubResponse {
 
     @Schema(description = "club id", example = "1")
     private final Long clubId;
@@ -40,7 +39,7 @@ public class  GetOneRecruitWithClubResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
-    @Schema(description = "모집글 imageUrls",  example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
+    @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private final List<ImageVO> imageUrls;
 
     @Schema(description = "조회수", example = "32")
@@ -50,18 +49,19 @@ public class  GetOneRecruitWithClubResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static GetOneRecruitWithClubResponse of(Recruit recruit, Club club, List<ImageVO> images) {
+    public static GetOneRecruitWithClubResponse of(Recruit recruit, Club club,
+        List<ImageVO> images) {
         return GetOneRecruitWithClubResponse.builder()
-                .clubId(club.getId())
-                .clubName(club.getName())
-                .clubType(club.getClubType().getTitle())
-                .clubImage(club.getImageUrl())
-                .recruitId(recruit.getId())
-                .title(recruit.getTitle())
-                .content(recruit.getContent())
-                .imageUrls(images)
-                .totalView(recruit.getTotalView())
-                .createdAt(recruit.getCreatedAt())
-                .build();
+            .clubId(club.getId())
+            .clubName(club.getName())
+            .clubType(club.getClubType().getTitle())
+            .clubImage(club.getImageUrl())
+            .recruitId(recruit.getId())
+            .title(recruit.getTitle())
+            .content(recruit.getContent())
+            .imageUrls(images)
+            .totalView(recruit.getTotalView())
+            .createdAt(recruit.getCreatedAt())
+            .build();
     }
 }

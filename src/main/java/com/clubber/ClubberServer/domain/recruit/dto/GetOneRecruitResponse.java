@@ -5,13 +5,12 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -40,16 +39,16 @@ public class GetOneRecruitResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    public static GetOneRecruitResponse of(Recruit recruit,List<ImageVO> images){
+    public static GetOneRecruitResponse of(Recruit recruit, List<ImageVO> images) {
         return GetOneRecruitResponse.builder()
-                .clubId(recruit.getClub().getId())
-                .recruitId(recruit.getId())
-                .title(recruit.getTitle())
-                .content(recruit.getContent())
-                .imageUrls(images)
-                .totalView(recruit.getTotalView())
-                .createdAt(recruit.getCreatedAt())
-                .build();
+            .clubId(recruit.getClub().getId())
+            .recruitId(recruit.getId())
+            .title(recruit.getTitle())
+            .content(recruit.getContent())
+            .imageUrls(images)
+            .totalView(recruit.getTotalView())
+            .createdAt(recruit.getCreatedAt())
+            .build();
     }
 
 }
