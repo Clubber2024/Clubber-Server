@@ -2,8 +2,8 @@ package com.clubber.ClubberServer.domain.auth.controller;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 
-import com.clubber.ClubberServer.domain.auth.component.UserRegister;
-import com.clubber.ClubberServer.domain.auth.component.UserWithdraw;
+import com.clubber.ClubberServer.domain.auth.facade.UserRegisterFacade;
+import com.clubber.ClubberServer.domain.auth.facade.UserWithdrawFacade;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
@@ -31,10 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "[인증]")
 public class AuthController {
-    private final UserRegister userRegister;
+    private final UserRegisterFacade userRegisterFacade;
     private final AuthService authService;
     private final CookieHelper cookieHelper;
-    private final UserWithdraw userWithdraw;
+    private final UserWithdrawFacade userWithdrawFacade;
 
     @Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
     @GetMapping("/oauth/kakao")
@@ -50,14 +50,14 @@ public class AuthController {
         if(Referer.contains(Host)){
             if(Referer.contains("dev")){
                 //개발 서버
-                kakaoOauthResponse = userRegister.register(code, DEV_CLIENT);
+                kakaoOauthResponse = userRegisterFacade.register(code, DEV_CLIENT);
             }else {
                 //운영 서버
-                kakaoOauthResponse = userRegister.register(code, PROD_CLIENT);
+                kakaoOauthResponse = userRegisterFacade.register(code, PROD_CLIENT);
             }
         }else{
             //로컬 클라이언트에서 호출 (클라이언트 로컬 개발 시)
-            kakaoOauthResponse = userRegister.register(code, LOCAL_CLIENT);
+            kakaoOauthResponse = userRegisterFacade.register(code, LOCAL_CLIENT);
         }
         return ResponseEntity.ok()
                 .headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(), kakaoOauthResponse.getRefreshToken()))
@@ -94,7 +94,7 @@ public class AuthController {
     @Operation(summary = "카카오 회원탈퇴")
     @DeleteMapping("/withdraw")
     public ResponseEntity withDrawKakaoUser(){
-        userWithdraw.withDraw();
+        userWithdrawFacade.withDraw();
         return ResponseEntity.ok()
                 .headers(cookieHelper.deleteCookies())
                 .body(null);
