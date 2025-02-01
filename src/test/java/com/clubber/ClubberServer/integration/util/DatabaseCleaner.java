@@ -1,20 +1,15 @@
 package com.clubber.ClubberServer.integration.util;
 
-import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.*;
-
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 @Component
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 public class DatabaseCleaner {
 
 	@PersistenceContext
@@ -31,58 +26,44 @@ public class DatabaseCleaner {
 		//clubinfo 추가
 		entityManager.createNativeQuery(
 			"insert into club_info (id, room, activity, instagram, leader) "
-				+ "values (?, 1, 'activity', 'instagram', 'leader');")
-			.setParameter(1, exampleId).executeUpdate();
+				+ "values (1, 100, 'activity', 'instagram', 'leader');"
+		).executeUpdate();
 
 		// club 추가
 		entityManager.createNativeQuery(
 			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
-				+ "values (?, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, ?, '기존imageUrl');")
-			.setParameter(1, exampleId)
-			.setParameter(2, exampleId)
-			.executeUpdate();
-
-		//
-		// entityManager.createNativeQuery(
-		// 	"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review) "
-		// 		+ "values (10000001, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true);").executeUpdate();
-
+				+ "values (1, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 1, '기존imageUrl');"
+		).executeUpdate();
 
 		// admin 추가
 		entityManager.createNativeQuery(
-				"insert into admin (id, username, password, account_state, account_role, club_id) VALUES (?, '동아리 1', ?, 'ACTIVE', 'ADMIN', ?)", Admin.class)
-			.setParameter(1, exampleId)
-			.setParameter(2, encodedPassword) // 인코딩된 비밀번호를 쿼리에 설정
-			.setParameter(3, exampleId)
+				"insert into admin (id, username, password, account_state, account_role, club_id)"
+					+ "VALUES (1, '동아리 1', ?, 'ACTIVE', 'ADMIN', 1)")
+			.setParameter(1, encodedPassword) // 인코딩된 비밀번호를 쿼리에 설정
 			.executeUpdate();
 
 		//user 추가
 		entityManager.createNativeQuery(
-				"insert into user(id, email, sns_type, sns_id, role, account_state) values (?, 'user@gmail.com', 'KAKAO', 1, 'USER', 'ACTIVE')"
-			).setParameter(1, exampleId)
-			.executeUpdate();
+			"insert into user(id, email, sns_type, sns_id, role, account_state) "
+				+ "values (1, 'user@gmail.com', 'KAKAO', 1, 'USER', 'ACTIVE')"
+		).executeUpdate();
 
-		//review 추가
+		//review 추가 (user1 -> club1)
 		entityManager.createNativeQuery(
-			"insert into review (id, club_id, content, approved_status, user_id) values (?, ?, '승인 대기 댓글', 'PENDING', ?)")
-			.setParameter(1, exampleId)
-			.setParameter(2, exampleId)
-			.setParameter(3, exampleId)
-			.executeUpdate();
+			"insert into review (id, club_id, content, approved_status, user_id, verified_status) "
+				+ "values (1, 1, '승인 대기 댓글', 'PENDING', 1, 'NOT_VERIFIED')"
+		).executeUpdate();
 
-		//favorite 추가
+		//favorite 추가 (user1 -> club1)
 		entityManager.createNativeQuery(
-				"insert into favorite (id, club_id, is_deleted, user_id) values (?, ?, false, ?)")
-			.setParameter(1, exampleId)
-			.setParameter(2, exampleId)
-			.setParameter(3, exampleId)
-			.executeUpdate();
+			"insert into favorite (id, club_id, is_deleted, user_id) "
+				+ "values (1, 1, false, 1)"
+		).executeUpdate();
 
 		//recruit 추가
 		entityManager.createNativeQuery(
-				"insert into recruit(id, title, content, total_view, is_deleted, club_id) values (?, 'title', 'content', 1, false, ?)")
-				.setParameter(1, exampleId)
-				.setParameter(2, exampleId)
-				.executeUpdate();
+			"insert into recruit(id, title, content, total_view, is_deleted, club_id) "
+				+ "values (1, 'title', 'content', 100, false, 1)"
+		).executeUpdate();
 	}
 }
