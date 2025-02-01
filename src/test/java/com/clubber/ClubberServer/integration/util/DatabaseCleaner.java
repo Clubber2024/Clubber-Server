@@ -23,16 +23,28 @@ public class DatabaseCleaner {
 
 		String encodedPassword = encoder.encode("비밀번호 1");
 
-		//clubinfo 추가
+		//clubinfo1 추가
 		entityManager.createNativeQuery(
 			"insert into club_info (id, room, activity, instagram, leader) "
 				+ "values (1, 100, 'activity', 'instagram', 'leader');"
 		).executeUpdate();
 
-		// club 추가
+		// club1 추가
 		entityManager.createNativeQuery(
 			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
 				+ "values (1, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 1, '기존imageUrl');"
+		).executeUpdate();
+
+		//clubinfo2 추가
+		entityManager.createNativeQuery(
+			"insert into club_info (id, room, activity, instagram, leader) "
+				+ "values (2, 100, 'activity', 'instagram', 'leader');"
+		).executeUpdate();
+
+		// club2 추가
+		entityManager.createNativeQuery(
+			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
+				+ "values (2, '동아리 2', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 2, '기존imageUrl');"
 		).executeUpdate();
 
 		// admin 추가
@@ -42,16 +54,28 @@ public class DatabaseCleaner {
 			.setParameter(1, encodedPassword) // 인코딩된 비밀번호를 쿼리에 설정
 			.executeUpdate();
 
-		//user 추가
+		//user1 추가
 		entityManager.createNativeQuery(
 			"insert into user(id, email, sns_type, sns_id, role, account_state) "
 				+ "values (1, 'user@gmail.com', 'KAKAO', 1, 'USER', 'ACTIVE')"
 		).executeUpdate();
 
-		//review 추가 (user1 -> club1)
+		//user2 추가
+		entityManager.createNativeQuery(
+			"insert into user(id, email, sns_type, sns_id, role, account_state) "
+				+ "values (2, 'user2@gmail.com', 'KAKAO', 2, 'USER', 'ACTIVE')"
+		).executeUpdate();
+
+		//review1 추가 (user1 -> club1)
 		entityManager.createNativeQuery(
 			"insert into review (id, club_id, content, approved_status, user_id, verified_status) "
 				+ "values (1, 1, '승인 대기 댓글', 'PENDING', 1, 'NOT_VERIFIED')"
+		).executeUpdate();
+
+		//review2 추가 (user2 -> club1)
+		entityManager.createNativeQuery(
+			"insert into review (id, club_id, content, approved_status, user_id, verified_status) "
+				+ "values (2, 1, '승인 대기 댓글', 'PENDING', 2, 'NOT_VERIFIED')"
 		).executeUpdate();
 
 		//favorite 추가 (user1 -> club1)

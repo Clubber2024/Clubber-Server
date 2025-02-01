@@ -1,13 +1,11 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import java.util.List;
-
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
+import java.util.List;
 
 public class ReviewFixture {
 
-	public static Long exampleId = 100000000L;
 	public static final CreateClubReviewRequest VALID_REVIEW_CREATE_REQUEST =
 		new CreateClubReviewRequest("content", List.of(Keyword.CULTURE, Keyword.FEE), "image");
 
