@@ -1,10 +1,9 @@
 package com.clubber.ClubberServer.integration.domain.review.service;
 
-import java.util.Optional;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.VALID_REVIEW_CREATE_REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -14,11 +13,10 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
-
-import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.VALID_REVIEW_CREATE_REQUEST;
-import static com.clubber.ClubberServer.integration.util.fixture.ReviewFixture.exampleId;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ReviewServiceTest extends ServiceTest {
 
@@ -29,18 +27,24 @@ public class ReviewServiceTest extends ServiceTest {
 	private ReviewRepository reviewRepository;
 
 	@DisplayName("리뷰 작성에 성공한다")
-	@WithMockCustomUser(first = "100000001", second = "USER")
+	@WithMockCustomUser(second = "USER")
 	@Test
 	void createReviewSuccess() {
-		CreateClubReviewResponse reviewCreateResponse = reviewService.createReview( 10000001L
+		/**
+		 * 1번 user club1에 리뷰 등록되어있음
+		 */
+		CreateClubReviewResponse reviewCreateResponse = reviewService.createReview(2L
 			, VALID_REVIEW_CREATE_REQUEST);
 
-		Optional<Review> createdReview = reviewRepository.findById(reviewCreateResponse.getReviewId());
+		Optional<Review> createdReview = reviewRepository.findById(
+			reviewCreateResponse.getReviewId());
 
 		assertAll(
 			() -> assertThat(createdReview).isNotNull(),
-			() -> assertThat(createdReview.get().getApprovedStatus()).isEqualTo(ApprovedStatus.PENDING),
-			() -> assertThat(createdReview.get().getContent()).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getContent())
+			() -> assertThat(createdReview.get().getApprovedStatus()).isEqualTo(
+				ApprovedStatus.PENDING),
+			() -> assertThat(createdReview.get().getContent()).isEqualTo(
+				VALID_REVIEW_CREATE_REQUEST.getContent())
 			// () -> assertThat(ReviewKeyword.from(createdReview.get().getReviewKeywords())).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getKeywords())
 		);
 	}
@@ -50,7 +54,6 @@ public class ReviewServiceTest extends ServiceTest {
 	@Test
 	void createDuplicateReview() {
 		assertThrows(UserAlreadyReviewedException.class,
-			() -> reviewService.createReview(exampleId, VALID_REVIEW_CREATE_REQUEST));
+			() -> reviewService.createReview(1L, VALID_REVIEW_CREATE_REQUEST));
 	}
-
 }

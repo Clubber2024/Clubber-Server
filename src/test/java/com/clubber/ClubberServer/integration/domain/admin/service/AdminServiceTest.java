@@ -1,17 +1,13 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
-
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
-import java.util.List;
-import java.util.Optional;
-
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_ADMIN_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_CLUB_PAGE_REQUEST;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
@@ -24,6 +20,8 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -31,14 +29,12 @@ import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
-
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_ADMIN_REQUEST;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_CLUB_PAGE_REQUEST;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AdminServiceTest extends ServiceTest {
 
@@ -65,23 +61,27 @@ public class AdminServiceTest extends ServiceTest {
 
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
-	void adminLogin(){
-		CreateAdminsLoginResponse createAdminLoginReponse = adminService.createAdminsLogin(VALID_ADMIN_REQUEST);
-		Optional<Admin> savedAdmin = adminRepository.findById(createAdminLoginReponse.getAdminId());
+	void adminLogin() {
+		CreateAdminsLoginResponse createAdminLoginReponse = adminService.createAdminsLogin(
+			VALID_ADMIN_REQUEST);
+		Optional<Admin> savedAdmin = adminRepository.findAdminByIdAndAccountState(
+			createAdminLoginReponse.getAdminId(), ACTIVE);
 
 		assertAll(
 			() -> assertThat(savedAdmin).isNotNull(),
-			() -> assertThat(savedAdmin.get().getUsername()).isEqualTo(VALID_ADMIN_REQUEST.getUsername())
+			() -> assertThat(savedAdmin.get().getUsername()).isEqualTo(
+				VALID_ADMIN_REQUEST.getUsername())
 		);
 	}
 
 	@DisplayName("관리자 회원 정보를 조회한다.")
 	@WithMockCustomUser
 	@Test
-	void adminGetProfile(){
+	void adminGetProfile() {
 		GetAdminsProfileResponse adminsProfile = adminService.getAdminsProfile();
 
-		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
+		Optional<Admin> admin = adminRepository.findAdminByIdAndAccountState(
+			SecurityUtils.getCurrentUserId(), ACTIVE);
 
 		assertAll(
 			() -> assertThat(admin.get().getId()).isNotNull(),
@@ -92,11 +92,12 @@ public class AdminServiceTest extends ServiceTest {
 	@DisplayName("관리자 비밀번호 변경을 수행한다.")
 	@WithMockCustomUser
 	@Test
-	void adminUpdatePassword(){
+	void adminUpdatePassword() {
 		UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminService.updateAdminsPassword(
 			VALID_UPDATE_PASSWORD_REQUEST);
 
-		Optional<Admin> updatedPasswordAdmin = adminRepository.findById(updateAdminsPasswordResponse.getAdminId());
+		Optional<Admin> updatedPasswordAdmin = adminRepository.findAdminByIdAndAccountState(
+			updateAdminsPasswordResponse.getAdminId(), ACTIVE);
 
 		assertAll(
 			() -> assertThat(updatedPasswordAdmin).isNotNull(),
@@ -108,7 +109,7 @@ public class AdminServiceTest extends ServiceTest {
 	@DisplayName("관리자 회원탈퇴를 수행한다")
 	@WithMockCustomUser
 	@Test
-	void withDrawAdmin(){
+	void withDrawAdmin() {
 		adminService.withDraw();
 		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
 
@@ -118,10 +119,13 @@ public class AdminServiceTest extends ServiceTest {
 		);
 	}
 
+	/**
+	 * TODO : 비동기 soft-delete 추후 테스트 코드 변경
+	 */
 	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
 	@WithMockCustomUser
 	@Test
-	void withDrawAdminDeleteReview(){
+	void withDrawAdminDeleteReview() {
 		adminService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
@@ -135,7 +139,7 @@ public class AdminServiceTest extends ServiceTest {
 	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
 	@WithMockCustomUser
 	@Test
-	void withDrawAdminDeleteFavorite(){
+	void withDrawAdminDeleteFavorite() {
 		adminService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
@@ -149,53 +153,67 @@ public class AdminServiceTest extends ServiceTest {
 	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 모집글이 모두 삭제된다.")
 	@WithMockCustomUser
 	@Test
-	void withDrawAdminDeleteRecruit(){
+	void withDrawAdminDeleteRecruit() {
 		adminService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
 		List<Recruit> deletedRecruits = recruitRepository.findAllByClub(admin.getClub());
 
 		for (Recruit deletedRecruit : deletedRecruits) {
-			assertEquals(deletedRecruit.isDeleted(), true);
+			assertThat(deletedRecruit.isDeleted()).isEqualTo(true);
 		}
 	}
 
 	@DisplayName("관리자 정보 수정을 수행한다")
 	@WithMockCustomUser
 	@Test
-	void updateAdminsPage(){
-		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(VALID_UPDATE_CLUB_PAGE_REQUEST);
+	void updateAdminsPage() {
+		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(
+			VALID_UPDATE_CLUB_PAGE_REQUEST);
 
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 		Optional<Club> updatedClub = clubRepository.findById(admin.getClub().getId());
 
 		assertAll(
 			() -> assertThat(updatedClub).isNotNull(),
-			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getImageKey()),
-			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getIntroduction()),
-			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getInstagram()),
-			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getActivity()),
-			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(VALID_UPDATE_CLUB_PAGE_REQUEST.getRoom())
+			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(
+				VALID_UPDATE_CLUB_PAGE_REQUEST.getImageKey()),
+			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(
+				VALID_UPDATE_CLUB_PAGE_REQUEST.getIntroduction()),
+			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(
+				VALID_UPDATE_CLUB_PAGE_REQUEST.getInstagram()),
+			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(
+				VALID_UPDATE_CLUB_PAGE_REQUEST.getActivity()),
+			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(
+				VALID_UPDATE_CLUB_PAGE_REQUEST.getRoom())
 		);
 	}
 
 	@DisplayName("이미지_서버_url을_포함한_image_key_수정_요청은_수정반영되지않는다.")
 	@WithMockCustomUser
 	@Test
-	void updateAdminsPageWithImageServerURL(){
-		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST);
+	void updateAdminsPageWithImageServerURL() {
+		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(
+			IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST);
 
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 		Optional<Club> updatedClub = clubRepository.findById(admin.getClub().getId());
 
 		assertAll(
 			() -> assertThat(updatedClub).isNotNull(),
-			() -> assertThat(updatedClub.get().getImageUrl()).asString().doesNotStartWith(IMAGE_SERVER),
-			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getImageKey().substring(IMAGE_SERVER.length())),
-			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getIntroduction()),
-			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getInstagram()),
-			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getActivity()),
-			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getRoom())
+			() -> assertThat(updatedClub.get().getImageUrl()).asString()
+				.doesNotStartWith(IMAGE_SERVER),
+			() -> assertThat(updatedClub.get().getImageUrl().getImageUrl()).isEqualTo(
+				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getImageKey()
+					.substring(IMAGE_SERVER.length())),
+			() -> assertThat(updatedClub.get().getIntroduction()).isEqualTo(
+				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getIntroduction()),
+			() -> assertThat(updatedClub.get().getClubInfo().getInstagram()).isEqualTo(
+				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getInstagram()),
+			() -> assertThat(updatedClub.get().getClubInfo().getActivity()).isEqualTo(
+				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getActivity()),
+			() -> assertThat(updatedClub.get().getClubInfo().getRoom()).isEqualTo(
+				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getRoom())
 		);
 	}
 }
