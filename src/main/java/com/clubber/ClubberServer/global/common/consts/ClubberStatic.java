@@ -14,7 +14,7 @@ public class ClubberStatic {
 	public static final String AUTH_HEADER = "Authorization";
 	public static final String BEARER = "Bearer ";
 	public static final String TOKEN_ROLE = "role";
-	public static final String LOCAL_SERVER = "localhost:8080";
+	public static final String LOCAL_SERVER = "http://localhost:8080";
 	public static final String LOCAL_CLIENT = "http://localhost:3000";
 	public static final String PROD_CLIENT = "https://ssuclubber.com";
 	public static final String DEV_CLIENT = "https://dev.ssuclubber.com";
