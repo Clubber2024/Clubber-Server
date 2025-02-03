@@ -13,11 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clubs")
-@Tag(name="[동아리/소모임]")
+@Tag(name = "[동아리/소모임]")
 public class ClubController {
 
     private final ClubService clubService;
@@ -26,8 +25,9 @@ public class ClubController {
     // 중앙동아리 - 분과별 동아리 조회
     @DisableSwaggerSecurity
     @Operation(summary = "분과별 중앙동아리 조회")
-    @GetMapping(params="division")
-    public GetClubByDivisionResponse getClubsByDivision(@RequestParam(name="division",required=false) Division division){
+    @GetMapping(params = "division")
+    public GetClubByDivisionResponse getClubsByDivision(
+        @RequestParam(name = "division", required = false) Division division) {
         return clubService.getClubsByDivision(division);
     }
 
@@ -35,8 +35,9 @@ public class ClubController {
     // 소모임 - 학과별 소모임 조회
     @DisableSwaggerSecurity
     @Operation(summary = "학과별 소모임 조회")
-    @GetMapping(params="department")
-    public DepartmentSmallDto getClubsByDepartment(@RequestParam(name="department",required=false) Department department){
+    @GetMapping(params = "department")
+    public DepartmentSmallDto getClubsByDepartment(
+        @RequestParam(name = "department", required = false) Department department) {
         return clubService.getClubsByDepartment(department);
     }
 
@@ -46,7 +47,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 및 소모임 개별 페이지 조회")
     @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
-    public GetClubResponse getClubsIndividualPage(@PathVariable("clubId")Long clubId){
+    public GetClubResponse getClubsIndividualPage(@PathVariable("clubId") Long clubId) {
         return clubService.getClubsIndividualPage(clubId);
     }
 
@@ -79,4 +80,12 @@ public class ClubController {
     public List<GetClubPopularResponse> getPopularClubs() {
         return clubService.getClubsPopularTemp();
     }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "한눈에 보기")
+    @GetMapping("/summary")
+    public List<GetOneViewClubResponse> getOneViewClubs() {
+        return clubService.getOneViewClubs();
+    }
+
 }
