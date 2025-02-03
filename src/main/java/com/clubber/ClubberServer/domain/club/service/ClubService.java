@@ -1,21 +1,42 @@
 package com.clubber.ClubberServer.domain.club.service;
 
-import com.clubber.ClubberServer.domain.club.domain.*;
-import com.clubber.ClubberServer.domain.club.dto.*;
-import com.clubber.ClubberServer.domain.club.exception.*;
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.ClubberServer.domain.club.domain.Division;
+import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
+import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByHashTagResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubIntoCardResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetOneViewClubResponse;
+import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.exception.DepartmentNotFoundException;
+import com.clubber.ClubberServer.domain.club.exception.DivisionNotFoundException;
+import com.clubber.ClubberServer.domain.club.exception.HashtagNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
-
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
-
-import java.util.stream.Collectors;
 
 
 @Service
