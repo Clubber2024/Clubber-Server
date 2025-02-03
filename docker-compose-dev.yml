@@ -87,7 +87,7 @@ services:
       - "3100:3100"
     volumes:
       - ./loki-config.yml:/etc/loki/loki-config.yaml
-    command: -config.file=/etc/loki/loki-config.yaml
+    command: -config.file=/etc/loki/loki-config.yaml -config.expand-env=true
 
   promtail:
     container_name: promtail
