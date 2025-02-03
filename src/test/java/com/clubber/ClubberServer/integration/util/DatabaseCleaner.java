@@ -32,7 +32,7 @@ public class DatabaseCleaner {
 		// club1 추가
 		entityManager.createNativeQuery(
 			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
-				+ "values (1, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 1, '기존imageUrl');"
+				+ "values (1, '동아리 1', 'CENTER', 'ETC', 'ETC', 'ART','ETC', false, true, true, 1, '기존imageUrl');"
 		).executeUpdate();
 
 		//clubinfo2 추가
@@ -44,7 +44,7 @@ public class DatabaseCleaner {
 		// club2 추가
 		entityManager.createNativeQuery(
 			"insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
-				+ "values (2, '동아리 2', 'CENTER', 'ETC', 'ETC', 'ETC','ETC', false, true, true, 2, '기존imageUrl');"
+				+ "values (2, '동아리 2', 'CENTER', 'ETC', 'ETC', 'EDUCATION','ETC', false, true, true, 2, '기존imageUrl');"
 		).executeUpdate();
 
 		// admin 추가
