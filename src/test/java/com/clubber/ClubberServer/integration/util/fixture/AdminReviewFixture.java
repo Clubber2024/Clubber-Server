@@ -1,15 +1,13 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusRequest;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import java.util.List;
 
 public class AdminReviewFixture {
 
-	private static final List<Long> reviewIds = Arrays.asList(100000000L);
-	private static final List<Long> notFoundReviewIds = List.of(10000001L);
+	private static final List<Long> reviewIds = List.of(1L, 2L);
+	private static final List<Long> notFoundReviewIds = List.of(3L, 4L);
 
 	private static final List<Long> overMaxSizeReviews = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L, 11L);
 

@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.auth.component;
+package com.clubber.ClubberServer.domain.auth.facade;
 
 import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserWithdraw {
+public class UserWithdrawFacade {
 
 	private final KakaoInfoClient kakaoInfoClient;
 	private final KakaoProperties kakaoProperties;

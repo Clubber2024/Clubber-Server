@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.auth.component;
+package com.clubber.ClubberServer.domain.auth.facade;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
@@ -16,7 +16,7 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARE
 
 @Component
 @RequiredArgsConstructor
-public class UserRegister {
+public class UserRegisterFacade {
 
 	private final AuthService authService;
 	private final JwtTokenService jwtTokenService;
