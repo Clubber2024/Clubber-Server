@@ -100,6 +100,7 @@ services:
     image: grafana/promtail:latest
     volumes:
       - ./promtail-config.yml:/etc/promtail/config.yml
+      - ./logs:/var/log/spring-boot
     command: -config.file=/etc/promtail/config.yml
     depends_on:
       - loki
