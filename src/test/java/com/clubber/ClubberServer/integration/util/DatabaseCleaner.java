@@ -84,10 +84,16 @@ public class DatabaseCleaner {
                 + "values (1, 1, false, 1)"
         ).executeUpdate();
 
-        //recruit 추가
+        //recruit1 추가
         entityManager.createNativeQuery(
             "insert into recruit(id, title, content, total_view, is_deleted, club_id) "
                 + "values (1, 'title', 'content', 100, false, 1)"
+        ).executeUpdate();
+
+        //recruit2 추가
+        entityManager.createNativeQuery(
+            "insert into recruit(id, title, content, total_view, is_deleted, club_id) "
+                + "values (2, 'title', 'content', 100, false, 1)"
         ).executeUpdate();
 
         entityManager.createNativeQuery(
