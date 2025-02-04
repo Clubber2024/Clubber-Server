@@ -199,7 +199,8 @@ public class RecruitService {
             if (image.startsWith(IMAGE_SERVER)) {
                 revisedRecruitImages.stream()
                     .filter(recruitImage -> recruitImage.getImageUrl().getImageUrl()
-                        .equals(image.substring(IMAGE_SERVER.length())));
+                        .equals(image.substring(IMAGE_SERVER.length())))
+                    .forEach(recruitImage -> recruitImage.updateOrderNum(order.getAndIncrement()));
             } else {
                 newImages.stream()
                     .filter(recruitImage -> recruitImage.getImageUrl().getImageUrl().equals(image))

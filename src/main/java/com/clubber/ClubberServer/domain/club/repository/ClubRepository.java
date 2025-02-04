@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.club.repository;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
@@ -29,6 +30,8 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRep
 
     @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo where c.isDeleted = false ORDER BY c.clubInfo.totalView DESC")
     List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
+
+    List<Club> findByClubType(ClubType clubType);
 
 
 }
