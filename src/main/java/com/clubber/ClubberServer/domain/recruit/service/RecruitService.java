@@ -217,10 +217,11 @@ public class RecruitService {
         });
 
         // 추가된 이미지 저장
-        requestPage.getNewImageKeys().stream()
-            .map(imageKey -> recruitImageRepository.save(
-                RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
-            );
+        List<RecruitImage> newImages = requestPage.getNewImageKeys().stream()
+                    .map(imageKey -> recruitImageRepository.save(
+                        RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
+                    )
+                    .collect(Collectors.toList());
 
         List<RecruitImage> revisedRecruitImages = recruitImageRepository.queryRecruitImages(
             recruit);
@@ -251,7 +252,7 @@ public class RecruitService {
             }
             recruitImage.updateOrderNum(order.getAndIncrement());
         }
-//        return UpdateRecruitResponse.of(recruit, requestPage.getImages());
-        return UpdateRecruitResponse.of(recruit,revisedRecruitImages);
+        return UpdateRecruitResponse.of(recruit, requestPage.getImages());
+
     }
 }
