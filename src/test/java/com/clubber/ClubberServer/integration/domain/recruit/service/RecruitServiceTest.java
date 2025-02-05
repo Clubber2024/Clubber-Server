@@ -35,7 +35,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public class RecruitServiceTest extends ServiceTest {
 
@@ -63,6 +62,9 @@ public class RecruitServiceTest extends ServiceTest {
                 UpdateRecruitResponse updateRecruitResponse = recruitService.changeAdminRecruits(1L,
                     VALID_UPDATE_RECRUIT_REQUEST);
 
+                entityManager.flush();
+                entityManager.clear();
+
                 Optional<Recruit> updatedRecruit = recruitRepository.findById(
                     updateRecruitResponse.getRecruitId());
 
@@ -84,8 +86,8 @@ public class RecruitServiceTest extends ServiceTest {
                 UpdateRecruitResponse updateRecruitResponse = recruitService.changeAdminRecruits(1L,
                     VALID_UPDATE_RECRUIT_REQUEST);
 
-//                entityManager.flush();
-//                entityManager.clear();
+                entityManager.flush();
+                entityManager.clear();
 
                 Optional<Recruit> updatedRecruit = recruitRepository.findById(
                     updateRecruitResponse.getRecruitId());
@@ -117,8 +119,8 @@ public class RecruitServiceTest extends ServiceTest {
                 UpdateRecruitResponse updateRecruitResponse = recruitService.changeAdminRecruits(1L,
                     VALID_UPDATE_RECRUIT_REQUEST);
 
-//                entityManager.flush();
-//                entityManager.clear();
+                entityManager.flush();
+                entityManager.clear();
 
                 Optional<Recruit> updatedRecruit = recruitRepository.findById(
                     updateRecruitResponse.getRecruitId());
@@ -144,7 +146,7 @@ public class RecruitServiceTest extends ServiceTest {
                 entityManager.flush();
                 entityManager.clear();
 
-                Optional<Recruit> updatedRecruit = recruitRepository.queryRecruitsById(
+                Optional<Recruit> updatedRecruit = recruitRepository.findById(
                     updateRecruitResponse.getRecruitId());
 
                 // 새로 지정한 순서
@@ -184,9 +186,9 @@ public class RecruitServiceTest extends ServiceTest {
                 UpdateRecruitResponse updateRecruitResponse = recruitService.changeAdminRecruits(
                     2L,
                     UPDATE_NO_IMAGE_RECRUIT_REQUEST);
-//
-//                entityManager.flush();
-//                entityManager.clear();
+
+                entityManager.flush();
+                entityManager.clear();
 
                 Optional<Recruit> updatedRecruit = recruitRepository.findById(
                     updateRecruitResponse.getRecruitId());
