@@ -2,7 +2,12 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
-import com.clubber.ClubberServer.domain.club.dto.*;
+import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
+import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
+import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
@@ -10,7 +15,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -84,8 +93,8 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "한눈에 보기")
     @GetMapping("/summary")
-    public List<GetOneViewClubResponse> getOneViewClubs() {
-        return clubService.getOneViewClubs();
+    public List<GetSummaryClubGroupResponse> getOneViewClubs() {
+        return clubService.getSummaryClubs();
     }
 
 }

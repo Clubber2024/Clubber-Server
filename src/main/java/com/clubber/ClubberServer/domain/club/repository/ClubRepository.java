@@ -31,7 +31,7 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRep
     @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo where c.isDeleted = false ORDER BY c.clubInfo.totalView DESC")
     List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
 
-    List<Club> findByClubType(ClubType clubType);
+    List<Club> findByClubTypeAndIsDeletedFalse(ClubType clubType);
 
 
 }
