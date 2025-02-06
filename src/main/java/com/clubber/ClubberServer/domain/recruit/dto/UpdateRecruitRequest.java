@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateRecruitRequest {
 
     @NotBlank
@@ -25,7 +27,7 @@ public class UpdateRecruitRequest {
     @Schema(description = "새로운 imagekeys", example = "[\"newImage1\",\"newImage2\"]")
     private List<String> newImageKeys;
 
-    @Schema(description = "유지할 imageurls", example = "https://image.ssuclubber.com/recruit/image2")
+    @Schema(description = "유지할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image2\"]")
     private List<String> remainImageUrls;
 
     @Schema(description = "최종 imageurls 와 imagekeys(배치 순서으로 나열)", example = "[\"newImage1\",\"https://image.ssuclubber.com/recruit/image2\",\"newImage2\"]")

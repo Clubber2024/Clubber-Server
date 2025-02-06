@@ -18,15 +18,21 @@ import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorized;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorizedException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorized;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -87,7 +93,7 @@ public class RecruitService {
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub() != admin.getClub()) {
-            throw RecruitDeleteUnauthorized.EXCEPTION;
+            throw RecruitDeleteUnauthorizedException.EXCEPTION;
         }
 
         List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
@@ -148,7 +154,7 @@ public class RecruitService {
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub() != admin.getClub()) {
-            throw RecruitUnauthorized.EXCEPTION;
+            throw RecruitUnauthorizedException.EXCEPTION;
         }
 
         return recruitMapper.getOneAdminRecruitsById(recruit);
@@ -163,50 +169,90 @@ public class RecruitService {
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
         if (recruit.getClub() != admin.getClub()) {
-            throw RecruitUnauthorized.EXCEPTION;
+            throw RecruitUnauthorizedException.EXCEPTION;
         }
 
         recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent());
 
-        // 해당 게시글의 모든 이미지 조회
-        List<RecruitImage> recruitImages = recruit.getRecruitImages()
-            .stream()
+        // 기존 모집글의 모든 이미지 조회
+        List<RecruitImage> recruitImages = recruit.getRecruitImages().stream()
             .filter(recruitImage -> !recruitImage.isDeleted())
             .collect(Collectors.toList());
 
-        // 삭제 처리
-        recruitImages.stream()
-            .filter(recruitImage -> requestPage.getDeletedImageUrls().stream()
-                .anyMatch(deleteImage -> deleteImage.substring(IMAGE_SERVER.length())
-                    .equals(recruitImage.getImageUrl().getImageUrl())))
-            .forEach(RecruitImage::updateStatus);
+        Set<String> existingImageUrls = recruitImages.stream()
+            .map(img -> img.getImageUrl().getImageUrl())
+            .collect(Collectors.toSet());
+
+        // 삭제 요청된 이미지 Set 으로 변환
+        Set<String> deletedImageUrls = requestPage.getDeletedImageUrls().stream()
+            .map(deleteImage -> deleteImage.substring(IMAGE_SERVER.length()))
+            .collect(Collectors.toSet());
+
+        // 유지하는 이미지 Set 으로 변환
+        Set<String> remainImageUrls = requestPage.getRemainImageUrls().stream()
+            .map(remainImage -> remainImage.substring(IMAGE_SERVER.length()))
+            .collect(Collectors.toSet());
+
+        // 삭제 요청된 이미지가 기존 이미지에 있는지 확인 ( 없으면 예외 처리  &  있으면 삭제 처리 )
+        deletedImageUrls.forEach(deleteImage -> {
+            if (!existingImageUrls.contains(deleteImage)) {
+                throw RecruitImageNotFoundException.EXCEPTION; // 존재하지 않는 경우 예외 발생
+            }
+            recruitImages.stream()
+                .filter(
+                    recruitImage -> recruitImage.getImageUrl().getImageUrl().equals(deleteImage))
+                .forEach(RecruitImage::updateStatus); // 존재하는 경우 상태 업데이트
+        });
+
+        // 유지해야 하는 이미지가 삭제 요청 목록에 포함되었는지 확인
+        if (!Collections.disjoint(remainImageUrls, deletedImageUrls)) {
+            throw RecruitImageDeleteRemainDuplicatedException.EXCEPTION;
+        }
+
+        // 유지해야 하는 이미지가 기존 모집글에 존재하는지 확인
+        remainImageUrls.forEach(remainImage -> {
+            if (!existingImageUrls.contains(remainImage)) {
+                throw RecruitImageNotFoundException.EXCEPTION;
+            }
+        });
 
         // 추가된 이미지 저장
         List<RecruitImage> newImages = requestPage.getNewImageKeys().stream()
-            .map(imageKey -> recruitImageRepository.save(
-                RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
-            )
-            .collect(Collectors.toList());
+                    .map(imageKey -> recruitImageRepository.save(
+                        RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
+                    )
+                    .collect(Collectors.toList());
 
         List<RecruitImage> revisedRecruitImages = recruitImageRepository.queryRecruitImages(
             recruit);
 
         // 이미지 저장 순서 처리
         AtomicLong order = new AtomicLong(1L);
-
         List<String> finalImages = requestPage.getImages();
+
+        if (finalImages.size() != revisedRecruitImages.size()) {
+            throw RecruitImageRevisedFinalSizeException.EXCEPTION;
+        }
+
+        // revisedRecruitImages를 Map으로 변환
+        Map<String, RecruitImage> revisedImageMap = revisedRecruitImages.stream()
+            .collect(Collectors.toMap(img -> img.getImageUrl().getImageUrl(), img -> img));
+
         for (String image : finalImages) {
+            RecruitImage recruitImage;
+
             if (image.startsWith(IMAGE_SERVER)) {
-                revisedRecruitImages.stream()
-                    .filter(recruitImage -> recruitImage.getImageUrl().getImageUrl()
-                        .equals(image.substring(IMAGE_SERVER.length())))
-                    .forEach(recruitImage -> recruitImage.updateOrderNum(order.getAndIncrement()));
+                recruitImage = revisedImageMap.get(image.substring(IMAGE_SERVER.length()));
             } else {
-                newImages.stream()
-                    .filter(recruitImage -> recruitImage.getImageUrl().getImageUrl().equals(image))
-                    .forEach(recruitImage -> recruitImage.updateOrderNum(order.getAndIncrement()));
+                recruitImage = revisedImageMap.get(image);
             }
+
+            if (recruitImage == null) {
+                throw RecruitImageNotFoundException.EXCEPTION;
+            }
+            recruitImage.updateOrderNum(order.getAndIncrement());
         }
         return UpdateRecruitResponse.of(recruit, requestPage.getImages());
+
     }
 }
