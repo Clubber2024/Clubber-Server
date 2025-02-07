@@ -6,6 +6,8 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.DeleteRecruit
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentResponse;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
@@ -33,18 +35,15 @@ public class RecruitCommentService {
 
         User user = userReadService.getUser();
 
-        // 모집글 있는지 확인
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
-        // 부모 댓글 조회
         RecruitComment parentComment = null;
         if (request.getParentId() != null) {
             parentComment = recruitCommentRepository.findById(request.getParentId())
-                .orElseThrow(() -> new RuntimeException("부모 댓글이 존재하지 않습니다."));
+                .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
         }
 
-        // 리뷰를 모집글에 등록
         RecruitComment newComment = RecruitComment.of(recruit, user, request, parentComment);
         RecruitComment savedComment = recruitCommentRepository.save(newComment);
 
@@ -54,15 +53,12 @@ public class RecruitCommentService {
     @Transactional(readOnly = true)
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
 
-        // 모집글 있는지 확인
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
-        // 모집글에 대한 모든 댓글 조회
         List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(
             recruit);
 
-        // 댓글을 계층 구조로 변환 (부모-자식 관계 정리)
         List<GetRecruitCommentResponse> totalComments = new ArrayList<>();
         Map<Long, GetRecruitCommentResponse> commentMap = new HashMap<>();
 
@@ -71,10 +67,10 @@ public class RecruitCommentService {
             commentMap.put(oneComment.getCommentId(), oneComment);
 
             if (comment.getParentComment() == null) {
-                totalComments.add(oneComment); // 댓글인 경우 totalComments에 바로 추가
+                totalComments.add(oneComment);
             } else {
                 commentMap.get(comment.getParentComment().getId()).getReplies()
-                    .add(oneComment); // 자신이 대댓글인 경우
+                    .add(oneComment);
             }
         }
         return totalComments;
@@ -88,17 +84,15 @@ public class RecruitCommentService {
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
 
         RecruitComment recruitComment = recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(
-            commentId, recruit).orElseThrow(() -> new RuntimeException("댓글이 존재하지 않습니다.")); // 앞선 pr이랑 충돌날까바 일단 이렇게 함
+            commentId, recruit).orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
 
         if (!recruitComment.getUser().equals(user)) {
-            throw new RuntimeException("댓글 작성자가 아닙니다."); // 앞선 pr이랑 충돌날까바 일단 이렇게 함
+            throw RecruitCommentUserUnauthorizedException.EXCEPTION;
         }
 
         recruitComment.delete();
 
         return DeleteRecruitCommentResponse.from(recruitComment);
-
     }
-
 
 }

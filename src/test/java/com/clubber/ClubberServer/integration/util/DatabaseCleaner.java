@@ -96,14 +96,30 @@ public class DatabaseCleaner {
                 + "values (2, 'title', 'content', 100, false, 1)"
         ).executeUpdate();
 
+        //recruitImage1 추가
         entityManager.createNativeQuery(
             "insert into recruit_image(id, image_url, is_deleted, order_num, recruit_id) "
                 + "values (1, 'image1',  false, 1, 1)"
         ).executeUpdate();
 
+        //recruitImage2 추가
         entityManager.createNativeQuery(
             "insert into recruit_image(id, image_url, is_deleted, order_num, recruit_id)"
                 + " values (2, 'image2',  false, 2, 1)"
         ).executeUpdate();
+
+        //recruitComment1 추가
+        entityManager.createNativeQuery(
+            "insert into recruit_comment(id, content,is_deleted,parent_id,user_id,recruit_id)"
+                + " values (1,'comment1',false,null,1,1)"
+        ).executeUpdate();
+
+        //recruitComment2 추가
+        entityManager.createNativeQuery(
+            "insert into recruit_comment(id, content,is_deleted,parent_id,user_id,recruit_id)"
+                + " values (10,'comment1',true,null,1,1)"
+        ).executeUpdate();
+
+
     }
 }

@@ -32,10 +32,7 @@ public class RecruitComment extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private RecruitComment parentComment; // 부모 댓글
-
-//    @OneToMany(mappedBy = "parent", orphanRemoval = true)
-//    private List<RecruitComment> children = new ArrayList<>();
+    private RecruitComment parentComment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
