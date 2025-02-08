@@ -34,7 +34,7 @@ public class AuthController {
 
 	private final UserRegisterFacade userRegisterFacade;
 	private final AuthService authService;
-	private final CookieHelper cookieHelper;
+//	private final CookieHelper cookieHelper;
 	private final UserWithdrawFacade userWithdrawFacade;
 
 	@Operation(summary = "카카오 로그인 code 전송 후 로그인 처리", description = "code만 보내면 됩니다. (Host, Origin)은 안 보내도 됨")
@@ -63,26 +63,25 @@ public class AuthController {
 			kakaoOauthResponse = userRegisterFacade.register(code, LOCAL_CLIENT);
 		}
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(),
-				kakaoOauthResponse.getRefreshToken()))
+//			.headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(),
+//				kakaoOauthResponse.getRefreshToken()))
 			.body(kakaoOauthResponse);
 	}
 
 	@Operation(summary = "토큰 재발급", description = "토큰 만료시 호출 API",
 		parameters = {
-			@Parameter(name = "refreshToken", description = "헤더에 리프레시 토큰 전달", in = ParameterIn.HEADER),
-			@Parameter(name = "refreshToken", description = "쿠키에 리프레시 토큰 전달 (추후에 적용)", in = ParameterIn.COOKIE)
+			@Parameter(name = "refreshToken", description = "헤더에 리프레시 토큰 전달", in = ParameterIn.HEADER)
+//			@Parameter(name = "refreshToken", description = "쿠키에 리프레시 토큰 전달 (추후에 적용)", in = ParameterIn.COOKIE)
 		})
 	@PostMapping("/refresh")
 	@DisableSwaggerSecurity
 	public ResponseEntity<KakaoOauthResponse> tokenRefresh(
-		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
+//		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
 		@RequestHeader(value = "refreshToken", required = false, defaultValue = "") String refreshToken) {
-		KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(
-			refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
+		KakaoOauthResponse kakaoOauthResponse = authService.tokenRefresh(refreshToken);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(),
-				kakaoOauthResponse.getRefreshToken()))
+//			.headers(cookieHelper.getCookies(kakaoOauthResponse.getAccessToken(),
+//				kakaoOauthResponse.getRefreshToken()))
 			.body(kakaoOauthResponse);
 	}
 
@@ -91,7 +90,7 @@ public class AuthController {
 	public ResponseEntity logOutKakaoUser() {
 		authService.logoutKakaoUser();
 		return ResponseEntity.ok()
-			.headers(cookieHelper.deleteCookies())
+//			.headers(cookieHelper.deleteCookies())
 			.body(null);
 	}
 
@@ -100,7 +99,7 @@ public class AuthController {
 	public ResponseEntity withDrawKakaoUser() {
 		userWithdrawFacade.withDraw();
 		return ResponseEntity.ok()
-			.headers(cookieHelper.deleteCookies())
+//			.headers(cookieHelper.deleteCookies())
 			.body(null);
 	}
 }
