@@ -17,7 +17,8 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
-import com.clubber.ClubberServer.domain.club.dto.GetOneViewClubResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.exception.DepartmentNotFoundException;
@@ -166,11 +167,17 @@ public class ClubService {
     }
 
     // [한눈에 보기]
-    public List<GetOneViewClubResponse> getOneViewClubs() {
-        List<Club> clubs = clubRepository.findByClubType(ClubType.CENTER);
+    public List<GetSummaryClubGroupResponse> getSummaryClubs() {
+        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.CENTER);
 
         return clubs.stream()
-            .map(GetOneViewClubResponse::from)
+            .collect(Collectors.groupingBy(
+                Club::getDivision,
+                Collectors.mapping(GetSummaryClubResponse::from, Collectors.toList())
+            ))
+            .entrySet().stream()
+            .map(clubGroup -> GetSummaryClubGroupResponse.of(clubGroup.getKey(),
+                clubGroup.getValue()))
             .collect(Collectors.toList());
     }
 

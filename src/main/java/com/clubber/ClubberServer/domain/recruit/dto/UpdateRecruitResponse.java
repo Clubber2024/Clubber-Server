@@ -15,6 +15,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdateRecruitResponse {
 
+    @Schema(description = "모집글 id", example = "12")
+    private final Long recruitId;
+
     @Schema(description = "모집글 제목", example = "클러버 부원을 모집합니다")
     private final String title;
 
@@ -30,6 +33,7 @@ public class UpdateRecruitResponse {
 
     public static UpdateRecruitResponse of(Recruit recruit, List<String> imageUrls) {
         return UpdateRecruitResponse.builder()
+            .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .content(recruit.getContent())
             .imageUrls(imageUrls)
