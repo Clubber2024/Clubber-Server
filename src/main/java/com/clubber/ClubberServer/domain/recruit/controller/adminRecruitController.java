@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name = "[동아리 계정 모집글 관련 API]")
+@Tag(name = "[관리자 모집글 관련 API]", description = "🔐동아리 계정")
 public class adminRecruitController {
 
     private final RecruitService recruitService;

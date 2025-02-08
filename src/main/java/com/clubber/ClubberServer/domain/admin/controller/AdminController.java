@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admins")
-@Tag(name = "[동아리 계정 API]")
+@Tag(name = "[동아리 계정 API]", description = "🔐동아리 계정")
 public class AdminController {
 
 	private final AdminService adminService;
