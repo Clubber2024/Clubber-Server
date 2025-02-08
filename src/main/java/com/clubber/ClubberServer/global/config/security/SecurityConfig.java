@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +41,6 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/images/club/**")
 					.hasRole("ADMIN")
-					//.requestMatchers(PathRequest.toH2Console()).permitAll()
 					.requestMatchers("/api/v1/clubs/popular")
 					.permitAll()
 					.requestMatchers("/api/v1/clubs/{clubId}")
@@ -78,6 +79,32 @@ public class SecurityConfig {
 					.anyRequest()
 					.hasRole("USER"));
 		return http.build();
+	}
+
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+			.requestMatchers("/api/v1/auths/oauth/")
+			.requestMatchers("/api/v1/auths/refresh")
+			.requestMatchers("/api/v1/clubs")
+			.requestMatchers("/api/v1/clubs/{clubId}")
+			.requestMatchers("/api/v1/clubs/divisions")
+			.requestMatchers("/api/v1/clubs/colleges")
+			.requestMatchers("/api/v1/clubs/summary")
+			.requestMatchers("/api/v1/clubs/popular")
+			.requestMatchers(HttpMethod.GET, "/api/v1/clubs/{clubId}/reviews/**")
+			.requestMatchers("/api/v1/notices/**")
+			.requestMatchers("/api/v1/admins/login")
+			.requestMatchers("/api/v1/admins/refresh")
+			.requestMatchers("/api/v1/clubs/{clubId}/recruit")
+			.requestMatchers("/api/v1/recruits/**")
+			.requestMatchers("/api/v1/clubs/hashtags")
+			.requestMatchers("/api/v1/keywords")
+			.requestMatchers("/api/v1/faqs")
+			.requestMatchers("/api/v1/example/**")
+			.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
+				"/v3/api-docs")
+			.requestMatchers("/actuator/**");
 	}
 
 	@Bean
