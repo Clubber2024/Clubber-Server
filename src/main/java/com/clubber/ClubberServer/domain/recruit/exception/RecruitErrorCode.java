@@ -13,9 +13,11 @@ public enum RecruitErrorCode implements BaseErrorCode {
         "수정된 이미지 수와 실제 이미지 수가 다릅니다."),
     RECRUIT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_1", "모집글 접근 권한이 없습니다."),
     RECRUIT_DELETE_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_2", "모집글 삭제 권한이 없습니다."),
+    RECRUIT_COMMENT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_3", "댓글 권한이 없습니다."),
     RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "RECRUIT_404_1", "해당 모집글이 존재하지 않습니다."),
     RECRUIT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "RECRUIT_404_2",
-        "해당 모집글 이미지가 존재하지 않습니다.");
+        "해당 모집글 이미지가 존재하지 않습니다."),
+    RECRUIT_COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "RECRUIT_404_3", "해당 댓글이 존재하지 않습니다.");
 
     private final Integer status;
     private final String code;
