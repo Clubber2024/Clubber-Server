@@ -31,15 +31,6 @@ public class KeywordController {
     @DisableSwaggerSecurity
     @GetMapping
     public List<EnumMapperVO> getTotalReviews() {
-
-
-//        Map<AttributeType, RequestedAttribute> toxicity = Map.of(AttributeType.TOXICITY, requestedAttribute);
-//        List<String> korea = List.of("ko");
-//
-//        CreateTextAnalyzeRequest createTextAnalyzeRequest = new CreateTextAnalyzeRequest(entry, toxicity, korea);
-//        CreateTextAnalyzeResponse response = perspectiveClient.textAnalyze(
-//            "AIzaSyCBzFA5hdBLWJPxr9wBXlDX3MEy5FXBQ88", createTextAnalyzeRequest);
-//        System.out.println("response = " + response.toString());
         return reviewService.getTotalKeywords();
     }
 
