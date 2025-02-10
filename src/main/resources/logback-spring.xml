@@ -1,36 +1,64 @@
-<configuration scan="true" scanPeriod="30 seconds">
-  <property name="LOG_PATH" value="./logs"/>
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
   <conversionRule conversionWord="clr"
     converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
-  <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <!-- rollover daily -->
-      <fileNamePattern>${LOG_PATH}/application-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-      <timeBasedFileNamingAndTriggeringPolicy
-        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-        <!-- or whenever the file size reaches 100MB -->
-        <maxFileSize>100MB</maxFileSize>
-      </timeBasedFileNamingAndTriggeringPolicy>
-    </rollingPolicy>
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender>
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <layout class="ch.qos.logback.classic.PatternLayout">
-      <!--            <Pattern>%d{HH:mm:ss.SSS} [%-5level] - %msg%n</Pattern>-->
-      <!--            <pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){magenta} %clr([%thread]){blue} %clr(%-5level){}-->
-      <!--                %clr([%logger{0}:%line]){cyan} : %msg %n-->
-      <!--            </pattern>-->
-      <pattern>[ls] [%23d{yyyy_MM_dd_'T'_HH_mm_ss_SSS_z}] [%highlight(%-5level)] [%msg] [le]%n
-      </pattern>
-    </layout>
-  </appender>
-  <logger name="org.hibernate.SQL" level="DEBUG"/>
-  <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
-  <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
-  <root level="INFO">
-    <appender-ref ref="ROLLING"/>
-    <appender-ref ref="STDOUT"/>
-  </root>
+
+  <!--콘솔 로그 출력 패턴-->
+  <property name="CONSOLE_LOG_PATTERN"
+    value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){magenta} %clr([%thread]){blue} %clr(%-5level){}
+        %clr([%logger{0}:%line]){cyan} : %msg %n"/>
+
+  <!--파일 로그 출력 패턴-->
+  <property name="FILE_LOG_PATTERN"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %5level %logger - %msg%n"/>
+
+  <!--local 환경-->
+  <springProfile name="local">
+    <include resource="console-appender.xml"/>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!--SQL, Hibernate bind되는 변수 콘솔에 출력-->
+    <logger level="DEBUG" name="org.hibernate.SQL">
+      <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind">
+      <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger level="TRACE" name="org.hibernate.type.descriptor.sql.BasicBinder">
+      <appender-ref ref="CONSOLE"/>
+    </logger>
+  </springProfile>
+
+  <!--dev 환경-->
+  <springProfile name="dev">
+    <include resource="file-info-appender.xml"/>
+
+    <root level="INFO">
+      <appender-ref ref="FILE-INFO"/>
+    </root>
+
+    <!--SQL, Hibernate bind되는 변수 파일에 출력-->
+    <logger level="TRACE" name="org.hibernate.SQL">
+      <appender-ref ref="FILE-INFO"/>
+    </logger>
+
+    <logger level="TRACE" name="org.hibernate.type.descriptor.sql.BasicBinder">
+      <appender-ref ref="FILE-INFO"/>
+    </logger>
+  </springProfile>
+
+  <!--prod 환경-->
+  <springProfile name="prod">
+    <include resource="file-info-appender.xml"/>
+
+    <root level="INFO">
+      <appender-ref ref="FILE-INFO"/>
+    </root>
+  </springProfile>
 </configuration>
