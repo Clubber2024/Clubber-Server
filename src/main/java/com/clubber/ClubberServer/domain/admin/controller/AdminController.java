@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admins")
-@Tag(name = "[동아리 계정 API]")
+@Tag(name = "[동아리 계정 API]", description = "🔐동아리 계정")
 public class AdminController {
 
 	private final AdminService adminService;
@@ -45,7 +45,7 @@ public class AdminController {
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
 		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(loginRequest);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
+//			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 
@@ -67,7 +67,7 @@ public class AdminController {
 	public ResponseEntity createAdminsLogout() {
 		adminService.logout();
 		return ResponseEntity.ok()
-			.headers(cookieHelper.deleteCookies())
+//			.headers(cookieHelper.deleteCookies())
 			.body(null);
 	}
 
@@ -75,13 +75,12 @@ public class AdminController {
 	@Operation(summary = "동아리 계정 토큰 재발급")
 	@PostMapping("/refresh")
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
-		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
+//		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
 		@RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
-			refreshTokenCookie != null ? refreshTokenCookie : refreshToken);
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(refreshToken);
 		return ResponseEntity.ok()
-			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
-				createAdminsLoginResponse.getRefreshToken()))
+//			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
+//				createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
 	}
 
@@ -90,7 +89,7 @@ public class AdminController {
 	public ResponseEntity withdrawAdmin() {
 		adminService.withDraw();
 		return ResponseEntity.ok()
-			.headers(cookieHelper.deleteCookies())
+//			.headers(cookieHelper.deleteCookies())
 			.body(null);
 	}
 

@@ -1,29 +1,30 @@
 package com.clubber.ClubberServer.global.config.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
 
-	private final FilterConfig filterConfig;
+    private final FilterConfig filterConfig;
 
-	private final CustomAuthenticationEntryPoint entryPoint;
+    private final CustomAuthenticationEntryPoint entryPoint;
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
@@ -40,7 +41,6 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/images/club/**")
 					.hasRole("ADMIN")
-					//.requestMatchers(PathRequest.toH2Console()).permitAll()
 					.requestMatchers("/api/v1/clubs/popular")
 					.permitAll()
 					.requestMatchers("/api/v1/clubs/{clubId}")
@@ -63,19 +63,48 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/faqs")
 					.permitAll()
-					.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs")
+					.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
+						"/v3/api-docs")
 					.permitAll()
 					.requestMatchers("/exceptions/**")
 					.permitAll()
-						.requestMatchers("/actuator/**")
-						.permitAll()
-						.requestMatchers("/api/v1/clubs/popular/temp")
-						.permitAll()
-						.requestMatchers("/api/v1/example/**")
-						.permitAll()
-						.anyRequest()
-						.hasRole("USER"));
+					.requestMatchers("/actuator/**")
+					.permitAll()
+					.requestMatchers("/api/v1/clubs/popular/temp")
+					.permitAll()
+					.requestMatchers("/api/v1/example/**")
+					.permitAll()
+					.requestMatchers("/api/v1/perspective/**")
+					.permitAll()
+					.anyRequest()
+					.hasRole("USER"));
 		return http.build();
+	}
+
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+			.requestMatchers("/api/v1/auths/oauth/")
+			.requestMatchers("/api/v1/auths/refresh")
+			.requestMatchers("/api/v1/clubs")
+			.requestMatchers("/api/v1/clubs/{clubId}")
+			.requestMatchers("/api/v1/clubs/divisions")
+			.requestMatchers("/api/v1/clubs/colleges")
+			.requestMatchers("/api/v1/clubs/summary")
+			.requestMatchers("/api/v1/clubs/popular")
+			.requestMatchers(HttpMethod.GET, "/api/v1/clubs/{clubId}/reviews/**")
+			.requestMatchers("/api/v1/notices/**")
+			.requestMatchers("/api/v1/admins/login")
+			.requestMatchers("/api/v1/admins/refresh")
+			.requestMatchers("/api/v1/clubs/{clubId}/recruit")
+			.requestMatchers("/api/v1/recruits/**")
+			.requestMatchers("/api/v1/clubs/hashtags")
+			.requestMatchers("/api/v1/keywords")
+			.requestMatchers("/api/v1/faqs")
+			.requestMatchers("/api/v1/example/**")
+			.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
+				"/v3/api-docs")
+			.requestMatchers("/actuator/**");
 	}
 
 	@Bean

@@ -10,13 +10,12 @@ import org.springframework.web.context.request.WebRequest;
 @RequiredArgsConstructor
 public class ExceptionAlarmEventPublisher {
 
-    private final ApplicationEventPublisher publisher;
+	public final SpringEnvironmentHelper springEnvironmentHelper;
+	private final ApplicationEventPublisher publisher;
 
-    public final SpringEnvironmentHelper springEnvironmentHelper;
-
-    public void throwExceptionAlarmEvent(Exception e, WebRequest request) {
-        if (springEnvironmentHelper.isProdProfile()) {
-            publisher.publishEvent(new ExceptionAlarmEvent(e, request));
-        }
-    }
+	public void throwExceptionAlarmEvent(Exception e, WebRequest request) {
+		if (springEnvironmentHelper.isProdProfile()) {
+			publisher.publishEvent(new ExceptionAlarmEvent(e, request));
+		}
+	}
 }

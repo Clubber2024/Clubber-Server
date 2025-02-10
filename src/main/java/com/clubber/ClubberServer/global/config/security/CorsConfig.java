@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.global.config.security;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,19 +11,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        List<String> allowedOriginPatterns = new ArrayList<>();
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		List<String> allowedOriginPatterns = new ArrayList<>();
 
-        allowedOriginPatterns.add("http://localhost:3000");
-        allowedOriginPatterns.add("https://ssuclubber.com");
-        allowedOriginPatterns.add("https://dev.ssuclubber.com");
-        String[] patterns = allowedOriginPatterns.toArray(String[]::new);
+		allowedOriginPatterns.add("http://localhost:3000");
+		allowedOriginPatterns.add("https://ssuclubber.com");
+		allowedOriginPatterns.add("https://dev.ssuclubber.com");
+		String[] patterns = allowedOriginPatterns.toArray(String[]::new);
 
-        registry.addMapping("/**")
-                .allowedMethods("*")
-                .allowedOriginPatterns(patterns)
+		registry.addMapping("/**")
+			.allowedMethods("*")
+			.allowedOriginPatterns(patterns)
 //                .exposedHeaders("Set-Cookie")
-                .allowCredentials(true);
-    }
+			.allowCredentials(true);
+	}
 }

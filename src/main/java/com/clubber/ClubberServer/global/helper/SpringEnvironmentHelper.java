@@ -2,18 +2,16 @@ package com.clubber.ClubberServer.global.helper;
 
 import java.util.Arrays;
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class SpringEnvironmentHelper {
-	private final Environment environment;
 
 	private static final String PROD = "prod";
+	private final Environment environment;
 
 	public Boolean isProdProfile() {
 		String[] activeProfiles = environment.getActiveProfiles();

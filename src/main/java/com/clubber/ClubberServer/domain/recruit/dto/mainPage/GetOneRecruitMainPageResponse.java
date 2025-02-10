@@ -3,12 +3,11 @@ package com.clubber.ClubberServer.domain.recruit.dto.mainPage;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -30,10 +29,10 @@ public class GetOneRecruitMainPageResponse {
 
     public static GetOneRecruitMainPageResponse from(Recruit recruit) {
         return GetOneRecruitMainPageResponse.builder()
-                .clubId(recruit.getClub().getId())
-                .recruitId(recruit.getId())
-                .title(recruit.getTitle())
-                .createdAt(recruit.getCreatedAt())
-                .build();
+            .clubId(recruit.getClub().getId())
+            .recruitId(recruit.getId())
+            .title(recruit.getTitle())
+            .createdAt(recruit.getCreatedAt())
+            .build();
     }
 }

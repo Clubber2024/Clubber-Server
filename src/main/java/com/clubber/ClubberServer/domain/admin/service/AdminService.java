@@ -2,11 +2,6 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
-import com.clubber.ClubberServer.global.util.ImageUtil;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
@@ -23,14 +18,17 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
-
+import com.clubber.ClubberServer.global.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +39,7 @@ public class AdminService {
 	private final PasswordEncoder encoder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final SoftDeleteEventPublisher eventPublisher;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -132,11 +131,7 @@ public class AdminService {
 	@Transactional
 	public void withDraw() {
 		Admin admin = adminReadService.getAdmin();
-
-		admin.deleteClub();
-		admin.deleteClubReviews();
-		admin.deleteClubFavorites();
-		admin.deleteClubRecruits();
 		admin.withDraw();
+		eventPublisher.throwSoftDeleteEvent(admin.getId());
 	}
 }

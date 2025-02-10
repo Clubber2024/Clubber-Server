@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.global.config.swagger;
 
 
+import static java.util.stream.Collectors.groupingBy;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
 import com.clubber.ClubberServer.global.exception.BaseErrorCode;
@@ -24,14 +25,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.customizers.OperationCustomizer;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @Configuration
 @RequiredArgsConstructor
@@ -42,50 +41,129 @@ public class SwaggerConfig {
         String contextPath = servletContext.getContextPath();
         Server server = new Server().url(contextPath);
         return new OpenAPI().
-                info(swaggerInfo()).
-                servers(List.of(server))
-                .components(authSetting())
-                .addSecurityItem(new SecurityRequirement()
-                        .addList("Authorization")
-                        .addList("cookieAuth"));
+            info(swaggerInfo()).
+            servers(List.of(server))
+            .components(authSetting())
+            .addSecurityItem(new SecurityRequirement()
+                .addList("Authorization")
+                .addList("cookieAuth"));
     }
 
-    private Info swaggerInfo(){
+    @Bean
+    public GroupedOpenApi AllApi() {
+
+        return GroupedOpenApi.builder()
+            .group("0. 📌모든 API")
+            .pathsToMatch("/api/v1/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi noticeApi() {
+
+        return GroupedOpenApi.builder()
+            .group("공지사항,FAQ API")
+            .pathsToMatch("/api/v1/notices/**", "/api/v1/faqs")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi favoriteApi() {
+
+        return GroupedOpenApi.builder()
+            .group("즐겨찾기 API")
+            .pathsToMatch("/api/v1/clubs/{clubId}/favorites/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi reviewApi() {
+
+        return GroupedOpenApi.builder()
+            .group("리뷰, 키워드 조회 API")
+            .pathsToMatch("/api/v1/clubs/{clubId}/reviews/**", "/api/v1/keywords")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi recruitApi() {
+
+        return GroupedOpenApi.builder()
+            .group("모집글 조회 API")
+            .pathsToMatch("/api/v1/recruits/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi adminApi() {
+
+        return GroupedOpenApi.builder()
+            .group("동아리 계정 API")
+            .pathsToMatch("/api/v1/admins/**", "/api/v1/images/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi authOpenApi() {
+        return GroupedOpenApi.builder()
+            .group("인증, 회원 API")
+            .pathsToMatch("/api/v1/auths/**", "/api/v1/users/**",
+                "/api/v1/clubs/{clubId}/favorites/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi clubApi() {
+        return GroupedOpenApi.builder()
+            .group("정보 조회 API")
+            .pathsToMatch("/api/v1/clubs/**")
+            .pathsToExclude("/api/v1/clubs/{clubId}/favorites")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi EtcApi() {
+        return GroupedOpenApi.builder()
+            .group("그외 API")
+            .pathsToMatch("/api/v1/example/**", "/api/v1/perspective")
+            .build();
+    }
+
+    private Info swaggerInfo() {
         return new Info()
-                .version("1.0")
-                .title("Clubber API 문서")
-                .description("Clubber의 API 문서입니다.");
+            .version("1.0")
+            .title("Clubber API 문서")
+            .description("Clubber의 API 문서입니다.");
     }
 
     private Components authSetting() {
         SecurityScheme cookieAuth = new SecurityScheme()
-                .type(Type.APIKEY)
-                .scheme(In.COOKIE.toString())
-                .name("accessToken");
+            .type(Type.APIKEY)
+            .scheme(In.COOKIE.toString())
+            .name("accessToken");
 
         SecurityScheme authorization = new SecurityScheme()
-                .type(Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT")
-                .in(In.HEADER)
-                .name("Authorization");
+            .type(Type.HTTP)
+            .scheme("bearer")
+            .bearerFormat("JWT")
+            .in(In.HEADER)
+            .name("Authorization");
 
         return new Components()
-                .addSecuritySchemes("cookieAuth",cookieAuth)
-                .addSecuritySchemes("Authorization", authorization);
+            .addSecuritySchemes("cookieAuth", cookieAuth)
+            .addSecuritySchemes("Authorization", authorization);
     }
 
     @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
             DisableSwaggerSecurity methodAnnotation = handlerMethod.getMethodAnnotation(
-                    DisableSwaggerSecurity.class);
+                DisableSwaggerSecurity.class);
 
             ApiErrorCodeExample apiErrorCodeExample =
-                    handlerMethod.getMethodAnnotation(ApiErrorCodeExample.class);
+                handlerMethod.getMethodAnnotation(ApiErrorCodeExample.class);
 
-
-            if(methodAnnotation != null) {
+            if (methodAnnotation != null) {
                 operation.setSecurity(Collections.emptyList());
             }
 
@@ -98,25 +176,25 @@ public class SwaggerConfig {
     }
 
     private void generateErrorCodeExample(
-            Operation operation, Class<? extends BaseErrorCode> type
-    ){
+        Operation operation, Class<? extends BaseErrorCode> type
+    ) {
         ApiResponses responses = operation.getResponses();
         BaseErrorCode[] errorCodes = type.getEnumConstants();
 
         Map<Integer, List<ExampleHolder>> statusWithExampleHolder = Arrays.stream(errorCodes)
-                .map(
-                        baseErrorCode -> {
-                            ErrorReason errorReason = baseErrorCode.getErrorReason();
-                            return ExampleHolder.builder()
-                                    .holder(
-                                            getSwaggerExample(baseErrorCode.getErrorReason().getReason(),
-                                                    baseErrorCode.getErrorReason())
-                                    )
-                                    .code(errorReason.getStatus())
-                                    .name(errorReason.getCode())
-                                    .build();
-                        }
-                ).collect(groupingBy(ExampleHolder::getCode));
+            .map(
+                baseErrorCode -> {
+                    ErrorReason errorReason = baseErrorCode.getErrorReason();
+                    return ExampleHolder.builder()
+                        .holder(
+                            getSwaggerExample(baseErrorCode.getErrorReason().getReason(),
+                                baseErrorCode.getErrorReason())
+                        )
+                        .code(errorReason.getStatus())
+                        .name(errorReason.getCode())
+                        .build();
+                }
+            ).collect(groupingBy(ExampleHolder::getCode));
         addExamplesToResponses(responses, statusWithExampleHolder);
     }
 
@@ -130,23 +208,23 @@ public class SwaggerConfig {
     }
 
     private void addExamplesToResponses(
-            ApiResponses responses, Map<Integer, List<ExampleHolder>> statusWithExampleHolders) {
+        ApiResponses responses, Map<Integer, List<ExampleHolder>> statusWithExampleHolders) {
         statusWithExampleHolders.forEach(
-                (status, v) -> {
-                    Content content = new Content();
-                    MediaType mediaType = new MediaType();
-                    // 상태 코드마다 ApiResponse을 생성합니다.
-                    ApiResponse apiResponse = new ApiResponse();
-                    //  List<ExampleHolder> 를 순회하며, mediaType 객체에 예시값을 추가합니다.
-                    v.forEach(
-                            exampleHolder -> mediaType.addExamples(
-                                    exampleHolder.getName(), exampleHolder.getHolder()));
-                    // ApiResponse 의 content 에 mediaType을 추가합니다.
-                    content.addMediaType("application/json", mediaType);
-                    apiResponse.setContent(content);
-                    // 상태코드를 key 값으로 responses 에 추가합니다.
-                    responses.addApiResponse(status.toString(), apiResponse);
-                });
+            (status, v) -> {
+                Content content = new Content();
+                MediaType mediaType = new MediaType();
+                // 상태 코드마다 ApiResponse을 생성합니다.
+                ApiResponse apiResponse = new ApiResponse();
+                //  List<ExampleHolder> 를 순회하며, mediaType 객체에 예시값을 추가합니다.
+                v.forEach(
+                    exampleHolder -> mediaType.addExamples(
+                        exampleHolder.getName(), exampleHolder.getHolder()));
+                // ApiResponse 의 content 에 mediaType을 추가합니다.
+                content.addMediaType("application/json", mediaType);
+                apiResponse.setContent(content);
+                // 상태코드를 key 값으로 responses 에 추가합니다.
+                responses.addApiResponse(status.toString(), apiResponse);
+            });
     }
 }
 

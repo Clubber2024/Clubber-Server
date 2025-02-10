@@ -27,4 +27,6 @@ public class CreateClubReviewRequest {
 		target = Keyword.class,
 		message = "유효하지 않은 리뷰 키워드입니다"
 	) Keyword> keywords = new ArrayList<>();
+
+	private String authImage;
 }

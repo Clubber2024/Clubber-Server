@@ -1,19 +1,20 @@
 package com.clubber.ClubberServer.global.validator.enums;
 
-import com.clubber.ClubberServer.global.validator.enums.Enum;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class EnumValidator implements ConstraintValidator<Enum, java.lang.Enum> {
-    private Enum annotation;
 
-    @Override
-    public void initialize(Enum constraintAnnotation) {
-        this.annotation = constraintAnnotation;
-    }
+	private Enum annotation;
 
-    @Override
-    public boolean isValid(java.lang.Enum value, ConstraintValidatorContext constraintValidatorContext) {
-        return value != null;
-    }
+	@Override
+	public void initialize(Enum constraintAnnotation) {
+		this.annotation = constraintAnnotation;
+	}
+
+	@Override
+	public boolean isValid(java.lang.Enum value,
+		ConstraintValidatorContext constraintValidatorContext) {
+		return value != null;
+	}
 }

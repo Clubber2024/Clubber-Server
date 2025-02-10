@@ -1,11 +1,15 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
+import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admins/reviews")
-@Tag(name = "[동아리 계정 리뷰 관련 API]")
+@Tag(name = "[동아리 계정 리뷰 관련 API]", description = "🔐동아리 계정")
 public class AdminReviewController {
 
 	private final AdminReviewService adminReviewService;
@@ -40,21 +44,30 @@ public class AdminReviewController {
 	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회 (더보기)", description = "추후 적용해주세요")
 	@GetMapping("/pending/slice")
 	public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponses(
-		@PageableDefault Pageable pageable, @RequestParam(required = false) Long lastReviewId){
+		@PageableDefault Pageable pageable, @RequestParam(required = false) Long lastReviewId) {
 		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
 	}
 
 	@Operation(summary = "동아리 계정에서 리뷰 승인 / 거절 요청")
 	@PatchMapping("/decision")
-	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatusResponse(@Valid @RequestBody
-	UpdateAdminsReviewApprovedStatusRequest updateAdminsReviewApprovedStatusRequest) {
+	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatusResponse(
+		@Valid @RequestBody
+		UpdateAdminsReviewApprovedStatusRequest updateAdminsReviewApprovedStatusRequest) {
 		return adminReviewService.updateAdminsReviewsApprovedStatus(
 			updateAdminsReviewApprovedStatusRequest);
 	}
 
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
-	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable) {
-		return adminReviewService.getAdminsReviews(pageable);
+	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
+		@RequestParam(required = false) ApprovedStatus approvedStatus,
+		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
+		return adminReviewService.getAdminsReviews(pageable, approvedStatus, verifiedStatus);
+	}
+
+	@Operation(summary = "리뷰 인증")
+	@PatchMapping("/verify/{reviewId}")
+	public UpdateAdminsReviewVerifyResponse updateAdminsReviewVerify(@PathVariable Long reviewId) {
+		return adminReviewService.updateAdminsReviewVerify(reviewId);
 	}
 }
