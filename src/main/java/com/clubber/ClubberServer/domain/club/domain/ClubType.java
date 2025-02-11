@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum ClubType implements EnumMapperType {
     CENTER("중앙동아리"),
     SMALL("소모임"),
+    OFFICIAL("숭실대공식단체"),
     ETC("그 외");
 
     private final String title;

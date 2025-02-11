@@ -17,6 +17,8 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubGroupResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubResponse;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
@@ -179,6 +181,17 @@ public class ClubService {
             .map(clubGroup -> GetSummaryClubGroupResponse.of(clubGroup.getKey(),
                 clubGroup.getValue()))
             .collect(Collectors.toList());
+    }
+
+    // [숭실대 공식 단체]
+    public GetOfficialClubGroupResponse getOfficialClubs() {
+        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.OFFICIAL);
+
+        List<GetOfficialClubResponse> clubList = clubs.stream()
+            .map(GetOfficialClubResponse::from)
+            .collect(Collectors.toList());
+
+        return GetOfficialClubGroupResponse.of(ClubType.OFFICIAL, clubList);
     }
 
 }
