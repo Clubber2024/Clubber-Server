@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.club.dto.DepartmentSmallDto;
 import com.clubber.ClubberServer.domain.club.dto.GetClubByDivisionResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -95,6 +96,13 @@ public class ClubController {
     @GetMapping("/summary")
     public List<GetSummaryClubGroupResponse> getOneViewClubs() {
         return clubService.getSummaryClubs();
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "숭실대 공식 단체 조회")
+    @GetMapping("/official")
+    public GetOfficialClubGroupResponse getOfficialClubs() {
+        return clubService.getOfficialClubs();
     }
 
 }
