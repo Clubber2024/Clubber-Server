@@ -44,7 +44,7 @@
     </root>
 
     <!--SQL, Hibernate bind되는 변수 파일에 출력-->
-    <logger level="TRACE" name="org.hibernate.SQL">
+    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind">
       <appender-ref ref="FILE-INFO"/>
     </logger>
 
