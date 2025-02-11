@@ -30,6 +30,11 @@ RUN ./configure --with-compat --add-dynamic-module=../ngx_http_geoip2_module && 
 # 최종 실행 스테이지
 FROM nginx:1.24.0
 
+# 실행 시 필요한 라이브러리만 유지
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmaxminddb0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # GeoIP2 모듈 복사 (빌드한 파일만 포함)
 COPY --from=builder /usr/src/nginx-${NGINX_VERSION}/objs/ngx_http_geoip2_module.so /usr/lib/nginx/modules/
 
