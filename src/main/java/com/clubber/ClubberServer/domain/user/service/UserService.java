@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.user.dto.GetIsUserFavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -62,10 +63,11 @@ public class UserService {
 		return PageResponse.of(favoriteResponses);
 	}
 
-	public boolean getIsUserFavorite(Long clubId) {
+	public GetIsUserFavoriteResponse getIsUserFavorite(Long clubId) {
 		User user = userReadService.getUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		return favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false);
+		boolean isFavorite = favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false);
+		return GetIsUserFavoriteResponse.of(club, isFavorite);
 	}
 }

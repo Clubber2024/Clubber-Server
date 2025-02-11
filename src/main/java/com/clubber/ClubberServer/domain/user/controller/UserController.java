@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.user.controller;
 
 
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
+import com.clubber.ClubberServer.domain.user.dto.GetIsUserFavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserProfileResponse;
@@ -52,7 +53,7 @@ public class UserController {
 
 	@Operation(summary = "회원 동아리 즐겨찾기 여부", description = "개별 동아리 페이지 즐겨찾기 (별표) 판단")
 	@GetMapping("/favorite/{clubId}")
-	public boolean getIsUserFavorite(@PathVariable Long clubId) {
+	public GetIsUserFavoriteResponse getIsUserFavorite(@PathVariable Long clubId) {
 		return userService.getIsUserFavorite(clubId);
 	}
 }
