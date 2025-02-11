@@ -216,5 +216,4 @@ public class AdminServiceTest extends ServiceTest {
 				IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST.getRoom())
 		);
 	}
-
 }
