@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.integration.domain.favorite.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.clubber.ClubberServer.domain.user.dto.GetIsUserFavoriteResponse;
 import com.clubber.ClubberServer.domain.user.service.UserService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
@@ -21,9 +22,10 @@ public class FavoriteServiceTest extends ServiceTest {
 		//given - before Each에 수행
 
 		//when
-		boolean isUserFavorite = userService.getIsUserFavorite(1L);
+		GetIsUserFavoriteResponse isUserFavoriteResponse = userService.getIsUserFavorite(1L);
 
 		//then
-		assertThat(isUserFavorite).isTrue();
+		assertThat(isUserFavoriteResponse.isFavorite()).isTrue();
+		assertThat(isUserFavoriteResponse.clubId()).isEqualTo(1L);
 	}
 }
