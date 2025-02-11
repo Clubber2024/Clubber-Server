@@ -1,7 +1,7 @@
-# Use the official NGINX base image
-FROM nginx:1.24.0
+# 빌드 스테이지
+FROM nginx:1.24.0 AS builder
 
-# Install dependencies
+# 필수 패키지 설치
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     wget \
@@ -13,31 +13,30 @@ RUN apt-get update && \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and extract NGINX source code
+# Nginx 소스 코드 다운로드
 ARG NGINX_VERSION=1.24.0
 WORKDIR /usr/src
 RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
     tar -zxvf nginx-${NGINX_VERSION}.tar.gz && \
     rm nginx-${NGINX_VERSION}.tar.gz
 
-# Clone ngx_http_geoip2_module
+# GeoIP2 모듈 다운로드 및 빌드
 RUN git clone https://github.com/leev/ngx_http_geoip2_module.git
 
-# Build NGINX with geoip2 module
 WORKDIR /usr/src/nginx-${NGINX_VERSION}
-RUN ./configure \
-    --with-compat \
-    --add-dynamic-module=../ngx_http_geoip2_module && \
+RUN ./configure --with-compat --add-dynamic-module=../ngx_http_geoip2_module && \
     make modules
 
-# Copy the built module to the NGINX modules directory
-RUN mkdir -p /usr/lib/nginx/modules/
-RUN cp objs/ngx_http_geoip2_module.so /usr/lib/nginx/modules/
+# 최종 실행 스테이지
+FROM nginx:1.24.0
 
-# Clean up
-RUN apt-get purge -y --auto-remove \
-    wget \
-    curl \
-    build-essential \
-    git && \
-    rm -rf /usr/src/*
+# 실행 시 필요한 라이브러리만 유지
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmaxminddb0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# GeoIP2 모듈 복사 (빌드한 파일만 포함)
+COPY --from=builder /usr/src/nginx-${NGINX_VERSION}/objs/ngx_http_geoip2_module.so /usr/lib/nginx/modules/
+
+# 불필요한 캐시 제거
+RUN rm -rf /var/cache/apt/*
