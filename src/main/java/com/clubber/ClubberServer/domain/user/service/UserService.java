@@ -1,5 +1,8 @@
 package com.clubber.ClubberServer.domain.user.service;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
@@ -29,6 +32,8 @@ public class UserService {
 
 	private final UserReadService userReadService;
 
+	private final ClubRepository clubRepository;
+
 	private final UserMapper userMapper;
 
 	public GetUserProfileResponse getUserProfile() {
@@ -55,5 +60,12 @@ public class UserService {
 		Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
 			GetFavoriteDetailsResponse::of);
 		return PageResponse.of(favoriteResponses);
+	}
+
+	public boolean getIsUserFavorite(Long clubId) {
+		User user = userReadService.getUser();
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		return favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false);
 	}
 }
