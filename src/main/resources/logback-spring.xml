@@ -21,12 +21,13 @@
       <appender-ref ref="CONSOLE"/>
     </root>
 
-    <!--SQL, Hibernate bind되는 변수 콘솔에 출력-->
-    <logger level="DEBUG" name="org.hibernate.SQL" additivity ="false">
+    <!--SQL 쿼리-->
+    <logger level="DEBUG" name="org.hibernate.SQL" additivity="false">
       <appender-ref ref="CONSOLE"/>
     </logger>
 
-    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind" additivity ="false">
+    <!--bind 변수-->
+    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind" additivity="false">
       <appender-ref ref="CONSOLE"/>
     </logger>
 
@@ -40,12 +41,13 @@
       <appender-ref ref="FILE-INFO"/>
     </root>
 
-    <!--SQL, Hibernate bind되는 변수 파일에 출력-->
-    <logger level="TRACE" name="org.hibernate.SQL" additivity ="false">
+    <!--SQL 쿼리-->
+    <logger level="TRACE" name="org.hibernate.SQL" additivity="false">
       <appender-ref ref="FILE-INFO"/>
     </logger>
 
-    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind" additivity ="false">
+    <!--bind 변수-->
+    <logger level="TRACE" name="org.hibernate.orm.jdbc.bind" additivity="false">
       <appender-ref ref="FILE-INFO"/>
     </logger>
 

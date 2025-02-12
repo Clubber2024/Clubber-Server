@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FaqService {
 
-    public List<GetFaqsResponse> getTotalFaqs(){
-        return Arrays.stream(Faq.values())
-                .map(GetFaqsResponse::from)
-                .collect(Collectors.toList());
-    }
+	public List<GetFaqsResponse> getTotalFaqs() {
+		return Arrays.stream(Faq.values())
+			.map(GetFaqsResponse::from)
+			.collect(Collectors.toList());
+	}
 }
