@@ -31,6 +31,7 @@ import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -173,8 +174,10 @@ public class ClubService {
         List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.CENTER);
 
         return clubs.stream()
+            .sorted(Comparator.comparing(Club::getDivision))
             .collect(Collectors.groupingBy(
                 Club::getDivision,
+                LinkedHashMap::new,
                 Collectors.mapping(GetSummaryClubResponse::from, Collectors.toList())
             ))
             .entrySet().stream()
