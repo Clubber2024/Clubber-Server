@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -25,12 +24,6 @@ public class EnumMapper<T extends EnumMapperVO, E extends EnumMapperType<T>> {
 		return Arrays.stream(enumConstants)
 			.map(EnumMapperType::createVO)
 			.toList();
-	}
-
-	public List<T> toEnumValues(List<? extends E> enumMapperTypes) {
-		return enumMapperTypes.stream()
-			.map(E::createVO)
-			.collect(Collectors.toList());
 	}
 
 	public List<T> get(String key) {
