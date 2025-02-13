@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.global.mapper.enums;
 
-import com.clubber.ClubberServer.global.vo.enums.EnumImageMapperVO;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
