@@ -27,7 +27,10 @@ import com.clubber.ClubberServer.domain.club.exception.DepartmentNotFoundExcepti
 import com.clubber.ClubberServer.domain.club.exception.DivisionNotFoundException;
 import com.clubber.ClubberServer.domain.club.exception.HashtagNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.global.mapper.enums.EnumImageMapperType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumImageMapperVO;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -49,7 +52,9 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
 
-    private final EnumMapper enumMapper;
+    private final EnumMapper<EnumImageMapperVO, EnumImageMapperType> enumImageMapper;
+
+    private final EnumMapper<EnumMapperVO, EnumMapperType<EnumMapperVO>> enumMapper;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     @Transactional(readOnly = true)
@@ -149,8 +154,8 @@ public class ClubService {
     }
 
     // [해시태그] 해시태그 목록 반환 (enum)
-    public List<EnumMapperVO> getClubsTotalHashtags() {
-        return enumMapper.get("Hashtag");
+    public List<EnumImageMapperVO> getClubsTotalHashtags() {
+        return enumImageMapper.get("Hashtag");
     }
 
 

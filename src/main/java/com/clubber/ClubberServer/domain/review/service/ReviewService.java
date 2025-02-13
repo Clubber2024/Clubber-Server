@@ -24,6 +24,7 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ReviewService {
 	private final ReviewKeywordRepository reviewKeywordRepository;
 	private final ReviewMapper reviewMapper;
 	private final ClubRepository clubRepository;
-	private final EnumMapper enumMapper;
+	private final EnumMapper<EnumMapperVO, EnumMapperType<EnumMapperVO>> enumMapper;
 	private final ReviewApproveEvnetPublisher publisher;
 	private final UserReadService userReadService;
 
