@@ -27,6 +27,8 @@ import com.clubber.ClubberServer.domain.club.exception.DepartmentNotFoundExcepti
 import com.clubber.ClubberServer.domain.club.exception.DivisionNotFoundException;
 import com.clubber.ClubberServer.domain.club.exception.HashtagNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.global.mapper.enums.DefaultEnumMapper;
+import com.clubber.ClubberServer.global.mapper.enums.EnumImageMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumImageMapperType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
@@ -52,9 +54,9 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
 
-    private final EnumMapper<EnumImageMapperVO, EnumImageMapperType> enumImageMapper;
+    private final EnumImageMapper enumImageMapper;
 
-    private final EnumMapper<EnumMapperVO, EnumMapperType<EnumMapperVO>> enumMapper;
+    private final DefaultEnumMapper defaultEnumMapper;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     @Transactional(readOnly = true)
@@ -158,16 +160,15 @@ public class ClubService {
         return enumImageMapper.get("Hashtag");
     }
 
-
     // [중앙 동아리] - 분과명 반환 (enum)
     public List<EnumMapperVO> getDivisionNames() {
-        return enumMapper.get("Division");
+        return defaultEnumMapper.get("Division");
     }
 
 
     // [소모임] - 단과대 & 학과명 반환 (enum)
     public List<CollegeResponse> getCollegesWithDepartments() {
-        List<EnumMapperVO> colleges = enumMapper.get("College");
+        List<EnumMapperVO> colleges = defaultEnumMapper.get("College");
 
         return colleges.stream()
             .map(college -> CollegeResponse.from(College.valueOf(college.getCode())))

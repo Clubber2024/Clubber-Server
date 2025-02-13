@@ -23,6 +23,7 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
+import com.clubber.ClubberServer.global.mapper.enums.DefaultEnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
@@ -43,7 +44,7 @@ public class ReviewService {
 	private final ReviewKeywordRepository reviewKeywordRepository;
 	private final ReviewMapper reviewMapper;
 	private final ClubRepository clubRepository;
-	private final EnumMapper<EnumMapperVO, EnumMapperType<EnumMapperVO>> enumMapper;
+	private final DefaultEnumMapper defaultEnumMapper;
 	private final ReviewApproveEvnetPublisher publisher;
 	private final UserReadService userReadService;
 
@@ -125,7 +126,7 @@ public class ReviewService {
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
-		return enumMapper.get("Keyword");
+		return defaultEnumMapper.get("Keyword");
 	}
 
 	@Transactional
