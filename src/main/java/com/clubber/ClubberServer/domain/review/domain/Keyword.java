@@ -2,12 +2,13 @@ package com.clubber.ClubberServer.domain.review.domain;
 
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum Keyword implements EnumMapperType {
+public enum Keyword implements EnumMapperType<EnumMapperVO> {
 	CULTURE("😃 \" 분위기가 좋아요\""),
 	FEE("💵 \"회비가 적당해요\""),
 	ACTIVITY("🕺🏻 \"활동 참여가 자유로워요\""),
@@ -32,5 +33,10 @@ public enum Keyword implements EnumMapperType {
 	@Override
 	public String getTitle() {
 		return title;
+	}
+
+	@Override
+	public EnumMapperVO createVO() {
+		return new EnumMapperVO(this);
 	}
 }

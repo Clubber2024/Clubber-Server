@@ -1,13 +1,14 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.util.EnumSet;
 
 @Getter
 @AllArgsConstructor
-public enum College implements EnumMapperType {
+public enum College implements EnumMapperType<EnumMapperVO> {
     IT_COLLEGE("IT대학", EnumSet.of(Department.IT,Department.COMPUTER_SCIENCE, Department.GLOBAL_MEDIA, Department.AI, Department.ELECTRONIC_INFORMATION, Department.SOFTWARE)),
     BUSINESS_COLLEGE("경영대학", EnumSet.of(Department.BUSINESS,Department.BUSINESS_ADMINISTRATION,Department.ACCOUNTING, Department.VENTURE_BUSINESS, Department.WELFARE_BUSINESS, Department.SMALL_MEDIUM_BUSINESS, Department.FINANCE, Department.INNOVATION_BUSINESS)),
     ECONOMICS_TRADE_COLLEGE("경제통상대학", EnumSet.of(Department.ECONOMICS_TRADE,Department.ECONOMICS, Department.FINANCE_ECONOMICS, Department.GLOBAL_TRADE, Department.INTERNATIONAL_TRADE)),
@@ -29,6 +30,11 @@ public enum College implements EnumMapperType {
     @Override
     public String getTitle(){
         return college;
+    }
+
+    @Override
+    public EnumMapperVO createVO() {
+        return new EnumMapperVO(this);
     }
 
 }

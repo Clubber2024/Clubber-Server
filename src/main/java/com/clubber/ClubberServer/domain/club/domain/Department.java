@@ -2,12 +2,13 @@ package com.clubber.ClubberServer.domain.club.domain;
 
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Department implements EnumMapperType {
+public enum Department implements EnumMapperType<EnumMapperVO> {
 
     // IT대학 학과
     IT("IT대 소속"),
@@ -92,6 +93,11 @@ public enum Department implements EnumMapperType {
     @Override
     public String getTitle() {
         return department;
+    }
+
+    @Override
+    public EnumMapperVO createVO() {
+        return new EnumMapperVO(this);
     }
 
 }

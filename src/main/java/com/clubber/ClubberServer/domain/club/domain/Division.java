@@ -1,12 +1,13 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Division implements EnumMapperType {
+public enum Division implements EnumMapperType<EnumMapperVO> {
     EDUCATION("교양분과"),
     BUSINESS("연대사업분과"),
     ART("연행예술분과"),
@@ -26,5 +27,10 @@ public enum Division implements EnumMapperType {
     @Override
     public String getTitle() {
         return division;
+    }
+
+    @Override
+    public EnumMapperVO createVO() {
+        return new EnumMapperVO(this);
     }
 }
