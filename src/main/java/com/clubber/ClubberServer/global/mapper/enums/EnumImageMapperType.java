@@ -5,4 +5,9 @@ import com.clubber.ClubberServer.global.vo.enums.EnumImageMapperVO;
 public interface EnumImageMapperType extends EnumMapperType<EnumImageMapperVO> {
 
 	String getImageUrl();
+
+	@Override
+	default EnumImageMapperVO createVO() {
+		return new EnumImageMapperVO(this);
+	}
 }

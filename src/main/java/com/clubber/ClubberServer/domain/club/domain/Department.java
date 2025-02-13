@@ -93,10 +93,5 @@ public enum Department implements EnumDefaultMapperType {
 	public String getTitle() {
 		return department;
 	}
-
-	@Override
-	public EnumDefaultMapperVO createVO() {
-		return new EnumDefaultMapperVO(this);
-	}
 }
 

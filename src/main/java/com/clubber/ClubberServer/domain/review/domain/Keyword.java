@@ -33,9 +33,4 @@ public enum Keyword implements EnumDefaultMapperType {
 	public String getTitle() {
 		return title;
 	}
-
-	@Override
-	public EnumDefaultMapperVO createVO() {
-		return new EnumDefaultMapperVO(this);
-	}
 }

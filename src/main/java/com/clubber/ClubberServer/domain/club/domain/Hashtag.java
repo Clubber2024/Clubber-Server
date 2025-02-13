@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumImageMapperType;
-import com.clubber.ClubberServer.global.vo.enums.EnumImageMapperVO;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import lombok.AllArgsConstructor;
 
@@ -36,11 +35,6 @@ public enum Hashtag implements EnumImageMapperType {
 	@Override
 	public String getTitle() {
 		return title;
-	}
-
-	@Override
-	public EnumImageMapperVO createVO() {
-		return new EnumImageMapperVO(this);
 	}
 
 	@Override

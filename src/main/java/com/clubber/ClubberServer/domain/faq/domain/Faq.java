@@ -27,11 +27,6 @@ public enum Faq implements EnumDefaultMapperType {
 		return title;
 	}
 
-	@Override
-	public EnumDefaultMapperVO createVO() {
-		return new EnumDefaultMapperVO(this);
-	}
-
 	public String getAnswer() {
 		return answer;
 	}

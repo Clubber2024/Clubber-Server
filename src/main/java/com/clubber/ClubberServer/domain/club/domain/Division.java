@@ -28,9 +28,4 @@ public enum Division implements EnumDefaultMapperType {
 	public String getTitle() {
 		return division;
 	}
-
-	@Override
-	public EnumDefaultMapperVO createVO() {
-		return new EnumDefaultMapperVO(this);
-	}
 }
