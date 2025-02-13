@@ -1,12 +1,11 @@
 package com.clubber.ClubberServer.domain.faq.domain;
 
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
-
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
+import com.clubber.ClubberServer.global.vo.enums.EnumDefaultMapperVO;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum Faq implements EnumMapperType<EnumMapperVO> {
+public enum Faq implements EnumDefaultMapperType {
 	QUESTION_1("클러버는 어떤 서비스인가요?", "클러버는 숭실대 학생들의 동아리 동아리 활동을 돕기 위해 IT 대학 학생들이 자체적으로 만든 서비스에요"),
 	QUESTION_2("숭실대학교 동아리 연합회와 관련이 있는 건가요?", "동아리 연합회와는 관련이 없는 독립적인 서비스에요"),
 	QUESTION_3("제가 즐겨찾기 한 동아리는 어디서 확인할 수 있나요?", "로그인 후 [마이페이지 - 나의 즐겨찾기]에서 확인하실 수 있어요"),
@@ -29,8 +28,8 @@ public enum Faq implements EnumMapperType<EnumMapperVO> {
 	}
 
 	@Override
-	public EnumMapperVO createVO() {
-		return new EnumMapperVO(this);
+	public EnumDefaultMapperVO createVO() {
+		return new EnumDefaultMapperVO(this);
 	}
 
 	public String getAnswer() {
