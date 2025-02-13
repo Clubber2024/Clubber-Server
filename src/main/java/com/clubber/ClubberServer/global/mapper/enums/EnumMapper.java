@@ -27,21 +27,6 @@ public class EnumMapper<T extends EnumMapperVO, E extends EnumMapperType<T>> {
 			.toList();
 	}
 
-	public EnumMapperType getEnumInstance(String key) {
-		Class<? extends EnumMapperType> enumType = getEnumType(key);
-		EnumMapperType[] enumConstants = enumType.getEnumConstants();
-		for (EnumMapperType enumConstant : enumConstants) {
-			if (enumConstant.getCode().equals(key)) {
-				return enumConstant;
-			}
-		}
-		return null;
-	}
-
-	public Class<? extends E> getEnumType(String key) {
-		return typeFactory.get(key);
-	}
-
 	public List<T> toEnumValues(List<? extends E> enumMapperTypes) {
 		return enumMapperTypes.stream()
 			.map(E::createVO)
@@ -51,5 +36,4 @@ public class EnumMapper<T extends EnumMapperVO, E extends EnumMapperType<T>> {
 	public List<T> get(String key) {
 		return factory.get(key);
 	}
-
 }
