@@ -26,13 +26,13 @@ public class ReviewKeywordVOTest {
 		KeywordStatsVO keywordStatsVO = new KeywordStatsVO(getKeywordStats());
 
 		//then
-		Map<Keyword, Long> keywordMap = keywordStatsVO.getKeywordMap();
+		Map<String, Long> keywordMap = keywordStatsVO.getKeywordMapAsStingKey();
 		assertAll(
-			() -> assertEquals(10L, keywordMap.get(ACTIVITY)),
-			() -> assertEquals(20L, keywordMap.get(FEE)),
-			() -> assertEquals(30L, keywordMap.get(CAREER)),
-			() -> assertEquals(40L, keywordMap.get(CULTURE)),
-			() -> assertEquals(50L, keywordMap.get(MANAGE))
+			() -> assertEquals(10L, keywordMap.get(ACTIVITY.getTitle())),
+			() -> assertEquals(20L, keywordMap.get(FEE.getTitle())),
+			() -> assertEquals(30L, keywordMap.get(CAREER.getTitle())),
+			() -> assertEquals(40L, keywordMap.get(CULTURE.getTitle())),
+			() -> assertEquals(50L, keywordMap.get(MANAGE.getTitle()))
 		);
 	}
 
