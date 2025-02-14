@@ -19,7 +19,7 @@ public class EnumConfig {
 
 	@Bean
 	public EnumDefaultMapper getEnumMapper() {
-		EnumDefaultMapper enumMapper = new EnumDefaultMapper();
+		final EnumDefaultMapper enumMapper = new EnumDefaultMapper();
 		enumMapper.put("Keyword", Keyword.class);
 		enumMapper.put("Division", Division.class);
 		enumMapper.put("Department", Department.class);
@@ -30,14 +30,14 @@ public class EnumConfig {
 
 	@Bean
 	public EnumImageMapper getEnumImageMapper() {
-		EnumImageMapper enumImageMapper = new EnumImageMapper();
+		final EnumImageMapper enumImageMapper = new EnumImageMapper();
 		enumImageMapper.put("Hashtag", Hashtag.class);
 		return enumImageMapper;
 	}
 
 	@Bean
 	public EnumFaqMapper getEnumFaqMapper() {
-		EnumFaqMapper enumFaqMapper = new EnumFaqMapper();
+		final EnumFaqMapper enumFaqMapper = new EnumFaqMapper();
 		enumFaqMapper.put("FaQ", Faq.class);
 		return enumFaqMapper;
 	}
