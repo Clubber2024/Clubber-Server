@@ -85,8 +85,7 @@ public class ReviewService {
 		List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
 			club.getId());
 
-		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
-		keywordStatsVO.updateKeywordStat(keywordCountStatDtoList);
+		final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList);
 		return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
 	}
 

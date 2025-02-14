@@ -10,16 +10,18 @@ import lombok.Getter;
 
 @Getter
 public class KeywordStatsVO {
-    private final Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
-    public KeywordStatsVO() {
-        Arrays.stream(Keyword.values())
-                .forEach(keyword -> keywordMap.put(keyword, 0L));
-    }
+	private final Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
-    public void updateKeywordStat(List<KeywordCountStatDto> keywordCountStatDtoList) {
-        for (KeywordCountStatDto keywordCountStatDTO : keywordCountStatDtoList) {
-            keywordMap.put(keywordCountStatDTO.keyword(), keywordCountStatDTO.count());
-        }
-    }
+	public KeywordStatsVO(List<KeywordCountStatDto> keywordCountStatDtoList) {
+		Arrays.stream(Keyword.values())
+			.forEach(keyword -> keywordMap.put(keyword, 0L));
+		updateKeywordStat(keywordCountStatDtoList);
+	}
+
+	private void updateKeywordStat(List<KeywordCountStatDto> keywordCountStatDtoList) {
+		for (KeywordCountStatDto keywordCountStatDTO : keywordCountStatDtoList) {
+			keywordMap.put(keywordCountStatDTO.keyword(), keywordCountStatDTO.count());
+		}
+	}
 }
