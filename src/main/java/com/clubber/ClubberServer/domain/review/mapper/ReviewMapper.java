@@ -79,18 +79,8 @@ public class ReviewMapper {
 
 	public GetClubReviewsKeywordStatsResponse getGetClubReviewsKeywordStatsResponse(Club club,
 		KeywordStatsVO keywordStatsVO) {
-		Map<Keyword, Long> keywordMap = keywordStatsVO.getKeywordMap();
-		return GetClubReviewsKeywordStatsResponse.of(club, convertKeyType(keywordMap));
-	}
-
-	//리뷰 키워드 통계의 key값을 Keyword에서 문자열 내용으로 변환
-	private static Map<String, Long> convertKeyType(Map<Keyword, Long> keywordStats) {
-		return keywordStats.entrySet().stream()
-			.collect(Collectors.toMap(
-				entry -> entry.getKey().getTitle(),
-				Entry::getValue,
-				(oldValue, newValue) -> oldValue,
-				LinkedHashMap::new));
+		Map<String, Long> keywordMap = keywordStatsVO.getKeywordMapAsStingKey();
+		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
 	}
 }
 
