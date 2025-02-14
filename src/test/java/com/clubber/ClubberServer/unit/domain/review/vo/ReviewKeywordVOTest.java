@@ -22,12 +22,8 @@ public class ReviewKeywordVOTest {
 	@Test
 	@DisplayName("keywordStat 리스트가 주어졌을 때, KeywordStatVO안의 Map에 매핑된다..")
 	void keywordStatsTest() {
-		//given
-		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
-		List<KeywordCountStatDto> keywordStatList = getKeywordStats();
-
-		//when
-		keywordStatsVO.updateKeywordStat(keywordStatList);
+		//given & when
+		KeywordStatsVO keywordStatsVO = new KeywordStatsVO(getKeywordStats());
 
 		//then
 		Map<Keyword, Long> keywordMap = keywordStatsVO.getKeywordMap();

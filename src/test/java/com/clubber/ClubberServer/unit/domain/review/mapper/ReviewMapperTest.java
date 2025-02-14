@@ -28,9 +28,7 @@ public class ReviewMapperTest {
 	@Test
 	void testKeywordMapping() {
 		//given
-		KeywordStatsVO keywordStatsVO = new KeywordStatsVO();
-		keywordStatsVO.updateKeywordStat(getKeywordStats());
-
+		KeywordStatsVO keywordStatsVO = new KeywordStatsVO(getKeywordStats());
 		Club club = getClub();
 
 		//when
