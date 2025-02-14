@@ -14,9 +14,13 @@ public class KeywordStatsVO {
 	private final Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
 	public KeywordStatsVO(List<KeywordCountStatDto> keywordCountStatDtoList) {
+		initializeKeywordMap();
+		updateKeywordStat(keywordCountStatDtoList);
+	}
+
+	private void initializeKeywordMap() {
 		Arrays.stream(Keyword.values())
 			.forEach(keyword -> keywordMap.put(keyword, 0L));
-		updateKeywordStat(keywordCountStatDtoList);
 	}
 
 	private void updateKeywordStat(List<KeywordCountStatDto> keywordCountStatDtoList) {
