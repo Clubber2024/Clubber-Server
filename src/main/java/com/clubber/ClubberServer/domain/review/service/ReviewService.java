@@ -1,11 +1,8 @@
 package com.clubber.ClubberServer.domain.review.service;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
-
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
@@ -23,7 +20,7 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -32,7 +29,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +38,7 @@ public class ReviewService {
 	private final ReviewKeywordRepository reviewKeywordRepository;
 	private final ReviewMapper reviewMapper;
 	private final ClubRepository clubRepository;
-	private final EnumMapper enumMapper;
+	private final EnumDefaultMapper enumDefaultMapper;
 	private final ReviewApproveEvnetPublisher publisher;
 	private final UserReadService userReadService;
 
@@ -124,7 +120,7 @@ public class ReviewService {
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
-		return enumMapper.get("Keyword");
+		return enumDefaultMapper.get("Keyword");
 	}
 
 	@Transactional
