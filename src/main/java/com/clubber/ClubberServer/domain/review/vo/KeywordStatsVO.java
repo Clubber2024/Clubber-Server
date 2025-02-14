@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
-@Getter
 public class KeywordStatsVO {
 
 	//키워드 통계 반환 시 Key가 String이지만 추후 확장성을 위해 EnumMap으로 관리한다.
 	private final Map<Keyword, Long> keywordMap = new EnumMap<>(Keyword.class);
 
+	@Getter
 	private final Map<String, Long> keywordMapAsStingKey;
 
 	public KeywordStatsVO(List<KeywordCountStatDto> keywordCountStatDtoList) {
