@@ -4,7 +4,7 @@
       <pattern>${FILE_LOG_PATTERN}</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-      <fileNamePattern>./logs/clubber-dev-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>./logs/clubber-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
       <maxFileSize>50MB</maxFileSize>
       <maxHistory>30</maxHistory>
       <totalSizeCap>1GB</totalSizeCap>
