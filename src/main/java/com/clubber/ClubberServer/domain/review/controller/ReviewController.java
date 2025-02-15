@@ -1,7 +1,18 @@
 package com.clubber.ClubberServer.domain.review.controller;
 
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
+import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
+import com.clubber.ClubberServer.domain.review.service.ReviewService;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,20 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
-import com.clubber.ClubberServer.domain.review.service.ReviewService;
-import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/clubs/{clubId}/reviews")

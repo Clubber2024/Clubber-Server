@@ -1,9 +1,13 @@
 package com.clubber.ClubberServer.domain.user.service;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.user.dto.GetIsUserFavoriteResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -28,6 +32,8 @@ public class UserService {
 	private final ReviewRepository reviewRepository;
 
 	private final UserReadService userReadService;
+
+	private final ClubRepository clubRepository;
 
 	private final UserMapper userMapper;
 
@@ -55,5 +61,13 @@ public class UserService {
 		Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
 			GetFavoriteDetailsResponse::of);
 		return PageResponse.of(favoriteResponses);
+	}
+
+	public GetIsUserFavoriteResponse getIsUserFavorite(Long clubId) {
+		User user = userReadService.getUser();
+		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+		boolean isFavorite = favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false);
+		return GetIsUserFavoriteResponse.of(club, isFavorite);
 	}
 }

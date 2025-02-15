@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.domain.faq.controller;
 
-import com.clubber.ClubberServer.domain.faq.dto.GetFaqsResponse;
 import com.clubber.ClubberServer.domain.faq.service.FaqService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import com.clubber.ClubberServer.global.vo.enums.EnumFaQMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -22,7 +22,7 @@ public class FaqController {
     @DisableSwaggerSecurity
     @GetMapping
     @Operation(summary = "전체 faq 목록 조회", description = "자주하는 질문 & 응답 반환")
-    public List<GetFaqsResponse> getTotalFaqs(){
+    public List<EnumFaQMapperVO> getTotalFaqs(){
         return faqService.getTotalFaqs();
     }
 }
