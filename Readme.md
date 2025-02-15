@@ -6,6 +6,7 @@
 </p>
 
 <br><br>
+<br><br>
 
 ## 서비스
 
@@ -40,7 +41,7 @@
 
 <table align="center">
     <tr>
-        <th colspan="2" style="font-size:18px;">✨ Backend Team ✨</th>
+        <th colspan="2" style="font-size:18px;">Backend Team </th>
     </tr>
     <tr align="center">
         <td><b>김민준</b></td>
