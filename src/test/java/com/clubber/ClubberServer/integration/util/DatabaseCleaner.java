@@ -47,6 +47,30 @@ public class DatabaseCleaner {
                 + "values (2, '동아리 2', 'CENTER', 'ETC', 'ETC', 'EDUCATION','ETC', false, true, true, 2, '기존imageUrl');"
         ).executeUpdate();
 
+        //clubinfo3 추가
+        entityManager.createNativeQuery(
+            "insert into club_info (id, room, activity, instagram, leader) "
+                + "values (3, 100, 'activity', 'instagram', 'leader');"
+        ).executeUpdate();
+
+        // club3 추가
+        entityManager.createNativeQuery(
+            "insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
+                + "values (3, '동아리 2', 'CENTER', 'ETC', 'ETC', 'ACADEMIC','ETC', false, true, true, 3, '기존imageUrl');"
+        ).executeUpdate();
+
+        //clubinfo4 추가
+        entityManager.createNativeQuery(
+            "insert into club_info (id, room, activity, instagram, leader) "
+                + "values (4, 100, 'activity', 'instagram', 'leader');"
+        ).executeUpdate();
+
+        // club4 추가
+        entityManager.createNativeQuery(
+            "insert into club (id, name, club_type, hashtag, department, division, college, is_deleted, is_agree_to_provide_info, is_agree_to_review, club_info_id, image_url) "
+                + "values (4, '동아리 2', 'CENTER', 'ETC', 'ETC', 'SPORTS','ETC', false, true, true, 4, '기존imageUrl');"
+        ).executeUpdate();
+
         // admin 추가
         entityManager.createNativeQuery(
                 "insert into admin (id, username, password, account_state, account_role, club_id)"
