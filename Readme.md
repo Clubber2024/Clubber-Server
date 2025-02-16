@@ -1,12 +1,8 @@
 # 🍀 클러버 - 숭실대학교 통합 동아리 서비스
 
-<div style="display: flex; align-items: center; justify-content: flex-start;">
-    <img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" width="100" style="margin-right: 10px;">
-    <div style="display: flex; flex-direction: column; text-align: left;">
-        <span>숭실대학교 중앙 동아리 및 소모임 통합 서비스</span>
-        <span><b>백엔드</b> 레포지토리</span>
-    </div>
-</div>
+# 클러버<img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" align=left width=100>
+
+> 숭실대학교 동아리 통합 서비스 • <b>백엔드</b> 레포지토리
 
 ## 서비스
 <p>클러버(Clubber)는 <b>숭실대학교 IT 대학생들</b>이 만든 교내 동아리 정보 서비스입니다.</p>
