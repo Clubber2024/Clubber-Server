@@ -21,6 +21,9 @@ public class UpdateRecruitRequest {
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private String content;
 
+    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
+    private String everytimeUrl;
+
     @Schema(description = "삭제할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private List<String> deletedImageUrls;
 

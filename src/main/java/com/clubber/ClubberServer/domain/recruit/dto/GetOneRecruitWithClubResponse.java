@@ -39,6 +39,9 @@ public class GetOneRecruitWithClubResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
+    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
+    private final String everytimeUrl;
+
     @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private final List<ImageVO> imageUrls;
 
@@ -59,6 +62,7 @@ public class GetOneRecruitWithClubResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .content(recruit.getContent())
+            .everytimeUrl(recruit.getEverytimeUrl())
             .imageUrls(images)
             .totalView(recruit.getTotalView())
             .createdAt(recruit.getCreatedAt())
