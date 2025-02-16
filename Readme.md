@@ -1,6 +1,4 @@
-# 🍀 클러버 - 숭실대학교 통합 동아리 서비스
-
-# 클러버<img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" align=left width=100>
+# 🍀숭실대학교 통합 동아리 서비스 [Clubber]<img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" align=left width=100>
 
 > 숭실대학교 동아리 통합 서비스 • <b>백엔드</b> 레포지토리
 
