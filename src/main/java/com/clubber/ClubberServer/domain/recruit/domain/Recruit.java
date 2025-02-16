@@ -16,6 +16,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Recruit extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,48 +29,53 @@ public class Recruit extends BaseEntity {
     @Column(length = 2000)
     private String content;
 
+    private String everytimeUrl;
+
     private Long totalView;
 
-    private boolean isDeleted=false;
+    private boolean isDeleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     @NotNull
     private Club club;
 
-    @OneToMany(mappedBy = "recruit",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recruit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages = new ArrayList<>();
 
-    public void delete(){
-        this.isDeleted=true;
+    public void delete() {
+        this.isDeleted = true;
     }
 
-    public void increaseTotalview(){
+    public void increaseTotalview() {
         this.totalView++;
     }
 
-    public void updateRecruitPage(String title, String content){
-        this.title=title;
-        this.content=content;
+    public void updateRecruitPage(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
 
     @Builder
-    private Recruit(Long id,String title,String content,Long totalView,Club club,List<RecruitImage> recruitImages){
-        this.id=id;
-        this.title=title;
-        this.content=content;
-        this.totalView=totalView;
-        this.club=club;
-        this.recruitImages=recruitImages;
+    private Recruit(Long id, String title, String content, String everytimeUrl, Long totalView,
+        Club club, List<RecruitImage> recruitImages) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.everytimeUrl = everytimeUrl;
+        this.totalView = totalView;
+        this.club = club;
+        this.recruitImages = recruitImages;
     }
 
-    public static Recruit of(Club club, PostRecruitRequest request){
+    public static Recruit of(Club club, PostRecruitRequest request) {
         return Recruit.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .totalView(0L)
-                .club(club)
-                .build();
+            .title(request.getTitle())
+            .content(request.getContent())
+            .everytimeUrl(request.getEverytimeUrl())
+            .totalView(0L)
+            .club(club)
+            .build();
     }
 }

@@ -24,6 +24,9 @@ public class UpdateRecruitResponse {
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private final String content;
 
+    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
+    private final String everytimeUrl;
+
     @Schema(description = "등록된 imageurls", example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
     private final List<String> imageUrls;
 
@@ -36,6 +39,7 @@ public class UpdateRecruitResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .content(recruit.getContent())
+            .everytimeUrl(recruit.getEverytimeUrl())
             .imageUrls(imageUrls)
             .updatedAt(recruit.getUpdatedAt())
             .build();

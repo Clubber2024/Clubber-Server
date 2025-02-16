@@ -22,6 +22,9 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
+    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
+    private final String everytimeUrl;
+
     @Schema(description = "모집글 대표 이미지", example = "https://image.ssuclubber.com/club/image2")
     private final ImageVO imageUrl;
 
@@ -31,6 +34,7 @@ public class GetOneRecruitInListResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .content(content)
+            .everytimeUrl(recruit.getEverytimeUrl())
             .imageUrl(imageUrl)
             .build();
     }

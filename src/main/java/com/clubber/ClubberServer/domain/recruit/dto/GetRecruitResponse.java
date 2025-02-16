@@ -23,6 +23,9 @@ public class GetRecruitResponse {
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
+    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
+    private final String everytimeUrl;
+
     @Schema(description = "조회수", example = "32")
     private final Long totalView;
 
@@ -35,6 +38,7 @@ public class GetRecruitResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .content(recruit.getContent())
+            .everytimeUrl(recruit.getEverytimeUrl())
             .totalView(recruit.getTotalView())
             .createdAt(recruit.getCreatedAt())
             .build();
