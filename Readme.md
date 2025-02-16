@@ -1,17 +1,15 @@
 # 🍀 클러버 - 숭실대학교 통합 동아리 서비스
 
-<p align="left">
-    <img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" width="100" style="margin-right: 10px; float: left;">
-    숭실대학교 중앙 동아리 및 소모임 통합 서비스 • <b>백엔드</b> 레포지토리
-</p>
-
-<br><br>
-<br><br>
+<div style="display: flex; align-items: center; justify-content: flex-start;">
+    <img src="https://github.com/user-attachments/assets/7d52a366-3aec-4d4b-ab68-eb8822e3a1a9" width="100" style="margin-right: 10px;">
+    <div style="display: flex; flex-direction: column; text-align: left;">
+        <span>숭실대학교 중앙 동아리 및 소모임 통합 서비스</span>
+        <span><b>백엔드</b> 레포지토리</span>
+    </div>
+</div>
 
 ## 서비스
-
-클러버(Clubber)는 **숭실대학교 IT 대학생들**이 만든 교내 동아리 정보 서비스입니다.
-
+<p>클러버(Clubber)는 <b>숭실대학교 IT 대학생들</b>이 만든 교내 동아리 정보 서비스입니다.</p>
 <p align="left" style="text-align: left;">
     <img src="https://github.com/user-attachments/assets/b21c0ad0-66ef-4de0-aced-8b9b59f280fa" width="45%" style="margin-right: 10px; display: inline-block;">
     <img src="https://github.com/user-attachments/assets/84ad6a0d-449c-4442-8aaf-5ffec73c7d07" width="45%" style="display: inline-block;">
@@ -20,6 +18,8 @@
     <img src="https://github.com/user-attachments/assets/3988083d-a50e-4e12-885b-11d54423df4f" width="45%" style="margin-right: 10px; display: inline-block;">
     <img src="https://github.com/user-attachments/assets/ef7203b7-d7ea-4726-ac80-b2fd68ee2052" width="45%" style="display: inline-block;">
 </p>
+
+
 
 ## 📚 기술 스택
 
@@ -31,9 +31,9 @@
 
 ## 개발 과정
 
-- [Java Enum 활용 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
-- [Java Enum 활용 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
-- [Java Enum 활용 프로젝트 개선기 (3)](https://minjun98.tistory.com/134)
+- [Java Enum을 활용한 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
+- [Java Enum을 활용한 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
+- [Java Enum을 활용한 프로젝트 개선기 (3)](https://minjun98.tistory.com/134)
 - [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
 - [커스텀 nginx 이미지를 통해 DDoS공격 막기](https://velog.io/@sseongeun/ddos%EA%B3%B5%EA%B2%A9%EB%A7%89%EA%B8%B0)
 
