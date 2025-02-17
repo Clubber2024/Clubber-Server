@@ -51,9 +51,10 @@ public class Recruit extends BaseEntity {
         this.totalView++;
     }
 
-    public void updateRecruitPage(String title, String content) {
+    public void updateRecruitPage(String title, String content, String everytimeUrl) {
         this.title = title;
         this.content = content;
+        this.everytimeUrl = everytimeUrl;
     }
 
 

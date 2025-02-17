@@ -172,7 +172,8 @@ public class RecruitService {
             throw RecruitUnauthorizedException.EXCEPTION;
         }
 
-        recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent());
+        recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent(),
+            requestPage.getEverytimeUrl());
 
         // 기존 모집글의 모든 이미지 조회
         List<RecruitImage> recruitImages = recruit.getRecruitImages().stream()
@@ -218,10 +219,10 @@ public class RecruitService {
 
         // 추가된 이미지 저장
         List<RecruitImage> newImages = requestPage.getNewImageKeys().stream()
-                    .map(imageKey -> recruitImageRepository.save(
-                        RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
-                    )
-                    .collect(Collectors.toList());
+            .map(imageKey -> recruitImageRepository.save(
+                RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
+            )
+            .collect(Collectors.toList());
 
         List<RecruitImage> revisedRecruitImages = recruitImageRepository.queryRecruitImages(
             recruit);
