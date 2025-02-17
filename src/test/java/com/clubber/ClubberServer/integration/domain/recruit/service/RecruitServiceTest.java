@@ -213,10 +213,36 @@ public class RecruitServiceTest extends ServiceTest {
                 assertAll(
                     () -> assertThat(updatedRecruit).isNotNull(),
                     () -> assertThat(updatedRecruit.get().getTitle()).isEqualTo(
-                        INVALID_DELETE_IMAGE_RECRUIT_REQUEST.getTitle()),
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getTitle()),
                     () -> assertThat(updatedRecruit.get().getContent()).isEqualTo(
-                        INVALID_DELETE_IMAGE_RECRUIT_REQUEST.getContent()),
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getContent()),
                     () -> assertEquals(sortedRecruitImageUrls, updatedRecruitImages));
+            }
+
+            @Test
+            @DisplayName("에브리타임 링크 성공")
+            @WithMockCustomUser
+            void updateRecruitWithEverytimeUrl() {
+
+                UpdateRecruitResponse updateRecruitResponse = recruitService.changeAdminRecruits(
+                    2L,
+                    UPDATE_NO_IMAGE_RECRUIT_REQUEST);
+
+                entityManager.flush();
+                entityManager.clear();
+
+                Optional<Recruit> updatedRecruit = recruitRepository.findById(
+                    updateRecruitResponse.getRecruitId());
+
+
+                assertAll(
+                    () -> assertThat(updatedRecruit).isNotNull(),
+                    () -> assertThat(updatedRecruit.get().getTitle()).isEqualTo(
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getTitle()),
+                    () -> assertThat(updatedRecruit.get().getContent()).isEqualTo(
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getContent()),
+                    () -> assertThat(updatedRecruit.get().getEverytimeUrl()).isEqualTo(
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getEverytimeUrl()));
             }
         }
     }

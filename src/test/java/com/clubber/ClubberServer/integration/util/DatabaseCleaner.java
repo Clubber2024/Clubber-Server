@@ -110,13 +110,13 @@ public class DatabaseCleaner {
 
         //recruit1 추가
         entityManager.createNativeQuery(
-            "insert into recruit(id, title, content, everytimeUrl, total_view, is_deleted, club_id) "
+            "insert into recruit(id, title, content, everytime_url, total_view, is_deleted, club_id) "
                 + "values (1, 'title', 'content', 'everytimeUrl', 100, false, 1)"
         ).executeUpdate();
 
         //recruit2 추가
         entityManager.createNativeQuery(
-            "insert into recruit(id, title, content, everytimeUrl,total_view, is_deleted, club_id) "
+            "insert into recruit(id, title, content, everytime_url,total_view, is_deleted, club_id) "
                 + "values (2, 'title', 'content', 'everytimeUrl',100, false, 1)"
         ).executeUpdate();
 
