@@ -35,6 +35,8 @@ public class Admin {
     @NotNull
     private String password;
 
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private AccountState accountState = AccountState.ACTIVE;
