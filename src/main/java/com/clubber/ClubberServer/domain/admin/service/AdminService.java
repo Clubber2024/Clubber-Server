@@ -3,6 +3,8 @@ package com.clubber.ClubberServer.domain.admin.service;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
@@ -21,8 +23,10 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
+import com.clubber.ClubberServer.global.common.random.RandomAuthNumberGenerator;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
+import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import com.clubber.ClubberServer.global.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +44,8 @@ public class AdminService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final SoftDeleteEventPublisher eventPublisher;
+	private final RandomAuthNumberGenerator randomAuthNumberGenerator;
+	private final MailService mailService;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -65,6 +71,17 @@ public class AdminService {
 		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
 		return CreateAdminsLoginResponse.of(admin, accessToken,
 			savedRefreshToken.getRefreshToken());
+	}
+
+	@Transactional
+	public CreateAdminAuthResponse createAdminMailAuth(
+		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+		String adminEmail = createAdminMailAuthRequest.getEmail();
+		Admin admin = adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Integer randomAuthNumber = randomAuthNumberGenerator.getRandomAuthNumber();
+		mailService.send("ssuclubber@gmail.com", adminEmail, randomAuthNumber.toString());
+		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 
 	@Transactional(readOnly = true)

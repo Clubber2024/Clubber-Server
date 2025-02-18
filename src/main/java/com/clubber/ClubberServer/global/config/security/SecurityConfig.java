@@ -104,6 +104,7 @@ public class SecurityConfig {
 			.requestMatchers("/api/v1/example/**")
 			.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
 				"/v3/api-docs")
+			.requestMatchers("/api/v1/admins/mail-auth")
 			.requestMatchers("/actuator/**");
 	}
 

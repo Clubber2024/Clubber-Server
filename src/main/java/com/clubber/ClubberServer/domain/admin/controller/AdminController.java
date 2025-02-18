@@ -1,7 +1,8 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -43,10 +44,19 @@ public class AdminController {
 	@PostMapping("/login")
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsLogin(
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(loginRequest);
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(
+			loginRequest);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 인증 메일 전송")
+	@PostMapping("/mail-auth")
+	public CreateAdminAuthResponse createAdminMailAuth(
+		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+		return adminService.createAdminMailAuth(createAdminMailAuthRequest);
 	}
 
 	@Operation(summary = "메인페이지 동아리 정보")
@@ -77,7 +87,8 @@ public class AdminController {
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
 		@RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(refreshToken);
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
+			refreshToken);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
 //				createAdminsLoginResponse.getRefreshToken()))
@@ -95,7 +106,8 @@ public class AdminController {
 
 	@Operation(summary = "개별 동아리 계정 페이지 수정")
 	@PatchMapping("/change-page")
-	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
+	public UpdateClubPageResponse updateAdminsPage(
+		@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
 		return adminService.updateAdminsPage(updateClubPageRequest);
 	}
 
