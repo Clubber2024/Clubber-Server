@@ -20,10 +20,10 @@ public class AdminEmailAuthFacade {
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		String adminEmail = createAdminMailAuthRequest.getEmail();
+		final String adminEmail = createAdminMailAuthRequest.getEmail();
 		Admin admin = adminReadService.getAdminByEmail(adminEmail);
 
-		String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
+		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
 		mailService.send(adminEmail, "[클러버] 동아리 관리자 계정 인증 번호입니다.", authString);
 
 		adminService.createAdminMailAuth(authString, adminEmail);
