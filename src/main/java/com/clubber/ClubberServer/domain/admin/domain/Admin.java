@@ -53,6 +53,10 @@ public class Admin {
         this.password = password;
     }
 
+    public void updateUsername(String username){
+        this.username = username;
+    }
+
     public void withDraw() {
         if(this.accountState == AccountState.INACTIVE){
             throw AdminAlreadyDeletedException.EXCEPTION;
