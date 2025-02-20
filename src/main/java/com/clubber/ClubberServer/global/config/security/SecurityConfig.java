@@ -76,6 +76,8 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers("/api/v1/perspective/**")
 					.permitAll()
+					.requestMatchers("/api/v1/calendar/**")
+					.permitAll()
 					.anyRequest()
 					.hasRole("USER"));
 		return http.build();
@@ -102,6 +104,7 @@ public class SecurityConfig {
 			.requestMatchers("/api/v1/keywords")
 			.requestMatchers("/api/v1/faqs")
 			.requestMatchers("/api/v1/example/**")
+			.requestMatchers("/api/v1/calendar/**")
 			.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
 				"/v3/api-docs")
 			.requestMatchers("/actuator/**");
