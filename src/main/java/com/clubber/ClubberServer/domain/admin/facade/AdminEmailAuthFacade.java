@@ -24,7 +24,7 @@ public class AdminEmailAuthFacade {
 		Admin admin = adminReadService.getAdminByEmail(adminEmail);
 
 		String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
-		mailService.send("ssuclubber@gmail.com", adminEmail, authString);
+		mailService.send(adminEmail, "[클러버] 동아리 관리자 계정 인증 번호입니다.", authString);
 
 		adminService.createAdminMailAuth(authString, adminEmail);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
