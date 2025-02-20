@@ -13,11 +13,8 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
-import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthStringException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
@@ -32,7 +29,6 @@ import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import com.clubber.ClubberServer.global.util.ImageUtil;
-import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,9 +44,9 @@ public class AdminService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final SoftDeleteEventPublisher eventPublisher;
-	private final AdminEmailAuthRepository adminEmailAuthRepository;
 	private final MailService mailService;
 	private final AdminValidator adminValidator;
+	public final AdminAuthService adminAuthService;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -78,25 +74,14 @@ public class AdminService {
 	}
 
 	@Transactional
-	public void createAdminMailAuth(String adminEmail, String authString) {
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
-			.email(adminEmail)
-			.authRandomString(authString)
-			.build();
-		adminEmailAuthRepository.save(adminEmailAuth);
-	}
-
-	@Transactional
 	public UpdateAdminAuthResponse updateAdminAuth(
 		UpdateAdminAuthRequest updateAdminAuthRequest) {
 		final String requestAuthString = updateAdminAuthRequest.getAuthString();
 		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
 		final String username = updateAdminAuthRequest.getUsername();
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthRandomString(
-				adminEmail, requestAuthString)
-			.orElseThrow(() -> AdminInvalidAuthStringException.EXCEPTION);
-
+		AdminEmailAuth adminEmailAuth = adminAuthService.getAdminAuthByEmailAndAuthString(
+			adminEmail, requestAuthString);
 		final String savedAuthString = adminEmailAuth.getAuthRandomString();
 		adminValidator.validateAuthString(requestAuthString, savedAuthString);
 
@@ -105,7 +90,7 @@ public class AdminService {
 		admin.updatePassword(encodedPassword);
 		admin.updateUsername(username);
 
-		adminEmailAuthRepository.delete(adminEmailAuth);
+		adminAuthService.deleteAdminEmailAuth(adminEmailAuth);
 		return new UpdateAdminAuthResponse(admin.getId());
 	}
 
