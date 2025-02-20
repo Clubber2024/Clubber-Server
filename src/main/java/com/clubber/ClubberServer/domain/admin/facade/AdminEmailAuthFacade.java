@@ -27,11 +27,8 @@ public class AdminEmailAuthFacade {
 
 		String authString = randomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
 		mailService.send("ssuclubber@gmail.com", adminEmail, authString);
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
-			.email(createAdminMailAuthRequest.getEmail())
-			.authRandomString(authString).build();
 
-		adminService.createAdminMailAuth(adminEmailAuth);
+		adminService.createAdminMailAuth(authString, adminEmail);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 }

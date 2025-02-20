@@ -77,7 +77,11 @@ public class AdminService {
 	}
 
 	@Transactional
-	public void createAdminMailAuth(AdminEmailAuth adminEmailAuth) {
+	public void createAdminMailAuth(String authString, String adminEmail) {
+		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
+			.email(adminEmail)
+			.authRandomString(authString)
+			.build();
 		adminEmailAuthRepository.save(adminEmailAuth);
 	}
 
