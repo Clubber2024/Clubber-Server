@@ -4,8 +4,6 @@ import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
@@ -25,10 +23,8 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
-import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
-import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import com.clubber.ClubberServer.global.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +42,6 @@ public class AdminService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final SoftDeleteEventPublisher eventPublisher;
-	private final RandomAuthStringGeneratorUtil randomAuthStringGeneratorUtil;
-	private final MailService mailService;
 	private final AdminEmailAuthRepository adminEmailAuthRepository;
 
 	@Transactional
