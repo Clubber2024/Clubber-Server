@@ -25,8 +25,10 @@ import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredExcept
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
+import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import com.clubber.ClubberServer.global.util.ImageUtil;
+import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,7 @@ public class AdminService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final SoftDeleteEventPublisher eventPublisher;
 	private final AdminEmailAuthRepository adminEmailAuthRepository;
+	private final MailService mailService;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -70,8 +73,13 @@ public class AdminService {
 			savedRefreshToken.getRefreshToken());
 	}
 
+	public void sendAdminAuthEmail(String adminEmail, String authString) {
+		final String subject = "[클러버] 동아리 관리자 계정 인증 번호입니다.";
+		mailService.send(adminEmail, subject, authString);
+	}
+
 	@Transactional
-	public void createAdminMailAuth(String authString, String adminEmail) {
+	public void createAdminMailAuth(String adminEmail, String authString) {
 		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
 			.email(adminEmail)
 			.authRandomString(authString)
