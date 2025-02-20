@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,8 @@ public class AdminController {
 
 	private final AdminService adminService;
 
+	private final AdminEmailAuthFacade adminEmailAuthFacade;
+
 	private final CookieHelper cookieHelper;
 
 	@DisableSwaggerSecurity
@@ -56,7 +59,7 @@ public class AdminController {
 	@PostMapping("/mail-auth")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		return adminService.createAdminMailAuth(createAdminMailAuthRequest);
+		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
 	}
 
 	@Operation(summary = "메인페이지 동아리 정보")

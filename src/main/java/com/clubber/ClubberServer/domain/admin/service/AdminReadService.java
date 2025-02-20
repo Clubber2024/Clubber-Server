@@ -23,4 +23,9 @@ public class AdminReadService {
 		return adminRepository.findAdminByIdAndAccountState(currentUserId, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
+
+	public Admin getAdminByEmail(String adminEmail) {
+		return adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
+			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	}
 }

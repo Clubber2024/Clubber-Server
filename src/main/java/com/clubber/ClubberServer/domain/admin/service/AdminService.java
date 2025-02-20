@@ -77,20 +77,8 @@ public class AdminService {
 	}
 
 	@Transactional
-	public CreateAdminAuthResponse createAdminMailAuth(
-		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		String adminEmail = createAdminMailAuthRequest.getEmail();
-		Admin admin = adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		String authString = randomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
-
-		mailService.send("ssuclubber@gmail.com", adminEmail, authString);
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
-			.email(createAdminMailAuthRequest.getEmail())
-			.authRandomString(authString).build();
-
+	public void createAdminMailAuth(AdminEmailAuth adminEmailAuth) {
 		adminEmailAuthRepository.save(adminEmailAuth);
-		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 
 	@Transactional(readOnly = true)
