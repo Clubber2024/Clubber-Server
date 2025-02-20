@@ -23,7 +23,7 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
-import com.clubber.ClubberServer.global.common.random.RandomAuthNumberGenerator;
+import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
@@ -44,7 +44,7 @@ public class AdminService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final SoftDeleteEventPublisher eventPublisher;
-	private final RandomAuthNumberGenerator randomAuthNumberGenerator;
+	private final RandomAuthStringGeneratorUtil randomAuthStringGeneratorUtil;
 	private final MailService mailService;
 
 	@Transactional
@@ -79,8 +79,8 @@ public class AdminService {
 		String adminEmail = createAdminMailAuthRequest.getEmail();
 		Admin admin = adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		Integer randomAuthNumber = randomAuthNumberGenerator.getRandomAuthNumber();
-		mailService.send("ssuclubber@gmail.com", adminEmail, randomAuthNumber.toString());
+		String authString = randomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
+		mailService.send("ssuclubber@gmail.com", adminEmail, authString);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 
