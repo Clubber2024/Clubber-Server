@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
@@ -15,6 +16,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
+import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
@@ -46,6 +48,7 @@ public class AdminService {
 	private final SoftDeleteEventPublisher eventPublisher;
 	private final RandomAuthStringGeneratorUtil randomAuthStringGeneratorUtil;
 	private final MailService mailService;
+	private final AdminEmailAuthRepository adminEmailAuthRepository;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -80,7 +83,13 @@ public class AdminService {
 		Admin admin = adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 		String authString = randomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(10);
+
 		mailService.send("ssuclubber@gmail.com", adminEmail, authString);
+		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
+			.email(createAdminMailAuthRequest.getEmail())
+			.authRandomString(authString).build();
+
+		adminEmailAuthRepository.save(adminEmailAuth);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 

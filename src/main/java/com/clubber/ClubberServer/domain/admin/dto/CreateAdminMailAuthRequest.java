@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class CreateAdminMailAuthRequest {
 
 	private String email;
+	private String username;
 }
