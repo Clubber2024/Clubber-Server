@@ -3,12 +3,9 @@ package com.clubber.ClubberServer.domain.admin.service;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
@@ -46,7 +43,6 @@ public class AdminService {
 	private final SoftDeleteEventPublisher eventPublisher;
 	private final MailService mailService;
 	private final AdminValidator adminValidator;
-	public final AdminAuthService adminAuthService;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -74,24 +70,14 @@ public class AdminService {
 	}
 
 	@Transactional
-	public UpdateAdminAuthResponse updateAdminAuth(
-		UpdateAdminAuthRequest updateAdminAuthRequest) {
-		final String requestAuthString = updateAdminAuthRequest.getAuthString();
-		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
-		final String username = updateAdminAuthRequest.getUsername();
-
-		AdminEmailAuth adminEmailAuth = adminAuthService.getAdminAuthByEmailAndAuthString(
-			adminEmail, requestAuthString);
-		final String savedAuthString = adminEmailAuth.getAuthRandomString();
-		adminValidator.validateAuthString(requestAuthString, savedAuthString);
-
+	public Admin updateAdminAccount(String adminEmail, String username, String requestAuthString) {
 		String encodedPassword = encoder.encode(requestAuthString);
+
 		Admin admin = adminReadService.getAdminByEmail(adminEmail);
 		admin.updatePassword(encodedPassword);
 		admin.updateUsername(username);
 
-		adminAuthService.deleteAdminEmailAuth(adminEmailAuth);
-		return new UpdateAdminAuthResponse(admin.getId());
+		return admin;
 	}
 
 	@Transactional(readOnly = true)
