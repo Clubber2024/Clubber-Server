@@ -19,6 +19,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedExceptio
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
@@ -49,6 +50,7 @@ public class AdminService {
 	private final SoftDeleteEventPublisher eventPublisher;
 	private final AdminEmailAuthRepository adminEmailAuthRepository;
 	private final MailService mailService;
+	private final AdminValidator adminValidator;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -56,14 +58,8 @@ public class AdminService {
 				ACTIVE)
 			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
 
-		validatePassword(loginRequest.getPassword(), admin.getPassword());
+		adminValidator.validatePassword(loginRequest.getPassword(), admin.getPassword());
 		return createAdminsToken(admin);
-	}
-
-	private void validatePassword(String rawPassword, String encodedPassword) {
-		if (!encoder.matches(rawPassword, encodedPassword)) {
-			throw AdminLoginFailedException.EXCEPTION;
-		}
 	}
 
 	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
@@ -93,20 +89,18 @@ public class AdminService {
 	@Transactional
 	public UpdateAdminAuthResponse updateAdminAuth(
 		UpdateAdminAuthRequest updateAdminAuthRequest) {
-		final String authString = updateAdminAuthRequest.getAuthString();
+		final String requestAuthString = updateAdminAuthRequest.getAuthString();
 		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
 		final String username = updateAdminAuthRequest.getUsername();
 
 		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthRandomString(
-				adminEmail, authString)
+				adminEmail, requestAuthString)
 			.orElseThrow(() -> AdminInvalidAuthStringException.EXCEPTION);
 
 		final String savedAuthString = adminEmailAuth.getAuthRandomString();
-		if (!savedAuthString.equals(authString)) {
-			throw AdminInvalidAuthStringException.EXCEPTION;
-		}
+		adminValidator.validateAuthString(requestAuthString, savedAuthString);
 
-		String encodedPassword = encoder.encode(authString);
+		String encodedPassword = encoder.encode(requestAuthString);
 		Admin admin = adminReadService.getAdminByEmail(adminEmail);
 		admin.updatePassword(encodedPassword);
 		admin.updateUsername(username);
@@ -127,10 +121,7 @@ public class AdminService {
 		Admin admin = adminReadService.getAdmin();
 
 		String rawPassword = updateAdminsPasswordRequest.getPassword();
-
-		if (encoder.matches(rawPassword, admin.getPassword())) {
-			throw AdminEqualsPreviousPasswordExcpetion.EXCEPTION;
-		}
+		adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
 
 		admin.updatePassword(encoder.encode(rawPassword));
 		return UpdateAdminsPasswordResponse.of(admin);
