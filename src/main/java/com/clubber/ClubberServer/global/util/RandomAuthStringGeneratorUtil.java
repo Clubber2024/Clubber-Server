@@ -3,15 +3,12 @@ package com.clubber.ClubberServer.global.util;
 import java.security.SecureRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.springframework.stereotype.Component;
 
-
-@Component
 public class RandomAuthStringGeneratorUtil {
 
-	public String generateRandomMixCharNSpecialChar(int length) {
-		SecureRandom secureRandom = new SecureRandom();
+	private static final SecureRandom secureRandom = new SecureRandom();
 
+	public static String generateRandomMixCharNSpecialChar(int length) {
 		String charNSpecialChar = IntStream.concat(
 				IntStream.rangeClosed(33, 47),
 				IntStream.rangeClosed(58, 126))
