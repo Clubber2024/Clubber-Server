@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
@@ -20,7 +20,7 @@ public class AdminEmailAuthFacade {
 
 	private final AdminService adminService;
 	private final AdminReadService adminReadService;
-	private final AdminAuthService adminAuthService;
+	private final AdminEmailAuthService adminEmailAuthService;
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
@@ -30,7 +30,7 @@ public class AdminEmailAuthFacade {
 		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
 		adminService.sendAdminAuthEmail(adminEmail, authString);
-		adminAuthService.createAdminMailAuth(adminEmail, authString);
+		adminEmailAuthService.createAdminMailAuth(adminEmail, authString);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 
@@ -41,11 +41,11 @@ public class AdminEmailAuthFacade {
 		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
 		final String username = updateAdminAuthRequest.getUsername();
 
-		AdminEmailAuth adminEmailAuth = adminAuthService.validateAdminEmailAuth(adminEmail,
+		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(adminEmail,
 			requestAuthString);
 
 		Admin admin = adminService.updateAdminAccount(adminEmail, username, requestAuthString);
-		adminAuthService.deleteAdminEmailAuth(adminEmailAuth);
+		adminEmailAuthService.deleteAdminEmailAuth(adminEmailAuth);
 		return new UpdateAdminAuthResponse(admin.getId());
 	}
 }

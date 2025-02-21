@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AdminAuthService {
+public class AdminEmailAuthService {
 
 	private final AdminEmailAuthRepository adminEmailAuthRepository;
 	private final AdminValidator adminValidator;
