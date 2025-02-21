@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +50,8 @@ public class AdminController {
 	private final AdminAuthService adminAuthService;
 
 	private final AdminAccountService adminAccountService;
+
+	private final AdminClubService adminClubService;
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 계정 로그인")
@@ -123,16 +126,16 @@ public class AdminController {
 			.body(null);
 	}
 
-	@Operation(summary = "개별 동아리 계정 페이지 수정")
+	@Operation(summary = "관리자 계정 동아리 정보 수정")
 	@PatchMapping("/change-page")
 	public UpdateClubPageResponse updateAdminsPage(
 		@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
-		return adminService.updateAdminsPage(updateClubPageRequest);
+		return adminClubService.updateAdminsPage(updateClubPageRequest);
 	}
 
-	@Operation(summary = "동아리 계정 마이 페이지 첫화면")
+	@Operation(summary = "동아리 계정 동아리 정보 페이지 조회")
 	@GetMapping("/mypage")
 	public GetClubResponse getAdminsMyPage() {
-		return adminService.getAdminsMyPage();
+		return adminClubService.getAdminsMyPage();
 	}
 }
