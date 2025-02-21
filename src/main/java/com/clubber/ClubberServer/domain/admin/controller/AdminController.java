@@ -62,7 +62,7 @@ public class AdminController {
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 인증 메일 전송")
-	@PostMapping("/mail-auth")
+	@PostMapping("/email/send")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
@@ -70,7 +70,7 @@ public class AdminController {
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 메일 인증 및 정보 변경")
-	@PatchMapping("/verify")
+	@PatchMapping("/email/verify")
 	public UpdateAdminAuthResponse updateAdminInfo(
 		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
 		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
