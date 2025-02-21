@@ -24,27 +24,27 @@ public class AdminEmailAuthFacade {
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		final String adminEmail = createAdminMailAuthRequest.getEmail();
-		Admin admin = adminReadService.getAdminByEmail(adminEmail);
+		final String email = createAdminMailAuthRequest.getEmail();
+		Admin admin = adminReadService.getAdminByEmail(email);
 
-		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
+		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
-		adminEmailAuthService.sendAdminAuthEmail(adminEmail, authString);
-		adminEmailAuthService.createAdminMailAuth(adminEmail, authString);
+		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
+		adminEmailAuthService.createAdminMailAuth(email, authCode);
 		return CreateAdminAuthResponse.from(admin);
 	}
 
 	@Transactional
 	public UpdateAdminAuthResponse updateAdminAuth(
 		UpdateAdminAuthRequest updateAdminAuthRequest) {
-		final String requestAuthString = updateAdminAuthRequest.getAuthString();
-		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
+		final String authCode = updateAdminAuthRequest.getAuthCode();
+		final String email = updateAdminAuthRequest.getEmail();
 		final String username = updateAdminAuthRequest.getUsername();
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(adminEmail,
-			requestAuthString);
+		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(email,
+			authCode);
 
-		Admin admin = adminAccountService.updateAdminAccountWithAuthCode(adminEmail, username, requestAuthString);
+		Admin admin = adminAccountService.updateAdminAccountWithAuthCode(email, username, authCode);
 		adminEmailAuthService.deleteAdminEmailAuth(adminEmailAuth);
 		return new UpdateAdminAuthResponse(admin.getId());
 	}

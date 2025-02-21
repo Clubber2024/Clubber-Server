@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AdminEmailAuthRepository extends CrudRepository<AdminEmailAuth, Long> {
 
-	Optional<AdminEmailAuth> findByEmailAndAuthRandomString(String adminEmail, String authRandomString);
+	Optional<AdminEmailAuth> findByEmailAndAuthCode(String email, String authRandomString);
 }

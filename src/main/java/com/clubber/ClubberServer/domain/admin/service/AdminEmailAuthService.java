@@ -23,27 +23,27 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public void createAdminMailAuth(String adminEmail, String authString) {
+	public void createAdminMailAuth(String email, String authCode) {
 		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
-			.email(adminEmail)
-			.authRandomString(authString)
+			.email(email)
+			.authCode(authCode)
 			.build();
 		adminEmailAuthRepository.save(adminEmailAuth);
 	}
 
 	@Transactional(readOnly = true)
-	public AdminEmailAuth validateAdminEmailAuth(String adminEmail, String requestAuthString) {
-		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthRandomString(
-				adminEmail, requestAuthString)
+	public AdminEmailAuth validateAdminEmailAuth(String email, String authCode) {
+		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthCode(
+				email, authCode)
 			.orElseThrow(() -> AdminInvalidAuthStringException.EXCEPTION);
 
-		String savedAuthString = adminEmailAuth.getAuthRandomString();
-		adminValidator.validateAuthString(requestAuthString, savedAuthString);
+		String storedAuthCode = adminEmailAuth.getAuthCode();
+		adminValidator.validateAuthString(authCode, storedAuthCode);
 		return adminEmailAuth;
 	}
 
-	public void sendAdminAuthEmail(String adminEmail, String authString) {
+	public void sendAdminAuthEmail(String email, String authCode) {
 		final String subject = "[클러버] 동아리 관리자 계정 인증 번호입니다.";
-		mailService.send(adminEmail, subject, authString);
+		mailService.send(email, subject, authCode);
 	}
 }

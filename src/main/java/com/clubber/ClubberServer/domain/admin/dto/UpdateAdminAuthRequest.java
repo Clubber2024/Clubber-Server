@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class UpdateAdminAuthRequest {
-	private String adminEmail;
+	private String email;
 	private String username;
-	private String authString;
+	private String authCode;
 }

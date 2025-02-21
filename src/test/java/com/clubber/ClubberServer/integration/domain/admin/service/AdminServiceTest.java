@@ -17,7 +17,6 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
-import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
