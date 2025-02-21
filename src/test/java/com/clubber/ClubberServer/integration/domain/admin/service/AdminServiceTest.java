@@ -17,6 +17,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
@@ -40,7 +41,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AdminServiceTest extends ServiceTest {
 
 	@Autowired
-	private AdminService adminService;
+	private AdminAccountService adminAccountService;
+
+	@Autowired
+	private AdminClubService adminClubService;
 
 	@Autowired
 	private AdminAuthService adminAuthService;
@@ -63,8 +67,6 @@ public class AdminServiceTest extends ServiceTest {
 	@Autowired
 	private RecruitRepository recruitRepository;
 
-	@Autowired
-	private AdminAccountService adminAccountService;
 
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
@@ -175,7 +177,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void updateAdminsPage() {
-		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(
+		UpdateClubPageResponse updateClubPageResponse = adminClubService.updateAdminsPage(
 			VALID_UPDATE_CLUB_PAGE_REQUEST);
 
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
@@ -200,7 +202,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void updateAdminsPageWithImageServerURL() {
-		UpdateClubPageResponse updateClubPageResponse = adminService.updateAdminsPage(
+		UpdateClubPageResponse updateClubPageResponse = adminClubService.updateAdminsPage(
 			IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST);
 
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();

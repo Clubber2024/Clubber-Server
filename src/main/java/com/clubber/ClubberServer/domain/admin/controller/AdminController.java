@@ -38,15 +38,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "[동아리 계정 API]", description = "🔐동아리 계정")
 public class AdminController {
 
-	private final AdminEmailAuthFacade adminEmailAuthFacade;
-
-	private final CookieHelper cookieHelper;
-
 	private final AdminAuthService adminAuthService;
 
 	private final AdminAccountService adminAccountService;
 
+	private final AdminEmailAuthFacade adminEmailAuthFacade;
+
 	private final AdminClubService adminClubService;
+
+	private final CookieHelper cookieHelper;
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 계정 로그인")
@@ -58,35 +58,6 @@ public class AdminController {
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
-	}
-
-	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 인증 메일 전송")
-	@PostMapping("/email/send")
-	public CreateAdminAuthResponse createAdminMailAuth(
-		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
-	}
-
-	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 메일 인증 및 정보 변경")
-	@PatchMapping("/email/verify")
-	public UpdateAdminAuthResponse updateAdminInfo(
-		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
-		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
-	}
-
-	@Operation(summary = "메인페이지 동아리 정보")
-	@GetMapping("/me")
-	public GetAdminsProfileResponse getAdminsProfile() {
-		return adminAccountService.getAdminsProfile();
-	}
-
-	@Operation(summary = "동아리 계정 비밀번호 수정")
-	@PatchMapping("/me")
-	public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
-	UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
 	}
 
 	@Operation(summary = "동아리 계정 로그아웃")
@@ -112,6 +83,19 @@ public class AdminController {
 			.body(createAdminsLoginResponse);
 	}
 
+	@Operation(summary = "메인페이지 동아리 정보")
+	@GetMapping("/me")
+	public GetAdminsProfileResponse getAdminsProfile() {
+		return adminAccountService.getAdminsProfile();
+	}
+
+	@Operation(summary = "동아리 계정 비밀번호 수정")
+	@PatchMapping("/me")
+	public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
+	UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+		return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
+	}
+
 	@Operation(summary = "동아리 계정 회원탈퇴")
 	@DeleteMapping("/withdraw")
 	public ResponseEntity withdrawAdmin() {
@@ -121,16 +105,32 @@ public class AdminController {
 			.body(null);
 	}
 
-	@Operation(summary = "관리자 계정 동아리 정보 수정")
+	@Operation(summary = "동아리 계정 동아리 정보 페이지 조회")
+	@GetMapping("/mypage")
+	public GetClubResponse getAdminsMyPage() {
+		return adminClubService.getAdminsMyPage();
+	}
+
+	@Operation(summary = "관리자 계정 동아리 정보 페이지 수정")
 	@PatchMapping("/change-page")
 	public UpdateClubPageResponse updateAdminsPage(
 		@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
 		return adminClubService.updateAdminsPage(updateClubPageRequest);
 	}
 
-	@Operation(summary = "동아리 계정 동아리 정보 페이지 조회")
-	@GetMapping("/mypage")
-	public GetClubResponse getAdminsMyPage() {
-		return adminClubService.getAdminsMyPage();
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 인증 메일 전송")
+	@PostMapping("/email/send")
+	public CreateAdminAuthResponse createAdminMailAuth(
+		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 메일 인증 및 정보 변경")
+	@PatchMapping("/email/verify")
+	public UpdateAdminAuthResponse updateAdminInfo(
+		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
+		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
 	}
 }
