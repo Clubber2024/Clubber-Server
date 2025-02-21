@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
+import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +45,14 @@ public class AdminController {
 
 	private final CookieHelper cookieHelper;
 
+	private final AdminAuthService adminAuthService;
+
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 계정 로그인")
 	@PostMapping("/login")
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsLogin(
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.createAdminsLogin(
 			loginRequest);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
@@ -88,7 +91,7 @@ public class AdminController {
 	@Operation(summary = "동아리 계정 로그아웃")
 	@PostMapping("/logout")
 	public ResponseEntity createAdminsLogout() {
-		adminService.logout();
+		adminAuthService.logout();
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.deleteCookies())
 			.body(null);
@@ -100,7 +103,7 @@ public class AdminController {
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
 		@RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.getAdminsParseToken(
 			refreshToken);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),

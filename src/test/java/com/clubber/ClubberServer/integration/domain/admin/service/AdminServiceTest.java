@@ -15,6 +15,7 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -42,6 +43,9 @@ public class AdminServiceTest extends ServiceTest {
 	private AdminService adminService;
 
 	@Autowired
+	private AdminAuthService adminAuthService;
+
+	@Autowired
 	private AdminRepository adminRepository;
 
 	@Autowired
@@ -59,10 +63,11 @@ public class AdminServiceTest extends ServiceTest {
 	@Autowired
 	private RecruitRepository recruitRepository;
 
+
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
 	void adminLogin() {
-		CreateAdminsLoginResponse createAdminLoginReponse = adminService.createAdminsLogin(
+		CreateAdminsLoginResponse createAdminLoginReponse = adminAuthService.createAdminsLogin(
 			VALID_ADMIN_REQUEST);
 		Optional<Admin> savedAdmin = adminRepository.findAdminByIdAndAccountState(
 			createAdminLoginReponse.getAdminId(), ACTIVE);
