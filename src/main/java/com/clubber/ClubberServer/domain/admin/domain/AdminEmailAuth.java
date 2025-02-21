@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
@@ -22,6 +23,7 @@ public class AdminEmailAuth {
 	@Indexed
 	private String authRandomString;
 
+	@TimeToLive
 	private Long ttl = 300L;
 
 	@Builder
