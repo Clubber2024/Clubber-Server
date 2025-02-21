@@ -15,6 +15,7 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
@@ -63,6 +64,8 @@ public class AdminServiceTest extends ServiceTest {
 	@Autowired
 	private RecruitRepository recruitRepository;
 
+	@Autowired
+	private AdminAccountService adminAccountService;
 
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
@@ -83,7 +86,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void adminGetProfile() {
-		GetAdminsProfileResponse adminsProfile = adminService.getAdminsProfile();
+		GetAdminsProfileResponse adminsProfile = adminAccountService.getAdminsProfile();
 
 		Optional<Admin> admin = adminRepository.findAdminByIdAndAccountState(
 			SecurityUtils.getCurrentUserId(), ACTIVE);
@@ -98,7 +101,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void adminUpdatePassword() {
-		UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminService.updateAdminsPassword(
+		UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminAccountService.updateAdminsPassword(
 			VALID_UPDATE_PASSWORD_REQUEST);
 
 		Optional<Admin> updatedPasswordAdmin = adminRepository.findAdminByIdAndAccountState(
@@ -115,7 +118,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void withDrawAdmin() {
-		adminService.withDraw();
+		adminAccountService.withDraw();
 		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
 
 		assertAll(
@@ -131,7 +134,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void withDrawAdminDeleteReview() {
-		adminService.withDraw();
+		adminAccountService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
 		List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
@@ -145,7 +148,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void withDrawAdminDeleteFavorite() {
-		adminService.withDraw();
+		adminAccountService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
 		List<Favorite> deletedFavorites = favoriteRepository.findAllByClub(admin.getClub());
@@ -159,7 +162,7 @@ public class AdminServiceTest extends ServiceTest {
 	@WithMockCustomUser
 	@Test
 	void withDrawAdminDeleteRecruit() {
-		adminService.withDraw();
+		adminAccountService.withDraw();
 		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
 		List<Recruit> deletedRecruits = recruitRepository.findAllByClub(admin.getClub());

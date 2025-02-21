@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
+import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +48,8 @@ public class AdminController {
 
 	private final AdminAuthService adminAuthService;
 
+	private final AdminAccountService adminAccountService;
+
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 계정 로그인")
 	@PostMapping("/login")
@@ -78,14 +81,14 @@ public class AdminController {
 	@Operation(summary = "메인페이지 동아리 정보")
 	@GetMapping("/me")
 	public GetAdminsProfileResponse getAdminsProfile() {
-		return adminService.getAdminsProfile();
+		return adminAccountService.getAdminsProfile();
 	}
 
 	@Operation(summary = "동아리 계정 비밀번호 수정")
 	@PatchMapping("/me")
 	public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
 	UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		return adminService.updateAdminsPassword(updateAdminsPasswordRequest);
+		return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
 	}
 
 	@Operation(summary = "동아리 계정 로그아웃")
@@ -114,7 +117,7 @@ public class AdminController {
 	@Operation(summary = "동아리 계정 회원탈퇴")
 	@DeleteMapping("/withdraw")
 	public ResponseEntity withdrawAdmin() {
-		adminService.withDraw();
+		adminAccountService.withDraw();
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.deleteCookies())
 			.body(null);
