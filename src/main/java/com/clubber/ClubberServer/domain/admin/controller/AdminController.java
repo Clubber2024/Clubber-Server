@@ -1,7 +1,11 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,6 +40,8 @@ public class AdminController {
 
 	private final AdminService adminService;
 
+	private final AdminEmailAuthFacade adminEmailAuthFacade;
+
 	private final CookieHelper cookieHelper;
 
 	@DisableSwaggerSecurity
@@ -43,10 +49,27 @@ public class AdminController {
 	@PostMapping("/login")
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsLogin(
 		@RequestBody @Valid CreateAdminsLoginRequest loginRequest) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(loginRequest);
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.createAdminsLogin(
+			loginRequest);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(), createAdminsLoginResponse.getRefreshToken()))
 			.body(createAdminsLoginResponse);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 인증 메일 전송")
+	@PostMapping("/mail-auth")
+	public CreateAdminAuthResponse createAdminMailAuth(
+		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 메일 인증 및 정보 변경")
+	@PatchMapping("/verify")
+	public UpdateAdminAuthResponse updateAdminInfo(
+		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
+		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
 	}
 
 	@Operation(summary = "메인페이지 동아리 정보")
@@ -77,7 +100,8 @@ public class AdminController {
 	public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
 		@RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(refreshToken);
+		CreateAdminsLoginResponse createAdminsLoginResponse = adminService.getAdminsParseToken(
+			refreshToken);
 		return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
 //				createAdminsLoginResponse.getRefreshToken()))
@@ -95,7 +119,8 @@ public class AdminController {
 
 	@Operation(summary = "개별 동아리 계정 페이지 수정")
 	@PatchMapping("/change-page")
-	public UpdateClubPageResponse updateAdminsPage(@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
+	public UpdateClubPageResponse updateAdminsPage(
+		@RequestBody @Valid UpdateClubPageRequest updateClubPageRequest) {
 		return adminService.updateAdminsPage(updateClubPageRequest);
 	}
 
