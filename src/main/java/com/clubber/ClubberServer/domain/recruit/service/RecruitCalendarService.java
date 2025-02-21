@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalid
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalidYearException;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.List;
@@ -32,11 +33,8 @@ public class RecruitCalendarService {
             throw RecruitCalendarInvalidMonthException.EXCEPTION;
         }
 
-        LocalDate startOfMonth = LocalDate.of(year, month, 1);
-        LocalDate endOfMonth = YearMonth.of(year, month).atEndOfMonth();
-
-        System.out.println(startOfMonth);
-        System.out.println(endOfMonth);
+        LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1,0,0,0);
+        LocalDateTime endOfMonth = YearMonth.of(year, month).atEndOfMonth().atTime(23,59,59);
 
         List<Recruit> recruits = recruitRepository.findRecruitsWithinDateRange(startOfMonth,
             endOfMonth);
