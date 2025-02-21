@@ -1,7 +1,5 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
@@ -10,9 +8,6 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
-import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
-import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
@@ -35,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminService {
 
-	private final AdminRepository adminRepository;
 	private final AdminReadService adminReadService;
 	private final PasswordEncoder encoder;
 	private final JwtTokenProvider jwtTokenProvider;
@@ -46,10 +40,7 @@ public class AdminService {
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
-		Admin admin = adminRepository.findByUsernameAndAccountState(loginRequest.getUsername(),
-				ACTIVE)
-			.orElseThrow(() -> AdminLoginFailedException.EXCEPTION);
-
+		Admin admin = adminReadService.getAdminByUsername(loginRequest.getUsername());
 		adminValidator.validatePassword(loginRequest.getPassword(), admin.getPassword());
 		return createAdminsToken(admin);
 	}
@@ -110,8 +101,7 @@ public class AdminService {
 				refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-		Admin admin = adminRepository.findAdminByIdAndAccountState(adminId, ACTIVE)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+		Admin admin = adminReadService.getAdminById(adminId);
 		return createAdminsToken(admin);
 	}
 
