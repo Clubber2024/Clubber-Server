@@ -5,12 +5,16 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Entity
@@ -20,6 +24,20 @@ public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    private LocalDate startAt;
+
+    @NotNull
+    private LocalDate endAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private Semester semester;
+
+    @NotNull
+    private int year;
 
     @NotNull
     @Column(length = 100)
@@ -59,9 +77,15 @@ public class Recruit extends BaseEntity {
 
 
     @Builder
-    private Recruit(Long id, String title, String content, String everytimeUrl, Long totalView,
+    private Recruit(Long id, LocalDate startAt, LocalDate endAt, Semester semester, int year,
+        String title,
+        String content, String everytimeUrl, Long totalView,
         Club club, List<RecruitImage> recruitImages) {
         this.id = id;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.semester = semester;
+        this.year = year;
         this.title = title;
         this.content = content;
         this.everytimeUrl = everytimeUrl;
