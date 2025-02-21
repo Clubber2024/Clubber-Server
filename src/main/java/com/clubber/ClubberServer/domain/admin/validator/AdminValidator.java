@@ -20,7 +20,7 @@ public class AdminValidator {
 	}
 
 	public void validateEqualsWithExistPassword(String rawPassword, String encodedPassword) {
-		if (encoder.matches(rawPassword, encodedPassword) {
+		if (encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminEqualsPreviousPasswordExcpetion.EXCEPTION;
 		}
 	}
