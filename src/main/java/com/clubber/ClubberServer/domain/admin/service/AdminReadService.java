@@ -24,8 +24,8 @@ public class AdminReadService {
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
 
-	public Admin getAdminByEmail(String adminEmail) {
-		return adminRepository.findByEmailAndAccountState(adminEmail, ACTIVE)
+	public Admin getAdminByEmail(String email) {
+		return adminRepository.findByEmailAndAccountState(email, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
 
