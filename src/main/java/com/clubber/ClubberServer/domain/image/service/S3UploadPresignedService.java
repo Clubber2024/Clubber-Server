@@ -37,7 +37,7 @@ public class S3UploadPresignedService {
 
 	public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(
 		ImageFileExtension fileExtension) {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 
 		Long clubId = admin.getClub().getId();
 		if (!clubRepository.existsClubByIdAndIsDeleted(clubId, false)) {
@@ -54,7 +54,7 @@ public class S3UploadPresignedService {
 
 	public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(
 		CreateRecruitsImagePresigneUrlRequest request) {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 
 		Long clubId = admin.getClub().getId();
 		if (!clubRepository.existsClubByIdAndIsDeleted(clubId, false)) {

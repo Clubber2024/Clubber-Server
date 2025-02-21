@@ -21,13 +21,13 @@ public class AdminClubService {
 
 	@Transactional(readOnly = true)
 	public GetClubResponse getAdminsMyPage() {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 		Club club = admin.getClub();
 		return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
 	}
 
 	public UpdateClubPageResponse updateAdminsPage(UpdateClubPageRequest updateClubPageRequest) {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 		Club club = admin.getClub();
 
 		String imageKey = ImageUtil.parseImageKey(updateClubPageRequest.getImageKey());

@@ -23,13 +23,13 @@ public class AdminAccountService {
 
 	@Transactional(readOnly = true)
 	public GetAdminsProfileResponse getAdminsProfile() {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 		return GetAdminsProfileResponse.from(admin);
 	}
 
 	public UpdateAdminsPasswordResponse updateAdminsPassword(
 		UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 
 		String rawPassword = updateAdminsPasswordRequest.getPassword();
 		adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
@@ -39,7 +39,7 @@ public class AdminAccountService {
 	}
 
 	public void withDraw() {
-		Admin admin = adminReadService.getAdmin();
+		Admin admin = adminReadService.getCurrentAdmin();
 		admin.withDraw();
 		eventPublisher.throwSoftDeleteEvent(admin.getId());
 	}
