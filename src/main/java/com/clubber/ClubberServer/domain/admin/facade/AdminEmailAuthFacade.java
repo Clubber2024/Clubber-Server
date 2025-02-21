@@ -30,7 +30,7 @@ public class AdminEmailAuthFacade {
 		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
 		adminService.sendAdminAuthEmail(adminEmail, authString);
-		adminAuthService.createAdminMailAuth(authString, adminEmail);
+		adminAuthService.createAdminMailAuth(adminEmail, authString);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}
 
