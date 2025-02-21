@@ -25,8 +25,8 @@ public class AdminValidator {
 		}
 	}
 
-	public void validateAuthString(String requestAuthString, String savedAuthString) {
-		if (!requestAuthString.equals(savedAuthString)) {
+	public void validateAuthCode(String requestAuthCode, String storedAuthCode) {
+		if (!requestAuthCode.equals(storedAuthCode)) {
 			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
 	}
