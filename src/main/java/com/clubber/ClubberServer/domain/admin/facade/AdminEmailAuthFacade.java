@@ -31,7 +31,7 @@ public class AdminEmailAuthFacade {
 			10);
 		adminEmailAuthService.sendAdminAuthEmail(adminEmail, authString);
 		adminEmailAuthService.createAdminMailAuth(adminEmail, authString);
-		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
+		return CreateAdminAuthResponse.from(admin);
 	}
 
 	@Transactional
