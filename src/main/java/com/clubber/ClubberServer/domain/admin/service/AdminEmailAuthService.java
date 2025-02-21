@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthStringException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
@@ -35,7 +35,7 @@ public class AdminEmailAuthService {
 	public AdminEmailAuth validateAdminEmailAuth(String email, String authCode) {
 		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthCode(
 				email, authCode)
-			.orElseThrow(() -> AdminInvalidAuthStringException.EXCEPTION);
+			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
 		String storedAuthCode = adminEmailAuth.getAuthCode();
 		adminValidator.validateAuthString(authCode, storedAuthCode);

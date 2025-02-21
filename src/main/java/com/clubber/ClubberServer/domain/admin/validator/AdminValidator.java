@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.validator;
 
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthStringException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +27,7 @@ public class AdminValidator {
 
 	public void validateAuthString(String requestAuthString, String savedAuthString) {
 		if (!requestAuthString.equals(savedAuthString)) {
-			throw AdminInvalidAuthStringException.EXCEPTION;
+			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
 	}
 }
