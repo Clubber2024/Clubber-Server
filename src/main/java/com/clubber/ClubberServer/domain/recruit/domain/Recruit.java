@@ -26,10 +26,10 @@ public class Recruit extends BaseEntity {
     private Long id;
 
     @NotNull
-    private LocalDate startAt;
+    private LocalDateTime startAt;
 
     @NotNull
-    private LocalDate endAt;
+    private LocalDateTime endAt;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -77,7 +77,7 @@ public class Recruit extends BaseEntity {
 
 
     @Builder
-    private Recruit(Long id, LocalDate startAt, LocalDate endAt, Semester semester, int year,
+    private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
         String title,
         String content, String everytimeUrl, Long totalView,
         Club club, List<RecruitImage> recruitImages) {
