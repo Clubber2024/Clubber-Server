@@ -10,8 +10,8 @@ public class RandomAuthStringGeneratorUtil {
 
 	public static String generateRandomMixCharNSpecialChar(int length) {
 		String charNSpecialChar = IntStream.concat(
-				IntStream.rangeClosed(33, 47),
-				IntStream.rangeClosed(58, 126))
+				IntStream.rangeClosed('A', 'Z'),
+				IntStream.rangeClosed('a', 'z'))
 			.mapToObj(i -> String.valueOf((char) i))
 			.collect(Collectors.joining());
 
