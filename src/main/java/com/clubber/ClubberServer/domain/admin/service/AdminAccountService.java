@@ -43,4 +43,13 @@ public class AdminAccountService {
 		admin.withDraw();
 		eventPublisher.throwSoftDeleteEvent(admin.getId());
 	}
+
+	public Admin updateAdminAccountWithAuthCode(String adminEmail, String username, String requestAuthString) {
+		String encodedPassword = passwordEncoder.encode(requestAuthString);
+
+		Admin admin = adminReadService.getAdminByEmail(adminEmail);
+		admin.updatePassword(encodedPassword);
+		admin.updateUsername(username);
+		return admin;
+	}
 }

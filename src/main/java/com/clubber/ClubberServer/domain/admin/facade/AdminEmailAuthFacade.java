@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.service.AdminService;
@@ -21,6 +22,7 @@ public class AdminEmailAuthFacade {
 	private final AdminService adminService;
 	private final AdminReadService adminReadService;
 	private final AdminEmailAuthService adminEmailAuthService;
+	private final AdminAccountService adminAccountService;
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
@@ -44,7 +46,7 @@ public class AdminEmailAuthFacade {
 		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(adminEmail,
 			requestAuthString);
 
-		Admin admin = adminService.updateAdminAccount(adminEmail, username, requestAuthString);
+		Admin admin = adminAccountService.updateAdminAccountWithAuthCode(adminEmail, username, requestAuthString);
 		adminEmailAuthService.deleteAdminEmailAuth(adminEmailAuth);
 		return new UpdateAdminAuthResponse(admin.getId());
 	}
