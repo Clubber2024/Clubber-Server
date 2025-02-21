@@ -9,7 +9,6 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
-import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminEmailAuthFacade {
 
-	private final AdminService adminService;
 	private final AdminReadService adminReadService;
 	private final AdminEmailAuthService adminEmailAuthService;
 	private final AdminAccountService adminAccountService;
@@ -31,7 +29,7 @@ public class AdminEmailAuthFacade {
 
 		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
-		adminService.sendAdminAuthEmail(adminEmail, authString);
+		adminEmailAuthService.sendAdminAuthEmail(adminEmail, authString);
 		adminEmailAuthService.createAdminMailAuth(adminEmail, authString);
 		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
 	}

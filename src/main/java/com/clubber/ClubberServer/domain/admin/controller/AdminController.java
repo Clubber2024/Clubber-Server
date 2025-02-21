@@ -2,12 +2,26 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
+import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
+import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
+import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,30 +32,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
-import com.clubber.ClubberServer.domain.admin.service.AdminService;
-import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
-import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
-import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admins")
 @Tag(name = "[동아리 계정 API]", description = "🔐동아리 계정")
 public class AdminController {
-
-	private final AdminService adminService;
 
 	private final AdminEmailAuthFacade adminEmailAuthFacade;
 
