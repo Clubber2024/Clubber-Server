@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +62,14 @@ public class AdminController {
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 메일 인증 및 정보 변경")
+	@PatchMapping("/verify")
+	public UpdateAdminAuthResponse updateAdminInfo(
+		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
+		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
 	}
 
 	@Operation(summary = "메인페이지 동아리 정보")
