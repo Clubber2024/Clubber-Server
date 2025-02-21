@@ -17,11 +17,12 @@ public class AdminEmailAuth {
 	private Long id;
 
 	@Indexed
-	private final String email;
+	private String email;
 
-	private final String authRandomString;
+	@Indexed
+	private String authRandomString;
 
-	private final Long ttl = 300L;
+	private Long ttl = 300L;
 
 	@Builder
 	public AdminEmailAuth(Long id, String email, String authRandomString) {
