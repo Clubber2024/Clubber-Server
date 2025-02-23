@@ -95,6 +95,23 @@ public class AdminAccountServiceTest {
 		assertThat(admin.getAccountState()).isEqualTo(INACTIVE);
 	}
 
+	@Test
+	@DisplayName("관리자 이메일 인증 성공시 아이디, 비밀번호가 변경된다.")
+	public void adminupdateAdminAccountWithAuthCodeTest(){
+		//given
+		Admin admin = getAdmin();
+		when(adminReadService.getAdminByEmail(anyString())).thenReturn(admin);
+		when(passwordEncoder.encode("authCode")).thenReturn("encodedAuthCode");
+
+		//when
+		Admin updatedAdmin = adminAccountService.updateAdminAccountWithAuthCode("email", "username",
+			"authCode");
+
+		//then
+		assertThat(updatedAdmin.getUsername()).isEqualTo("username");
+		assertThat(updatedAdmin.getPassword()).isEqualTo("encodedAuthCode");
+	}
+
 	private Admin getAdmin() {
 		return Admin.builder()
 			.id(1L)
