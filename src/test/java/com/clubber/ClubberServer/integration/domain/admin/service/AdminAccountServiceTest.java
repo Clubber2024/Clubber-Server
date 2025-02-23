@@ -38,10 +38,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class AdminServiceTest extends ServiceTest {
+public class AdminAccountServiceTest extends ServiceTest {
 
 	@Autowired
-	private AdminAccountService adminAccountService;
+	private com.clubber.ClubberServer.domain.admin.service.AdminAccountService adminAccountService;
 
 	@Autowired
 	private AdminClubService adminClubService;
