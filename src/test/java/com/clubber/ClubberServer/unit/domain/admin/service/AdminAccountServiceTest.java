@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.unit.domain.admin;
+package com.clubber.ClubberServer.unit.domain.admin.service;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
@@ -15,7 +15,6 @@ import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
