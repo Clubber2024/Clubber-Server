@@ -2,7 +2,10 @@ package com.clubber.ClubberServer.unit.domain.admin.service;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -14,7 +17,9 @@ import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +42,9 @@ public class AdminAccountServiceTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
+
+	@Mock
+	private SoftDeleteEventPublisher softDeleteEventPublisher;
 
 	@Test
 	@DisplayName("관리자 프로필 조회를 수행한다.")
@@ -68,8 +76,23 @@ public class AdminAccountServiceTest {
 		adminAccountService.updateAdminsPassword(updatePasswordRequest);
 
 		//then
-		assertThat(admin.getPassword()).isNotNull(); 
+		assertThat(admin.getPassword()).isNotNull();
 		assertThat(admin.getPassword()).isEqualTo("newPassword");
+	}
+
+	@Test
+	@DisplayName("관리자 회원 탈퇴시 계정 상태가 변경된다.")
+	public void adminWithDrawTest() {
+		//given
+		Admin admin = getAdmin();
+		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+		doNothing().when(softDeleteEventPublisher).throwSoftDeleteEvent(anyLong());
+
+		//when
+		adminAccountService.withDraw();
+
+		//then
+		assertThat(admin.getAccountState()).isEqualTo(INACTIVE);
 	}
 
 	private Admin getAdmin() {
