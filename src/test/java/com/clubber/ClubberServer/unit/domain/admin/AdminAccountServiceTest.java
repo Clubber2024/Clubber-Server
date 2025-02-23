@@ -2,11 +2,13 @@ package com.clubber.ClubberServer.unit.domain.admin;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
@@ -38,9 +40,24 @@ public class AdminAccountServiceTest {
 	private PasswordEncoder passwordEncoder;
 
 	@Test
+	@DisplayName("관리자 프로필 조회를 수행한다.")
+	public void getAdminsAccountProfile() {
+		//given
+		Admin admin = getAdmin();
+		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+
+		//when
+		GetAdminsProfileResponse response = adminAccountService.getAdminsProfile();
+
+		//then
+		assertThat(response).isNotNull();
+		assertThat(response.getClubName()).isEqualTo("club1");
+	}
+
+	@Test
 	@DisplayName("관리자 비밀번호 정보를 수행한다.")
 	public void updateAdminsPasswordTest() {
-		//when
+		//given
 		Admin admin = getAdmin();
 		UpdateAdminsPasswordRequest updatePasswordRequest = AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
@@ -48,9 +65,12 @@ public class AdminAccountServiceTest {
 		when(passwordEncoder.encode(updatePasswordRequest.getPassword())).thenReturn(
 			"newPassword");
 
-		//then
+		//when
 		adminAccountService.updateAdminsPassword(updatePasswordRequest);
-		Assertions.assertThat(admin.getPassword()).isEqualTo("newPassword");
+
+		//then
+		assertThat(admin.getPassword()).isNotNull(); 
+		assertThat(admin.getPassword()).isEqualTo("newPassword");
 	}
 
 	private Admin getAdmin() {
@@ -67,6 +87,7 @@ public class AdminAccountServiceTest {
 	private static Club getClub() {
 		return Club.builder()
 			.id(1L)
+			.name("club1")
 			.isAgreeToReview(true)
 			.build();
 	}
