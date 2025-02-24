@@ -4,8 +4,10 @@ import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyDeletedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +29,7 @@ public class AdminDomainTest {
 
 	@Test
 	@DisplayName("회원탈퇴를 수행하면 계정상태가 비활성화된다.")
-	public void adminWithdrawTest() {
+	public void adminWithdrawSuccessTest() {
 		//given
 		Admin admin = getAdmin();
 
@@ -38,11 +40,32 @@ public class AdminDomainTest {
 		assertThat(admin.getAccountState()).isEqualTo(INACTIVE);
 	}
 
+	@Test
+	@DisplayName("이미 비활성화된 계정에서 회원탈퇴시 예외가 발생한다.")
+	public void adminWithdrawFailTest() {
+		//given
+		Admin inactiveAdmin = getInactiveAdmin();
+
+		//when & then
+		assertThatThrownBy(inactiveAdmin::withDraw)
+			.isInstanceOf(AdminAlreadyDeletedException.class);
+	}
+
 	private Admin getAdmin() {
 		return Admin.builder()
 			.id(1L)
 			.accountRole(ADMIN)
 			.accountState(ACTIVE)
+			.password("password")
+			.username("username")
+			.build();
+	}
+
+	private Admin getInactiveAdmin() {
+		return Admin.builder()
+			.id(1L)
+			.accountRole(ADMIN)
+			.accountState(INACTIVE)
 			.password("password")
 			.username("username")
 			.build();
