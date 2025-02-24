@@ -1,7 +1,9 @@
 package com.clubber.ClubberServer.unit.domain.admin.validator;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,16 +25,29 @@ public class AdminValidatorTest {
 	private PasswordEncoder passwordEncoder;
 
 	@Test
-	@DisplayName("비밀번호 검증에 성공시 예외가 발생하지 않는다.")
+	@DisplayName("비밀번호가 같을 시 예외가 발생하지 않는다.")
 	public void validatePasswordTest() {
 		//given
 		String password = "password";
 		String encodedPassword = "encodedPassword";
-		Mockito.when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
+		when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
 		//when & Then
 		assertThatCode(() -> adminValidator.validatePassword(password, encodedPassword))
 			.doesNotThrowAnyException();
+	}
+
+	@Test
+	@DisplayName("비밀번호 다를 시 예외가 발생한다.")
+	public void validatePasswordFailTest() {
+		//given
+		String password = "password";
+		String encodedPassword = "encodedPassword";
+		when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
+
+		//when & then
+		assertThatThrownBy(() -> adminValidator.validatePassword(password, encodedPassword))
+			.isInstanceOf(AdminLoginFailedException.class);
 	}
 
 	@Test
@@ -41,7 +56,7 @@ public class AdminValidatorTest {
 		//given
 		String password = "password";
 		String encodedPassword = "encodedPassword";
-		Mockito.when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
+		when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
 
 		//when & then
 		assertThatCode(() -> adminValidator.validateEqualsWithExistPassword(password, encodedPassword))
