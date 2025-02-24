@@ -6,9 +6,9 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
+import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
-import com.clubber.ClubberServer.domain.admin.service.AdminService;
 import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,34 +18,34 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminEmailAuthFacade {
 
-	private final AdminService adminService;
 	private final AdminReadService adminReadService;
-	private final AdminAuthService adminAuthService;
+	private final AdminEmailAuthService adminEmailAuthService;
+	private final AdminAccountService adminAccountService;
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		final String adminEmail = createAdminMailAuthRequest.getEmail();
-		Admin admin = adminReadService.getAdminByEmail(adminEmail);
+		final String email = createAdminMailAuthRequest.getEmail();
+		Admin admin = adminReadService.getAdminByEmail(email);
 
-		final String authString = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
+		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
-		adminService.sendAdminAuthEmail(adminEmail, authString);
-		adminAuthService.createAdminMailAuth(adminEmail, authString);
-		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
+		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
+		adminEmailAuthService.createAdminMailAuth(email, authCode);
+		return CreateAdminAuthResponse.from(admin);
 	}
 
 	@Transactional
 	public UpdateAdminAuthResponse updateAdminAuth(
 		UpdateAdminAuthRequest updateAdminAuthRequest) {
-		final String requestAuthString = updateAdminAuthRequest.getAuthString();
-		final String adminEmail = updateAdminAuthRequest.getAdminEmail();
+		final String authCode = updateAdminAuthRequest.getAuthCode();
+		final String email = updateAdminAuthRequest.getEmail();
 		final String username = updateAdminAuthRequest.getUsername();
 
-		AdminEmailAuth adminEmailAuth = adminAuthService.validateAdminEmailAuth(adminEmail,
-			requestAuthString);
+		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(email,
+			authCode);
 
-		Admin admin = adminService.updateAdminAccount(adminEmail, username, requestAuthString);
-		adminAuthService.deleteAdminEmailAuth(adminEmailAuth);
+		Admin admin = adminAccountService.updateAdminAccountWithAuthCode(email, username, authCode);
+		adminEmailAuthService.deleteAdminEmailAuth(adminEmailAuth);
 		return new UpdateAdminAuthResponse(admin.getId());
 	}
 }

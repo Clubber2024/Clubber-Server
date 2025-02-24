@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -48,6 +49,18 @@ public class Admin {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
+
+    @Builder
+    public Admin(Long id, String username, String password, String email, AccountState accountState,
+        AccountRole accountRole, Club club) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.accountState = accountState;
+        this.accountRole = accountRole;
+        this.club = club;
+    }
 
     public void updatePassword(String password){
         this.password = password;

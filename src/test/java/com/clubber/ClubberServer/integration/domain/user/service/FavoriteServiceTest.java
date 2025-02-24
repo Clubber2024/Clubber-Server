@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.integration.domain.favorite.service;
+package com.clubber.ClubberServer.integration.domain.user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

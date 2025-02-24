@@ -22,6 +22,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("local")
 public class AdminReviewControllerTest {
+
+    /**
+     * TODO : Security 의존성 걷어내고 WebMvcTest으로 리팩토링
+     */
+
     @Autowired
     private MockMvc mockMvc;
 

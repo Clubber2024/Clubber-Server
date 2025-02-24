@@ -1,44 +1,57 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthStringException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
+import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AdminAuthService {
 
-	private final AdminEmailAuthRepository adminEmailAuthRepository;
+	private final AdminReadService adminReadService;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 	private final AdminValidator adminValidator;
 
-	public void deleteAdminEmailAuth(AdminEmailAuth adminEmailAuth) {
-		adminEmailAuthRepository.delete(adminEmailAuth);
+	@Transactional
+	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
+		Admin admin = adminReadService.getAdminByUsername(loginRequest.getUsername());
+		adminValidator.validatePassword(loginRequest.getPassword(), admin.getPassword());
+		return createAdminsToken(admin);
 	}
 
-	public void createAdminMailAuth(String adminEmail, String authString) {
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
-			.email(adminEmail)
-			.authRandomString(authString)
-			.build();
-		adminEmailAuthRepository.save(adminEmailAuth);
+	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
+		String accessToken = jwtTokenProvider.generateAccessToken(admin);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(admin.getId());
+		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
+			jwtTokenProvider.getRefreshTokenTTlSecond());
+		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
+		return CreateAdminsLoginResponse.of(admin, accessToken,
+			savedRefreshToken.getRefreshToken());
 	}
 
-	public AdminEmailAuth validateAdminEmailAuth(String adminEmail, String requestAuthString) {
-		AdminEmailAuth adminEmailAuth = getAdminAuthByEmailAndAuthString(adminEmail,
-			requestAuthString);
-		String savedAuthString = adminEmailAuth.getAuthRandomString();
-		adminValidator.validateAuthString(requestAuthString, savedAuthString);
-		return adminEmailAuth;
+	@Transactional
+	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
+		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
+				refreshToken)
+			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+		Admin admin = adminReadService.getAdminById(adminId);
+		return createAdminsToken(admin);
 	}
 
-	@Transactional(readOnly = true)
-	public AdminEmailAuth getAdminAuthByEmailAndAuthString(String adminEmail, String authString) {
-		return adminEmailAuthRepository.findByEmailAndAuthRandomString(adminEmail, authString)
-			.orElseThrow(() -> AdminInvalidAuthStringException.EXCEPTION);
+	@Transactional
+	public void logout() {
+		Long currentUserId = SecurityUtils.getCurrentUserId();
+		refreshTokenRepository.deleteById(currentUserId);
 	}
 }

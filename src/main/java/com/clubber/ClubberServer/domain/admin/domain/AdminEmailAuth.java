@@ -21,15 +21,15 @@ public class AdminEmailAuth {
 	private String email;
 
 	@Indexed
-	private String authRandomString;
+	private String authCode;
 
 	@TimeToLive
 	private Long ttl = 300L;
 
 	@Builder
-	public AdminEmailAuth(Long id, String email, String authRandomString) {
+	public AdminEmailAuth(Long id, String email, String authCode) {
 		this.id = id;
 		this.email = email;
-		this.authRandomString = authRandomString;
+		this.authCode = authCode;
 	}
 }

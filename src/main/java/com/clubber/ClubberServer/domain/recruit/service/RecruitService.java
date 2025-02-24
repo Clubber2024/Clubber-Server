@@ -53,7 +53,7 @@ public class RecruitService {
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(Pageable pageable) {
-        Admin admin = adminReadService.getAdmin();
+        Admin admin = adminReadService.getCurrentAdmin();
         Club club = admin.getClub();
 
         Page<Recruit> recruits = recruitRepository.queryRecruitsByClub(club,
@@ -64,7 +64,7 @@ public class RecruitService {
 
     @Transactional
     public PostRecruitResponse postRecruitsPage(PostRecruitRequest requestDTO) {
-        Admin admin = adminReadService.getAdmin();
+        Admin admin = adminReadService.getCurrentAdmin();
         Club club = admin.getClub();
 
         Recruit newRecruit = Recruit.of(club, requestDTO);
@@ -87,7 +87,7 @@ public class RecruitService {
 
     @Transactional
     public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId) {
-        Admin admin = adminReadService.getAdmin();
+        Admin admin = adminReadService.getCurrentAdmin();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
@@ -148,7 +148,7 @@ public class RecruitService {
 
     @Transactional(readOnly = true)
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId) {
-        Admin admin = adminReadService.getAdmin();
+        Admin admin = adminReadService.getCurrentAdmin();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
@@ -163,7 +163,7 @@ public class RecruitService {
     @Transactional
     public UpdateRecruitResponse changeAdminRecruits(Long recruitId,
         UpdateRecruitRequest requestPage) {
-        Admin admin = adminReadService.getAdmin();
+        Admin admin = adminReadService.getCurrentAdmin();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);

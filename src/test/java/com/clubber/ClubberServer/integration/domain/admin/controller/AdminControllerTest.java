@@ -23,6 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ActiveProfiles("local")
 public class AdminControllerTest {
 
+	/**
+	 * TODO : Security 의존성 걷어내고 WebMvcTest으로 리팩토링
+	 */
+
 	@Autowired
 	private MockMvc mockMvc;
 

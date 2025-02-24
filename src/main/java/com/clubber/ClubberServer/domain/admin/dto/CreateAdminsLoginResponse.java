@@ -12,24 +12,25 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateAdminsLoginResponse {
 
-    @Schema(description = "동아리 id(pk)", example = "1")
-    private final Long adminId;
+	@Schema(description = "관리자 계정 id", example = "1")
+	private final Long adminId;
 
-    @Schema(description = "동아리의 아이디", example = "club1")
-    private final String username;
+	@Schema(description = "관리자 계정 아이디", example = "club1")
+	private final String username;
 
-    @Schema(description = "액세스 토큰")
-    private final String accessToken;
+	@Schema(description = "액세스 토큰")
+	private final String accessToken;
 
-    @Schema(description = "리프레시 토큰")
-    private final String refreshToken;
+	@Schema(description = "리프레시 토큰")
+	private final String refreshToken;
 
-    public static CreateAdminsLoginResponse of(Admin admin, String accessToken, String refreshToken){
-        return CreateAdminsLoginResponse.builder()
-                .adminId(admin.getId())
-                .username(admin.getUsername())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
+	public static CreateAdminsLoginResponse of(Admin admin, String accessToken,
+		String refreshToken) {
+		return CreateAdminsLoginResponse.builder()
+			.adminId(admin.getId())
+			.username(admin.getUsername())
+			.accessToken(accessToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
 }
