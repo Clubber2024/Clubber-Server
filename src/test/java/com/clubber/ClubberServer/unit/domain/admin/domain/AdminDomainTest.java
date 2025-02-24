@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.unit.domain.admin.domain;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
@@ -22,6 +23,19 @@ public class AdminDomainTest {
 
 		//then
 		assertThat(admin.getPassword()).isEqualTo(newPassword);
+	}
+
+	@Test
+	@DisplayName("회원탈퇴를 수행하면 계정상태가 비활성화된다.")
+	public void adminWithdrawTest() {
+		//given
+		Admin admin = getAdmin();
+
+		//when
+		admin.withDraw();
+
+		//then
+		assertThat(admin.getAccountState()).isEqualTo(INACTIVE);
 	}
 
 	private Admin getAdmin() {
