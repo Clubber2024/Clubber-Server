@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
+import jakarta.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class Club extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private ClubType clubType;
 
+	@Column(length = 1000)
 	private String introduction;
 
 	@NotNull
