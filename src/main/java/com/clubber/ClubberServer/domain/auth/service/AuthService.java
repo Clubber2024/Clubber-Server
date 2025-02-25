@@ -11,9 +11,11 @@ import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -30,11 +32,13 @@ public class AuthService {
 
 	public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		User user = kakaoUserInfoResponse.toEntity();
+		log.info("[회원가입 (카카오) id] : {}", user.getId());
 		return userRepository.save(user);
 	}
 
 	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
+		log.info("[토큰 재발급] : {}", refreshToken);
 		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
 				refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
@@ -51,10 +55,10 @@ public class AuthService {
 	}
 
 	@Transactional
-	public User deleteKakaoUser(User user) {
+	public void deleteKakaoUser(User user) {
+		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
-		return user;
 	}
 }
