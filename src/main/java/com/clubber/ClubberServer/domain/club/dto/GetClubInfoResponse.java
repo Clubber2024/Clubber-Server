@@ -9,10 +9,10 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubInfoResponse {
 
-    @Schema(description = "동아리 인스타그램", example = "https://www/instagram/clubber")
+    @Schema(description = "동아리 인스타그램", example = "https://www.instagram/clubber")
     private final String instagram;
 
-    @Schema(description = "동아리 유튜브", example = "https://www/youtube/clubber")
+    @Schema(description = "동아리 유튜브", example = "https://www.youtube/clubber")
     private final String youtube;
 
     @Schema(description = "동아리장", example = "김숭실")
