@@ -55,11 +55,10 @@ public class AuthService {
 	}
 
 	@Transactional
-	public User deleteKakaoUser(User user) {
+	public void deleteKakaoUser(User user) {
 		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
-		return user;
 	}
 }
