@@ -15,18 +15,18 @@ public class AdminFixture {
 		"수정비밀번호");
 
 	public static final UpdateClubPageRequest VALID_UPDATE_CLUB_PAGE_REQUEST =
-		new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정activity",
+		new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정youtube","수정activity",
 			"수정leader", 1000L);
 
 	public static final UpdateClubPageRequest IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST =
-		new UpdateClubPageRequest(IMAGE_SERVER + "수정imagekey", "수정introduction", "수정instagram",
+		new UpdateClubPageRequest(IMAGE_SERVER + "수정imagekey", "수정introduction", "수정instagram","수정youtube",
 			"수정activity", "수정leader", 1000L);
 
 	public static final UpdateClubPageRequest OVER_MAX_LENGTH_ACTIVITY_UPDATE_PAGE_REQUEST =
-		new UpdateClubPageRequest("imagekey", "introduction", "instagram", "a".repeat(1501),
+		new UpdateClubPageRequest("imagekey", "introduction", "instagram","youtube", "a".repeat(1501),
 			"leader", 1000L);
 
 	public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
-		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "activity", "leader",
+		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 }

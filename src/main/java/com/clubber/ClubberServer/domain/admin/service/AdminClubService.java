@@ -35,6 +35,7 @@ public class AdminClubService {
 
 		ClubInfo clubinfo = club.getClubInfo();
 		clubinfo.updateClubInfo(updateClubPageRequest.getInstagram(),
+			updateClubPageRequest.getYoutube(),
 			updateClubPageRequest.getLeader(), updateClubPageRequest.getActivity(),
 			updateClubPageRequest.getRoom());
 
