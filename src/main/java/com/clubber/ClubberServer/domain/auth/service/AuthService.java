@@ -32,12 +32,13 @@ public class AuthService {
 
 	public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		User user = kakaoUserInfoResponse.toEntity();
-		log.info("[회원가입 (카카오)] : {}", user.getId());
+		log.info("[회원가입 (카카오) id] : {}", user.getId());
 		return userRepository.save(user);
 	}
 
 	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
+		log.info("[토큰 재발급] : {}", refreshToken);
 		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
 				refreshToken)
 			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
@@ -55,6 +56,7 @@ public class AuthService {
 
 	@Transactional
 	public User deleteKakaoUser(User user) {
+		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
 		refreshTokenRepository.deleteById(user.getId());
