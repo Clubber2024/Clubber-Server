@@ -2,7 +2,9 @@ package com.clubber.ClubberServer.integration.util.fixture;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
+import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 
@@ -29,4 +31,15 @@ public class AdminFixture {
 	public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
+
+	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(String email, String authCode) {
+		return new UpdateAdminVerifyEmailAuthRequest(email, authCode);
+	}
+
+	public static AdminEmailAuth 이메일_인증(String email, String authCode) {
+		return AdminEmailAuth.builder()
+			.email(email)
+			.authCode(authCode)
+			.build();
+	}
 }
