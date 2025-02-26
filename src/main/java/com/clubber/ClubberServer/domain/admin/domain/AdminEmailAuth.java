@@ -26,10 +26,16 @@ public class AdminEmailAuth {
 	@TimeToLive
 	private Long ttl = 300L;
 
+	private boolean isEmailVerified = false;
+
 	@Builder
 	public AdminEmailAuth(Long id, String email, String authCode) {
 		this.id = id;
 		this.email = email;
 		this.authCode = authCode;
+	}
+
+	public void verify() {
+		this.isEmailVerified = true;
 	}
 }
