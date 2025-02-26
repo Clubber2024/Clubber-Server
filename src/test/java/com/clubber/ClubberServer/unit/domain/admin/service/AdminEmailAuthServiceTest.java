@@ -27,13 +27,12 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
 		final String email = "ssuclubber@gmail.com";
 		final String authCode = "authcode";
 		AdminEmailAuth adminEmailAuth = AdminFixture.이메일_인증(email, authCode);
-		adminEmailAuthRepository.save(adminEmailAuth);
-		UpdateAdminVerifyEmailAuthRequest request = AdminFixture.이메일_인증_요청(email, authCode);
+		AdminEmailAuth savedAdminEmailAuth = adminEmailAuthRepository.save(adminEmailAuth);
+		UpdateAdminVerifyEmailAuthRequest request = AdminFixture.이메일_인증_요청(savedAdminEmailAuth.getId(), email, authCode);
 
 		//when
 		adminEmailAuthService.validateAdminEmailAuth(request);
-		AdminEmailAuth verifiedAdminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthCode(email,
-			authCode).get();
+		AdminEmailAuth verifiedAdminEmailAuth = adminEmailAuthRepository.findById(savedAdminEmailAuth.getId()).get();
 
 		//then
 		assertThat(verifiedAdminEmailAuth.isEmailVerified()).isEqualTo(true);

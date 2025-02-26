@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.facade;
 
+import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
@@ -20,7 +21,7 @@ public class AdminEmailAuthFacade {
 		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
 		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
-		adminEmailAuthService.createAdminMailAuth(email, authCode);
-		return CreateAdminAuthResponse.from(email);
+		AdminEmailAuth adminMailAuth = adminEmailAuthService.createAdminMailAuth(email, authCode);
+		return CreateAdminAuthResponse.of(adminMailAuth);
 	}
 }

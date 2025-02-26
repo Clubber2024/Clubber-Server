@@ -25,12 +25,12 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public void createAdminMailAuth(String email, String authCode) {
+	public AdminEmailAuth createAdminMailAuth(String email, String authCode) {
 		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
 			.email(email)
 			.authCode(authCode)
 			.build();
-		adminEmailAuthRepository.save(adminEmailAuth);
+		return adminEmailAuthRepository.save(adminEmailAuth);
 	}
 
 	@Transactional
@@ -38,9 +38,9 @@ public class AdminEmailAuthService {
 		UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
 		final String authCode = updateAdminVerifyEmailAuthRequest.getAuthCode();
 		final String email = updateAdminVerifyEmailAuthRequest.getEmail();
+		final Long id = updateAdminVerifyEmailAuthRequest.getId();
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthCode(
-				email, authCode)
+		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findById(id)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
 		String storedAuthCode = adminEmailAuth.getAuthCode();

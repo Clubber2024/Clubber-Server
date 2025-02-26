@@ -32,8 +32,8 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(String email, String authCode) {
-		return new UpdateAdminVerifyEmailAuthRequest(email, authCode);
+	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(Long id, String email, String authCode) {
+		return new UpdateAdminVerifyEmailAuthRequest(id, email, authCode);
 	}
 
 	public static AdminEmailAuth 이메일_인증(String email, String authCode) {
