@@ -30,4 +30,10 @@ public class AdminValidator {
 			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
 	}
+
+	public void validateEmail(String requestEmail, String storedEmail) {
+		if(!requestEmail.equals(storedEmail)) {
+			throw AdminInvalidAuthCodeException.EXCEPTION;
+		}
+	}
 }

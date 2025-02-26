@@ -43,8 +43,8 @@ public class AdminEmailAuthService {
 		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findById(id)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
-		String storedAuthCode = adminEmailAuth.getAuthCode();
-		adminValidator.validateAuthCode(authCode, storedAuthCode);
+		adminValidator.validateAuthCode(authCode, adminEmailAuth.getAuthCode());
+		adminValidator.validateEmail(email, adminEmailAuth.getEmail());
 		adminEmailAuth.verify();
 
 		adminEmailAuthRepository.save(adminEmailAuth);
