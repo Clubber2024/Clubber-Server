@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyEmailVerifiedException;
 import org.springframework.data.annotation.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class AdminEmailAuth {
 	}
 
 	public void verify() {
+		if (isEmailVerified) {
+			throw AdminAlreadyEmailVerifiedException.EXCEPTION;
+		}
 		this.isEmailVerified = true;
 	}
 }
