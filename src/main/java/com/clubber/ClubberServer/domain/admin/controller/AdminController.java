@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuth;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
@@ -133,7 +133,7 @@ public class AdminController {
 	@Operation(summary = "동아리 메일 인증")
 	@PatchMapping("/email/verify")
 	public UpdateAdminAuthResponse updateAdminInfo(
-		@Valid @RequestBody UpdateAdminVerifyEmailAuth updateAdminVerifyEmailAuth) {
-		return adminEmailAuthService.validateAdminEmailAuth(updateAdminVerifyEmailAuth);
+		@Valid @RequestBody UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
+		return adminEmailAuthService.validateAdminEmailAuth(updateAdminVerifyEmailAuthRequest);
 	}
 }

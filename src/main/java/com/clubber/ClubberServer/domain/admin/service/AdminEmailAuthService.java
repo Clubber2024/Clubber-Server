@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuth;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
@@ -33,11 +33,11 @@ public class AdminEmailAuthService {
 		adminEmailAuthRepository.save(adminEmailAuth);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public UpdateAdminAuthResponse validateAdminEmailAuth(
-		UpdateAdminVerifyEmailAuth updateAdminVerifyEmailAuth) {
-		final String authCode = updateAdminVerifyEmailAuth.getAuthCode();
-		final String email = updateAdminVerifyEmailAuth.getEmail();
+		UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
+		final String authCode = updateAdminVerifyEmailAuthRequest.getAuthCode();
+		final String email = updateAdminVerifyEmailAuthRequest.getEmail();
 
 		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findByEmailAndAuthCode(
 				email, authCode)
@@ -46,6 +46,8 @@ public class AdminEmailAuthService {
 		String storedAuthCode = adminEmailAuth.getAuthCode();
 		adminValidator.validateAuthCode(authCode, storedAuthCode);
 		adminEmailAuth.verify();
+
+		adminEmailAuthRepository.save(adminEmailAuth);
 		return new UpdateAdminAuthResponse(email);
 	}
 
