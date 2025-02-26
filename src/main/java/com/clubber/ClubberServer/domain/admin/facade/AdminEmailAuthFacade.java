@@ -18,20 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminEmailAuthFacade {
 
-	private final AdminReadService adminReadService;
 	private final AdminEmailAuthService adminEmailAuthService;
 	private final AdminAccountService adminAccountService;
 
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		final String email = createAdminMailAuthRequest.getEmail();
-		Admin admin = adminReadService.getAdminByEmail(email);
 
 		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
 			10);
 		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
 		adminEmailAuthService.createAdminMailAuth(email, authCode);
-		return CreateAdminAuthResponse.from(admin);
+		return CreateAdminAuthResponse.from(email);
 	}
 
 	@Transactional
