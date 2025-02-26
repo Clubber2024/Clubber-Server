@@ -1,7 +1,5 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +12,6 @@ import org.springframework.data.redis.core.index.Indexed;
 public class AdminEmailAuth {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Indexed
