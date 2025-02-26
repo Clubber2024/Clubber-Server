@@ -119,7 +119,7 @@ public class AdminController {
 	}
 
 	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 인증 메일 전송")
+	@Operation(summary = "동아리 계정 회원가입 시 인증 메일 전송")
 	@PostMapping("/email/send")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
