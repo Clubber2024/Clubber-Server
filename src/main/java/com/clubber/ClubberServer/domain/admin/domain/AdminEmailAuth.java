@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
