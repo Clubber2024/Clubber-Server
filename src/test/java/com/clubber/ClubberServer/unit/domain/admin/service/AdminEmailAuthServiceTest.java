@@ -21,7 +21,7 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
 	private AdminEmailAuthRepository adminEmailAuthRepository;
 
 	@Test
-	@DisplayName("이메일과 인증번호가 같다면 인증 상태가 변경된다")
+	@DisplayName("이메일과 인증번호가 같다면 인증 상태가 true로 변경된다")
 	void validateAdminEmailAuthTest() {
 		//given
 		final String email = "ssuclubber@gmail.com";
