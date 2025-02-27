@@ -1,10 +1,11 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.mail;
 
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.CLUBBER_EMAIL;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,15 +14,14 @@ public class MailService {
 
 	private final JavaMailSender mailSender;
 
-	@Async
-	public void send(String from, String to, String subject) {
+	public void send(String to, String subject, String text) {
 		MimeMessagePreparator messagePreparator =
 			mimeMessage -> {
 				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				helper.setFrom(from);
+				helper.setFrom(CLUBBER_EMAIL);
 				helper.setTo(to);
 				helper.setSubject(subject);
-				helper.setText("example");
+				helper.setText(text);
 			};
 		mailSender.send(messagePreparator);
 	}

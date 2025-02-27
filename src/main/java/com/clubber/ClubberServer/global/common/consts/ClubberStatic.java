@@ -19,4 +19,5 @@ public class ClubberStatic {
 	public static final String PROD_CLIENT = "https://ssuclubber.com";
 	public static final String DEV_CLIENT = "https://dev.ssuclubber.com";
 	public static final String IMAGE_SERVER = "https://image.ssuclubber.com/";
+	public static final String CLUBBER_EMAIL = "ssuclubber@gmail.com";
 }

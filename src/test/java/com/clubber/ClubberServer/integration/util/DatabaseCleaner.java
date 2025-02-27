@@ -25,8 +25,8 @@ public class DatabaseCleaner {
 
         //clubinfo1 추가
         entityManager.createNativeQuery(
-            "insert into club_info (id, room, activity, instagram, leader) "
-                + "values (1, 100, 'activity', 'instagram', 'leader');"
+            "insert into club_info (id, room, activity, youtube, instagram, leader) "
+                + "values (1, 100, 'activity', 'youtube', 'instagram', 'leader');"
         ).executeUpdate();
 
         // club1 추가
@@ -37,8 +37,8 @@ public class DatabaseCleaner {
 
         //clubinfo2 추가
         entityManager.createNativeQuery(
-            "insert into club_info (id, room, activity, instagram, leader) "
-                + "values (2, 100, 'activity', 'instagram', 'leader');"
+            "insert into club_info (id, room, activity, youtube, instagram, leader) "
+                + "values (2, 100, 'activity', 'youtube', 'instagram', 'leader');"
         ).executeUpdate();
 
         // club2 추가
@@ -49,8 +49,8 @@ public class DatabaseCleaner {
 
         //clubinfo3 추가
         entityManager.createNativeQuery(
-            "insert into club_info (id, room, activity, instagram, leader) "
-                + "values (3, 100, 'activity', 'instagram', 'leader');"
+            "insert into club_info (id, room, activity, youtube, instagram, leader) "
+                + "values (3, 100, 'activity', 'youtube', 'instagram', 'leader');"
         ).executeUpdate();
 
         // club3 추가
@@ -61,8 +61,8 @@ public class DatabaseCleaner {
 
         //clubinfo4 추가
         entityManager.createNativeQuery(
-            "insert into club_info (id, room, activity, instagram, leader) "
-                + "values (4, 100, 'activity', 'instagram', 'leader');"
+            "insert into club_info (id, room, activity, youtube, instagram, leader) "
+                + "values (4, 100, 'activity', 'youtube', 'instagram', 'leader');"
         ).executeUpdate();
 
         // club4 추가
@@ -110,14 +110,14 @@ public class DatabaseCleaner {
 
         //recruit1 추가
         entityManager.createNativeQuery(
-            "insert into recruit(id, title, content, everytime_url, total_view, is_deleted, club_id) "
-                + "values (1, 'title', 'content', 'everytimeUrl', 100, false, 1)"
+            "insert into recruit(id, start_at, end_at, semester, year, title, content, everytime_url, total_view, is_deleted, club_id) "
+                + "values (1, '2025-02-01','2025-02-20','SEMESTER1',2025, 'title', 'content', 'everytimeUrl', 100, false, 1)"
         ).executeUpdate();
 
         //recruit2 추가
         entityManager.createNativeQuery(
-            "insert into recruit(id, title, content, everytime_url,total_view, is_deleted, club_id) "
-                + "values (2, 'title', 'content', 'everytimeUrl',100, false, 1)"
+            "insert into recruit(id, start_at, end_at, semester, year, title, content, everytime_url, total_view, is_deleted, club_id) "
+                + "values (2, '2025-02-01','2025-02-20','SEMESTER1',2025, 'title', 'content', 'everytimeUrl', 100, false, 1)"
         ).executeUpdate();
 
         //recruitImage1 추가

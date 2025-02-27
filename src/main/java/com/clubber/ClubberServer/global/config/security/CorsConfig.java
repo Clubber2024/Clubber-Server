@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.global.config.security;
 
+import com.clubber.ClubberServer.global.helper.SpringEnvironmentHelper;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +12,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
 
+	private final SpringEnvironmentHelper springEnvironmentHelper;
+
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		List<String> allowedOriginPatterns = new ArrayList<>();
 
-		allowedOriginPatterns.add("http://localhost:3000");
+		//운영 서버
 		allowedOriginPatterns.add("https://ssuclubber.com");
-		allowedOriginPatterns.add("https://dev.ssuclubber.com");
+
+		//개발 서버 : localhost 포함
+		if(!springEnvironmentHelper.isProdProfile()){
+			allowedOriginPatterns.add("http://localhost:3000");
+			allowedOriginPatterns.add("https://dev.ssuclubber.com");
+		}
+
 		String[] patterns = allowedOriginPatterns.toArray(String[]::new);
 
 		registry.addMapping("/**")

@@ -3,14 +3,28 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Entity
@@ -20,6 +34,22 @@ public class Recruit extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Column(columnDefinition = "DATETIME(0)")
+    private LocalDateTime startAt;
+
+    @NotNull
+    @Column(columnDefinition = "DATETIME(0)")
+    private LocalDateTime endAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private Semester semester;
+
+    @NotNull
+    private int year;
 
     @NotNull
     @Column(length = 100)
@@ -59,9 +89,15 @@ public class Recruit extends BaseEntity {
 
 
     @Builder
-    private Recruit(Long id, String title, String content, String everytimeUrl, Long totalView,
+    private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
+        String title,
+        String content, String everytimeUrl, Long totalView,
         Club club, List<RecruitImage> recruitImages) {
         this.id = id;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.semester = semester;
+        this.year = year;
         this.title = title;
         this.content = content;
         this.everytimeUrl = everytimeUrl;
