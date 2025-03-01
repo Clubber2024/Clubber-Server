@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -19,6 +20,9 @@ import org.springframework.web.context.request.WebRequest;
 @RequiredArgsConstructor
 public class ExceptionDiscordAlarmEventHandler {
 
+	@Value("${discord.web-hook.server-error}")
+	private String channelId;
+
 	private final DiscordClient discordClient;
 
 	@EventListener
@@ -27,7 +31,7 @@ public class ExceptionDiscordAlarmEventHandler {
 	}
 
 	private void sendDiscordAlarm(Exception e, WebRequest request) {
-		discordClient.sendAlarm(createDiscordMessage(e, request));
+		discordClient.sendAlarm(channelId, createDiscordMessage(e, request));
 	}
 
 	private DiscordMessage createDiscordMessage(Exception e, WebRequest request) {
