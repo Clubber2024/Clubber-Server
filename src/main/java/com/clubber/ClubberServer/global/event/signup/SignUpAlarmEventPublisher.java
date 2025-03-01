@@ -10,7 +10,7 @@ public class SignUpAlarmEventPublisher {
 
 	private final ApplicationEventPublisher publisher;
 
-	public void throwReviewApproveEvent(String clubName, String contact) {
+	public void throwSignUpAlarmEvent(String clubName, String contact) {
 		publisher.publishEvent(new signUpAlarmEvent(clubName, contact));
 	}
 }

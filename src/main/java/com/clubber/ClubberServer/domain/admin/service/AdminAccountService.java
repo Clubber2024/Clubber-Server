@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ public class AdminAccountService {
 	private final AdminValidator adminValidator;
 	private final PasswordEncoder passwordEncoder;
 	private final SoftDeleteEventPublisher eventPublisher;
+	private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
 
 	@Transactional(readOnly = true)
 	public GetAdminsProfileResponse getAdminsProfile() {
@@ -64,6 +66,7 @@ public class AdminAccountService {
 		String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
 		PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
 		pendingAdminInfoRepository.save(pendingAdminInfo);
+		signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
 		return CreateAdminSignUpResponse.from(pendingAdminInfo);
 	}
 }
