@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord;
+package com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.discord;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

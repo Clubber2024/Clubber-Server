@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.event.exceptionalarm;
 
-import com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord.DiscordClient;
-import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.client.DiscordClient;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.discord.DiscordMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
