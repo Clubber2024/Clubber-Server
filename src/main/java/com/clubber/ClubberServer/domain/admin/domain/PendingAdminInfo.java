@@ -37,6 +37,8 @@ public class PendingAdminInfo extends BaseEntity {
 
 	private String imageForApproval;
 
+	private boolean isApproved = false;
+
 	@Builder
 	public PendingAdminInfo(Long id, String username, String password, String clubName,
 		String email,
