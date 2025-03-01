@@ -143,7 +143,7 @@ public class AdminController {
 	@Operation(summary = "동아리 회원가입 폼 작성")
 	@PostMapping("/sign-up")
 	public CreateAdminSignUpResponse createAdminSignUp(
-		@RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
+		@Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
 		return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
 	}
 }
