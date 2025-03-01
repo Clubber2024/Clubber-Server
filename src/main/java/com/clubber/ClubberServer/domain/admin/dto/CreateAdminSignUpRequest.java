@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ public class CreateAdminSignUpRequest {
 	private String username;
 
 	private String password;
+
+	private ClubType clubType; 
 
 	private String clubName;
 
