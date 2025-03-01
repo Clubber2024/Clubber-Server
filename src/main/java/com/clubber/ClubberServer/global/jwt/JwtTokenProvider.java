@@ -9,6 +9,7 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_TYPE;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.owner.domain.Owner;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
@@ -76,6 +77,23 @@ public class JwtTokenProvider {
 			.setSubject(admin.getId().toString())
 			.claim(TOKEN_TYPE, ACCESS_TOKEN)
 			.claim(TOKEN_ROLE, admin.getAccountRole().name())
+			.setExpiration(accessTokenExpiresIn)
+			.signWith(encodedKey)
+			.compact();
+	}
+
+	public String generateAccessToken(Owner owner) {
+		final Key encodedKey = getSecretKey();
+		final Date issuedAt = new Date();
+		final Date accessTokenExpiresIn =
+			new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
+
+		return Jwts.builder()
+			.setIssuer(TOKEN_ISSUER)
+			.setIssuedAt(issuedAt)
+			.setSubject(owner.getId().toString())
+			.claim(TOKEN_TYPE, ACCESS_TOKEN)
+			.claim(TOKEN_ROLE, owner.getAccountRole().name())
 			.setExpiration(accessTokenExpiresIn)
 			.signWith(encodedKey)
 			.compact();
