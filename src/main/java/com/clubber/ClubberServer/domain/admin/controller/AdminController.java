@@ -2,6 +2,8 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
@@ -135,5 +137,13 @@ public class AdminController {
 	public UpdateAdminAuthResponse updateAdminInfo(
 		@Valid @RequestBody UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
 		return adminEmailAuthService.validateAdminEmailAuth(updateAdminVerifyEmailAuthRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 회원가입 폼 작성")
+	@PostMapping("/sign-up")
+	public CreateAdminSignUpResponse createAdminSignUp(
+		@RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
+		return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
 	}
 }

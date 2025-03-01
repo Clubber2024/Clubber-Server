@@ -1,9 +1,13 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminAccountService {
 
 	private final AdminReadService adminReadService;
+	private final PendingAdminInfoRepository pendingAdminInfoRepository;
 	private final AdminValidator adminValidator;
 	private final PasswordEncoder passwordEncoder;
 	private final SoftDeleteEventPublisher eventPublisher;
@@ -51,5 +56,14 @@ public class AdminAccountService {
 		admin.updatePassword(encodedPassword);
 		admin.updateUsername(username);
 		return admin;
+	}
+
+	@Transactional
+	public CreateAdminSignUpResponse createAdminSignUp(
+		CreateAdminSignUpRequest createAdminSignUpRequest) {
+		String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
+		PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
+		pendingAdminInfoRepository.save(pendingAdminInfo);
+		return CreateAdminSignUpResponse.from(pendingAdminInfo);
 	}
 }
