@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
+import static com.clubber.ClubberServer.domain.club.domain.ClubType.*;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,7 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -153,7 +155,7 @@ public class AdminAccountServiceTest extends ServiceTest {
 	void createAdminSignUpTest() {
 		//given
 		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
-			"password", "new_club",
+			"password", GENERAL, "new_club",
 			"email", "@club_ig", "imageUrl");
 
 		//when

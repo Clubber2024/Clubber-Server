@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
 public class AdminFixture {
 
@@ -47,6 +48,7 @@ public class AdminFixture {
 	public static CreateAdminSignUpRequest 회원가입_요청(
 		String username,
 		String password,
+		ClubType clubType,
 		String clubName,
 		String email,
 		String contact,
@@ -55,6 +57,7 @@ public class AdminFixture {
 		return new CreateAdminSignUpRequest(
 			username,
 			password,
+			clubType,
 			clubName,
 			email,
 			contact,
