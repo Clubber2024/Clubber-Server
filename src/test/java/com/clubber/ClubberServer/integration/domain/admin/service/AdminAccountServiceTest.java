@@ -3,12 +3,16 @@ package com.clubber.ClubberServer.integration.domain.admin.service;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
@@ -21,8 +25,10 @@ import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
+import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +53,9 @@ public class AdminAccountServiceTest extends ServiceTest {
 
 	@Autowired
 	private RecruitRepository recruitRepository;
+
+	@Autowired
+	private PendingAdminInfoRepository pendingAdminInfoRepository;
 
 
 	@DisplayName("관리자 회원 정보를 조회한다.")
@@ -137,5 +146,32 @@ public class AdminAccountServiceTest extends ServiceTest {
 		for (Recruit deletedRecruit : deletedRecruits) {
 			assertThat(deletedRecruit.isDeleted()).isEqualTo(true);
 		}
+	}
+
+	@DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
+	@Test
+	void createAdminSignUpTest() {
+		//given
+		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
+			"password", "new_club",
+			"email", "@club_ig", "imageUrl");
+
+		//when
+		adminAccountService.createAdminSignUp(createAdminSignUpRequest);
+		PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findById(1L).get();
+
+		//then
+		assertAll(
+			() -> assertThat(pendingAdminInfo)
+				.extracting("username", "email", "clubName", "contact", "imageForApproval")
+				.containsExactly(
+					createAdminSignUpRequest.getUsername(),
+					createAdminSignUpRequest.getEmail(),
+					createAdminSignUpRequest.getClubName(),
+					createAdminSignUpRequest.getContact(),
+					createAdminSignUpRequest.getImageForApproval()
+				),
+			() -> assertThat(pendingAdminInfo.isApproved()).isFalse()
+		);
 	}
 }

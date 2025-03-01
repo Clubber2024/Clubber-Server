@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.integration.util.fixture;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
@@ -41,5 +42,23 @@ public class AdminFixture {
 			.email(email)
 			.authCode(authCode)
 			.build();
+	}
+
+	public static CreateAdminSignUpRequest 회원가입_요청(
+		String username,
+		String password,
+		String clubName,
+		String email,
+		String contact,
+		String imageForApproval) {
+
+		return new CreateAdminSignUpRequest(
+			username,
+			password,
+			clubName,
+			email,
+			contact,
+			imageForApproval
+		);
 	}
 }
