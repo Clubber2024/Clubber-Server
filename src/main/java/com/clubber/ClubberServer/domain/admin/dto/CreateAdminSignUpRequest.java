@@ -37,6 +37,7 @@ public class CreateAdminSignUpRequest {
 		return PendingAdminInfo.builder()
 			.username(username)
 			.password(encodedPassword)
+			.clubType(clubType)
 			.clubName(clubName)
 			.email(email)
 			.contact(contact)
