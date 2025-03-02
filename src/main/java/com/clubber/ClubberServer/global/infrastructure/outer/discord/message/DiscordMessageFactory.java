@@ -9,15 +9,18 @@ import org.springframework.stereotype.Component;
 public class DiscordMessageFactory {
 
 	public DiscordMessage createDiscordMessage(String title, String description, String content) {
-		List<Embed> embedList = List.of(DiscordMessage.Embed
-			.builder()
-			.title(title)
-			.description(description)
-			.build());
+		List<Embed> embedList = createdEmbedList(title, description);
 
 		return DiscordMessage.builder()
 			.content(content)
 			.embeds(embedList)
 			.build();
+	}
+	private static List<Embed> createdEmbedList(String title, String description) {
+		return List.of(Embed
+			.builder()
+			.title(title)
+			.description(description)
+			.build());
 	}
 }
