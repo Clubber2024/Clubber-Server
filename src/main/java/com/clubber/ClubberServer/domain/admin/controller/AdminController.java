@@ -2,10 +2,12 @@ package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
@@ -15,6 +17,7 @@ import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
+import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -43,6 +46,8 @@ public class AdminController {
 	private final AdminAccountService adminAccountService;
 
 	private final AdminEmailAuthFacade adminEmailAuthFacade;
+
+	private final AdminEmailAuthService adminEmailAuthService;
 
 	private final AdminClubService adminClubService;
 
@@ -119,7 +124,7 @@ public class AdminController {
 	}
 
 	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 인증 메일 전송")
+	@Operation(summary = "동아리 계정 회원가입 시 인증 메일 전송")
 	@PostMapping("/email/send")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
@@ -127,10 +132,18 @@ public class AdminController {
 	}
 
 	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 메일 인증 및 정보 변경")
+	@Operation(summary = "동아리 메일 인증")
 	@PatchMapping("/email/verify")
 	public UpdateAdminAuthResponse updateAdminInfo(
-		@Valid @RequestBody UpdateAdminAuthRequest updateAdminAuthRequest) {
-		return adminEmailAuthFacade.updateAdminAuth(updateAdminAuthRequest);
+		@Valid @RequestBody UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
+		return adminEmailAuthService.validateAdminEmailAuth(updateAdminVerifyEmailAuthRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 회원가입 폼 작성")
+	@PostMapping("/sign-up")
+	public CreateAdminSignUpResponse createAdminSignUp(
+		@Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
+		return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
 	}
 }

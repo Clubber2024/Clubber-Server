@@ -11,6 +11,7 @@ public enum ClubType implements EnumDefaultMapperType {
 	CENTER("중앙동아리"),
 	SMALL("소모임"),
 	OFFICIAL("공식단체"),
+	GENERAL("일반동아리"),
 	ETC("그 외");
 
 	private final String title;

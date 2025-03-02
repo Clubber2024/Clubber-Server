@@ -11,7 +11,8 @@ public enum AdminErrorCode implements BaseErrorCode {
 
     INVALID_APPROVED_STATUS(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_1", "승인 또는 미승인 할 수 없는 리뷰 상태입니다"),
     ADMIN_EQUALS_PREVIOUS_PASSWORD(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_2", "이전 비밀번호와 다른 비밀번호를 작성해주세요."),
-    ADMIN_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_2", "이미 탈퇴한 동아리 계정입니다"),
+    ADMIN_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_3", "이미 탈퇴한 동아리 계정입니다"),
+    ADMIN_ALREADY_EMAIL_VERIFIED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_4", "이미 인증된 이메일 정보입니다"),
 
     ADMIN_LOGIN_FAILED(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_1", "아이디 또는 비밀번호를 확인해주세요"),
     ADMIN_INVALID_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_2", "인증번호가 올바르지 않습니다."),

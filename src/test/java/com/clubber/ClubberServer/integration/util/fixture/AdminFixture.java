@@ -2,9 +2,13 @@ package com.clubber.ClubberServer.integration.util.fixture;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
+import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
 public class AdminFixture {
 
@@ -29,4 +33,35 @@ public class AdminFixture {
 	public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
+
+	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(Long id, String email, String authCode) {
+		return new UpdateAdminVerifyEmailAuthRequest(id, email, authCode);
+	}
+
+	public static AdminEmailAuth 이메일_인증(String email, String authCode) {
+		return AdminEmailAuth.builder()
+			.email(email)
+			.authCode(authCode)
+			.build();
+	}
+
+	public static CreateAdminSignUpRequest 회원가입_요청(
+		String username,
+		String password,
+		ClubType clubType,
+		String clubName,
+		String email,
+		String contact,
+		String imageForApproval) {
+
+		return new CreateAdminSignUpRequest(
+			username,
+			password,
+			clubType,
+			clubName,
+			email,
+			contact,
+			imageForApproval
+		);
+	}
 }

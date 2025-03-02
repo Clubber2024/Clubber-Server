@@ -1,13 +1,13 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 
 public record CreateAdminAuthResponse(
-	Long adminId,
+	Long id,
 	String email
 ) {
 
-	public static CreateAdminAuthResponse from(Admin admin) {
-		return new CreateAdminAuthResponse(admin.getId(), admin.getEmail());
+	public static CreateAdminAuthResponse of(AdminEmailAuth adminEmailAuth) {
+		return new CreateAdminAuthResponse(adminEmailAuth.getId(), adminEmailAuth.getEmail());
 	}
 }

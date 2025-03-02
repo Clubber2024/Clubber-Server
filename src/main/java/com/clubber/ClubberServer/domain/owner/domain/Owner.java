@@ -1,12 +1,15 @@
 package com.clubber.ClubberServer.domain.owner.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 
 @Entity
@@ -22,6 +25,10 @@ public class Owner extends BaseEntity {
 
     @NotNull
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private AccountRole accountRole = AccountRole.SUPER_ADMIN;
 
     @Builder
     private Owner(Long id,String accountName,String password){

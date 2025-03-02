@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyEmailVerifiedException;
+import org.springframework.data.annotation.Id;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
@@ -14,7 +13,6 @@ import org.springframework.data.redis.core.index.Indexed;
 public class AdminEmailAuth {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Indexed
@@ -26,10 +24,19 @@ public class AdminEmailAuth {
 	@TimeToLive
 	private Long ttl = 300L;
 
+	private boolean isEmailVerified = false;
+
 	@Builder
 	public AdminEmailAuth(Long id, String email, String authCode) {
 		this.id = id;
 		this.email = email;
 		this.authCode = authCode;
+	}
+
+	public void verify() {
+		if (isEmailVerified) {
+			throw AdminAlreadyEmailVerifiedException.EXCEPTION;
+		}
+		this.isEmailVerified = true;
 	}
 }
