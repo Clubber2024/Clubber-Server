@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DiscordMessageFactory {
 
-	private DiscordMessage createDiscordMessage(String title, String description, String content) {
+	public DiscordMessage createDiscordMessage(String title, String description, String content) {
 		List<Embed> embedList = List.of(DiscordMessage.Embed
 			.builder()
 			.title(title)
