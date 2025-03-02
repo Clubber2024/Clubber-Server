@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.global.event.signup;
 
 import com.clubber.ClubberServer.global.infrastructure.outer.discord.client.DiscordClient;
-import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.discord.DiscordMessage;
-import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.discord.DiscordMessage.Embed;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.DiscordMessage.Embed;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

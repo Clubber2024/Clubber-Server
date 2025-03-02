@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.discord.client;
 
 import com.clubber.ClubberServer.global.config.feign.FeignConfig;
-import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.discord.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.DiscordMessage;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;

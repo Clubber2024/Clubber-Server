@@ -152,7 +152,7 @@ public class AdminAccountServiceTest extends ServiceTest {
 		/**
 		 * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
 		 */
-		
+
 		//given
 		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
 			"password", GENERAL, "new_club",
