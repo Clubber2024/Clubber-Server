@@ -163,11 +163,13 @@ public class AdminAccountServiceTest extends ServiceTest {
 		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
 			"password", GENERAL, "new_club",
 			"email", "@club_ig", "imageUrl");
-		Mockito.doNothing().when(signUpAlarmEventPublisher).throwSignUpAlarmEvent(anyString(), anyString());
+		Mockito.doNothing().when(signUpAlarmEventPublisher)
+			.throwSignUpAlarmEvent(anyString(), anyString());
 
 		//when
 		adminAccountService.createAdminSignUp(createAdminSignUpRequest);
-		PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findById(1L).get();
+		PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByClubName(
+			createAdminSignUpRequest.getClubName()).get();
 
 		//then
 		assertAll(
