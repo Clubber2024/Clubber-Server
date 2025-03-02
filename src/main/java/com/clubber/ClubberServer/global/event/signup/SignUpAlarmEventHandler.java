@@ -26,6 +26,6 @@ public class SignUpAlarmEventHandler {
 	}
 
 	private String getDescription(String clubName, String contact) {
-		return "[동아리명] : " + clubName + "[동아리 연락처] : " + contact;
+		return "[동아리명] : " + clubName + "\n" + "[동아리 연락처] : " + contact;
 	}
 }
