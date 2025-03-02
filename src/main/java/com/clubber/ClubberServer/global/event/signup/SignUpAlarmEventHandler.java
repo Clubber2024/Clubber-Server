@@ -32,7 +32,7 @@ public class SignUpAlarmEventHandler {
 			.build());
 
 		return DiscordMessage.builder()
-			.content("동아리 정보")
+			.content("동아리 회원가입 승인 요청입니다.")
 			.embeds(embedList)
 			.build();
 	}
