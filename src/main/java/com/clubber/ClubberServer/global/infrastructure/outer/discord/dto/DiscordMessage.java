@@ -1,24 +1,13 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.discord.dto;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 
 @Builder
-@AllArgsConstructor
-@Getter
-public class DiscordMessage {
-
-	private String content;
-	private List<Embed> embeds;
+public record DiscordMessage(String content, List<Embed> embeds) {
 
 	@Builder
-	@AllArgsConstructor
-	@Getter
-	public static class Embed {
+	public record Embed(String title, String description) {
 
-		private String title;
-		private String description;
 	}
 }
