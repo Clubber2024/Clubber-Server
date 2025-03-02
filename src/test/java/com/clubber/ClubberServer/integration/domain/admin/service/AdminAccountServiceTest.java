@@ -149,6 +149,10 @@ public class AdminAccountServiceTest extends ServiceTest {
 	@DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
 	@Test
 	void createAdminSignUpTest() {
+		/**
+		 * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
+		 */
+		
 		//given
 		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
 			"password", GENERAL, "new_club",
