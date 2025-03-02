@@ -50,7 +50,7 @@ public class PendingAdminInfo extends BaseEntity {
 	private boolean isApproved = false;
 
 	@Builder
-	public PendingAdminInfo(Long id, String username, String password, String clubName,
+	public PendingAdminInfo(Long id, String username, String password, String clubName, String clubType,
 		String email,
 		String contact, String imageForApproval) {
 		this.id = id;
