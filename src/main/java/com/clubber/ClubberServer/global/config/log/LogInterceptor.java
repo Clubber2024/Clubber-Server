@@ -22,7 +22,7 @@ public class LogInterceptor implements HandlerInterceptor {
 		response.setHeader("X-Request-Id", requestId);
 
 		log.info("Request Method: [{}] URL: [{}] Params: [{}] id: [{}]", request.getMethod(),
-			request.getRequestURL().toString(), getRequestParams(request), requestId);
+			request.getRequestURL(), getRequestParams(request), requestId);
 		return true;
 	}
 
@@ -41,6 +41,6 @@ public class LogInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
 		Object handler, Exception ex) {
 		String requestId = response.getHeader("X-Request-Id");
-		log.info("Response Status: [{}], id: [{}]", response.getStatus(), requestId);
+		log.info("Response Status: [{}], URL: [{}] id: [{}]", response.getStatus(), request.getRequestURL(), requestId);
 	}
 }
