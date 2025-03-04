@@ -31,4 +31,10 @@ public class LogInterceptor implements HandlerInterceptor {
 		}
 		return paramMap;
 	}
+
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+		Object handler, Exception ex) {
+		log.info("Response Status [{}]", response.getStatus());
+	}
 }
