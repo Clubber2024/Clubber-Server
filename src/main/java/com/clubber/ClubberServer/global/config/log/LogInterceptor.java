@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,8 +18,11 @@ public class LogInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
 		Object handler) throws Exception {
-		log.info("Request Method: [{}] URL: [{}] Params: [{}]", request.getMethod(),
-			request.getRequestURL().toString(), getRequestParams(request));
+		String requestId = UUID.randomUUID().toString();
+		response.setHeader("X-Request-Id", requestId);
+
+		log.info("Request Method: [{}] URL: [{}] Params: [{}] id: [{}]", request.getMethod(),
+			request.getRequestURL().toString(), getRequestParams(request), requestId);
 		return true;
 	}
 
@@ -35,6 +40,7 @@ public class LogInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
 		Object handler, Exception ex) {
-		log.info("Response Status [{}]", response.getStatus());
+		String requestId = response.getHeader("X-Request-Id");
+		log.info("Response Status: [{}], id: [{}]", response.getStatus(), requestId);
 	}
 }
