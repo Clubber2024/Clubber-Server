@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AdminEmailAuthRepository extends CrudRepository<AdminEmailAuth, Long> {
+public interface AdminEmailAuthRepository extends CrudRepository<AdminEmailAuth, String> {
 
 	Optional<AdminEmailAuth> findByEmailAndAuthCode(String email, String authRandomString);
 }

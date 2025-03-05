@@ -13,9 +13,6 @@ import org.springframework.data.redis.core.index.Indexed;
 public class AdminEmailAuth {
 
 	@Id
-	private Long id;
-
-	@Indexed
 	private String email;
 
 	@Indexed
@@ -27,8 +24,7 @@ public class AdminEmailAuth {
 	private boolean isEmailVerified = false;
 
 	@Builder
-	public AdminEmailAuth(Long id, String email, String authCode) {
-		this.id = id;
+	public AdminEmailAuth(String email, String authCode) {
 		this.email = email;
 		this.authCode = authCode;
 	}
