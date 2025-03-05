@@ -1,12 +1,10 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFind;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -27,6 +25,7 @@ public class AdminAccountService {
 	private final PasswordEncoder passwordEncoder;
 	private final SoftDeleteEventPublisher eventPublisher;
 	private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+	private final AdminPasswordFindRepository adminPasswordFindRepository;
 
 	@Transactional(readOnly = true)
 	public GetAdminsProfileResponse getAdminsProfile() {
@@ -68,5 +67,14 @@ public class AdminAccountService {
 		pendingAdminInfoRepository.save(pendingAdminInfo);
 		signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
 		return CreateAdminSignUpResponse.from(pendingAdminInfo);
+	}
+
+	@Transactional
+	public void saveAdminPasswordFind(String email, Integer authCode){
+		AdminPasswordFind adminPasswordFind = AdminPasswordFind.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+		adminPasswordFindRepository.save(adminPasswordFind);
 	}
 }
