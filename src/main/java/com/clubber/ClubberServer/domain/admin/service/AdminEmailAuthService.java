@@ -3,7 +3,6 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdimPasswordFindValidateRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
@@ -45,7 +44,7 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public void saveAdminPasswordFind(String email, Integer authCode) {
+	public void createAdminPasswordFind(String email, Integer authCode) {
 		AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
 				.email(email)
 				.authCode(authCode)
