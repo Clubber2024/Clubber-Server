@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/admins/auths")
+@RequestMapping("/api/v1/admins/auths")
 @RequiredArgsConstructor
 public class AdminEmailAuthController {
 
@@ -24,7 +24,7 @@ public class AdminEmailAuthController {
     private AdminEmailAuthService adminEmailAuthService;
 
     @DisableSwaggerSecurity
-    @Operation(summary = "동아리 계정 회원가입 시 인증번호 메일 전송")
+    @Operation(summary = "동아리 계정 회원가입시 인증번호 메일 전송")
     @PostMapping("/sign-up/send")
     public CreateAdminAuthResponse createAdminSignupAuth(
             @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
@@ -32,7 +32,7 @@ public class AdminEmailAuthController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "동아리 계정 회원가입 시 인증 번호 검증")
+    @Operation(summary = "동아리 계정 회원가입시 인증 번호 검증")
     @PostMapping("/sign-up/verify")
     public void updateAdminInfo(
             @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
@@ -40,7 +40,7 @@ public class AdminEmailAuthController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "동아리 비밀번호 찾기 시 인증번호 메일 전송")
+    @Operation(summary = "동아리 비밀번호 찾기시 인증번호 메일 전송")
     @PostMapping("/find-password/send")
     public void createAdminPasswordFindVerify(
             @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest
@@ -50,7 +50,7 @@ public class AdminEmailAuthController {
 
 
     @DisableSwaggerSecurity
-    @Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
+    @Operation(summary = "동아리 비밀번호 찾기시 인증번호 검증")
     @PostMapping("/find-password/verify")
     public void createAdminPasswordFindAuthVerify(
             @Valid @RequestBody CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
