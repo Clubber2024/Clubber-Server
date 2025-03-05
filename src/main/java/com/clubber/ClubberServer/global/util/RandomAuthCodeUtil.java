@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.global.util;
 
 import java.security.SecureRandom;
 
-public class RandomAuthNumberUtil {
+public class RandomAuthCodeUtil {
     public static SecureRandom secureRandom = new SecureRandom();
 
     public static Integer generateRandomInteger(int length) {
