@@ -1,9 +1,11 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+@Getter
 @RedisHash(value = "adminPasswordFind")
 public class AdminPasswordFind {
 
