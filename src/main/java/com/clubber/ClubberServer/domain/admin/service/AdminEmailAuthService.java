@@ -2,8 +2,8 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindValidateRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminValidateSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
@@ -30,10 +30,10 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public void validateAdminEmailAuth(
-		CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
-		final String email = createAdminSignupAuthRequest.getEmail();
-		final Integer requestAuthCode = createAdminSignupAuthRequest.getAuthCode();
+	public void createAdminPasswordFindVerify(
+		CreateAdminValidateSignupAuthRequest createAdminValidateSignupAuthRequest) {
+		final String email = createAdminValidateSignupAuthRequest.getEmail();
+		final Integer requestAuthCode = createAdminValidateSignupAuthRequest.getAuthCode();
 
 		AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(email)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
@@ -53,9 +53,9 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional(readOnly = true)
-	public void validateAdminPasswordFind(CreateAdminPasswordFindValidateRequest createAdminPasswordFindValidateRequest) {
-		String email = createAdminPasswordFindValidateRequest.getEmail();
-		Integer requestAuthCode = createAdminPasswordFindValidateRequest.getAuthCode();
+	public void validateAdminPasswordFind(CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
+		String email = createAdminPasswordFindVerifyRequest.getEmail();
+		Integer requestAuthCode = createAdminPasswordFindVerifyRequest.getAuthCode();
 		AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindRepository.findById(email)
 				.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAdminPasswordFindValidateRequest {
+public class CreateAdminPasswordFindVerifyRequest {
     private String email;
     private Integer authCode;
 }

@@ -31,7 +31,7 @@ public class AdminSignupAuthServiceTest extends ServiceTest {
 		UpdateAdminVerifyEmailAuthRequest request = AdminFixture.이메일_인증_요청(savedAdminSignupAuth.getId(), email, authCode);
 
 		//when
-		adminEmailAuthService.validateAdminEmailAuth(request);
+		adminEmailAuthService.createAdminPasswordFindVerify(request);
 		AdminSignupAuth verifiedAdminSignupAuth = adminSignupAuthRepository.findById(savedAdminSignupAuth.getId()).get();
 
 		//then
