@@ -52,6 +52,10 @@ public class AdminFixture {
 		);
 	}
 
+	public static CreateAdminMailAuthRequest 인증_메일_전송_요청(String email){
+		return new CreateAdminMailAuthRequest(email);
+	}
+
 	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
 		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
 	}
