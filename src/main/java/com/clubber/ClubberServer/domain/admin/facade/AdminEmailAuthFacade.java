@@ -30,7 +30,7 @@ public class AdminEmailAuthFacade {
 		return CreateAdminAuthResponse.from(adminMailAuth);
 	}
 
-	public void createAdminPasswordFindAuth(CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+	public void passwordFindAdminAuth(CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		final String email = createAdminMailAuthRequest.getEmail();
 		if (adminRepository.existsByEmailAndAccountState(email, ACTIVE)) {
 			Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
