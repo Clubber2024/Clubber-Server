@@ -17,5 +17,5 @@ public class CreateAdminSignupAuthRequest {
 
 	@NotBlank(message = "인증 번호를 입력해주세요")
 	@Schema(description = "이메일로 전송 받은 인증 번호")
-	private String authCode;
+	private Integer authCode;
 }

@@ -121,10 +121,10 @@ public class AdminController {
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 메일 인증")
-	@PatchMapping("/email/verify")
-	public UpdateAdminAuthResponse updateAdminInfo(
-		@Valid @RequestBody UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
-		return adminEmailAuthService.validateAdminEmailAuth(updateAdminVerifyEmailAuthRequest);
+	@PatchMapping("/sign-up/verify")
+	public void updateAdminInfo(
+		@Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+		adminEmailAuthService.validateAdminEmailAuth(createAdminSignupAuthRequest);
 	}
 
 	@DisableSwaggerSecurity
