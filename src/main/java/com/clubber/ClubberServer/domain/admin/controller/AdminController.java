@@ -1,11 +1,9 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
-import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -14,14 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,10 +23,6 @@ public class AdminController {
     private final AdminAuthService adminAuthService;
 
     private final AdminAccountService adminAccountService;
-
-    private final AdminEmailAuthFacade adminEmailAuthFacade;
-
-    private final AdminEmailAuthService adminEmailAuthService;
 
     private final AdminClubService adminClubService;
 
@@ -117,39 +104,5 @@ public class AdminController {
     public CreateAdminSignUpResponse createAdminSignUp(
             @Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
         return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "동아리 계정 회원가입 시 인증번호 메일 전송")
-    @PostMapping("/auth/sign-up/send")
-    public CreateAdminAuthResponse createAdminSignupAuth(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-        return adminEmailAuthFacade.signupAdminAuth(createAdminMailAuthRequest);
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "동아리 계정 회원가입 시 인증 번호 검증")
-    @PostMapping("/auth/sign-up/verify")
-    public void updateAdminInfo(
-            @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
-        adminEmailAuthService.createAdminSignupAuthVerify(createAdminVerifySignupAuthRequest);
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "동아리 비밀번호 찾기 시 인증번호 메일 전송")
-    @PostMapping("/sign-up/find-password/send")
-    public void createAdminPasswordFindVerify(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest
-    ) {
-        adminEmailAuthFacade.passwordFindAdminAuth(createAdminMailAuthRequest);
-    }
-
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
-    @PostMapping("/auth/find-password/verify")
-    public void createAdminPasswordFindAuthVerify(
-            @Valid @RequestBody CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
-        adminEmailAuthService.createAdminPasswordFindAuthVerify(createAdminPasswordFindAuthVerifyRequest);
     }
 }
