@@ -8,8 +8,6 @@ import org.springframework.data.redis.core.RedisHash;
 public class AdminPasswordFind {
 
     @Id
-    private Long id;
-
     private String email;
 
     private Integer authCode;
@@ -17,8 +15,7 @@ public class AdminPasswordFind {
     private Long ttl = 300L;
 
     @Builder
-    public AdminPasswordFind(Long id, String email, Integer authCode, Long ttl) {
-        this.id = id;
+    public AdminPasswordFind(String email, Integer authCode, Long ttl) {
         this.email = email;
         this.authCode = authCode;
         this.ttl = ttl;
