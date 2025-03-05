@@ -31,11 +31,11 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(Long id, String email, String authCode) {
-		return new UpdateAdminVerifyEmailAuthRequest(id, email, authCode);
+	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
+		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
 	}
 
-	public static AdminSignupAuth 이메일_인증(String email, String authCode) {
+	public static AdminSignupAuth 회원가입_이메일_인증(String email, Integer authCode) {
 		return AdminSignupAuth.builder()
 			.email(email)
 			.authCode(authCode)

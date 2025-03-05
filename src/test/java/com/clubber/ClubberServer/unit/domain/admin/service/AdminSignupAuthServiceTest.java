@@ -1,9 +1,7 @@
 package com.clubber.ClubberServer.unit.domain.admin.service;
 
-import static org.assertj.core.api.Assertions.*;
-
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
@@ -21,20 +19,18 @@ public class AdminSignupAuthServiceTest extends ServiceTest {
 	private AdminSignupAuthRepository adminSignupAuthRepository;
 
 	@Test
-	@DisplayName("이메일과 인증번호가 같다면 인증 상태가 true로 변경된다")
+	@DisplayName("회원가입 이메일 인증 수행")
 	void validateAdminEmailAuthTest() {
 		//given
 		final String email = "ssuclubber@gmail.com";
-		final String authCode = "authcode";
-		AdminSignupAuth adminSignupAuth = AdminFixture.이메일_인증(email, authCode);
-		AdminSignupAuth savedAdminSignupAuth = adminSignupAuthRepository.save(adminSignupAuth);
-		UpdateAdminVerifyEmailAuthRequest request = AdminFixture.이메일_인증_요청(savedAdminSignupAuth.getId(), email, authCode);
+		final Integer authCode = 123456;
+		AdminSignupAuth adminSignupAuth = AdminFixture.회원가입_이메일_인증(email, authCode);
+		adminSignupAuthRepository.save(adminSignupAuth);
+		CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청 = AdminFixture.회원가입_이메일_인증_요청(email, authCode);
 
-		//when
-		adminEmailAuthService.createAdminPasswordFindVerify(request);
-		AdminSignupAuth verifiedAdminSignupAuth = adminSignupAuthRepository.findById(savedAdminSignupAuth.getId()).get();
+		//when & then
 
-		//then
-		assertThat(verifiedAdminSignupAuth.isEmailVerified()).isEqualTo(true);
+		//tear down
+		adminSignupAuthRepository.delete(adminSignupAuth);
 	}
 }

@@ -59,7 +59,7 @@ public class AdminAuthServiceTest extends ServiceTest {
 		CreateAdminPasswordFindVerifyRequest request = AdminFixture.인증정보_검증요청(email, authCode);
 
 		//when & then
-		Assertions.assertThatCode(() -> adminEmailAuthService.validateAdminPasswordFind(request))
+		Assertions.assertThatCode(() -> adminEmailAuthService.createAdminPasswordFindVerify(request))
 				.doesNotThrowAnyException();
 
 		//teardown

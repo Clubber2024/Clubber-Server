@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminValidateSignupAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
@@ -30,10 +30,10 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public void createAdminPasswordFindVerify(
-		CreateAdminValidateSignupAuthRequest createAdminValidateSignupAuthRequest) {
-		final String email = createAdminValidateSignupAuthRequest.getEmail();
-		final Integer requestAuthCode = createAdminValidateSignupAuthRequest.getAuthCode();
+	public void createAdminSignupAuthVerify(
+		CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
+		final String email = createAdminVerifySignupAuthRequest.getEmail();
+		final Integer requestAuthCode = createAdminVerifySignupAuthRequest.getAuthCode();
 
 		AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(email)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
@@ -53,7 +53,7 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional(readOnly = true)
-	public void validateAdminPasswordFind(CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
+	public void createAdminPasswordFindVerify(CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
 		String email = createAdminPasswordFindVerifyRequest.getEmail();
 		Integer requestAuthCode = createAdminPasswordFindVerifyRequest.getAuthCode();
 		AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindRepository.findById(email)
