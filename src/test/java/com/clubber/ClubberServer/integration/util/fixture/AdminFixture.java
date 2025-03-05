@@ -31,16 +31,6 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
-		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
-	}
-
-	public static AdminSignupAuth 회원가입_이메일_인증(String email, Integer authCode) {
-		return AdminSignupAuth.builder()
-			.email(email)
-			.authCode(authCode)
-			.build();
-	}
 
 	public static CreateAdminSignUpRequest 회원가입_요청(
 		String username,
@@ -60,6 +50,17 @@ public class AdminFixture {
 			contact,
 			imageForApproval
 		);
+	}
+
+	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
+		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
+	}
+
+	public static AdminSignupAuth 회원가입_이메일_인증(String email, Integer authCode) {
+		return AdminSignupAuth.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
 	}
 
 	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String email, Integer authCode){
