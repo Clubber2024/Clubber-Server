@@ -20,13 +20,13 @@ public class AdminEmailAuthFacade {
 	private final AdminRepository adminRepository;
 	private final MailService mailService;
 
-	public CreateAdminAuthResponse createAdminSignupAuth(
+	public CreateAdminAuthResponse signupAdminAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		final String email = createAdminMailAuthRequest.getEmail();
 		Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 
 		mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
-		AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminMailAuth(email, authCode);
+		AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(email, authCode);
 		return CreateAdminAuthResponse.from(adminMailAuth);
 	}
 

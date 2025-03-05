@@ -116,7 +116,7 @@ public class AdminController {
 	@PostMapping("/auth/sign-up/send")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		return adminEmailAuthFacade.createAdminSignupAuth(createAdminMailAuthRequest);
+		return adminEmailAuthFacade.signupAdminAuth(createAdminMailAuthRequest);
 	}
 
 	@DisableSwaggerSecurity

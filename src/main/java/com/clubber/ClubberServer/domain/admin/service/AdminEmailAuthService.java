@@ -21,7 +21,7 @@ public class AdminEmailAuthService {
 	private final AdminValidator adminValidator;
 
 	@Transactional
-	public AdminSignupAuth createAdminMailAuth(String email, Integer authCode) {
+	public AdminSignupAuth createAdminSignupAuth(String email, Integer authCode) {
 		AdminSignupAuth adminSignupAuth = AdminSignupAuth.builder()
 			.email(email)
 			.authCode(authCode)
