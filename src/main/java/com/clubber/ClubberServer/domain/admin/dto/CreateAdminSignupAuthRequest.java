@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class UpdateAdminVerifyEmailAuthRequest {
-
-	private Long id;
+public class CreateAdminSignupAuthRequest {
 
 	@NotBlank(message = "인증 수행한 이메일을 입력해주세요.")
 	@Schema(description = "인증 수행한 이메일", example = "myclub@gmail.com")
