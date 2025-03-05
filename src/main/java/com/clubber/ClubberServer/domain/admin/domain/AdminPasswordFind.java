@@ -17,9 +17,8 @@ public class AdminPasswordFind {
     private Long ttl = 300L;
 
     @Builder
-    public AdminPasswordFind(String email, Integer authCode, Long ttl) {
+    public AdminPasswordFind(String email, Integer authCode) {
         this.email = email;
         this.authCode = authCode;
-        this.ttl = ttl;
     }
 }
