@@ -69,25 +69,4 @@ public class AdminAccountService {
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
     }
-
-    @Transactional
-    public void saveAdminPasswordFind(String email, Integer authCode) {
-        AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
-                .email(email)
-                .authCode(authCode)
-                .build();
-        adminPasswordFindRepository.save(adminPasswordFindAuth);
-    }
-
-    @Transactional(readOnly = true)
-    public void validateAdminPasswordFind(GetAdimPasswordFindValidateRequest getAdimPasswordFindValidateRequest) {
-        String email = getAdimPasswordFindValidateRequest.getEmail();
-        Integer requestAuthCode = getAdimPasswordFindValidateRequest.getAuthCode();
-        AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindRepository.findById(email)
-                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
-
-        if (!adminPasswordFindAuth.getAuthCode().equals(requestAuthCode)) {
-            throw AdminInvalidAuthCodeException.EXCEPTION;
-        }
-    }
 }

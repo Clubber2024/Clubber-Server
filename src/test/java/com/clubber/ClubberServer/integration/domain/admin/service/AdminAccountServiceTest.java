@@ -98,24 +98,6 @@ public class AdminAccountServiceTest extends ServiceTest {
         );
     }
 
-    @DisplayName("관리자 비밀번호 찾기 검증을 수행한다")
-    @Test
-    void validateAdminPasswordFind() {
-        //given
-        final String email = "test@gmail.com";
-        final Integer authCode = 123456;
-        AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.인증정보(email, authCode);
-        adminPasswordFindRepository.save(adminPasswordFindAuth);
-        GetAdimPasswordFindValidateRequest request = AdminFixture.인증정보_검증요청(email, authCode);
-
-        //when & then
-        Assertions.assertThatCode(() -> adminAccountService.validateAdminPasswordFind(request))
-                .doesNotThrowAnyException();
-
-        //teardown
-        adminPasswordFindRepository.delete(adminPasswordFindAuth);
-    }
-
     @DisplayName("관리자 회원탈퇴를 수행한다")
     @WithMockCustomUser
     @Test

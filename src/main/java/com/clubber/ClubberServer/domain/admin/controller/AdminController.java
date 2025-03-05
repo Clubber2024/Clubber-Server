@@ -139,6 +139,6 @@ public class AdminController {
 	@Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
 	@GetMapping("/find-password/verify")
 	public void getAdminPasswordFindValidate(GetAdimPasswordFindValidateRequest getAdimPasswordFindValidateRequest){
-		adminAccountService.validateAdminPasswordFind(getAdimPasswordFindValidateRequest);
+		adminEmailAuthService.validateAdminPasswordFind(getAdimPasswordFindValidateRequest);
 	}
 }

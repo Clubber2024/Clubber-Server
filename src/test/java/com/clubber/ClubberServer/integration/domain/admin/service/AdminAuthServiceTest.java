@@ -6,10 +6,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdimPasswordFindValidateRequest;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
+import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,12 @@ public class AdminAuthServiceTest extends ServiceTest {
 
 	@Autowired
 	private AdminRepository adminRepository;
+
+	@Autowired
+	private AdminPasswordFindRepository adminPasswordFindRepository;
+
+	@Autowired
+	private AdminEmailAuthService adminEmailAuthService;
 
 	@DisplayName("관리자 로그인을 수행한다")
 	@Test
@@ -34,5 +46,23 @@ public class AdminAuthServiceTest extends ServiceTest {
 			() -> assertThat(admin).isNotNull(),
 			() -> assertThat(admin.getUsername()).isEqualTo(VALID_ADMIN_REQUEST.getUsername())
 		);
+	}
+
+	@DisplayName("관리자 비밀번호 찾기 검증을 수행한다")
+	@Test
+	void validateAdminPasswordFind() {
+		//given
+		final String email = "test@gmail.com";
+		final Integer authCode = 123456;
+		AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.인증정보(email, authCode);
+		adminPasswordFindRepository.save(adminPasswordFindAuth);
+		GetAdimPasswordFindValidateRequest request = AdminFixture.인증정보_검증요청(email, authCode);
+
+		//when & then
+		Assertions.assertThatCode(() -> adminEmailAuthService.validateAdminPasswordFind(request))
+				.doesNotThrowAnyException();
+
+		//teardown
+		adminPasswordFindRepository.delete(adminPasswordFindAuth);
 	}
 }

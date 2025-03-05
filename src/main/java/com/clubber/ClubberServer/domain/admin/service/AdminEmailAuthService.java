@@ -1,9 +1,12 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdimPasswordFindValidateRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminEmailAuthService {
 
 	private final AdminSignupAuthRepository adminSignupAuthRepository;
+	private final AdminPasswordFindRepository adminPasswordFindRepository;
 	private final AdminValidator adminValidator;
 	private final MailService mailService;
 
@@ -54,5 +58,26 @@ public class AdminEmailAuthService {
 	public void sendAdminAuthEmail(String email, String authCode) {
 		final String subject = "[클러버] 동아리 관리자 계정 인증 번호입니다.";
 		mailService.send(email, subject, authCode);
+	}
+
+	@Transactional
+	public void saveAdminPasswordFind(String email, Integer authCode) {
+		AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+		adminPasswordFindRepository.save(adminPasswordFindAuth);
+	}
+
+	@Transactional(readOnly = true)
+	public void validateAdminPasswordFind(GetAdimPasswordFindValidateRequest getAdimPasswordFindValidateRequest) {
+		String email = getAdimPasswordFindValidateRequest.getEmail();
+		Integer requestAuthCode = getAdimPasswordFindValidateRequest.getAuthCode();
+		AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindRepository.findById(email)
+				.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+		if (!adminPasswordFindAuth.getAuthCode().equals(requestAuthCode)) {
+			throw AdminInvalidAuthCodeException.EXCEPTION;
+		}
 	}
 }
