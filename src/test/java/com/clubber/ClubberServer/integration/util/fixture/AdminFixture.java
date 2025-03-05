@@ -2,12 +2,9 @@ package com.clubber.ClubberServer.integration.util.fixture;
 
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
 public class AdminFixture {
@@ -34,16 +31,6 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-	public static UpdateAdminVerifyEmailAuthRequest 이메일_인증_요청(Long id, String email, String authCode) {
-		return new UpdateAdminVerifyEmailAuthRequest(id, email, authCode);
-	}
-
-	public static AdminEmailAuth 이메일_인증(String email, String authCode) {
-		return AdminEmailAuth.builder()
-			.email(email)
-			.authCode(authCode)
-			.build();
-	}
 
 	public static CreateAdminSignUpRequest 회원가입_요청(
 		String username,
@@ -63,5 +50,31 @@ public class AdminFixture {
 			contact,
 			imageForApproval
 		);
+	}
+
+	public static CreateAdminMailAuthRequest 인증_메일_전송_요청(String email){
+		return new CreateAdminMailAuthRequest(email);
+	}
+
+	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
+		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
+	}
+
+	public static AdminSignupAuth 회원가입_이메일_인증(String email, Integer authCode) {
+		return AdminSignupAuth.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+	}
+
+	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String email, Integer authCode){
+		return AdminPasswordFindAuth.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+	}
+
+	public static CreateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
+		return new CreateAdminPasswordFindAuthVerifyRequest(email, authCode);
 	}
 }

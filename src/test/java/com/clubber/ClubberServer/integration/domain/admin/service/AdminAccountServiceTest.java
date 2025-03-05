@@ -1,11 +1,5 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
@@ -26,155 +20,163 @@ import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+import java.util.Optional;
+
+import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 public class AdminAccountServiceTest extends ServiceTest {
 
-	@Autowired
-	private AdminAccountService adminAccountService;
+    @Autowired
+    private AdminAccountService adminAccountService;
 
-	@Autowired
-	private AdminRepository adminRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
-	@Autowired
-	private ReviewRepository reviewRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-	@Autowired
-	private FavoriteRepository favoriteRepository;
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
-	@Autowired
-	private PasswordEncoder encoder;
+    @Autowired
+    private PasswordEncoder encoder;
 
-	@Autowired
-	private RecruitRepository recruitRepository;
+    @Autowired
+    private RecruitRepository recruitRepository;
 
-	@Autowired
-	private PendingAdminInfoRepository pendingAdminInfoRepository;
+    @Autowired
+    private PendingAdminInfoRepository pendingAdminInfoRepository;
 
-	@DisplayName("관리자 회원 정보를 조회한다.")
-	@WithMockCustomUser
-	@Test
-	void adminGetProfile() {
-		GetAdminsProfileResponse adminsProfile = adminAccountService.getAdminsProfile();
 
-		Optional<Admin> admin = adminRepository.findAdminByIdAndAccountState(
-			SecurityUtils.getCurrentUserId(), ACTIVE);
+    @DisplayName("관리자 회원 정보를 조회한다.")
+    @WithMockCustomUser
+    @Test
+    void adminGetProfile() {
+        GetAdminsProfileResponse adminsProfile = adminAccountService.getAdminsProfile();
 
-		assertAll(
-			() -> assertThat(admin.get().getId()).isNotNull(),
-			() -> assertThat(adminsProfile.getClubName()).isEqualTo(admin.get().getClub().getName())
-		);
-	}
+        Optional<Admin> admin = adminRepository.findAdminByIdAndAccountState(
+                SecurityUtils.getCurrentUserId(), ACTIVE);
 
-	@DisplayName("관리자 비밀번호 변경을 수행한다.")
-	@WithMockCustomUser
-	@Test
-	void adminUpdatePassword() {
-		UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminAccountService.updateAdminsPassword(
-			VALID_UPDATE_PASSWORD_REQUEST);
+        assertAll(
+                () -> assertThat(admin.get().getId()).isNotNull(),
+                () -> assertThat(adminsProfile.getClubName()).isEqualTo(admin.get().getClub().getName())
+        );
+    }
 
-		Optional<Admin> updatedPasswordAdmin = adminRepository.findAdminByIdAndAccountState(
-			updateAdminsPasswordResponse.getAdminId(), ACTIVE);
+    @DisplayName("관리자 비밀번호 변경을 수행한다.")
+    @WithMockCustomUser
+    @Test
+    void adminUpdatePassword() {
+        UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminAccountService.updateAdminsPassword(
+                VALID_UPDATE_PASSWORD_REQUEST);
 
-		assertAll(
-			() -> assertThat(updatedPasswordAdmin).isNotNull(),
-			() -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getPassword(),
-				updatedPasswordAdmin.get().getPassword()))
-		);
-	}
+        Optional<Admin> updatedPasswordAdmin = adminRepository.findAdminByIdAndAccountState(
+                updateAdminsPasswordResponse.getAdminId(), ACTIVE);
 
-	@DisplayName("관리자 회원탈퇴를 수행한다")
-	@WithMockCustomUser
-	@Test
-	void withDrawAdmin() {
-		adminAccountService.withDraw();
-		Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
+        assertAll(
+                () -> assertThat(updatedPasswordAdmin).isNotNull(),
+                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getPassword(),
+                        updatedPasswordAdmin.get().getPassword()))
+        );
+    }
 
-		assertAll(
-			() -> assertThat(admin).isNotNull(),
-			() -> assertThat(admin.get().getAccountState()).isEqualTo(AccountState.INACTIVE)
-		);
-	}
+    @DisplayName("관리자 회원탈퇴를 수행한다")
+    @WithMockCustomUser
+    @Test
+    void withDrawAdmin() {
+        adminAccountService.withDraw();
+        Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
 
-	/**
-	 * TODO : 비동기 soft-delete 추후 테스트 코드 변경
-	 */
-	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
-	@WithMockCustomUser
-	@Test
-	void withDrawAdminDeleteReview() {
-		adminAccountService.withDraw();
-		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+        assertAll(
+                () -> assertThat(admin).isNotNull(),
+                () -> assertThat(admin.get().getAccountState()).isEqualTo(AccountState.INACTIVE)
+        );
+    }
 
-		List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
+    /**
+     * TODO : 비동기 soft-delete 추후 테스트 코드 변경
+     */
+    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
+    @WithMockCustomUser
+    @Test
+    void withDrawAdminDeleteReview() {
+        adminAccountService.withDraw();
+        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
-		for (Review deletedReview : deletedReviews) {
-			assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
-		}
-	}
+        List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
 
-	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
-	@WithMockCustomUser
-	@Test
-	void withDrawAdminDeleteFavorite() {
-		adminAccountService.withDraw();
-		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+        for (Review deletedReview : deletedReviews) {
+            assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
+        }
+    }
 
-		List<Favorite> deletedFavorites = favoriteRepository.findAllByClub(admin.getClub());
+    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
+    @WithMockCustomUser
+    @Test
+    void withDrawAdminDeleteFavorite() {
+        adminAccountService.withDraw();
+        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
-		for (Favorite favorite : deletedFavorites) {
-			assertThat(favorite.isDeleted()).isEqualTo(true);
-		}
-	}
+        List<Favorite> deletedFavorites = favoriteRepository.findAllByClub(admin.getClub());
 
-	@DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 모집글이 모두 삭제된다.")
-	@WithMockCustomUser
-	@Test
-	void withDrawAdminDeleteRecruit() {
-		adminAccountService.withDraw();
-		Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+        for (Favorite favorite : deletedFavorites) {
+            assertThat(favorite.isDeleted()).isEqualTo(true);
+        }
+    }
 
-		List<Recruit> deletedRecruits = recruitRepository.findAllByClub(admin.getClub());
+    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 모집글이 모두 삭제된다.")
+    @WithMockCustomUser
+    @Test
+    void withDrawAdminDeleteRecruit() {
+        adminAccountService.withDraw();
+        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
-		for (Recruit deletedRecruit : deletedRecruits) {
-			assertThat(deletedRecruit.isDeleted()).isEqualTo(true);
-		}
-	}
+        List<Recruit> deletedRecruits = recruitRepository.findAllByClub(admin.getClub());
 
-	@DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
-	@Test
-	void createAdminSignUpTest() {
-		/**
-		 * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
-		 */
+        for (Recruit deletedRecruit : deletedRecruits) {
+            assertThat(deletedRecruit.isDeleted()).isEqualTo(true);
+        }
+    }
 
-		//given
-		CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
-			"password", GENERAL, "new_club",
-			"email", "@club_ig", "imageUrl");
+    @DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
+    @Test
+    void createAdminSignUpTest() {
+        /**
+         * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
+         */
 
-		//when
-		adminAccountService.createAdminSignUp(createAdminSignUpRequest);
-		PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByClubName(
-			createAdminSignUpRequest.getClubName()).get();
+        //given
+        CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
+                "password", GENERAL, "new_club",
+                "email", "@club_ig", "imageUrl");
 
-		//then
-		assertAll(
-			() -> assertThat(pendingAdminInfo)
-				.extracting("username", "email", "clubName", "contact", "imageForApproval")
-				.containsExactly(
-					createAdminSignUpRequest.getUsername(),
-					createAdminSignUpRequest.getEmail(),
-					createAdminSignUpRequest.getClubName(),
-					createAdminSignUpRequest.getContact(),
-					createAdminSignUpRequest.getImageForApproval()
-				),
-			() -> assertThat(pendingAdminInfo.isApproved()).isFalse()
-		);
-	}
+        //when
+        adminAccountService.createAdminSignUp(createAdminSignUpRequest);
+        PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByClubName(
+                createAdminSignUpRequest.getClubName()).get();
+
+        //then
+        assertAll(
+                () -> assertThat(pendingAdminInfo)
+                        .extracting("username", "email", "clubName", "contact", "imageForApproval")
+                        .containsExactly(
+                                createAdminSignUpRequest.getUsername(),
+                                createAdminSignUpRequest.getEmail(),
+                                createAdminSignUpRequest.getClubName(),
+                                createAdminSignUpRequest.getContact(),
+                                createAdminSignUpRequest.getImageForApproval()
+                        ),
+                () -> assertThat(pendingAdminInfo.isApproved()).isFalse()
+        );
+    }
 }

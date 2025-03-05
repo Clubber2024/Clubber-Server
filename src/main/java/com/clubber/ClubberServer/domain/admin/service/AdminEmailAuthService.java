@@ -1,12 +1,13 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
-import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,44 +16,48 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminEmailAuthService {
 
-	private final AdminEmailAuthRepository adminEmailAuthRepository;
+	private final AdminSignupAuthRepository adminSignupAuthRepository;
+	private final AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 	private final AdminValidator adminValidator;
-	private final MailService mailService;
 
 	@Transactional
-	public void deleteAdminEmailAuth(AdminEmailAuth adminEmailAuth) {
-		adminEmailAuthRepository.delete(adminEmailAuth);
-	}
-
-	@Transactional
-	public AdminEmailAuth createAdminMailAuth(String email, String authCode) {
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
+	public AdminSignupAuth createAdminSignupAuth(String email, Integer authCode) {
+		AdminSignupAuth adminSignupAuth = AdminSignupAuth.builder()
 			.email(email)
 			.authCode(authCode)
 			.build();
-		return adminEmailAuthRepository.save(adminEmailAuth);
+		return adminSignupAuthRepository.save(adminSignupAuth);
 	}
 
 	@Transactional
-	public UpdateAdminAuthResponse validateAdminEmailAuth(
-		UpdateAdminVerifyEmailAuthRequest updateAdminVerifyEmailAuthRequest) {
-		final String authCode = updateAdminVerifyEmailAuthRequest.getAuthCode();
-		final String email = updateAdminVerifyEmailAuthRequest.getEmail();
-		final Long id = updateAdminVerifyEmailAuthRequest.getId();
+	public void createAdminSignupAuthVerify(
+		CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
+		final String email = createAdminVerifySignupAuthRequest.getEmail();
+		final Integer requestAuthCode = createAdminVerifySignupAuthRequest.getAuthCode();
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findById(id)
+		AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(email)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
-
-		adminValidator.validateAuthCode(authCode, adminEmailAuth.getAuthCode());
-		adminValidator.validateEmail(email, adminEmailAuth.getEmail());
-		adminEmailAuth.verify();
-
-		adminEmailAuthRepository.save(adminEmailAuth);
-		return new UpdateAdminAuthResponse(email);
+		adminValidator.validateAuthCode(requestAuthCode, adminSignupAuth.getAuthCode());
+		adminSignupAuthRepository.delete(adminSignupAuth);
 	}
 
-	public void sendAdminAuthEmail(String email, String authCode) {
-		final String subject = "[클러버] 동아리 관리자 계정 인증 번호입니다.";
-		mailService.send(email, subject, authCode);
+	@Transactional
+	public void createAdminPasswordFindAuth(String email, Integer authCode) {
+		AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+		adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
+	}
+
+	@Transactional
+	public void createAdminPasswordFindAuthVerify(CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
+		String email = createAdminPasswordFindAuthVerifyRequest.getEmail();
+		Integer requestAuthCode = createAdminPasswordFindAuthVerifyRequest.getAuthCode();
+		AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindAuthRepository.findById(email)
+				.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+		adminValidator.validateAuthCode(requestAuthCode, adminPasswordFindAuth.getAuthCode());
+		adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
 	}
 }

@@ -2,11 +2,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -21,52 +17,42 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AdminAccountService {
 
-	private final AdminReadService adminReadService;
-	private final PendingAdminInfoRepository pendingAdminInfoRepository;
-	private final AdminValidator adminValidator;
-	private final PasswordEncoder passwordEncoder;
-	private final SoftDeleteEventPublisher eventPublisher;
-	private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+    private final AdminReadService adminReadService;
+    private final PendingAdminInfoRepository pendingAdminInfoRepository;
+    private final AdminValidator adminValidator;
+    private final PasswordEncoder passwordEncoder;
+    private final SoftDeleteEventPublisher eventPublisher;
+    private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
 
-	@Transactional(readOnly = true)
-	public GetAdminsProfileResponse getAdminsProfile() {
-		Admin admin = adminReadService.getCurrentAdmin();
-		return GetAdminsProfileResponse.from(admin);
-	}
+    @Transactional(readOnly = true)
+    public GetAdminsProfileResponse getAdminsProfile() {
+        Admin admin = adminReadService.getCurrentAdmin();
+        return GetAdminsProfileResponse.from(admin);
+    }
 
-	public UpdateAdminsPasswordResponse updateAdminsPassword(
-		UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		Admin admin = adminReadService.getCurrentAdmin();
+    public UpdateAdminsPasswordResponse updateAdminsPassword(
+            UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+        Admin admin = adminReadService.getCurrentAdmin();
 
-		String rawPassword = updateAdminsPasswordRequest.getPassword();
-		adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
+        String rawPassword = updateAdminsPasswordRequest.getPassword();
+        adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
 
-		admin.updatePassword(passwordEncoder.encode(rawPassword));
-		return UpdateAdminsPasswordResponse.of(admin);
-	}
+        admin.updatePassword(passwordEncoder.encode(rawPassword));
+        return UpdateAdminsPasswordResponse.of(admin);
+    }
 
-	public void withDraw() {
-		Admin admin = adminReadService.getCurrentAdmin();
-		admin.withDraw();
-		eventPublisher.throwSoftDeleteEvent(admin.getId());
-	}
+    public void withDraw() {
+        Admin admin = adminReadService.getCurrentAdmin();
+        admin.withDraw();
+        eventPublisher.throwSoftDeleteEvent(admin.getId());
+    }
 
-	public Admin updateAdminAccountWithAuthCode(String email, String username, String authCode) {
-		String encodedPassword = passwordEncoder.encode(authCode);
-
-		Admin admin = adminReadService.getAdminByEmail(email);
-		admin.updatePassword(encodedPassword);
-		admin.updateUsername(username);
-		return admin;
-	}
-
-	@Transactional
-	public CreateAdminSignUpResponse createAdminSignUp(
-		CreateAdminSignUpRequest createAdminSignUpRequest) {
-		String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
-		PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
-		pendingAdminInfoRepository.save(pendingAdminInfo);
-		signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
-		return CreateAdminSignUpResponse.from(pendingAdminInfo);
-	}
+    public CreateAdminSignUpResponse createAdminSignUp(
+            CreateAdminSignUpRequest createAdminSignUpRequest) {
+        String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
+        PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
+        pendingAdminInfoRepository.save(pendingAdminInfo);
+        signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
+        return CreateAdminSignUpResponse.from(pendingAdminInfo);
+    }
 }
