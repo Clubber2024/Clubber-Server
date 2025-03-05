@@ -27,7 +27,7 @@ public class AdminEmailAuthFacade {
 
 		mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
 		AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminMailAuth(email, authCode);
-		return CreateAdminAuthResponse.of(adminMailAuth);
+		return CreateAdminAuthResponse.from(adminMailAuth);
 	}
 
 	public void createAdminPasswordFindAuth(CreateAdminMailAuthRequest createAdminMailAuthRequest) {
