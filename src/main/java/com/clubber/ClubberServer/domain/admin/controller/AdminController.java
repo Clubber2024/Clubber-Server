@@ -128,7 +128,7 @@ public class AdminController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "동아리 계정 회원가입 시 메일 인증")
+    @Operation(summary = "동아리 계정 회원가입 시 인증 번호 검증")
     @PostMapping("/auth/sign-up/verify")
     public void updateAdminInfo(
             @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
@@ -148,7 +148,8 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
     @PostMapping("/auth/find-password/verify")
-    public void getAdminPasswordFindValidate(CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
+    public void getAdminPasswordFindValidate(
+            @Valid @RequestBody CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
         adminEmailAuthService.createAdminPasswordFindVerify(createAdminPasswordFindVerifyRequest);
     }
 }
