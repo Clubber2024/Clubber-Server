@@ -29,7 +29,7 @@ public class AdminEmailAuthService {
 	}
 
 	@Transactional
-	public AdminSignupAuth createAdminMailAuth(String email, String authCode) {
+	public AdminSignupAuth createAdminMailAuth(String email, Integer authCode) {
 		AdminSignupAuth adminSignupAuth = AdminSignupAuth.builder()
 			.email(email)
 			.authCode(authCode)
@@ -53,11 +53,6 @@ public class AdminEmailAuthService {
 
 		adminSignupAuthRepository.save(adminSignupAuth);
 		return new UpdateAdminAuthResponse(email);
-	}
-
-	public void sendAdminAuthEmail(String email, String authCode) {
-		final String subject = "[클러버] 동아리 관리자 계정 인증 번호입니다.";
-		mailService.send(email, subject, authCode);
 	}
 
 	@Transactional

@@ -16,7 +16,7 @@ public class AdminSignupAuth {
 	private String email;
 
 	@Indexed
-	private String authCode;
+	private Integer authCode;
 
 	@TimeToLive
 	private Long ttl = 300L;
@@ -24,7 +24,7 @@ public class AdminSignupAuth {
 	private boolean isEmailVerified = false;
 
 	@Builder
-	public AdminSignupAuth(String email, String authCode) {
+	public AdminSignupAuth(String email, Integer authCode) {
 		this.email = email;
 		this.authCode = authCode;
 	}

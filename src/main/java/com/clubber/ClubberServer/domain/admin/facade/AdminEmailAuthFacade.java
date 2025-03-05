@@ -25,16 +25,15 @@ public class AdminEmailAuthFacade {
 	public CreateAdminAuthResponse createAdminMailAuth(
 		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		final String email = createAdminMailAuthRequest.getEmail();
+		Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 
-		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
-			10);
-		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
+		mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
 		AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminMailAuth(email, authCode);
 		return CreateAdminAuthResponse.of(adminMailAuth);
 	}
 
 	public void getAdminPasswordFind(GetAdminPasswordFindRequest getAdminPasswordFindRequest) {
-		String email = getAdminPasswordFindRequest.getEmail();
+		final String email = getAdminPasswordFindRequest.getEmail();
 		if (adminRepository.existsByEmailAndAccountState(email, ACTIVE)) {
 			Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 			mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
