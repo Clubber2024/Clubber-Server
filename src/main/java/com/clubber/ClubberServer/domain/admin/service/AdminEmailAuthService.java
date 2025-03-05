@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminEmailAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminEmailAuthService {
 
-	private final AdminEmailAuthRepository adminEmailAuthRepository;
+	private final AdminSignupAuthRepository adminSignupAuthRepository;
 	private final AdminValidator adminValidator;
 	private final MailService mailService;
 
 	@Transactional
 	public void deleteAdminEmailAuth(AdminSignupAuth adminSignupAuth) {
-		adminEmailAuthRepository.delete(adminSignupAuth);
+		adminSignupAuthRepository.delete(adminSignupAuth);
 	}
 
 	@Transactional
@@ -30,7 +30,7 @@ public class AdminEmailAuthService {
 			.email(email)
 			.authCode(authCode)
 			.build();
-		return adminEmailAuthRepository.save(adminSignupAuth);
+		return adminSignupAuthRepository.save(adminSignupAuth);
 	}
 
 	@Transactional
@@ -40,14 +40,14 @@ public class AdminEmailAuthService {
 		final String email = updateAdminVerifyEmailAuthRequest.getEmail();
 		final Long id = updateAdminVerifyEmailAuthRequest.getId();
 
-		AdminSignupAuth adminSignupAuth = adminEmailAuthRepository.findById(id)
+		AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(id)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
 		adminValidator.validateAuthCode(authCode, adminSignupAuth.getAuthCode());
 		adminValidator.validateEmail(email, adminSignupAuth.getEmail());
 		adminSignupAuth.verify();
 
-		adminEmailAuthRepository.save(adminSignupAuth);
+		adminSignupAuthRepository.save(adminSignupAuth);
 		return new UpdateAdminAuthResponse(email);
 	}
 
