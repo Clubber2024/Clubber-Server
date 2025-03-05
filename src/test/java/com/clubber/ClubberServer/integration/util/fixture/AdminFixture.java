@@ -3,11 +3,8 @@ package com.clubber.ClubberServer.integration.util.fixture;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFind;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
 public class AdminFixture {
@@ -63,5 +60,16 @@ public class AdminFixture {
 			contact,
 			imageForApproval
 		);
+	}
+
+	public static AdminPasswordFind 인증정보(String email, Integer authCode){
+		return AdminPasswordFind.builder()
+				.email(email)
+				.authCode(authCode)
+				.build();
+	}
+
+	public static GetAdimPasswordFindValidateRequest 인증정보_검증요청(String email, Integer authCode){
+		return new GetAdimPasswordFindValidateRequest(email, authCode);
 	}
 }
