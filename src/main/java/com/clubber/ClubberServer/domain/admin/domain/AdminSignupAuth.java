@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @RedisHash(value = "adminEmailAuth")
-public class AdminEmailAuth {
+public class AdminSignupAuth {
 
 	@Id
 	private String email;
@@ -24,7 +24,7 @@ public class AdminEmailAuth {
 	private boolean isEmailVerified = false;
 
 	@Builder
-	public AdminEmailAuth(String email, String authCode) {
+	public AdminSignupAuth(String email, String authCode) {
 		this.email = email;
 		this.authCode = authCode;
 	}

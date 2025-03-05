@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
@@ -20,17 +20,17 @@ public class AdminEmailAuthService {
 	private final MailService mailService;
 
 	@Transactional
-	public void deleteAdminEmailAuth(AdminEmailAuth adminEmailAuth) {
-		adminEmailAuthRepository.delete(adminEmailAuth);
+	public void deleteAdminEmailAuth(AdminSignupAuth adminSignupAuth) {
+		adminEmailAuthRepository.delete(adminSignupAuth);
 	}
 
 	@Transactional
-	public AdminEmailAuth createAdminMailAuth(String email, String authCode) {
-		AdminEmailAuth adminEmailAuth = AdminEmailAuth.builder()
+	public AdminSignupAuth createAdminMailAuth(String email, String authCode) {
+		AdminSignupAuth adminSignupAuth = AdminSignupAuth.builder()
 			.email(email)
 			.authCode(authCode)
 			.build();
-		return adminEmailAuthRepository.save(adminEmailAuth);
+		return adminEmailAuthRepository.save(adminSignupAuth);
 	}
 
 	@Transactional
@@ -40,14 +40,14 @@ public class AdminEmailAuthService {
 		final String email = updateAdminVerifyEmailAuthRequest.getEmail();
 		final Long id = updateAdminVerifyEmailAuthRequest.getId();
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthRepository.findById(id)
+		AdminSignupAuth adminSignupAuth = adminEmailAuthRepository.findById(id)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
-		adminValidator.validateAuthCode(authCode, adminEmailAuth.getAuthCode());
-		adminValidator.validateEmail(email, adminEmailAuth.getEmail());
-		adminEmailAuth.verify();
+		adminValidator.validateAuthCode(authCode, adminSignupAuth.getAuthCode());
+		adminValidator.validateEmail(email, adminSignupAuth.getEmail());
+		adminSignupAuth.verify();
 
-		adminEmailAuthRepository.save(adminEmailAuth);
+		adminEmailAuthRepository.save(adminSignupAuth);
 		return new UpdateAdminAuthResponse(email);
 	}
 
