@@ -31,8 +31,8 @@ public class AdminEmailAuthFacade {
 		return CreateAdminAuthResponse.of(adminMailAuth);
 	}
 
-	public void getAdminPasswordFind(GetAdminPasswordFindRequest getAdminPasswordFindRequest) {
-		final String email = getAdminPasswordFindRequest.getEmail();
+	public void getAdminPasswordFind(CreateAdminMailAuthRequest createAdminMailAuthRequest) {
+		final String email = createAdminMailAuthRequest.getEmail();
 		if (adminRepository.existsByEmailAndAccountState(email, ACTIVE)) {
 			Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 			mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
