@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
 @RedisHash(value = "adminPasswordFind")
@@ -14,6 +15,7 @@ public class AdminPasswordFindAuth {
 
     private Integer authCode;
 
+    @TimeToLive
     private Long ttl = 300L;
 
     @Builder

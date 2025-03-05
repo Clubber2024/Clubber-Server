@@ -15,7 +15,6 @@ public class AdminSignupAuth {
 	@Id
 	private String email;
 
-	@Indexed
 	private Integer authCode;
 
 	@TimeToLive
