@@ -1,18 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminVerifyEmailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
@@ -145,5 +133,12 @@ public class AdminController {
 	public CreateAdminSignUpResponse createAdminSignUp(
 		@Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
 		return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
+	}
+
+	@DisableSwaggerSecurity
+	@Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
+	@GetMapping("/find-password/verify")
+	public void getAdminPasswordFindValidate(GetAdimPasswordFindValidateRequest getAdimPasswordFindValidateRequest){
+		adminAccountService.validateAdminPasswordFind(getAdimPasswordFindValidateRequest);
 	}
 }
