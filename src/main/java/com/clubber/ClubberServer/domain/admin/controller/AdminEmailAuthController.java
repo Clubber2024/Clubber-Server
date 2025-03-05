@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "[동아리 계정 이메일 인증 API]", description = "동아리 계정 이메일 인증 및 연관 API")
 public class AdminEmailAuthController {
 
-    private AdminEmailAuthFacade adminEmailAuthFacade;
-    private AdminEmailAuthService adminEmailAuthService;
+    private final AdminEmailAuthFacade adminEmailAuthFacade;
+    private final AdminEmailAuthService adminEmailAuthService;
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 회원가입시 인증번호 메일 전송")
