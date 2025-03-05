@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
@@ -56,10 +56,10 @@ public class AdminAuthServiceTest extends ServiceTest {
 		final Integer authCode = 123456;
 		AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.인증정보(email, authCode);
 		adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
-		CreateAdminPasswordFindVerifyRequest request = AdminFixture.인증정보_검증요청(email, authCode);
+		CreateAdminPasswordFindAuthVerifyRequest request = AdminFixture.인증정보_검증요청(email, authCode);
 
 		//when & then
-		Assertions.assertThatCode(() -> adminEmailAuthService.createAdminPasswordFindVerify(request))
+		Assertions.assertThatCode(() -> adminEmailAuthService.createAdminPasswordFindAuthVerify(request))
 				.doesNotThrowAnyException();
 
 		//teardown

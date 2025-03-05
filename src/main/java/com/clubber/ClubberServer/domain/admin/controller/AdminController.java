@@ -148,8 +148,8 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
     @PostMapping("/auth/find-password/verify")
-    public void getAdminPasswordFindValidate(
-            @Valid @RequestBody CreateAdminPasswordFindVerifyRequest createAdminPasswordFindVerifyRequest) {
-        adminEmailAuthService.createAdminPasswordFindVerify(createAdminPasswordFindVerifyRequest);
+    public void createAdminPasswordFindAuthVerify(
+            @Valid @RequestBody CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
+        adminEmailAuthService.createAdminPasswordFindAuthVerify(createAdminPasswordFindAuthVerifyRequest);
     }
 }
