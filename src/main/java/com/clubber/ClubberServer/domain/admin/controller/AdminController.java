@@ -112,16 +112,16 @@ public class AdminController {
 	}
 
 	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 계정 회원가입 시 인증 메일 전송")
-	@PostMapping("/email/send")
+	@Operation(summary = "동아리 계정 회원가입 시 인증번호 메일 전송")
+	@PostMapping("/auth/sign-up/send")
 	public CreateAdminAuthResponse createAdminMailAuth(
 		@Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
 		return adminEmailAuthFacade.createAdminMailAuth(createAdminMailAuthRequest);
 	}
 
 	@DisableSwaggerSecurity
-	@Operation(summary = "동아리 메일 인증")
-	@PostMapping("/sign-up/verify")
+	@Operation(summary = "동아리 계정 회원가입 시 메일 인증")
+	@PostMapping("/auth/sign-up/verify")
 	public void updateAdminInfo(
 		@Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
 		adminEmailAuthService.validateAdminEmailAuth(createAdminSignupAuthRequest);
@@ -129,7 +129,7 @@ public class AdminController {
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 회원가입 폼 작성")
-	@PostMapping("/sign-up")
+	@PostMapping("sign-up")
 	public CreateAdminSignUpResponse createAdminSignUp(
 		@Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
 		return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
@@ -137,7 +137,7 @@ public class AdminController {
 
 	@DisableSwaggerSecurity
 	@Operation(summary = "동아리 비밀번호 찾기 인증번호 검증")
-	@PostMapping("/find-password/verify")
+	@PostMapping("auth/find-password/verify")
 	public void getAdminPasswordFindValidate(CreateAdminPasswordFindValidateRequest createAdminPasswordFindValidateRequest){
 		adminEmailAuthService.validateAdminPasswordFind(createAdminPasswordFindValidateRequest);
 	}
