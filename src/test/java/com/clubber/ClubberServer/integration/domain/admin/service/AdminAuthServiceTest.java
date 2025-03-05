@@ -67,9 +67,6 @@ public class AdminAuthServiceTest extends ServiceTest {
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.createAdminPasswordFindAuthVerify(request))
                 .doesNotThrowAnyException();
-
-        //teardown
-        adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
     }
 
     @DisplayName("관리자 회원가입 인증번호 검증을 수행한다")
@@ -85,8 +82,5 @@ public class AdminAuthServiceTest extends ServiceTest {
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.createAdminSignupAuthVerify(request))
                 .doesNotThrowAnyException();
-
-        //teardown
-        adminSignupAuthRepository.delete(adminSignupAuth);
     }
 }

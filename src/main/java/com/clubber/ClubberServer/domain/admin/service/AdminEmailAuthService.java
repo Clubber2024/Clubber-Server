@@ -29,7 +29,7 @@ public class AdminEmailAuthService {
 		return adminSignupAuthRepository.save(adminSignupAuth);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public void createAdminSignupAuthVerify(
 		CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
 		final String email = createAdminVerifySignupAuthRequest.getEmail();
@@ -41,6 +41,7 @@ public class AdminEmailAuthService {
 		if (!adminSignupAuth.getAuthCode().equals(requestAuthCode)) {
 			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
+		adminSignupAuthRepository.delete(adminSignupAuth);
 	}
 
 	@Transactional
@@ -52,7 +53,7 @@ public class AdminEmailAuthService {
 		adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public void createAdminPasswordFindAuthVerify(CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
 		String email = createAdminPasswordFindAuthVerifyRequest.getEmail();
 		Integer requestAuthCode = createAdminPasswordFindAuthVerifyRequest.getAuthCode();
@@ -62,5 +63,6 @@ public class AdminEmailAuthService {
 		if (!adminPasswordFindAuth.getAuthCode().equals(requestAuthCode)) {
 			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
+		adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
 	}
 }
