@@ -62,14 +62,14 @@ public class AdminFixture {
 		);
 	}
 
-	public static AdminPasswordFindAuth 인증정보(String email, Integer authCode){
+	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String email, Integer authCode){
 		return AdminPasswordFindAuth.builder()
 				.email(email)
 				.authCode(authCode)
 				.build();
 	}
 
-	public static GetAdimPasswordFindValidateRequest 인증정보_검증요청(String email, Integer authCode){
-		return new GetAdimPasswordFindValidateRequest(email, authCode);
+	public static CreateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
+		return new CreateAdminPasswordFindAuthVerifyRequest(email, authCode);
 	}
 }
