@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
@@ -61,7 +61,7 @@ public class AdminAccountServiceTest extends ServiceTest {
     private PendingAdminInfoRepository pendingAdminInfoRepository;
 
     @Autowired
-    private AdminPasswordFindRepository adminPasswordFindRepository;
+    private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @DisplayName("관리자 회원 정보를 조회한다.")
     @WithMockCustomUser

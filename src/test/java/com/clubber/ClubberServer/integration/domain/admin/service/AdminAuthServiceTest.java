@@ -9,7 +9,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
@@ -29,7 +29,7 @@ public class AdminAuthServiceTest extends ServiceTest {
 	private AdminRepository adminRepository;
 
 	@Autowired
-	private AdminPasswordFindRepository adminPasswordFindRepository;
+	private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
 	@Autowired
 	private AdminEmailAuthService adminEmailAuthService;
@@ -55,7 +55,7 @@ public class AdminAuthServiceTest extends ServiceTest {
 		final String email = "test@gmail.com";
 		final Integer authCode = 123456;
 		AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.인증정보(email, authCode);
-		adminPasswordFindRepository.save(adminPasswordFindAuth);
+		adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
 		CreateAdminPasswordFindVerifyRequest request = AdminFixture.인증정보_검증요청(email, authCode);
 
 		//when & then
@@ -63,6 +63,6 @@ public class AdminAuthServiceTest extends ServiceTest {
 				.doesNotThrowAnyException();
 
 		//teardown
-		adminPasswordFindRepository.delete(adminPasswordFindAuth);
+		adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
 	}
 }

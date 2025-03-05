@@ -1,11 +1,9 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -26,7 +24,7 @@ public class AdminAccountService {
     private final PasswordEncoder passwordEncoder;
     private final SoftDeleteEventPublisher eventPublisher;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
-    private final AdminPasswordFindRepository adminPasswordFindRepository;
+    private final AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
