@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/admins/auths")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/admins/auths")
+@Tag(name = "[동아리 계정 이메일 인증 API]", description = "동아리 계정 이메일 인증 및 연관 API")
 public class AdminEmailAuthController {
 
     private AdminEmailAuthFacade adminEmailAuthFacade;
