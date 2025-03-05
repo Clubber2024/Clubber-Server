@@ -8,7 +8,6 @@ import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
-import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +37,7 @@ public class AdminEmailAuthFacade {
 			Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 			mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
-			adminEmailAuthService.saveAdminPasswordFind(email, authCode);
+			adminEmailAuthService.createAdminPasswordFind(email, authCode);
 		}
 	}
 }

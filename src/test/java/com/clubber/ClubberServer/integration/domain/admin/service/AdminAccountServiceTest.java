@@ -8,10 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdimPasswordFindValidateRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindRepository;
@@ -34,7 +32,6 @@ import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
