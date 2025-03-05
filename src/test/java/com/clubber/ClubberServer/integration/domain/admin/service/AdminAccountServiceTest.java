@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFind;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdimPasswordFindValidateRequest;
@@ -104,8 +104,8 @@ public class AdminAccountServiceTest extends ServiceTest {
         //given
         final String email = "test@gmail.com";
         final Integer authCode = 123456;
-        AdminPasswordFind adminPasswordFind = AdminFixture.인증정보(email, authCode);
-        adminPasswordFindRepository.save(adminPasswordFind);
+        AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.인증정보(email, authCode);
+        adminPasswordFindRepository.save(adminPasswordFindAuth);
         GetAdimPasswordFindValidateRequest request = AdminFixture.인증정보_검증요청(email, authCode);
 
         //when & then
@@ -113,7 +113,7 @@ public class AdminAccountServiceTest extends ServiceTest {
                 .doesNotThrowAnyException();
 
         //teardown
-        adminPasswordFindRepository.delete(adminPasswordFind);
+        adminPasswordFindRepository.delete(adminPasswordFindAuth);
     }
 
     @DisplayName("관리자 회원탈퇴를 수행한다")

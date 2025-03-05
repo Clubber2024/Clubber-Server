@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFind;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
@@ -72,21 +72,21 @@ public class AdminAccountService {
 
     @Transactional
     public void saveAdminPasswordFind(String email, Integer authCode) {
-        AdminPasswordFind adminPasswordFind = AdminPasswordFind.builder()
+        AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
                 .email(email)
                 .authCode(authCode)
                 .build();
-        adminPasswordFindRepository.save(adminPasswordFind);
+        adminPasswordFindRepository.save(adminPasswordFindAuth);
     }
 
     @Transactional(readOnly = true)
     public void validateAdminPasswordFind(GetAdimPasswordFindValidateRequest getAdimPasswordFindValidateRequest) {
         String email = getAdimPasswordFindValidateRequest.getEmail();
         Integer requestAuthCode = getAdimPasswordFindValidateRequest.getAuthCode();
-        AdminPasswordFind adminPasswordFind = adminPasswordFindRepository.findById(email)
+        AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindRepository.findById(email)
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
-        if (!adminPasswordFind.getAuthCode().equals(requestAuthCode)) {
+        if (!adminPasswordFindAuth.getAuthCode().equals(requestAuthCode)) {
             throw AdminInvalidAuthCodeException.EXCEPTION;
         }
     }

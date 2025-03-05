@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.integration.util.fixture;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFind;
+import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
@@ -62,8 +62,8 @@ public class AdminFixture {
 		);
 	}
 
-	public static AdminPasswordFind 인증정보(String email, Integer authCode){
-		return AdminPasswordFind.builder()
+	public static AdminPasswordFindAuth 인증정보(String email, Integer authCode){
+		return AdminPasswordFindAuth.builder()
 				.email(email)
 				.authCode(authCode)
 				.build();

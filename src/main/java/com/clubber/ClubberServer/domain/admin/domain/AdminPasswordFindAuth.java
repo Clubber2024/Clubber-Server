@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 @Getter
 @RedisHash(value = "adminPasswordFind")
-public class AdminPasswordFind {
+public class AdminPasswordFindAuth {
 
     @Id
     private String email;
@@ -17,7 +17,7 @@ public class AdminPasswordFind {
     private Long ttl = 300L;
 
     @Builder
-    public AdminPasswordFind(String email, Integer authCode) {
+    public AdminPasswordFindAuth(String email, Integer authCode) {
         this.email = email;
         this.authCode = authCode;
     }
