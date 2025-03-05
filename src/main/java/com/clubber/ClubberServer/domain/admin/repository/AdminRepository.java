@@ -13,4 +13,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	Optional<Admin> findAdminByIdAndAccountState(Long id, AccountState accountState);
 
 	Optional<Admin> findByEmailAndAccountState(String email, AccountState accountState);
+
+	boolean existsByEmailAndAccountState(String email, AccountState accountState);
 }
