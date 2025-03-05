@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
-@RedisHash(value = "adminEmailAuth")
+@RedisHash(value = "adminSignupAuth")
 public class AdminSignupAuth {
 
 	@Id
