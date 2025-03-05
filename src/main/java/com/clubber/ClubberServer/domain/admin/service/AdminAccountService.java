@@ -3,7 +3,6 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -24,7 +23,6 @@ public class AdminAccountService {
     private final PasswordEncoder passwordEncoder;
     private final SoftDeleteEventPublisher eventPublisher;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
-    private final AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
@@ -49,16 +47,6 @@ public class AdminAccountService {
         eventPublisher.throwSoftDeleteEvent(admin.getId());
     }
 
-    public Admin updateAdminAccountWithAuthCode(String email, String username, String authCode) {
-        String encodedPassword = passwordEncoder.encode(authCode);
-
-        Admin admin = adminReadService.getAdminByEmail(email);
-        admin.updatePassword(encodedPassword);
-        admin.updateUsername(username);
-        return admin;
-    }
-
-    @Transactional
     public CreateAdminSignUpResponse createAdminSignUp(
             CreateAdminSignUpRequest createAdminSignUpRequest) {
         String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
