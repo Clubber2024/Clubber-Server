@@ -25,14 +25,8 @@ public class AdminValidator {
 		}
 	}
 
-	public void validateAuthCode(String requestAuthCode, String storedAuthCode) {
+	public void validateAuthCode(Integer requestAuthCode, Integer storedAuthCode) {
 		if (!requestAuthCode.equals(storedAuthCode)) {
-			throw AdminInvalidAuthCodeException.EXCEPTION;
-		}
-	}
-
-	public void validateEmail(String requestEmail, String storedEmail) {
-		if(!requestEmail.equals(storedEmail)) {
 			throw AdminInvalidAuthCodeException.EXCEPTION;
 		}
 	}

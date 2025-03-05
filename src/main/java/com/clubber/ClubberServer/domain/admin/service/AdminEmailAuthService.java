@@ -37,10 +37,7 @@ public class AdminEmailAuthService {
 
 		AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(email)
 			.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
-
-		if (!adminSignupAuth.getAuthCode().equals(requestAuthCode)) {
-			throw AdminInvalidAuthCodeException.EXCEPTION;
-		}
+		adminValidator.validateAuthCode(requestAuthCode, adminSignupAuth.getAuthCode());
 		adminSignupAuthRepository.delete(adminSignupAuth);
 	}
 
@@ -60,9 +57,7 @@ public class AdminEmailAuthService {
 		AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindAuthRepository.findById(email)
 				.orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
-		if (!adminPasswordFindAuth.getAuthCode().equals(requestAuthCode)) {
-			throw AdminInvalidAuthCodeException.EXCEPTION;
-		}
+		adminValidator.validateAuthCode(requestAuthCode, adminPasswordFindAuth.getAuthCode());
 		adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
 	}
 }
