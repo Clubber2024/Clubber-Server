@@ -1,18 +1,10 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
@@ -28,14 +20,19 @@ import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class AdminAccountServiceTest extends ServiceTest {
 
@@ -60,8 +57,6 @@ public class AdminAccountServiceTest extends ServiceTest {
     @Autowired
     private PendingAdminInfoRepository pendingAdminInfoRepository;
 
-    @Autowired
-    private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @DisplayName("관리자 회원 정보를 조회한다.")
     @WithMockCustomUser
