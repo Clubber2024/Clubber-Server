@@ -63,7 +63,7 @@ public class AdminController {
                 .body(createAdminsLoginResponse);
     }
 
-    @Operation(summary = "메인페이지 동아리 정보")
+    @Operation(summary = "메인페이지 동아리 계정 정보")
     @GetMapping("/me")
     public GetAdminsProfileResponse getAdminsProfile() {
         return adminAccountService.getAdminsProfile();
