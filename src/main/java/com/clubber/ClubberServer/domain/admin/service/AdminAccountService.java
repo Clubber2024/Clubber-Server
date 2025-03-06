@@ -33,10 +33,11 @@ public class AdminAccountService {
     public UpdateAdminsPasswordResponse updateAdminsPassword(
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Admin admin = adminReadService.getCurrentAdmin();
-        adminValidator.validatePassword(updateAdminsPasswordRequest.getOldPassword(), admin.getPassword());
+        String storedEncodedPassword = admin.getPassword();
+        adminValidator.validatePassword(updateAdminsPasswordRequest.getOldPassword(), storedEncodedPassword);
 
         String newPassword = updateAdminsPasswordRequest.getNewPassword();
-        adminValidator.validateEqualsWithExistPassword(newPassword, admin.getPassword());
+        adminValidator.validateEqualsWithExistPassword(newPassword, storedEncodedPassword);
 
         admin.updatePassword(passwordEncoder.encode(newPassword));
         return UpdateAdminsPasswordResponse.of(admin);
