@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
@@ -92,6 +93,20 @@ public class AdminAccountServiceTest extends ServiceTest {
                 () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getNewPassword(),
                         updatedPasswordAdmin.get().getPassword()))
         );
+    }
+
+    @Test
+    @WithMockCustomUser
+    @DisplayName("변경하려는 비밀번호가 기존 비빌번호와 같을 시 예외가 발생한다.")
+    public void updateAdminWithSameWithPreviousPasswordTest() {
+        //given
+        String oldpassword = "비밀번호 1";
+        String newPassword = "비밀번호 1";
+        UpdateAdminsPasswordRequest request = AdminFixture.관리자_비밀번호_변경_요청(oldpassword, newPassword);
+
+        //when & Then
+        assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
+                .isInstanceOf(AdminEqualsPreviousPasswordExcpetion.class);
     }
 
     @Test
