@@ -33,7 +33,7 @@ public class AdminAccountService {
     public UpdateAdminsPasswordResponse updateAdminsPassword(
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Admin admin = adminReadService.getCurrentAdmin();
-
+        adminValidator.validatePassword(updateAdminsPasswordRequest.getOldPassword(), admin.getPassword());
         String rawPassword = updateAdminsPasswordRequest.getNewPassword();
         adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
 
