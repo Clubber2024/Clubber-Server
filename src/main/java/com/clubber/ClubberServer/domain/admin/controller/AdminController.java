@@ -70,7 +70,7 @@ public class AdminController {
     }
 
     @Operation(summary = "동아리 계정 비밀번호 수정")
-    @PatchMapping("/me")
+    @PatchMapping("/me/password")
     public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
                                                              UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
