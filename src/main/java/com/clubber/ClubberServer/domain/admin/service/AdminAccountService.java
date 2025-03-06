@@ -34,10 +34,11 @@ public class AdminAccountService {
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Admin admin = adminReadService.getCurrentAdmin();
         adminValidator.validatePassword(updateAdminsPasswordRequest.getOldPassword(), admin.getPassword());
-        String rawPassword = updateAdminsPasswordRequest.getNewPassword();
-        adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
 
-        admin.updatePassword(passwordEncoder.encode(rawPassword));
+        String newPassword = updateAdminsPasswordRequest.getNewPassword();
+        adminValidator.validateEqualsWithExistPassword(newPassword, admin.getPassword());
+
+        admin.updatePassword(passwordEncoder.encode(newPassword));
         return UpdateAdminsPasswordResponse.of(admin);
     }
 
