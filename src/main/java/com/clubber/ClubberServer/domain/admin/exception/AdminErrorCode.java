@@ -16,6 +16,7 @@ public enum AdminErrorCode implements BaseErrorCode {
 
     ADMIN_LOGIN_FAILED(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_1", "아이디 또는 비밀번호를 확인해주세요"),
     ADMIN_INVALID_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_2", "인증번호가 올바르지 않습니다."),
+    ADMIN_INVALID_CURRENT_PASSWORD(HttpStatus.BAD_REQUEST.value(), "ADMIN_401_3", "현재 비밀번호를 확인해주세요."),
     ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "ADMIN_404_1", "해당 관리자를 찾을 수 없습니다");
 
 
