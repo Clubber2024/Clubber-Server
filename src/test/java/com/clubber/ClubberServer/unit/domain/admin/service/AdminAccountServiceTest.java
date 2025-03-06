@@ -65,7 +65,7 @@ public class AdminAccountServiceTest {
 		UpdateAdminsPasswordRequest updatePasswordRequest = AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
 		doNothing().when(adminValidator).validateEqualsWithExistPassword(anyString(), anyString());
-		when(passwordEncoder.encode(updatePasswordRequest.getPassword())).thenReturn(
+		when(passwordEncoder.encode(updatePasswordRequest.getNewPassword())).thenReturn(
 			"newPassword");
 
 		//when

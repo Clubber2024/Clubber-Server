@@ -85,7 +85,7 @@ public class AdminAccountServiceTest extends ServiceTest {
 
         assertAll(
                 () -> assertThat(updatedPasswordAdmin).isNotNull(),
-                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getPassword(),
+                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getNewPassword(),
                         updatedPasswordAdmin.get().getPassword()))
         );
     }
