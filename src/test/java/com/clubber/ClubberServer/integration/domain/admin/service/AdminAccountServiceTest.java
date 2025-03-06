@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
@@ -120,7 +121,7 @@ public class AdminAccountServiceTest extends ServiceTest {
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
-                .isInstanceOf(AdminLoginFailedException.class);
+                .isInstanceOf(AdminInvalidCurrentPasswordException.class);
     }
 
     @DisplayName("관리자 회원탈퇴를 수행한다")
