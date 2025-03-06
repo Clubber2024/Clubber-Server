@@ -4,7 +4,11 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
@@ -20,6 +24,7 @@ import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,7 @@ import java.util.Optional;
 import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -85,9 +91,37 @@ public class AdminAccountServiceTest extends ServiceTest {
 
         assertAll(
                 () -> assertThat(updatedPasswordAdmin).isNotNull(),
-                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getPassword(),
+                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getNewPassword(),
                         updatedPasswordAdmin.get().getPassword()))
         );
+    }
+
+    @Test
+    @WithMockCustomUser
+    @DisplayName("변경하려는 비밀번호가 기존 비빌번호와 같을 시 예외가 발생한다.")
+    public void updateAdminWithSameWithPreviousPasswordTest() {
+        //given
+        String oldpassword = "비밀번호 1";
+        String newPassword = "비밀번호 1";
+        UpdateAdminsPasswordRequest request = AdminFixture.관리자_비밀번호_변경_요청(oldpassword, newPassword);
+
+        //when & Then
+        assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
+                .isInstanceOf(AdminEqualsPreviousPasswordExcpetion.class);
+    }
+
+    @Test
+    @WithMockCustomUser
+    @DisplayName("기존 비밀번호가 잘못되었을 경우 비빌번호 변경시 예외가 발생한다.")
+    public void updateAdminWithInvalidOldPassword() {
+        //given
+        String invalidOldPassword = "invalidOldPassword";
+        String newPassword = "newPassword";
+        UpdateAdminsPasswordRequest request = AdminFixture.관리자_비밀번호_변경_요청(invalidOldPassword, newPassword);
+
+        //when & Then
+        assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
+                .isInstanceOf(AdminInvalidCurrentPasswordException.class);
     }
 
     @DisplayName("관리자 회원탈퇴를 수행한다")

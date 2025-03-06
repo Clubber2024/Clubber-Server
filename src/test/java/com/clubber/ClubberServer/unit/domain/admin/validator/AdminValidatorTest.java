@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,27 +27,27 @@ public class AdminValidatorTest {
 
     @Test
     @DisplayName("비밀번호가 같을 시 예외가 발생하지 않는다.")
-    public void validatePasswordSuccessTest() {
+    public void validatePasswordInLoginSuccessTest() {
         //given
         String password = "password";
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
 
         //when & Then
-        assertThatCode(() -> adminValidator.validatePassword(password, encodedPassword))
+        assertThatCode(() -> adminValidator.validatePasswordInLogin(password, encodedPassword))
                 .doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("비밀번호 다를 시 예외가 발생한다.")
-    public void validatePasswordFailTest() {
+    public void validatePasswordInLoginFailTest() {
         //given
         String password = "password";
         String encodedPassword = "encodedPassword";
         when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
 
         //when & then
-        assertThatThrownBy(() -> adminValidator.validatePassword(password, encodedPassword))
+        assertThatThrownBy(() -> adminValidator.validatePasswordInLogin(password, encodedPassword))
                 .isInstanceOf(AdminLoginFailedException.class);
     }
 

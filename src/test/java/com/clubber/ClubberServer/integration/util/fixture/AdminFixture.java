@@ -1,18 +1,18 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
-
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
+
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 public class AdminFixture {
 
 	public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
 		"동아리 1", "비밀번호 1");
 
-	public static final UpdateAdminsPasswordRequest VALID_UPDATE_PASSWORD_REQUEST = new UpdateAdminsPasswordRequest(
+	public static final UpdateAdminsPasswordRequest VALID_UPDATE_PASSWORD_REQUEST = new UpdateAdminsPasswordRequest("기존비밀번호",
 		"수정비밀번호");
 
 	public static final UpdateClubPageRequest VALID_UPDATE_CLUB_PAGE_REQUEST =
@@ -76,5 +76,9 @@ public class AdminFixture {
 
 	public static CreateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
 		return new CreateAdminPasswordFindAuthVerifyRequest(email, authCode);
+	}
+
+	public static UpdateAdminsPasswordRequest 관리자_비밀번호_변경_요청(String oldPassword, String newPassword){
+		return new UpdateAdminsPasswordRequest(oldPassword, newPassword);
 	}
 }

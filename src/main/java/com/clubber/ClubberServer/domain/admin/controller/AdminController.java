@@ -63,14 +63,14 @@ public class AdminController {
                 .body(createAdminsLoginResponse);
     }
 
-    @Operation(summary = "메인페이지 동아리 정보")
+    @Operation(summary = "메인페이지 동아리 계정 정보")
     @GetMapping("/me")
     public GetAdminsProfileResponse getAdminsProfile() {
         return adminAccountService.getAdminsProfile();
     }
 
     @Operation(summary = "동아리 계정 비밀번호 수정")
-    @PatchMapping("/me")
+    @PatchMapping("/me/password")
     public UpdateAdminsPasswordResponse updateAdminsPassword(@RequestBody @Valid
                                                              UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
