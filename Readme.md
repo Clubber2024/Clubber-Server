@@ -25,10 +25,13 @@
 
 ## 개발 과정
 
+### Backend
 - [Java Enum을 활용한 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
 - [Java Enum을 활용한 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
 - [Java Enum을 활용한 프로젝트 개선기 (3)](https://minjun98.tistory.com/134)
 - [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
+
+### Infa
 - [커스텀 nginx 이미지를 통해 DDoS공격 막기](https://velog.io/@sseongeun/ddos%EA%B3%B5%EA%B2%A9%EB%A7%89%EA%B8%B0)
 
 ## 참여자
