@@ -15,6 +15,7 @@ public record GetAdminsProfileResponse(
         return GetAdminsProfileResponse.builder()
                 .username(admin.getUsername())
                 .email(admin.getEmail())
+                .contact(admin.getContact())
                 .build();
     }
 }
