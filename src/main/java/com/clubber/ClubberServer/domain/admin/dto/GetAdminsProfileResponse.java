@@ -1,15 +1,20 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import lombok.AccessLevel;
 import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record GetAdminsProfileResponse(String clubName) {
+public record GetAdminsProfileResponse(
+        String username,
+        String email,
+        Contact contact) {
 
     public static GetAdminsProfileResponse from(Admin admin) {
         return GetAdminsProfileResponse.builder()
-                .clubName(admin.getClub().getName())
+                .username(admin.getUsername())
+                .email(admin.getEmail())
                 .build();
     }
 }
