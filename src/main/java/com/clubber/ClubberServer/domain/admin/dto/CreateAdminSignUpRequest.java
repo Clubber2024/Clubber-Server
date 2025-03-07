@@ -25,7 +25,7 @@ public class CreateAdminSignUpRequest {
 	@NotBlank(message = "비밀번호를 입력하세요")
 	private String password;
 
-	@Schema(description = "동아리 종류", example = "CENTER, SMALL, OFFICIAL, GENERAL")
+	@Schema(description = "동아리 종류", example = "CENTER")
 	@Enum(target = ClubType.class, message = "동아리 종류 입력값을 확인하세요")
 	private ClubType clubType; 
 
