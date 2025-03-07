@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import jakarta.validation.constraints.Email;
@@ -29,7 +30,7 @@ public class CreateAdminSignUpRequest {
 	private String email;
 
 	@NotBlank(message = "승인 결과를 전달을 위한 동아리 Contact 채널을 입력하세요")
-	private String contact;
+	private Contact contact;
 
 	private String imageForApproval;
 
