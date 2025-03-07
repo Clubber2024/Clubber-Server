@@ -33,7 +33,7 @@
 
 ### Infa
 - [커스텀 nginx 이미지를 통해 DDoS공격 막기](https://velog.io/@sseongeun/ddos%EA%B3%B5%EA%B2%A9%EB%A7%89%EA%B8%B0)
-
+- [운영을 위한 초기 인프라 구축 과정](https://minjun98.tistory.com/133)
 ## 참여자
 
 <table align="center">
