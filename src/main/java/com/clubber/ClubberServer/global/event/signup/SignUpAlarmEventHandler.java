@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.global.event.signup;
 
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.global.infrastructure.outer.discord.client.DiscordClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.DiscordMessage;
 import com.clubber.ClubberServer.global.infrastructure.outer.discord.message.DiscordMessageFactory;
@@ -25,7 +26,7 @@ public class SignUpAlarmEventHandler {
 		discordClient.sendAlarm(channelId, discordMessage);
 	}
 
-	private String getDescription(String clubName, String contact) {
+	private String getDescription(String clubName, Contact contact) {
 		return "[동아리명] : " + clubName + "\n" + "[동아리 연락처] : " + contact;
 	}
 }

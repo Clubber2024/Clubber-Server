@@ -5,15 +5,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -47,28 +39,28 @@ public class Admin extends BaseEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private AccountRole accountRole = AccountRole.ADMIN;
 
+    @Embedded
+    private Contact contact;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
     @Builder
     public Admin(Long id, String username, String password, String email, AccountState accountState,
-        AccountRole accountRole, Club club) {
+        AccountRole accountRole, Contact contact, Club club) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.accountState = accountState;
         this.accountRole = accountRole;
+        this.contact = contact;
         this.club = club;
     }
 
     public void updatePassword(String password){
         this.password = password;
-    }
-
-    public void updateUsername(String username){
-        this.username = username;
     }
 
     public void withDraw() {
