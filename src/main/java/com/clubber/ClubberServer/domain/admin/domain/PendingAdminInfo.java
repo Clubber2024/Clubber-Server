@@ -2,12 +2,7 @@ package com.clubber.ClubberServer.domain.admin.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,46 +16,43 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PendingAdminInfo extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@NotNull
-	private String username;
+    @NotNull
+    private String username;
 
-	@NotNull
-	private String password;
+    @NotNull
+    private String password;
 
-	@NotNull
-	@JdbcTypeCode(SqlTypes.VARCHAR)
-	@Enumerated(EnumType.STRING)
-	private ClubType clubType;
+    @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    private ClubType clubType;
 
-	@NotNull
-	private String clubName;
+    @NotNull
+    private String clubName;
 
-	@NotNull
-	private String email;
+    @NotNull
+    private String email;
 
-	@NotNull
-	private String contact;
+    @Embedded
+    private Contact contact;
 
-	private String imageForApproval;
+    private String imageForApproval;
 
-	private boolean isApproved = false;
+    private boolean isApproved = false;
 
-	@Builder
-	public PendingAdminInfo(Long id, String username, String password, String clubName,
-		ClubType clubType,
-		String email,
-		String contact, String imageForApproval) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.clubType = clubType;
-		this.clubName = clubName;
-		this.email = email;
-		this.contact = contact;
-		this.imageForApproval = imageForApproval;
-	}
+    @Builder
+    public PendingAdminInfo(Long id, String username, String password, String clubName, ClubType clubType, String email, Contact contact, String imageForApproval) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.clubType = clubType;
+        this.clubName = clubName;
+        this.email = email;
+        this.contact = contact;
+        this.imageForApproval = imageForApproval;
+    }
 }
