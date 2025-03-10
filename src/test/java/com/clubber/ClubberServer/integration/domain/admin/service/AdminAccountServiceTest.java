@@ -1,11 +1,9 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
@@ -212,5 +210,31 @@ public class AdminAccountServiceTest extends ServiceTest {
                         ),
                 () -> assertThat(pendingAdminInfo.isApproved()).isFalse()
         );
+    }
+
+    @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
+    @Test
+    void getAdminNewUsernameCheckDuplicate(){
+        //given
+        String username = "new username";
+
+        //when
+        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(username);
+
+        //then
+        assertThat(response.isAvailable()).isEqualTo(true);
+    }
+
+    @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
+    @Test
+    void getAdminExistUsernameCheckDuplicate(){
+        //given
+        String username = "동아리 1";
+
+        //when
+        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(username);
+
+        //then
+        assertThat(response.isAvailable()).isEqualTo(false);
     }
 }
