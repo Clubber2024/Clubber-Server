@@ -3,8 +3,10 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminAccountService {
 
     private final AdminReadService adminReadService;
+    private final AdminRepository adminRepository;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminValidator adminValidator;
     private final PasswordEncoder passwordEncoder;
@@ -56,5 +59,11 @@ public class AdminAccountService {
         pendingAdminInfoRepository.save(pendingAdminInfo);
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
+    }
+
+    @Transactional(readOnly = true)
+    public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username){
+        boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
+        return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
     }
 }
