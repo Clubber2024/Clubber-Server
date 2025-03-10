@@ -105,4 +105,11 @@ public class AdminController {
             @Valid @RequestBody CreateAdminSignUpRequest createAdminSignUpRequest) {
         return adminAccountService.createAdminSignUp(createAdminSignUpRequest);
     }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "동아리 회원가입 시 로그인 중복 확인")
+    @GetMapping("/username-duplicate")
+    public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(@RequestParam String username){
+        return adminAccountService.getAdminUsernameCheckDuplicate(username);
+    }
 }
