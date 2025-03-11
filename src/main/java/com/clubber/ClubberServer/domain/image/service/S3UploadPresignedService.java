@@ -69,6 +69,14 @@ public class S3UploadPresignedService {
 			.collect(Collectors.toList());
 	}
 
+	public CreateImagePresignedUrlResponse createAdminSignupVerifyImagePresignedUrl(String username, ImageFileExtension imageFileExtension){
+		String fixedFileExtension = imageFileExtension.getUploadExtension();
+		String fileName = getForAdminSignupVerifyFileName(username, fixedFileExtension);
+		URL url = amazonS3.generatePresignedUrl(
+				getGeneratePresignedUrlRequest(bucket, fileName, fixedFileExtension));
+		return CreateImagePresignedUrlResponse.of(url.toString(), fileName);
+	}
+
 	private CreateImagePresignedUrlResponse createRecruitImagePresignedUrlResponse(
 		ImageFileExtension fileExtension, Long clubId, UUID recruitFolder) {
 		String fixedFiledExtension = fileExtension.getUploadExtension();
@@ -120,5 +128,15 @@ public class S3UploadPresignedService {
 			UUID.randomUUID() +
 			"." +
 			fileExtension;
+	}
+
+	private String getForAdminSignupVerifyFileName(String username, String fileExtension){
+		return baseUrl +
+				"/admin/pending/" +
+				username+
+				"/" +
+				UUID.randomUUID() +
+				"." +
+				fileExtension;
 	}
 }
