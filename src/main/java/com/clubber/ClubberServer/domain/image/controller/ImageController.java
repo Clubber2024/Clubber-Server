@@ -32,4 +32,10 @@ public class ImageController {
     public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(@RequestBody CreateRecruitsImagePresigneUrlRequest request) {
         return s3UploadPresignedService.createRecruitsImagePresignedUrl(request);
     }
+
+    @Operation(summary = "동아리 관리자 회원가입시 증빙 이미지 등록 Presigned URL 생성")
+    @PostMapping("/admin/sign-up/verify")
+    public CreateImagePresignedUrlResponse createAdminSignUpVerifyImagePresignedUrl(@RequestParam String username, @RequestParam ImageFileExtension imageFileExtension){
+        return s3UploadPresignedService.createAdminSignupVerifyImagePresignedUrl(username, imageFileExtension);
+    }
 }
