@@ -21,6 +21,7 @@ public class AdminAccountService {
 
     private final AdminReadService adminReadService;
     private final AdminRepository adminRepository;
+    private final AdminEmailAuthService adminEmailAuthService;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminValidator adminValidator;
     private final PasswordEncoder passwordEncoder;
@@ -69,6 +70,7 @@ public class AdminAccountService {
 
     @Transactional(readOnly = true)
     public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
+        adminEmailAuthService.validateAdminUsernameFindAuth(request.getClubId(), request.getAuthCode());
         Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), request.getClubId());
         return new GetAdminUsernameFindResponse(admin.getUsername());
     }

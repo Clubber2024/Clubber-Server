@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -17,11 +18,17 @@ public class AdminUsernameFindAuth {
     @TimeToLive
     private Long ttl = 300L;
 
-    private boolean isVerified = false; 
+    private boolean isVerified = false;
 
     @Builder
     public AdminUsernameFindAuth(Long clubId, Integer authCode) {
         this.clubId = clubId;
         this.authCode = authCode;
+    }
+
+    public void checkIsVerified() {
+        if (!isVerified) {
+            throw AdminInvalidAuthCodeException.EXCEPTION;
+        }
     }
 }
