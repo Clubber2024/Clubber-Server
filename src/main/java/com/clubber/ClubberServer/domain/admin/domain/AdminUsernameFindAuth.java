@@ -31,4 +31,9 @@ public class AdminUsernameFindAuth {
             throw AdminInvalidAuthCodeException.EXCEPTION;
         }
     }
+
+    public AdminUsernameFindAuth verify() {
+        this.isVerified = true;
+        return this;
+    }
 }
