@@ -16,7 +16,7 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubPopularResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
-import com.clubber.ClubberServer.domain.club.dto.GetClubsFindResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchForSignUpResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubResponse;
@@ -204,11 +204,11 @@ public class ClubService {
 
     // [회원가입] 동아리명 검색
     @Transactional(readOnly = true)
-    public List<GetClubsFindResponse> searchForSignUp(String clubName) {
+    public List<GetClubsSearchForSignUpResponse> searchForSignUp(String clubName) {
         List<Club> clubs = clubRepository.findByNameSorted(clubName.toUpperCase());
 
         return clubs.stream()
-            .map(GetClubsFindResponse::from)
+            .map(GetClubsSearchForSignUpResponse::from)
             .collect(Collectors.toList());
     }
 

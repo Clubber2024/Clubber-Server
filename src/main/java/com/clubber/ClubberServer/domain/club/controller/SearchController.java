@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.club.controller;
 
 import com.clubber.ClubberServer.domain.club.domain.Hashtag;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsByHashTagResponse;
-import com.clubber.ClubberServer.domain.club.dto.GetClubsFindResponse;
+import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchForSignUpResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -47,7 +47,7 @@ public class SearchController {
     @DisableSwaggerSecurity
     @Operation(summary = "회원가입시 동아리명 검색")
     @GetMapping(value = "/search-for-signup", params = "clubName")
-    public List<GetClubsFindResponse> searchForSignUpByClubName(
+    public List<GetClubsSearchForSignUpResponse> searchForSignUpByClubName(
         @RequestParam(name = "clubName", required = false) String clubName) {
         return clubService.searchForSignUp(clubName);
     }
