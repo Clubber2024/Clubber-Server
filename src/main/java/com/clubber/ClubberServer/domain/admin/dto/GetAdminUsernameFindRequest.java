@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class GetAdminUsernameFindRequest {
     private Long clubId;
     private String email;
-    private String authCode;
+    private Integer authCode;
 }
