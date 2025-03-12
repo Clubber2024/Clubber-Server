@@ -56,9 +56,9 @@ public class AdminEmailAuthController {
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 메일 전송")
     @PostMapping("/find-password/send")
     public void createAdminPasswordFindVerify(
-            @Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest
+            @Valid @RequestBody CreateAdminPasswordFindRequest createAdminPasswordFindAuthVerifyRequest
     ) {
-        adminEmailAuthFacade.passwordFindAdminAuth(createAdminSignupAuthRequest);
+        adminEmailAuthFacade.passwordFindAdminAuth(createAdminPasswordFindAuthVerifyRequest);
     }
 
     @DisableSwaggerSecurity

@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.facade;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminUsernameFindAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -43,10 +44,11 @@ public class AdminEmailAuthFacade {
         }
     }
 
-    public void passwordFindAdminAuth(CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
-        final String email = createAdminSignupAuthRequest.getEmail();
+    public void passwordFindAdminAuth(CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
+        String username = createAdminPasswordFindRequest.getUsername();
+        String email = createAdminPasswordFindRequest.getEmail();
 
-        if (adminRepository.existsByEmailAndAccountState(email, ACTIVE)) {
+        if (adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
             mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
