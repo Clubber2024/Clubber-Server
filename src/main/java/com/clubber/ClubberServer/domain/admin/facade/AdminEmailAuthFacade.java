@@ -44,7 +44,7 @@ public class AdminEmailAuthFacade {
         }
     }
 
-    public void passwordFindAdminAuth(CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
+    public void createAdminPasswordFind(CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
         String username = createAdminPasswordFindRequest.getUsername();
         String email = createAdminPasswordFindRequest.getEmail();
 
