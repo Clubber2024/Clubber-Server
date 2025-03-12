@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -72,6 +73,7 @@ public class AdminAccountService {
     public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
         adminEmailAuthService.validateAdminUsernameFindAuth(request.getClubId(), request.getAuthCode());
         Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), request.getClubId());
-        return new GetAdminUsernameFindResponse(admin.getUsername());
+        String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
+        return new GetAdminUsernameFindResponse(maskedUsername);
     }
 }
