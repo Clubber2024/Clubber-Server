@@ -26,8 +26,8 @@ public class AdminEmailAuthController {
     @Operation(summary = "동아리 계정 회원가입시 인증번호 메일 전송")
     @PostMapping("/sign-up/send")
     public CreateAdminAuthResponse createAdminSignupAuth(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-        return adminEmailAuthFacade.signupAdminAuth(createAdminMailAuthRequest);
+            @Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+        return adminEmailAuthFacade.signupAdminAuth(createAdminSignupAuthRequest);
     }
 
     @DisableSwaggerSecurity
@@ -56,9 +56,9 @@ public class AdminEmailAuthController {
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 메일 전송")
     @PostMapping("/find-password/send")
     public void createAdminPasswordFindVerify(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest
+            @Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest
     ) {
-        adminEmailAuthFacade.passwordFindAdminAuth(createAdminMailAuthRequest);
+        adminEmailAuthFacade.passwordFindAdminAuth(createAdminSignupAuthRequest);
     }
 
     @DisableSwaggerSecurity

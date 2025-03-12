@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.admin.facade;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminFindMailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
@@ -22,8 +22,8 @@ public class AdminEmailAuthFacade {
     private final MailService mailService;
 
     public CreateAdminAuthResponse signupAdminAuth(
-            CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-        final String email = createAdminMailAuthRequest.getEmail();
+            CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+        final String email = createAdminSignupAuthRequest.getEmail();
         Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
 
         mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
@@ -43,8 +43,8 @@ public class AdminEmailAuthFacade {
         }
     }
 
-    public void passwordFindAdminAuth(CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-        final String email = createAdminMailAuthRequest.getEmail();
+    public void passwordFindAdminAuth(CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+        final String email = createAdminSignupAuthRequest.getEmail();
 
         if (adminRepository.existsByEmailAndAccountState(email, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
