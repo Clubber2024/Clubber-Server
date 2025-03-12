@@ -38,4 +38,9 @@ public class AdminReadService {
 		return adminRepository.findAdminByIdAndAccountState(id, ACTIVE)
 			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
+
+	public Admin getAdminByEmailAndClubId(String email, Long clubId) {
+		return adminRepository.findByEmailAndClubIdAndAccountState(email, clubId, ACTIVE)
+				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+	}
 }

@@ -66,4 +66,10 @@ public class AdminAccountService {
         boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
         return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
     }
+
+    @Transactional(readOnly = true)
+    public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
+        Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), request.getClubId());
+        return new GetAdminUsernameFindResponse(admin.getUsername());
+    }
 }
