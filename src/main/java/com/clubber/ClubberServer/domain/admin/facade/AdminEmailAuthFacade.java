@@ -52,7 +52,7 @@ public class AdminEmailAuthFacade {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
             mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
-            adminEmailAuthService.createAdminPasswordFindAuth(email, authCode);
+            adminEmailAuthService.createAdminPasswordFindAuth(username, authCode);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
@@ -54,23 +54,25 @@ public class AdminEmailAuthService {
     }
 
     @Transactional
-    public void createAdminPasswordFindAuth(String email, Integer authCode) {
+    public void createAdminPasswordFindAuth(String username, Integer authCode) {
         AdminPasswordFindAuth adminPasswordFindAuth = AdminPasswordFindAuth.builder()
-                .email(email)
+                .username(username)
                 .authCode(authCode)
                 .build();
         adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
     }
 
     @Transactional
-    public void createAdminPasswordFindAuthVerify(CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
-        String email = createAdminPasswordFindAuthVerifyRequest.getEmail();
-        Integer requestAuthCode = createAdminPasswordFindAuthVerifyRequest.getAuthCode();
-        AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindAuthRepository.findById(email)
+    public void updateAdminPasswordFindAuthVerify(UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
+        String username = updateAdminPasswordFindAuthVerifyRequest.getUsername();
+        Integer requestAuthCode = updateAdminPasswordFindAuthVerifyRequest.getAuthCode();
+
+        AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindAuthRepository.findById(username)
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 
         adminValidator.validateAuthCode(requestAuthCode, adminPasswordFindAuth.getAuthCode());
-        adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
+        adminPasswordFindAuth.verify();
+        adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
     }
 
     public void updateVerifyAdminUsernameFindAuth(Long clubId, Integer authCode) {

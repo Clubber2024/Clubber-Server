@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
@@ -32,10 +32,10 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
         final Integer authCode = 123456;
         AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.비밀번호_찾기_인증(email, authCode);
         adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
-        CreateAdminPasswordFindAuthVerifyRequest request = AdminFixture.비밀번호찾기_인증번호_검증요청(email, authCode);
+        UpdateAdminPasswordFindAuthVerifyRequest request = AdminFixture.비밀번호찾기_인증번호_검증요청(email, authCode);
 
         //when & then
-        Assertions.assertThatCode(() -> adminEmailAuthService.createAdminPasswordFindAuthVerify(request))
+        Assertions.assertThatCode(() -> adminEmailAuthService.updateAdminPasswordFindAuthVerify(request))
                 .doesNotThrowAnyException();
     }
 

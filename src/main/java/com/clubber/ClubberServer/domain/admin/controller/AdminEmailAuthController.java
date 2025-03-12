@@ -65,7 +65,7 @@ public class AdminEmailAuthController {
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 검증")
     @PostMapping("/find-password/verify")
     public void createAdminPasswordFindAuthVerify(
-            @Valid @RequestBody CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
-        adminEmailAuthService.createAdminPasswordFindAuthVerify(createAdminPasswordFindAuthVerifyRequest);
+            @Valid @RequestBody UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
+        adminEmailAuthService.updateAdminPasswordFindAuthVerify(updateAdminPasswordFindAuthVerifyRequest);
     }
 }

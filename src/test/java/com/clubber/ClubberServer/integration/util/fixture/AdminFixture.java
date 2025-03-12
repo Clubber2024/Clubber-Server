@@ -74,8 +74,8 @@ public class AdminFixture {
 				.build();
 	}
 
-	public static CreateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
-		return new CreateAdminPasswordFindAuthVerifyRequest(email, authCode);
+	public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
+		return new UpdateAdminPasswordFindAuthVerifyRequest(email, authCode);
 	}
 
 	public static UpdateAdminsPasswordRequest 관리자_비밀번호_변경_요청(String oldPassword, String newPassword){
