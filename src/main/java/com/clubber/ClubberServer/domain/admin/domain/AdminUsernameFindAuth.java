@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyEmailVerifiedException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class AdminUsernameFindAuth {
     }
 
     public AdminUsernameFindAuth verify() {
+        if(isVerified){
+            throw AdminAlreadyEmailVerifiedException.EXCEPTION;
+        }
         this.isVerified = true;
         return this;
     }
