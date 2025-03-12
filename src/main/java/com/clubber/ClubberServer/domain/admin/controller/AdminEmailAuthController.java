@@ -33,9 +33,9 @@ public class AdminEmailAuthController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 회원가입시 인증 번호 검증")
     @PostMapping("/sign-up/verify")
-    public void updateAdminInfo(
+    public void updateAdminVerifySignupAuth(
             @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
-        adminEmailAuthService.createAdminSignupAuthVerify(createAdminVerifySignupAuthRequest);
+        adminEmailAuthService.updateVerifyAdminSignupAuth(createAdminVerifySignupAuthRequest);
     }
 
     @DisableSwaggerSecurity

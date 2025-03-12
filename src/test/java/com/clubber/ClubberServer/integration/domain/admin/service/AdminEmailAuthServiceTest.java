@@ -50,7 +50,7 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
         CreateAdminSignupAuthVerifyRequest request = AdminFixture.회원가입_이메일_인증_요청(email, authCode);
 
         //when & then
-        Assertions.assertThatCode(() -> adminEmailAuthService.createAdminSignupAuthVerify(request))
+        Assertions.assertThatCode(() -> adminEmailAuthService.updateVerifyAdminSignupAuth(request))
                 .doesNotThrowAnyException();
     }
 }

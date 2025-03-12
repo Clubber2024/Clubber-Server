@@ -34,7 +34,7 @@ public class AdminEmailAuthService {
     }
 
     @Transactional
-    public void createAdminSignupAuthVerify(
+    public void updateVerifyAdminSignupAuth(
             CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
         String clubName = createAdminVerifySignupAuthRequest.getClubName();
         final Integer requestAuthCode = createAdminVerifySignupAuthRequest.getAuthCode();
