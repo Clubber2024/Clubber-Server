@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -39,6 +36,13 @@ public class AdminEmailAuthController {
     public void updateAdminInfo(
             @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
         adminEmailAuthService.createAdminSignupAuthVerify(createAdminVerifySignupAuthRequest);
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "동아리 아이디 찾기 시 인증번호 메일 전송")
+    @PostMapping("/find-username/send")
+    public void createAdminUsernameFindAuth(CreateAdminFindMailAuthRequest createAdminFindMailAuthRequest) {
+        adminEmailAuthFacade.usernameFindAdminAuth(createAdminFindMailAuthRequest);
     }
 
     @DisableSwaggerSecurity
