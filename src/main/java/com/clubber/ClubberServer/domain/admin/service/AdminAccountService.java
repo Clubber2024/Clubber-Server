@@ -71,9 +71,15 @@ public class AdminAccountService {
 
     @Transactional(readOnly = true)
     public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
-        adminEmailAuthService.validateAdminUsernameFindAuth(request.getClubId(), request.getAuthCode());
-        Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), request.getClubId());
+        Long clubId = request.getClubId();
+        Integer authCode = request.getAuthCode();
+
+        adminEmailAuthService.validateAdminUsernameFindAuth(clubId, authCode);
+        adminEmailAuthService.deleteAdminUsernameFindAuthById(clubId);
+
+        Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), clubId);
         String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
+
         return new GetAdminUsernameFindResponse(maskedUsername);
     }
 }
