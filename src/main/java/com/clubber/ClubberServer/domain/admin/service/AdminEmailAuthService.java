@@ -80,7 +80,8 @@ public class AdminEmailAuthService {
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
         adminValidator.validateAuthCode(authCode, adminUsernameFindAuth.getAuthCode());
 
-        adminUsernameFindAuthRepository.save(adminUsernameFindAuth.verify());
+        adminUsernameFindAuth.verify();
+        adminUsernameFindAuthRepository.save(adminUsernameFindAuth);
     }
 
     public void checkAdminUsernameFindAuthVerified(Long clubId, Integer authCode) {

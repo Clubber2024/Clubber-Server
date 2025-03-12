@@ -33,11 +33,10 @@ public class AdminUsernameFindAuth {
         }
     }
 
-    public AdminUsernameFindAuth verify() {
+    public void verify() {
         if(isVerified){
             throw AdminAlreadyEmailVerifiedException.EXCEPTION;
         }
         this.isVerified = true;
-        return this;
     }
 }
