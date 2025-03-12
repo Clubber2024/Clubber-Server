@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAdminFindMailAuthRequest {
+public class CreateAdminUsernameFindAuthRequest {
     private Long clubId;
     private String email;
 }

@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.facade;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminFindMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminUsernameFindAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
@@ -31,9 +31,9 @@ public class AdminEmailAuthFacade {
         return CreateAdminAuthResponse.from(adminMailAuth);
     }
 
-    public void usernameFindAdminAuth(CreateAdminFindMailAuthRequest createAdminFindMailAuthRequest) {
-        Long clubId = createAdminFindMailAuthRequest.getClubId();
-        String email = createAdminFindMailAuthRequest.getEmail();
+    public void usernameFindAdminAuth(CreateAdminUsernameFindAuthRequest createAdminUsernameFindAuthRequest) {
+        Long clubId = createAdminUsernameFindAuthRequest.getClubId();
+        String email = createAdminUsernameFindAuthRequest.getEmail();
 
         if (adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);

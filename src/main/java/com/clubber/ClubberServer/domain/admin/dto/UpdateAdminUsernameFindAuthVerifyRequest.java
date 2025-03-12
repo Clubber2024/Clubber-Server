@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateVerifyAdminEmailAuthRequest {
+public class UpdateAdminUsernameFindAuthVerifyRequest {
     private Long clubId;
     private String email;
     private Integer authCode;
