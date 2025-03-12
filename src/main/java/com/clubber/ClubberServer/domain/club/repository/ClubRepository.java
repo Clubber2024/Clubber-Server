@@ -33,5 +33,7 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRep
 
     List<Club> findByClubTypeAndIsDeletedFalse(ClubType clubType);
 
+    @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% AND c.isDeleted = false ORDER BY c.name ASC")
+    List<Club> findByNameSorted(String name);
 
 }
