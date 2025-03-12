@@ -24,8 +24,9 @@ public class AdminEmailAuthService {
     private final AdminValidator adminValidator;
 
     @Transactional
-    public AdminSignupAuth createAdminSignupAuth(String email, Integer authCode) {
+    public AdminSignupAuth createAdminSignupAuth(String clubName, String email, Integer authCode) {
         AdminSignupAuth adminSignupAuth = AdminSignupAuth.builder()
+                .clubName(clubName)
                 .email(email)
                 .authCode(authCode)
                 .build();
@@ -35,13 +36,15 @@ public class AdminEmailAuthService {
     @Transactional
     public void createAdminSignupAuthVerify(
             CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
-        final String email = createAdminVerifySignupAuthRequest.getEmail();
+        String clubName = createAdminVerifySignupAuthRequest.getClubName();
         final Integer requestAuthCode = createAdminVerifySignupAuthRequest.getAuthCode();
-
-        AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(email)
+        AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(clubName)
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
         adminValidator.validateAuthCode(requestAuthCode, adminSignupAuth.getAuthCode());
-        adminSignupAuthRepository.delete(adminSignupAuth);
+        adminSignupAuth.verify();
+
+        adminSignupAuthRepository.save(adminSignupAuth);
     }
 
     @Transactional

@@ -25,10 +25,12 @@ public class AdminEmailAuthFacade {
     public CreateAdminAuthResponse signupAdminAuth(
             CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
         final String email = createAdminSignupAuthRequest.getEmail();
-        Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+        String clubName = createAdminSignupAuthRequest.getClubName();
 
+        Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
         mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
-        AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(email, authCode);
+
+        AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(clubName, email, authCode);
         return CreateAdminAuthResponse.from(adminMailAuth);
     }
 
