@@ -17,6 +17,8 @@ public class AdminUsernameFindAuth {
     @TimeToLive
     private Long ttl = 300L;
 
+    private boolean isVerified = false; 
+
     @Builder
     public AdminUsernameFindAuth(Long clubId, Integer authCode) {
         this.clubId = clubId;
