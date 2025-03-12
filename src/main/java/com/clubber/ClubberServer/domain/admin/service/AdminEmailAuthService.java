@@ -73,7 +73,7 @@ public class AdminEmailAuthService {
         adminPasswordFindAuthRepository.delete(adminPasswordFindAuth);
     }
 
-    public void verifyAdminUsernameFindAuth(Long clubId, Integer authCode) {
+    public void updateVerifyAdminUsernameFindAuth(Long clubId, Integer authCode) {
         AdminUsernameFindAuth adminUsernameFindAuth = adminUsernameFindAuthRepository.findById(clubId)
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
         adminValidator.validateAuthCode(authCode, adminUsernameFindAuth.getAuthCode());
