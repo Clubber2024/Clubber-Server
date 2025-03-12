@@ -74,7 +74,7 @@ public class AdminAccountService {
         Long clubId = request.getClubId();
         Integer authCode = request.getAuthCode();
 
-        adminEmailAuthService.validateAdminUsernameFindAuth(clubId, authCode);
+        adminEmailAuthService.checkAdminUsernameFindAuthVerified(clubId, authCode);
         adminEmailAuthService.deleteAdminUsernameFindAuthById(clubId);
 
         Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), clubId);
