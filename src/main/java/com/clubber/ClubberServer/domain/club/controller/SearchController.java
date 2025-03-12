@@ -46,9 +46,9 @@ public class SearchController {
     // 회원가입시 동아리명 검색
     @DisableSwaggerSecurity
     @Operation(summary = "회원가입시 동아리명 검색")
-    @GetMapping(value = "/search-for-signup", params = "clubName")
+    @GetMapping(value = "/sign-up", params = "clubName")
     public List<GetClubsSearchForSignUpResponse> searchForSignUpByClubName(
-        @RequestParam(name = "clubName", required = false) String clubName) {
+        @RequestParam(required = false) String clubName) {
         return clubService.searchForSignUp(clubName);
     }
 
