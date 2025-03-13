@@ -112,4 +112,11 @@ public class AdminController {
     public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(@RequestParam String username){
         return adminAccountService.getAdminUsernameCheckDuplicate(username);
     }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "아이디 찾기")
+    @PostMapping("/find-username")
+    public GetAdminUsernameFindResponse getAdminUsernameFind(@RequestBody GetAdminUsernameFindRequest request){
+        return adminAccountService.getAdminUsernameFind(request);
+    }
 }

@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
 import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyEmailVerifiedException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -8,11 +9,10 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
-@RedisHash(value = "adminPasswordFind")
-public class AdminPasswordFindAuth {
-
+@RedisHash(value = "adminUsernameFindAuth")
+public class AdminUsernameFindAuth {
     @Id
-    private String username;
+    private Long clubId;
 
     private Integer authCode;
 
@@ -22,13 +22,19 @@ public class AdminPasswordFindAuth {
     private boolean isVerified = false;
 
     @Builder
-    public AdminPasswordFindAuth(String username, Integer authCode) {
-        this.username = username;
+    public AdminUsernameFindAuth(Long clubId, Integer authCode) {
+        this.clubId = clubId;
         this.authCode = authCode;
     }
 
+    public void checkIsVerified() {
+        if (!isVerified) {
+            throw AdminInvalidAuthCodeException.EXCEPTION;
+        }
+    }
+
     public void verify() {
-        if (isVerified) {
+        if(isVerified){
             throw AdminAlreadyEmailVerifiedException.EXCEPTION;
         }
         this.isVerified = true;

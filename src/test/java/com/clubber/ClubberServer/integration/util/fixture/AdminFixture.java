@@ -52,8 +52,8 @@ public class AdminFixture {
 		);
 	}
 
-	public static CreateAdminMailAuthRequest 인증_메일_전송_요청(String email){
-		return new CreateAdminMailAuthRequest(email);
+	public static CreateAdminSignupAuthRequest 인증_메일_전송_요청(String email){
+		return new CreateAdminSignupAuthRequest(email);
 	}
 
 	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
@@ -74,8 +74,8 @@ public class AdminFixture {
 				.build();
 	}
 
-	public static CreateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
-		return new CreateAdminPasswordFindAuthVerifyRequest(email, authCode);
+	public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
+		return new UpdateAdminPasswordFindAuthVerifyRequest(email, authCode);
 	}
 
 	public static UpdateAdminsPasswordRequest 관리자_비밀번호_변경_요청(String oldPassword, String newPassword){

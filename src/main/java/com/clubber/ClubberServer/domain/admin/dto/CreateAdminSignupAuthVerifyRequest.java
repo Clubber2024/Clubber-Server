@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CreateAdminSignupAuthVerifyRequest {
 
+	private String clubName;
+
 	@NotBlank(message = "인증 수행한 이메일을 입력해주세요.")
 	@Schema(description = "인증 수행한 이메일", example = "myclub@gmail.com")
 	private String email;

@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.controller;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindAuthVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
@@ -29,33 +26,45 @@ public class AdminEmailAuthController {
     @Operation(summary = "동아리 계정 회원가입시 인증번호 메일 전송")
     @PostMapping("/sign-up/send")
     public CreateAdminAuthResponse createAdminSignupAuth(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-        return adminEmailAuthFacade.signupAdminAuth(createAdminMailAuthRequest);
+            @Valid @RequestBody CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+        return adminEmailAuthFacade.signupAdminAuth(createAdminSignupAuthRequest);
     }
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 회원가입시 인증 번호 검증")
     @PostMapping("/sign-up/verify")
-    public void updateAdminInfo(
+    public void updateAdminVerifySignupAuth(
             @Valid @RequestBody CreateAdminSignupAuthVerifyRequest createAdminVerifySignupAuthRequest) {
-        adminEmailAuthService.createAdminSignupAuthVerify(createAdminVerifySignupAuthRequest);
+        adminEmailAuthService.updateVerifyAdminSignupAuth(createAdminVerifySignupAuthRequest);
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "동아리 아이디 찾기 시 인증번호 메일 전송")
+    @PostMapping("/find-username/send")
+    public void createAdminUsernameFindAuth(@RequestBody CreateAdminUsernameFindAuthRequest createAdminUsernameFindAuthRequest) {
+        adminEmailAuthFacade.usernameFindAdminAuth(createAdminUsernameFindAuthRequest);
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "동아리 아이디 찾기시 인증번호 메일 검증")
+    @PostMapping("/find-username/verify")
+    public void updateVerifyAdminUsernameFindAuth(@RequestBody UpdateAdminUsernameFindAuthVerifyRequest updateAdminUsernameFindAuthVerifyRequest) {
+        adminEmailAuthService.updateVerifyAdminUsernameFindAuth(updateAdminUsernameFindAuthVerifyRequest.getClubId(), updateAdminUsernameFindAuthVerifyRequest.getAuthCode());
     }
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 메일 전송")
     @PostMapping("/find-password/send")
     public void createAdminPasswordFindVerify(
-            @Valid @RequestBody CreateAdminMailAuthRequest createAdminMailAuthRequest
-    ) {
-        adminEmailAuthFacade.passwordFindAdminAuth(createAdminMailAuthRequest);
+            @Valid @RequestBody CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
+        adminEmailAuthFacade.createAdminPasswordFind(createAdminPasswordFindRequest);
     }
-
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 검증")
     @PostMapping("/find-password/verify")
     public void createAdminPasswordFindAuthVerify(
-            @Valid @RequestBody CreateAdminPasswordFindAuthVerifyRequest createAdminPasswordFindAuthVerifyRequest) {
-        adminEmailAuthService.createAdminPasswordFindAuthVerify(createAdminPasswordFindAuthVerifyRequest);
+            @Valid @RequestBody UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
+        adminEmailAuthService.updateAdminPasswordFindAuthVerify(updateAdminPasswordFindAuthVerifyRequest);
     }
 }

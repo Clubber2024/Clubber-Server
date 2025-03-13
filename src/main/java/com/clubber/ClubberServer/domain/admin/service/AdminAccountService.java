@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
@@ -21,6 +22,7 @@ public class AdminAccountService {
 
     private final AdminReadService adminReadService;
     private final AdminRepository adminRepository;
+    private final AdminEmailAuthService adminEmailAuthService;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminValidator adminValidator;
     private final PasswordEncoder passwordEncoder;
@@ -65,5 +67,19 @@ public class AdminAccountService {
     public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username){
         boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
         return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
+    }
+
+    @Transactional(readOnly = true)
+    public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
+        Long clubId = request.getClubId();
+        Integer authCode = request.getAuthCode();
+
+        adminEmailAuthService.checkAdminUsernameFindAuthVerified(clubId, authCode);
+        adminEmailAuthService.deleteAdminUsernameFindAuthById(clubId);
+
+        Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), clubId);
+        String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
+
+        return new GetAdminUsernameFindResponse(maskedUsername);
     }
 }

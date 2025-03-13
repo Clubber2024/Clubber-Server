@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
+import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyEmailVerifiedException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,8 @@ import org.springframework.data.redis.core.TimeToLive;
 public class AdminSignupAuth {
 
 	@Id
+	private String clubName;
+
 	private String email;
 
 	private Integer authCode;
@@ -18,9 +21,18 @@ public class AdminSignupAuth {
 	@TimeToLive
 	private Long ttl = 300L;
 
+	private boolean isVerified = false;
+
 	@Builder
-	public AdminSignupAuth(String email, Integer authCode) {
+	public AdminSignupAuth(String clubName, String email, Integer authCode) {
+		this.clubName = clubName;
 		this.email = email;
 		this.authCode = authCode;
+	}
+
+	public void verify(){
+		if(isVerified){
+			throw AdminAlreadyEmailVerifiedException.EXCEPTION;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.admin.facade;
 
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
@@ -33,14 +33,14 @@ public class AdminEmailAuthFacadeTest {
 
     @Test
     @DisplayName("존재하지 않는 이메일로 비밀번호 찾기를 요청할 경우 메일이 전송되지 않는다.")
-    void passwordFindAdminAuthNotFoundEmail(){
+    void createAdminPasswordFindNotFoundEmail(){
         //given
         String email = "test@gmail.com";
-        CreateAdminMailAuthRequest request = AdminFixture.인증_메일_전송_요청(email);
+        CreateAdminSignupAuthRequest request = AdminFixture.인증_메일_전송_요청(email);
 
         //when
         when(adminRepository.existsByEmailAndAccountState(email, ACTIVE)).thenReturn(false);
-        adminEmailAuthFacade.passwordFindAdminAuth(request);
+        adminEmailAuthFacade.createAdminPasswordFind(request);
 
         //then
         verify(mailService, never()).send(anyString(), anyString(), anyString());
