@@ -59,6 +59,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/admins/username-duplicate")
                                 .permitAll()
+                                .requestMatchers("/api/v1/admins/find-username")
+                                .permitAll()
                                 .requestMatchers("/api/v1/keywords")
                                 .permitAll()
                                 .requestMatchers("/api/v1/admins/**")
