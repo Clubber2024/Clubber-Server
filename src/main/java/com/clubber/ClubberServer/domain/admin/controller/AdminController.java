@@ -116,7 +116,7 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "아이디 찾기")
     @PostMapping("/find-username")
-    public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request){
+    public GetAdminUsernameFindResponse getAdminUsernameFind(@RequestBody GetAdminUsernameFindRequest request){
         return adminAccountService.getAdminUsernameFind(request);
     }
 }

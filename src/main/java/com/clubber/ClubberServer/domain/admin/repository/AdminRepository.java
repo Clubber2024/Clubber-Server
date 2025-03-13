@@ -19,7 +19,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     boolean existsByUsernameAndAccountState(String username, AccountState accountState);
 
-    boolean existsByEmailAndUsernameAndAccountState(String email, String username, AccountState accountState)
+    boolean existsByEmailAndUsernameAndAccountState(String email, String username, AccountState accountState);
 
     boolean existsByEmailAndClubIdAndAccountState(String email, Long clubId, AccountState accountState);
 }

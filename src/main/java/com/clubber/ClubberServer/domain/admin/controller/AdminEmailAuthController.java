@@ -41,14 +41,14 @@ public class AdminEmailAuthController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 아이디 찾기 시 인증번호 메일 전송")
     @PostMapping("/find-username/send")
-    public void createAdminUsernameFindAuth(CreateAdminUsernameFindAuthRequest createAdminUsernameFindAuthRequest) {
+    public void createAdminUsernameFindAuth(@RequestBody CreateAdminUsernameFindAuthRequest createAdminUsernameFindAuthRequest) {
         adminEmailAuthFacade.usernameFindAdminAuth(createAdminUsernameFindAuthRequest);
     }
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 아이디 찾기시 인증번호 메일 검증")
     @PostMapping("/find-username/verify")
-    public void updateVerifyAdminUsernameFindAuth(UpdateAdminUsernameFindAuthVerifyRequest updateAdminUsernameFindAuthVerifyRequest) {
+    public void updateVerifyAdminUsernameFindAuth(@RequestBody UpdateAdminUsernameFindAuthVerifyRequest updateAdminUsernameFindAuthVerifyRequest) {
         adminEmailAuthService.updateVerifyAdminUsernameFindAuth(updateAdminUsernameFindAuthVerifyRequest.getClubId(), updateAdminUsernameFindAuthVerifyRequest.getAuthCode());
     }
 
