@@ -108,14 +108,14 @@ public class AdminController {
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 회원가입 시 로그인 중복 확인")
-    @GetMapping("/username-duplicate")
+    @GetMapping("/username/duplicate")
     public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(@RequestParam String username){
         return adminAccountService.getAdminUsernameCheckDuplicate(username);
     }
 
     @DisableSwaggerSecurity
     @Operation(summary = "아이디 찾기")
-    @PostMapping("/find-username")
+    @PostMapping("/username/find")
     public GetAdminUsernameFindResponse getAdminUsernameFind(@RequestBody GetAdminUsernameFindRequest request){
         return adminAccountService.getAdminUsernameFind(request);
     }
