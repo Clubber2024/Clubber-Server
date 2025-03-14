@@ -119,4 +119,11 @@ public class AdminController {
     public GetAdminUsernameFindResponse getAdminUsernameFind(@RequestBody GetAdminUsernameFindRequest request){
         return adminAccountService.getAdminUsernameFind(request);
     }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "비밀번호 찾기 인증 후 비밀번호 변경")
+    @PatchMapping("/reset-password")
+    public void getAdminResetPassword(@RequestBody UpdateAdminResetPasswordRequest request){
+        adminAccountService.updateAdminResetPassword(request);
+    }
 }
