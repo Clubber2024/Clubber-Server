@@ -54,17 +54,17 @@ public class AdminAccountService {
         eventPublisher.throwSoftDeleteEvent(admin.getId());
     }
 
-    public CreateAdminSignUpResponse createAdminSignUp(
-            CreateAdminSignUpRequest createAdminSignUpRequest) {
+    public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {
         String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
         PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
         pendingAdminInfoRepository.save(pendingAdminInfo);
+
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
     }
 
     @Transactional(readOnly = true)
-    public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username){
+    public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username) {
         boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
         return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
     }
@@ -81,5 +81,17 @@ public class AdminAccountService {
         String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
 
         return new GetAdminUsernameFindResponse(maskedUsername);
+    }
+
+    public void updateAdminResetPassword(UpdateAdminResetPasswordRequest request) {
+        String username = request.getUsername();
+
+        adminEmailAuthService.checkAdminPasswordFindAuthVerified(username, request.getAuthCode());
+        adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
+
+        Admin admin = adminReadService.getAdminByUsername(username);
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        admin.updatePassword(encodedPassword);
     }
 }

@@ -54,7 +54,7 @@ public class AdminEmailAuthController {
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 메일 전송")
-    @PostMapping("/find-password/send")
+    @PostMapping("/reset-password/send")
     public void createAdminPasswordFindVerify(
             @Valid @RequestBody CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
         adminEmailAuthFacade.createAdminPasswordFind(createAdminPasswordFindRequest);
@@ -62,7 +62,7 @@ public class AdminEmailAuthController {
 
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 비밀번호 찾기시 인증번호 검증")
-    @PostMapping("/find-password/verify")
+    @PostMapping("/reset-password/verify")
     public void createAdminPasswordFindAuthVerify(
             @Valid @RequestBody UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
         adminEmailAuthService.updateAdminPasswordFindAuthVerify(updateAdminPasswordFindAuthVerifyRequest);
