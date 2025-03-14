@@ -123,7 +123,7 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "비밀번호 찾기 인증 후 비밀번호 변경")
     @PatchMapping("/reset-password")
-    public void getAdminResetPassword(@RequestBody UpdateAdminResetPasswordRequest request){
+    public void updateAdminResetPassword(@RequestBody UpdateAdminResetPasswordRequest request){
         adminAccountService.updateAdminResetPassword(request);
     }
 }
