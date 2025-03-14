@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeExce
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class AdminEmailAuthService {
     private final AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
     private final AdminUsernameFindAuthRepository adminUsernameFindAuthRepository;
     private final AdminValidator adminValidator;
+    private final PendingAdminInfoRepository pendingAdminInfoRepository;
 
     @Transactional
     public AdminSignupAuth createAdminSignupAuth(String clubName, String email, Integer authCode) {
@@ -94,6 +96,18 @@ public class AdminEmailAuthService {
 
         adminValidator.validateAuthCode(authCode, adminUsernameFindAuth.getAuthCode());
         adminUsernameFindAuth.checkIsVerified();
+    }
+
+    public void checkAdminPasswordFindAuthVerified(String username, Integer authCode) {
+        AdminPasswordFindAuth adminPasswordFindAuth = adminPasswordFindAuthRepository.findById(username)
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(authCode, adminPasswordFindAuth.getAuthCode());
+        adminPasswordFindAuth.checkIsVerified();
+    }
+
+    public void deleteAdminPasswordFindAuthById(String username) {
+        adminPasswordFindAuthRepository.deleteById(username);
     }
 
     public void deleteAdminUsernameFindAuthById(Long clubId){

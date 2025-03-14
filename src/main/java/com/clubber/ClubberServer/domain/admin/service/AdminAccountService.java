@@ -82,4 +82,16 @@ public class AdminAccountService {
 
         return new GetAdminUsernameFindResponse(maskedUsername);
     }
+
+    public void updateAdminResetPassword(UpdateAdminResetPasswordRequest request){
+        String username = request.getUsername();
+
+        adminEmailAuthService.checkAdminPasswordFindAuthVerified(username, request.getAuthCode());
+        adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
+
+        Admin admin = adminReadService.getAdminByUsername(username);
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        admin.updatePassword(encodedPassword);
+    }
 }
