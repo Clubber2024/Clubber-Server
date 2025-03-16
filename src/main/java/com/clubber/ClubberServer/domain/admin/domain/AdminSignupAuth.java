@@ -34,5 +34,6 @@ public class AdminSignupAuth {
 		if(isVerified){
 			throw AdminAlreadyEmailVerifiedException.EXCEPTION;
 		}
+		this.isVerified = true;
 	}
 }
