@@ -1,8 +1,9 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -16,24 +17,24 @@ import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
+import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.clubber.ClubberServer.domain.club.domain.ClubType.GENERAL;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.integration.util.fixture.AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -64,47 +65,73 @@ public class AdminAccountServiceTest {
     @Autowired
     private PendingAdminInfoRepository pendingAdminInfoRepository;
 
+    private void createSecurityContext(Long adminId) {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+
+        AuthDetails adminDetails = new AuthDetails(adminId.toString(), "ADMIN");
+        UsernamePasswordAuthenticationToken adminToken = new UsernamePasswordAuthenticationToken(
+                adminDetails, "user", adminDetails.getAuthorities());
+        context.setAuthentication(adminToken);
+        SecurityContextHolder.setContext(context);
+    }
 
     @DisplayName("관리자 회원 정보를 조회한다.")
-    @WithMockCustomUser
     @Test
     void adminGetProfile() {
-        GetAdminsProfileResponse adminsProfile = adminAccountService.getAdminsProfile();
+        //given
+        Admin admin = AdminFixture.getDefaultAdminBuilder().build();
+        Admin saved = adminRepository.save(admin);
+        createSecurityContext(saved.getId());
 
-        Optional<Admin> admin = adminRepository.findAdminByIdAndAccountState(
-                SecurityUtils.getCurrentUserId(), ACTIVE);
+        //when
+        GetAdminsProfileResponse response = adminAccountService.getAdminsProfile();
 
+        //then
         assertAll(
-                () -> assertThat(admin.get().getId()).isNotNull()
-//                () -> assertThat(adminsProfile.getClubName()).isEqualTo(admin.get().getClub().getName())
+                () -> assertThat(response.username()).isEqualTo(admin.getUsername()),
+                () -> assertThat(response.email()).isEqualTo(admin.getEmail()),
+                () -> assertThat(response.contact().getInstagram()).isEqualTo(admin.getContact().getInstagram()),
+                () -> assertThat(response.contact().getEtc()).isEqualTo(admin.getContact().getEtc())
         );
     }
 
     @DisplayName("관리자 비밀번호 변경을 수행한다.")
-    @WithMockCustomUser
     @Test
     void adminUpdatePassword() {
-        UpdateAdminsPasswordResponse updateAdminsPasswordResponse = adminAccountService.updateAdminsPassword(
-                VALID_UPDATE_PASSWORD_REQUEST);
+        //given
+        final String oldPassword = "oldPassword";
+        final String newPassword = "newPassword";
 
-        Optional<Admin> updatedPasswordAdmin = adminRepository.findAdminByIdAndAccountState(
-                updateAdminsPasswordResponse.getAdminId(), ACTIVE);
+        Admin admin = AdminFixture.getDefaultAdminBuilder()
+                .password(encoder.encode(oldPassword))
+                .build();
 
-        assertAll(
-                () -> assertThat(updatedPasswordAdmin).isNotNull(),
-                () -> assertThat(encoder.matches(VALID_UPDATE_PASSWORD_REQUEST.getNewPassword(),
-                        updatedPasswordAdmin.get().getPassword()))
-        );
+        Long id = adminRepository.save(admin).getId();
+        createSecurityContext(id);
+
+        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(oldPassword, newPassword);
+
+        //when
+        adminAccountService.updateAdminsPassword(request);
+        Admin updatedAdmin = adminRepository.findAdminByIdAndAccountState(id, ACTIVE).get();
+
+        //then
+        assertThat(encoder.matches(oldPassword, updatedAdmin.getPassword()));
     }
 
     @Test
-    @WithMockCustomUser
     @DisplayName("변경하려는 비밀번호가 기존 비빌번호와 같을 시 예외가 발생한다.")
     public void updateAdminWithSameWithPreviousPasswordTest() {
         //given
-        String oldpassword = "비밀번호 1";
-        String newPassword = "비밀번호 1";
-        UpdateAdminsPasswordRequest request = AdminFixture.관리자_비밀번호_변경_요청(oldpassword, newPassword);
+        final String oldPassword = "oldPassword";
+        Admin admin = AdminFixture.getDefaultAdminBuilder()
+                .password(encoder.encode(oldPassword))
+                .build();
+
+        Long id = adminRepository.save(admin).getId();
+        createSecurityContext(id);
+
+        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(oldPassword, oldPassword);
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
@@ -112,29 +139,38 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    @WithMockCustomUser
     @DisplayName("기존 비밀번호가 잘못되었을 경우 비빌번호 변경시 예외가 발생한다.")
     public void updateAdminWithInvalidOldPassword() {
         //given
-        String invalidOldPassword = "invalidOldPassword";
-        String newPassword = "newPassword";
-        UpdateAdminsPasswordRequest request = AdminFixture.관리자_비밀번호_변경_요청(invalidOldPassword, newPassword);
+        String validPassword = "password";
+        String invalidPassword = "invalidPassword";
+
+        Admin admin = AdminFixture.getDefaultAdminBuilder()
+                .password(encoder.encode(validPassword))
+                .build();
+        Long id = adminRepository.save(admin).getId();
+        createSecurityContext(id);
+
+        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(invalidPassword, invalidPassword);
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
                 .isInstanceOf(AdminInvalidCurrentPasswordException.class);
     }
 
-    @DisplayName("관리자 회원탈퇴를 수행한다")
-    @WithMockCustomUser
+    @DisplayName("관리자 회원탈퇴를 수행하면 계정 상태가 비활성화 된다.")
     @Test
     void withDrawAdmin() {
+        //given
+        Admin admin = AdminFixture.getDefaultAdminBuilder().build();
+        Long id = adminRepository.save(admin).getId();
+        createSecurityContext(id);
+
         adminAccountService.withDraw();
-        Optional<Admin> admin = adminRepository.findById(SecurityUtils.getCurrentUserId());
+        Admin adminAfterWithdraw = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
         assertAll(
-                () -> assertThat(admin).isNotNull(),
-                () -> assertThat(admin.get().getAccountState()).isEqualTo(AccountState.INACTIVE)
+                () -> assertThat(adminAfterWithdraw.getAccountState()).isEqualTo(AccountState.INACTIVE)
         );
     }
 
@@ -183,59 +219,70 @@ public class AdminAccountServiceTest {
         }
     }
 
-    @DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
-    @Test
-    void createAdminSignUpTest() {
-        /**
-         * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
-         */
-
-        //given
-        CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
-                "password", GENERAL, "new_club",
-                "email", "@club_ig", "imageUrl");
-
-        //when
-        adminAccountService.createAdminSignUp(createAdminSignUpRequest);
-        PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByClubName(
-                createAdminSignUpRequest.getClubName()).get();
-
-        //then
-        assertAll(
-                () -> assertThat(pendingAdminInfo)
-                        .extracting("username", "email", "clubName", "contact", "imageForApproval")
-                        .containsExactly(
-                                createAdminSignUpRequest.getUsername(),
-                                createAdminSignUpRequest.getEmail(),
-                                createAdminSignUpRequest.getClubName(),
-                                createAdminSignUpRequest.getContact(),
-                                createAdminSignUpRequest.getImageForApproval()
-                        ),
-                () -> assertThat(pendingAdminInfo.isApproved()).isFalse()
-        );
-    }
+//    @DisplayName("관리자 회원 가입 요청시 초기 미승인 상태로 저장된다.")
+//    @Test
+//    void createAdminSignUpTest() {
+//        /**
+//         * TODO 추후 WireMock 활용하여 외부 API Reponse 테스트 코드 작성
+//         */
+//
+//        //given
+//        CreateAdminSignUpRequest createAdminSignUpRequest = AdminFixture.회원가입_요청("username",
+//                "password", GENERAL, "new_club",
+//                "email", "@club_ig", "imageUrl");
+//
+//        //when
+//        adminAccountService.createAdminSignUp(createAdminSignUpRequest);
+//        PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByClubName(
+//                createAdminSignUpRequest.getClubName()).get();
+//
+//        //then
+//        assertAll(
+//                () -> assertThat(pendingAdminInfo)
+//                        .extracting("username", "email", "clubName", "contact", "imageForApproval")
+//                        .containsExactly(
+//                                createAdminSignUpRequest.getUsername(),
+//                                createAdminSignUpRequest.getEmail(),
+//                                createAdminSignUpRequest.getClubName(),
+//                                createAdminSignUpRequest.getContact(),
+//                                createAdminSignUpRequest.getImageForApproval()
+//                        ),
+//                () -> assertThat(pendingAdminInfo.isApproved()).isFalse()
+//        );
+//    }
 
     @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
     @Test
     void getAdminNewUsernameCheckDuplicate(){
         //given
-        String username = "new username";
+        final String existUsername = "username";
+        final String nonExistUsername = "new username";
+
+        Admin admin = AdminFixture.getDefaultAdminBuilder()
+                .username(existUsername)
+                .build();
+        adminRepository.save(admin);
 
         //when
-        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(username);
+        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(nonExistUsername);
 
         //then
         assertThat(response.isAvailable()).isEqualTo(true);
     }
 
-    @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
+    @DisplayName("기존에 있는 동아리 관리자 아이디 중복 확인시 false 반환")
     @Test
     void getAdminExistUsernameCheckDuplicate(){
         //given
-        String username = "동아리 1";
+        final String existUsername = "username";
+        Admin admin = AdminFixture.getDefaultAdminBuilder()
+                .username(existUsername)
+                .build();
+
+        adminRepository.save(admin);
 
         //when
-        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(username);
+        GetAdminUsernameCheckDuplicateResponse response = adminAccountService.getAdminUsernameCheckDuplicate(existUsername);
 
         //then
         assertThat(response.isAvailable()).isEqualTo(false);

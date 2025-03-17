@@ -1,10 +1,14 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 
+import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 public class AdminFixture {
@@ -38,7 +42,7 @@ public class AdminFixture {
 		ClubType clubType,
 		String clubName,
 		String email,
-		String contact,
+		Contact contact,
 		String imageForApproval) {
 
 		return new CreateAdminSignUpRequest(
@@ -52,16 +56,17 @@ public class AdminFixture {
 		);
 	}
 
-	public static CreateAdminSignupAuthRequest 인증_메일_전송_요청(String email){
-		return new CreateAdminSignupAuthRequest(email);
+	public static CreateAdminPasswordFindRequest 인증_메일_전송_요청(String username, String email){
+		return new CreateAdminPasswordFindRequest(username, email);
 	}
 
-	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String email, Integer authCode) {
-		return new CreateAdminSignupAuthVerifyRequest(email, authCode);
+	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String clubName, String email, Integer authCode) {
+		return new CreateAdminSignupAuthVerifyRequest(clubName, email, authCode);
 	}
 
-	public static AdminSignupAuth 회원가입_이메일_인증(String email, Integer authCode) {
+	public static AdminSignupAuth 회원가입_이메일_인증(String clubName, String email, Integer authCode) {
 		return AdminSignupAuth.builder()
+				.clubName(clubName)
 				.email(email)
 				.authCode(authCode)
 				.build();
@@ -69,7 +74,6 @@ public class AdminFixture {
 
 	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String email, Integer authCode){
 		return AdminPasswordFindAuth.builder()
-				.email(email)
 				.authCode(authCode)
 				.build();
 	}
@@ -78,7 +82,20 @@ public class AdminFixture {
 		return new UpdateAdminPasswordFindAuthVerifyRequest(email, authCode);
 	}
 
-	public static UpdateAdminsPasswordRequest 관리자_비밀번호_변경_요청(String oldPassword, String newPassword){
+	public static Admin.AdminBuilder getDefaultAdminBuilder(){
+		return Admin.builder()
+				.id(1L)
+				.username("clubber")
+				.email("ssuclubber@gmail.com")
+				.password("password")
+				.accountState(ACTIVE)
+				.accountRole(ADMIN)
+				.contact(
+						new Contact("@clubber_ssu", null)
+				);
+	}
+
+	public static UpdateAdminsPasswordRequest getUpdateAdminsPasswordRequest(String oldPassword, String newPassword){
 		return new UpdateAdminsPasswordRequest(oldPassword, newPassword);
 	}
 }
