@@ -77,14 +77,15 @@ public class AdminFixture {
 				.build();
 	}
 
-	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String email, Integer authCode){
+	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String username, Integer authCode){
 		return AdminPasswordFindAuth.builder()
+				.username(username)
 				.authCode(authCode)
 				.build();
 	}
 
-	public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호찾기_인증번호_검증요청(String email, Integer authCode){
-		return new UpdateAdminPasswordFindAuthVerifyRequest(email, authCode);
+	public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호_찾기_인증_요청(String username, Integer authCode){
+		return new UpdateAdminPasswordFindAuthVerifyRequest(username, authCode);
 	}
 
 	public static Admin.AdminBuilder getDefaultAdminBuilder(){
@@ -111,5 +112,11 @@ public class AdminFixture {
 		return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
 				.set("username", "clubber")
 				.set("email", "ssuclubber@gmail.com");
+	}
+
+	public static ArbitraryBuilder<UpdateAdminPasswordFindAuthVerifyRequest> getDefaultUpdateAdminPasswordFindAuthVerifyRequest(){
+		return fixtureMonkey.giveMeBuilder(UpdateAdminPasswordFindAuthVerifyRequest.class)
+				.set("username", "clubber")
+				.set("authCode", 123456);
 	}
 }

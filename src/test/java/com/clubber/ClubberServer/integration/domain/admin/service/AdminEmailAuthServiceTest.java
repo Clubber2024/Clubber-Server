@@ -24,15 +24,17 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
     @Autowired
     private AdminEmailAuthService adminEmailAuthService;
 
-    @DisplayName("관리자 비밀번호 찾기 인증번호 검증을 수행한다")
+    @DisplayName("관리자 비밀번호 찾기 인증번호 검증을 성공한다.")
     @Test
     void validateAdminPasswordFindAuth() {
         //given
-        final String email = "test@gmail.com";
+        final String username = "clubber";
         final Integer authCode = 123456;
-        AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.비밀번호_찾기_인증(email, authCode);
+
+        AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.비밀번호_찾기_인증(username, authCode);
         adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
-        UpdateAdminPasswordFindAuthVerifyRequest request = AdminFixture.비밀번호찾기_인증번호_검증요청(email, authCode);
+
+        UpdateAdminPasswordFindAuthVerifyRequest request = AdminFixture.비밀번호_찾기_인증_요청(username, authCode);
 
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.updateAdminPasswordFindAuthVerify(request))
