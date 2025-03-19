@@ -90,6 +90,14 @@ public class AdminEmailAuthService {
         adminUsernameFindAuthRepository.save(adminUsernameFindAuth);
     }
 
+    public void checkAdminSignupAuthVerified(String clubName, Integer authCode){
+        AdminSignupAuth adminSignupAuth = adminSignupAuthRepository.findById(clubName)
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(authCode, adminSignupAuth.getAuthCode());
+        adminSignupAuth.checkIsVerified();
+    }
+
     public void checkAdminUsernameFindAuthVerified(Long clubId, Integer authCode) {
         AdminUsernameFindAuth adminUsernameFindAuth = adminUsernameFindAuthRepository.findById(clubId)
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
@@ -104,6 +112,10 @@ public class AdminEmailAuthService {
 
         adminValidator.validateAuthCode(authCode, adminPasswordFindAuth.getAuthCode());
         adminPasswordFindAuth.checkIsVerified();
+    }
+
+    public void deleteAdminSingupAuthById(String clubName) {
+        adminSignupAuthRepository.deleteById(clubName);
     }
 
     public void deleteAdminPasswordFindAuthById(String username) {
