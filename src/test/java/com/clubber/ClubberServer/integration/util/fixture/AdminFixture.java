@@ -5,11 +5,16 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.navercorp.fixturemonkey.ArbitraryBuilder;
+import com.navercorp.fixturemonkey.FixtureMonkey;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.*;
 
 public class AdminFixture {
 
@@ -95,7 +100,16 @@ public class AdminFixture {
 				);
 	}
 
-	public static UpdateAdminsPasswordRequest getUpdateAdminsPasswordRequest(String oldPassword, String newPassword){
-		return new UpdateAdminsPasswordRequest(oldPassword, newPassword);
+	public static UpdateAdminsPasswordRequest getUpdateAdminsPasswordRequest(String oldPassword, String newPassword) {
+		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
+				.set("oldPassword", oldPassword)
+				.set("newPassword", newPassword)
+				.sample();
+	}
+
+	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> getDefaultCreateAdminPasswordFindRequest(){
+		return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
+				.set("username", "clubber")
+				.set("email", "ssuclubber@gmail.com");
 	}
 }
