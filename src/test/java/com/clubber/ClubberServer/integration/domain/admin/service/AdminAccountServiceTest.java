@@ -21,6 +21,7 @@ import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import com.navercorp.fixturemonkey.FixtureMonkey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -270,9 +271,9 @@ public class AdminAccountServiceTest {
         assertThat(response.isAvailable()).isEqualTo(true);
     }
 
-    @DisplayName("기존에 있는 동아리 관리자 아이디 중복 확인시 false 반환")
+    @DisplayName("기존에 있는 동아리 관리자 아이디 중복 확인시 회원가입 가능 여부 false 반환")
     @Test
-    void getAdminExistUsernameCheckDuplicate(){
+    void getAdminExistUsernameCheckDuplicateTest(){
         //given
         final String existUsername = "username";
         Admin admin = AdminFixture.getDefaultAdminBuilder()

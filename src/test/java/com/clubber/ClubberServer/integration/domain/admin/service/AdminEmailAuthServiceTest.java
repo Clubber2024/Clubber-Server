@@ -43,11 +43,12 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
     @Test
     void validateAdminSignupAuthVerify() {
         //given
+        final String clubName = "club";
         final String email = "test@gmail.com";
         final Integer authCode = 123456;
-        AdminSignupAuth adminSignupAuth = AdminFixture.회원가입_이메일_인증(email, authCode);
+        AdminSignupAuth adminSignupAuth = AdminFixture.회원가입_이메일_인증(clubName, email, authCode);
         adminSignupAuthRepository.save(adminSignupAuth);
-        CreateAdminSignupAuthVerifyRequest request = AdminFixture.회원가입_이메일_인증_요청(email, authCode);
+        CreateAdminSignupAuthVerifyRequest request = AdminFixture.회원가입_이메일_인증_요청(clubName, email, authCode);
 
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.updateVerifyAdminSignupAuth(request))

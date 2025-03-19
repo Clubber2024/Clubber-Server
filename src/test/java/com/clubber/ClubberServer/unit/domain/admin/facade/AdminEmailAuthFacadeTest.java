@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.admin.facade;
 
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
 import com.clubber.ClubberServer.domain.admin.facade.AdminEmailAuthFacade;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -36,10 +37,11 @@ public class AdminEmailAuthFacadeTest {
     void createAdminPasswordFindNotFoundEmail(){
         //given
         String email = "test@gmail.com";
-        CreateAdminSignupAuthRequest request = AdminFixture.인증_메일_전송_요청(email);
+        String username = "test";
+        CreateAdminPasswordFindRequest request = AdminFixture.인증_메일_전송_요청(username, email);
 
         //when
-        when(adminRepository.existsByEmailAndAccountState(email, ACTIVE)).thenReturn(false);
+        when(adminRepository.existsByEmailAndUsernameAndAccountState(username, email, ACTIVE)).thenReturn(false);
         adminEmailAuthFacade.createAdminPasswordFind(request);
 
         //then
