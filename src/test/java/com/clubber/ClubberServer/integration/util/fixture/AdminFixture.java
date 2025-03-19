@@ -39,7 +39,8 @@ public class AdminFixture {
 		String clubName,
 		String email,
 		String contact,
-		String imageForApproval) {
+		String imageForApproval,
+		Integer authCode) {
 
 		return new CreateAdminSignUpRequest(
 			username,
@@ -48,7 +49,8 @@ public class AdminFixture {
 			clubName,
 			email,
 			contact,
-			imageForApproval
+			imageForApproval,
+				authCode
 		);
 	}
 

@@ -5,6 +5,8 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminUsernameFindAuthRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
+import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
+import com.clubber.ClubberServer.domain.admin.exception.AdminUsernameNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
@@ -49,6 +51,10 @@ public class AdminEmailAuthFacade {
     public void createAdminPasswordFind(CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
         String username = createAdminPasswordFindRequest.getUsername();
         String email = createAdminPasswordFindRequest.getEmail();
+
+        if (!adminRepository.existsByUsernameAndAccountState(username, ACTIVE)) {
+            throw AdminUsernameNotFoundException.EXCEPTION;
+        }
 
         if (adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
