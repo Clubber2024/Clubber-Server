@@ -19,6 +19,7 @@ public class AdminFixture {
     public static final String EMAIL = "ssuclubber@gmail.com";
     public static final String OLD_PASSWORD = "oldPassword";
     public static final String NEW_PASSWORD = "newPassword";
+    public static final String INSTAGRAM = "@clubber_ssu";
 
     public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
             "동아리 1", "비밀번호 1");
@@ -46,13 +47,13 @@ public class AdminFixture {
     public static Admin.AdminBuilder aAdmin() {
         return Admin.builder()
                 .id(1L)
-                .username("clubber")
-                .email("ssuclubber@gmail.com")
-                .password("password")
+                .username(USERNAME)
+                .email(EMAIL)
+                .password(OLD_PASSWORD)
                 .accountState(ACTIVE)
                 .accountRole(ADMIN)
                 .contact(
-                        new Contact("@clubber_ssu", null)
+                        new Contact(INSTAGRAM, null)
                 );
     }
 
