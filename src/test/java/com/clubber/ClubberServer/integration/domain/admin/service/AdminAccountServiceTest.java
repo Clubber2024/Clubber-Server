@@ -153,19 +153,19 @@ public class AdminAccountServiceTest {
                 .isInstanceOf(AdminInvalidCurrentPasswordException.class);
     }
 
-    @DisplayName("관리자 회원탈퇴를 수행하면 계정 상태가 비활성화 된다.")
     @Test
-    void withDrawAdmin() {
+    void 관리자_회원탈퇴후_상태_비활성화() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
-        createSecurityContext(adminRepository.save(admin));
+        Admin saved = adminRepository.save(admin);
+        createSecurityContext(saved);
 
+        //when
         adminAccountService.withDraw();
-        Admin adminAfterWithdraw = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
 
-        assertAll(
-                () -> assertThat(adminAfterWithdraw.getAccountState()).isEqualTo(AccountState.INACTIVE)
-        );
+        //then
+        Admin adminAfterWithdraw = adminRepository.findById(saved.getId()).get();
+        assertThat(adminAfterWithdraw.getAccountState()).isEqualTo(AccountState.INACTIVE);
     }
 
     /**
