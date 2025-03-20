@@ -8,7 +8,6 @@ import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -84,8 +83,7 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    @DisplayName("관리자 회원 탈퇴시 계정 상태가 변경된다.")
-    public void adminWithDrawTest() {
+    public void 관리자_회원탈퇴_계정_상태_변경() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
         when(adminReadService.getCurrentAdmin()).thenReturn(admin);
