@@ -2,10 +2,13 @@ package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameFindRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.integration.util.fixture.AdminEmailAuthFixture;
 import org.assertj.core.api.Assertions;
@@ -22,6 +25,9 @@ public class AdminEmailAuthServiceTest {
 
     @Autowired
     private AdminSignupAuthRepository adminSignupAuthRepository;
+
+    @Autowired
+    private AdminUsernameFindAuthRepository adminUsernameFindAuthRepository;
 
     @Autowired
     private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
@@ -45,6 +51,26 @@ public class AdminEmailAuthServiceTest {
 
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.updateAdminPasswordFindAuthVerify(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 동아리_아이디_찾기_인증번호_검증() {
+        //given
+        final Long clubId = 1L;
+        final Integer authCode = 123456;
+        final String email = "ssuclubber@gmail.com";
+
+        AdminUsernameFindAuth adminUsernameFindAuth = AdminEmailAuthFixture.aAdminUsernameFindAuth()
+                .clubId(clubId)
+                .authCode(authCode)
+                .build();
+        adminUsernameFindAuthRepository.save(adminUsernameFindAuth);
+
+        GetAdminUsernameFindRequest request = AdminEmailAuthFixture.아이디_찾기_인증_요청(clubId, email, authCode);
+
+        //when & then
+        Assertions.assertThatCode(() -> adminEmailAuthService.createAdminUsernameFindAuth(request.getClubId(), request.getAuthCode()))
                 .doesNotThrowAnyException();
     }
 

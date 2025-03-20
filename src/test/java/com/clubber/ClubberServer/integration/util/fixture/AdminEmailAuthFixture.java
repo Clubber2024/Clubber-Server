@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameFindRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 
 public class AdminEmailAuthFixture {
@@ -25,6 +26,7 @@ public class AdminEmailAuthFixture {
         return new CreateAdminSignupAuthVerifyRequest(clubName, email, authCode);
     }
 
+
     public static AdminPasswordFindAuth.AdminPasswordFindAuthBuilder aAdminPasswordFindAuth() {
         return AdminPasswordFindAuth.builder()
                 .username(USERNAME)
@@ -39,5 +41,9 @@ public class AdminEmailAuthFixture {
         return AdminUsernameFindAuth.builder()
                 .clubId(CLUB_ID)
                 .authCode(AUTH_CODE);
+    }
+
+    public static GetAdminUsernameFindRequest 아이디_찾기_인증_요청(Long clubId, String email, Integer authCode) {
+        return new GetAdminUsernameFindRequest(clubId, email, authCode);
     }
 }
