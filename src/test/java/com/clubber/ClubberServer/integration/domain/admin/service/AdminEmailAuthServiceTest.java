@@ -2,19 +2,17 @@ package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
-import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class AdminEmailAuthServiceTest extends ServiceTest {
+public class AdminEmailAuthServiceTest {
     @Autowired
     private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
@@ -24,9 +22,8 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
     @Autowired
     private AdminEmailAuthService adminEmailAuthService;
 
-    @DisplayName("관리자 비밀번호 찾기 인증번호 검증을 성공한다.")
     @Test
-    void validateAdminPasswordFindAuth() {
+    void 동아리_관리자_비밀번호_찾기_인증번호_검증() {
         //given
         final String username = "clubber";
         final Integer authCode = 123456;
@@ -41,9 +38,8 @@ public class AdminEmailAuthServiceTest extends ServiceTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("관리자 회원가입 인증번호 검증을 수행한다")
     @Test
-    void validateAdminSignupAuthVerify() {
+    void 동아리_관리자_회원가입_인증번호_검증() {
         //given
         final String clubName = "club";
         final String email = "test@gmail.com";
