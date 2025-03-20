@@ -12,6 +12,8 @@ import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.f
 
 public class AdminFixture {
 
+	public static final String USERNAME = "clubber123";
+	public static final String EMAIL = "ssuclubber@gmail.com";
 	public static final String OLD_PASSWORD = "oldPassword";
 	public static final String NEW_PASSWORD = "newPassword";
 
@@ -57,10 +59,10 @@ public class AdminFixture {
 				.set("newPassword", NEW_PASSWORD);
 	}
 
-	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> getDefaultCreateAdminPasswordFindRequest(){
+	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> a_비밀번호_찾기_요청(){
 		return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
-				.set("username", "clubber")
-				.set("email", "ssuclubber@gmail.com");
+				.set("username", USERNAME)
+				.set("email", EMAIL);
 	}
 
 	public static ArbitraryBuilder<UpdateAdminPasswordFindAuthVerifyRequest> getDefaultUpdateAdminPasswordFindAuthVerifyRequest(){

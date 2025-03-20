@@ -28,12 +28,13 @@ public class AdminEmailAuthFacadeTest {
     private MailService mailService;
 
     @Test
-    @DisplayName("존재하지 않는 이메일로 비밀번호 찾기를 요청할 경우 메일이 전송되지 않는다.")
-    void createAdminPasswordFindNotFoundEmail(){
+    @DisplayName("잘못된 이메일로 비밀번호 찾기를 요청할 경우 메일이 전송되지 않는다.")
+    void createAdminPasswordFindNotFoundEmail() {
         //given
-        CreateAdminPasswordFindRequest request = AdminFixture.getDefaultCreateAdminPasswordFindRequest().sample();
+        CreateAdminPasswordFindRequest request = AdminFixture.a_비밀번호_찾기_요청().sample();
 
         //when
+        when(adminRepository.existsByUsernameAndAccountState(anyString(), eq(ACTIVE))).thenReturn(true);
         when(adminRepository.existsByEmailAndUsernameAndAccountState(anyString(), anyString(), eq(ACTIVE))).thenReturn(false);
         adminEmailAuthFacade.createAdminPasswordFind(request);
 
