@@ -1,8 +1,6 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
@@ -10,7 +8,7 @@ import com.navercorp.fixturemonkey.ArbitraryBuilder;
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
-import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.*;
+import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 
 public class AdminFixture {
 
@@ -36,32 +34,6 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-	public static CreateAdminPasswordFindRequest 인증_메일_전송_요청(String username, String email){
-		return new CreateAdminPasswordFindRequest(username, email);
-	}
-
-	public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String clubName, String email, Integer authCode) {
-		return new CreateAdminSignupAuthVerifyRequest(clubName, email, authCode);
-	}
-
-	public static AdminSignupAuth 회원가입_이메일_인증(String clubName, String email, Integer authCode) {
-		return AdminSignupAuth.builder()
-				.clubName(clubName)
-				.email(email)
-				.authCode(authCode)
-				.build();
-	}
-
-	public static AdminPasswordFindAuth 비밀번호_찾기_인증(String username, Integer authCode){
-		return AdminPasswordFindAuth.builder()
-				.username(username)
-				.authCode(authCode)
-				.build();
-	}
-
-	public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호_찾기_인증_요청(String username, Integer authCode){
-		return new UpdateAdminPasswordFindAuthVerifyRequest(username, authCode);
-	}
 
 	public static Admin.AdminBuilder aAdmin(){
 		return Admin.builder()
