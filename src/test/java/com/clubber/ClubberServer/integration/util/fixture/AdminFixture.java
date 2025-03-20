@@ -5,11 +5,7 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
-import com.navercorp.fixturemonkey.FixtureMonkey;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
@@ -67,7 +63,7 @@ public class AdminFixture {
 		return new UpdateAdminPasswordFindAuthVerifyRequest(username, authCode);
 	}
 
-	public static Admin.AdminBuilder getDefaultAdminBuilder(){
+	public static Admin.AdminBuilder aAdmin(){
 		return Admin.builder()
 				.id(1L)
 				.username("clubber")

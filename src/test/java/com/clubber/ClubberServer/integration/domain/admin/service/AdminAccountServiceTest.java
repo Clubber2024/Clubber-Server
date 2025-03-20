@@ -21,7 +21,6 @@ import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-import com.navercorp.fixturemonkey.FixtureMonkey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,7 @@ public class AdminAccountServiceTest {
     @Test
     void adminGetProfile() {
         //given
-        Admin admin = AdminFixture.getDefaultAdminBuilder().build();
+        Admin admin = AdminFixture.aAdmin().build();
         Admin saved = adminRepository.save(admin);
         createSecurityContext(saved.getId());
 
@@ -103,7 +102,7 @@ public class AdminAccountServiceTest {
         final String oldPassword = "oldPassword";
         final String newPassword = "newPassword";
 
-        Admin admin = AdminFixture.getDefaultAdminBuilder()
+        Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(oldPassword))
                 .build();
 
@@ -125,7 +124,7 @@ public class AdminAccountServiceTest {
     public void updateAdminWithSameWithPreviousPasswordTest() {
         //given
         final String oldPassword = "oldPassword";
-        Admin admin = AdminFixture.getDefaultAdminBuilder()
+        Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(oldPassword))
                 .build();
 
@@ -146,7 +145,7 @@ public class AdminAccountServiceTest {
         String validPassword = "password";
         String invalidPassword = "invalidPassword";
 
-        Admin admin = AdminFixture.getDefaultAdminBuilder()
+        Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(validPassword))
                 .build();
         Long id = adminRepository.save(admin).getId();
@@ -163,7 +162,7 @@ public class AdminAccountServiceTest {
     @Test
     void withDrawAdmin() {
         //given
-        Admin admin = AdminFixture.getDefaultAdminBuilder().build();
+        Admin admin = AdminFixture.aAdmin().build();
         Long id = adminRepository.save(admin).getId();
         createSecurityContext(id);
 
@@ -259,7 +258,7 @@ public class AdminAccountServiceTest {
         final String existUsername = "username";
         final String nonExistUsername = "new username";
 
-        Admin admin = AdminFixture.getDefaultAdminBuilder()
+        Admin admin = AdminFixture.aAdmin()
                 .username(existUsername)
                 .build();
         adminRepository.save(admin);
@@ -276,7 +275,7 @@ public class AdminAccountServiceTest {
     void getAdminExistUsernameCheckDuplicateTest(){
         //given
         final String existUsername = "username";
-        Admin admin = AdminFixture.getDefaultAdminBuilder()
+        Admin admin = AdminFixture.aAdmin()
                 .username(existUsername)
                 .build();
 
