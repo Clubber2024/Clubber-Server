@@ -2,7 +2,10 @@ package com.clubber.ClubberServer.integration.util.fixture;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
@@ -12,62 +15,56 @@ import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.f
 
 public class AdminFixture {
 
-	public static final String USERNAME = "clubber123";
-	public static final String EMAIL = "ssuclubber@gmail.com";
-	public static final String OLD_PASSWORD = "oldPassword";
-	public static final String NEW_PASSWORD = "newPassword";
+    public static final String USERNAME = "clubber123";
+    public static final String EMAIL = "ssuclubber@gmail.com";
+    public static final String OLD_PASSWORD = "oldPassword";
+    public static final String NEW_PASSWORD = "newPassword";
 
-	public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
-		"동아리 1", "비밀번호 1");
+    public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
+            "동아리 1", "비밀번호 1");
 
-	public static final UpdateAdminsPasswordRequest VALID_UPDATE_PASSWORD_REQUEST = new UpdateAdminsPasswordRequest("기존비밀번호",
-		"수정비밀번호");
+    public static final UpdateAdminsPasswordRequest VALID_UPDATE_PASSWORD_REQUEST = new UpdateAdminsPasswordRequest("기존비밀번호",
+            "수정비밀번호");
 
-	public static final UpdateClubPageRequest VALID_UPDATE_CLUB_PAGE_REQUEST =
-		new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정youtube","수정activity",
-			"수정leader", 1000L);
+    public static final UpdateClubPageRequest VALID_UPDATE_CLUB_PAGE_REQUEST =
+            new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정youtube", "수정activity",
+                    "수정leader", 1000L);
 
-	public static final UpdateClubPageRequest IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST =
-		new UpdateClubPageRequest(IMAGE_SERVER + "수정imagekey", "수정introduction", "수정instagram","수정youtube",
-			"수정activity", "수정leader", 1000L);
+    public static final UpdateClubPageRequest IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST =
+            new UpdateClubPageRequest(IMAGE_SERVER + "수정imagekey", "수정introduction", "수정instagram", "수정youtube",
+                    "수정activity", "수정leader", 1000L);
 
-	public static final UpdateClubPageRequest OVER_MAX_LENGTH_ACTIVITY_UPDATE_PAGE_REQUEST =
-		new UpdateClubPageRequest("imagekey", "introduction", "instagram","youtube", "a".repeat(1501),
-			"leader", 1000L);
+    public static final UpdateClubPageRequest OVER_MAX_LENGTH_ACTIVITY_UPDATE_PAGE_REQUEST =
+            new UpdateClubPageRequest("imagekey", "introduction", "instagram", "youtube", "a".repeat(1501),
+                    "leader", 1000L);
 
-	public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
-		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
-			1000L);
+    public static final UpdateClubPageRequest OVER_MAX_LENGTH_INTRODUCTION_UPDATE_PAGE_REQUEST =
+            new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
+                    1000L);
 
 
-	public static Admin.AdminBuilder aAdmin(){
-		return Admin.builder()
-				.id(1L)
-				.username("clubber")
-				.email("ssuclubber@gmail.com")
-				.password("password")
-				.accountState(ACTIVE)
-				.accountRole(ADMIN)
-				.contact(
-						new Contact("@clubber_ssu", null)
-				);
-	}
+    public static Admin.AdminBuilder aAdmin() {
+        return Admin.builder()
+                .id(1L)
+                .username("clubber")
+                .email("ssuclubber@gmail.com")
+                .password("password")
+                .accountState(ACTIVE)
+                .accountRole(ADMIN)
+                .contact(
+                        new Contact("@clubber_ssu", null)
+                );
+    }
 
-	public static ArbitraryBuilder<UpdateAdminsPasswordRequest> a_마이페이지_비밀번호_변경_요청() {
-		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
-				.set("oldPassword", OLD_PASSWORD)
-				.set("newPassword", NEW_PASSWORD);
-	}
+    public static ArbitraryBuilder<UpdateAdminsPasswordRequest> a_마이페이지_비밀번호_변경_요청() {
+        return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
+                .set("oldPassword", OLD_PASSWORD)
+                .set("newPassword", NEW_PASSWORD);
+    }
 
-	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> a_비밀번호_찾기_요청(){
-		return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
-				.set("username", USERNAME)
-				.set("email", EMAIL);
-	}
-
-	public static ArbitraryBuilder<UpdateAdminPasswordFindAuthVerifyRequest> getDefaultUpdateAdminPasswordFindAuthVerifyRequest(){
-		return fixtureMonkey.giveMeBuilder(UpdateAdminPasswordFindAuthVerifyRequest.class)
-				.set("username", "clubber")
-				.set("authCode", 123456);
-	}
+    public static ArbitraryBuilder<CreateAdminPasswordFindRequest> a_비밀번호_찾기_요청() {
+        return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
+                .set("username", USERNAME)
+                .set("email", EMAIL);
+    }
 }
