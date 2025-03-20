@@ -55,6 +55,12 @@ public class AdminFixture {
 				.sample();
 	}
 
+	public static ArbitraryBuilder<UpdateAdminsPasswordRequest> a_마이페이지_비밀번호_변경_요청() {
+		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
+				.set("oldPassword", "oldPassword")
+				.set("newPassword", "oldPassword");
+	}
+
 	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> getDefaultCreateAdminPasswordFindRequest(){
 		return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
 				.set("username", "clubber")

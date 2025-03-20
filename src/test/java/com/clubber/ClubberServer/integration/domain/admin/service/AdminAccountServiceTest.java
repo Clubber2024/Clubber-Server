@@ -118,13 +118,12 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    public void 비밀번호_변경_기존_비밀번호_동일_에러() {
+    public void 관리자_비밀번호_변경_기존_비밀번호_동일_에러() {
         //given
         final String oldPassword = "oldPassword";
         Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(oldPassword))
                 .build();
-
         createSecurityContext(adminRepository.save(admin));
 
         UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(oldPassword, oldPassword);
@@ -145,7 +144,9 @@ public class AdminAccountServiceTest {
                 .build();
         createSecurityContext(adminRepository.save(admin));
 
-        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(invalidPassword, invalidPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청()
+                .set("oldPassword", invalidPassword)
+                .sample();
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
@@ -246,7 +247,7 @@ public class AdminAccountServiceTest {
 
     @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
     @Test
-    void getAdminNewUsernameCheckDuplicate(){
+    void getAdminNewUsernameCheckDuplicate() {
         //given
         final String existUsername = "username";
         final String nonExistUsername = "new username";
@@ -265,7 +266,7 @@ public class AdminAccountServiceTest {
 
     @DisplayName("기존에 있는 동아리 관리자 아이디 중복 확인시 회원가입 가능 여부 false 반환")
     @Test
-    void getAdminExistUsernameCheckDuplicateTest(){
+    void getAdminExistUsernameCheckDuplicateTest() {
         //given
         final String existUsername = "username";
         Admin admin = AdminFixture.aAdmin()
