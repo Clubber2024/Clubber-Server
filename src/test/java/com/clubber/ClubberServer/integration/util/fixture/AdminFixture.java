@@ -12,6 +12,9 @@ import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.f
 
 public class AdminFixture {
 
+	public static final String OLD_PASSWORD = "oldPassword";
+	public static final String NEW_PASSWORD = "newPassword";
+
 	public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
 		"동아리 1", "비밀번호 1");
 
@@ -48,17 +51,10 @@ public class AdminFixture {
 				);
 	}
 
-	public static UpdateAdminsPasswordRequest 마이페이지_비밀번호_변경_요청(String oldPassword, String newPassword) {
-		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
-				.set("oldPassword", oldPassword)
-				.set("newPassword", newPassword)
-				.sample();
-	}
-
 	public static ArbitraryBuilder<UpdateAdminsPasswordRequest> a_마이페이지_비밀번호_변경_요청() {
 		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
-				.set("oldPassword", "oldPassword")
-				.set("newPassword", "oldPassword");
+				.set("oldPassword", OLD_PASSWORD)
+				.set("newPassword", NEW_PASSWORD);
 	}
 
 	public static ArbitraryBuilder<CreateAdminPasswordFindRequest> getDefaultCreateAdminPasswordFindRequest(){

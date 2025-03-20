@@ -107,7 +107,7 @@ public class AdminAccountServiceTest {
                 .build();
         createSecurityContext(adminRepository.save(admin));
 
-        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(oldPassword, newPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청().sample();
 
         //when
         adminAccountService.updateAdminsPassword(request);
@@ -126,7 +126,9 @@ public class AdminAccountServiceTest {
                 .build();
         createSecurityContext(adminRepository.save(admin));
 
-        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(oldPassword, oldPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청()
+                .set("newPassword", oldPassword)
+                .sample();
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
