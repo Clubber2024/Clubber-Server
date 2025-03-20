@@ -113,6 +113,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/admins/auths/**")
                 .requestMatchers("/api/v1/admins/username-duplicate")
                 .requestMatchers("/api/v1/admins/refresh")
+                .requestMatchers("/api/v1/admins/password/reset")
                 .requestMatchers("/api/v1/clubs/{clubId}/recruit")
                 .requestMatchers("/api/v1/recruits/**")
                 .requestMatchers("/api/v1/clubs/hashtags")

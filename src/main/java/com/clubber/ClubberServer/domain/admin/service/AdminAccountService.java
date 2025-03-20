@@ -55,6 +55,10 @@ public class AdminAccountService {
     }
 
     public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {
+        String clubName = createAdminSignUpRequest.getClubName();
+        adminEmailAuthService.checkAdminSignupAuthVerified(clubName, createAdminSignUpRequest.getAuthCode());
+        adminEmailAuthService.deleteAdminSingupAuthById(clubName);
+
         String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
         PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
         pendingAdminInfoRepository.save(pendingAdminInfo);

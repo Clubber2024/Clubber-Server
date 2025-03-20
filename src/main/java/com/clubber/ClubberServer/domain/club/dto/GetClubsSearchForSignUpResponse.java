@@ -12,6 +12,8 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetClubsSearchForSignUpResponse {
 
+    @Schema(description = "동아리 id")
+    private Long clubId;
 
     @Schema(description = "동아리명", example = "클러버")
     private final String clubName;
@@ -19,12 +21,11 @@ public class GetClubsSearchForSignUpResponse {
     @Schema(description = "동아리 type", example = "중앙동아리")
     private final String clubType;
 
-    public static GetClubsSearchForSignUpResponse from (Club club){
+    public static GetClubsSearchForSignUpResponse from(Club club) {
         return GetClubsSearchForSignUpResponse.builder()
-            .clubName(club.getName())
-            .clubType(club.getClubType().getTitle())
-            .build();
+                .clubId(club.getId())
+                .clubName(club.getName())
+                .clubType(club.getClubType().getTitle())
+                .build();
     }
-
-
 }

@@ -43,6 +43,9 @@ public class CreateAdminSignUpRequest {
 	@Schema(description = "승인을 위한 이미지")
 	private String imageForApproval;
 
+	@Schema(description = "인증 완료한 수행한 인증번호")
+	private Integer authCode;
+
 	public PendingAdminInfo toEntity(String encodedPassword) {
 		return PendingAdminInfo.builder()
 			.username(username)

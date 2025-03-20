@@ -40,27 +40,6 @@ public class AdminFixture {
 		new UpdateClubPageRequest("imagekey", "a".repeat(101), "instagram", "youtube", "activity", "leader",
 			1000L);
 
-
-	public static CreateAdminSignUpRequest 회원가입_요청(
-		String username,
-		String password,
-		ClubType clubType,
-		String clubName,
-		String email,
-		Contact contact,
-		String imageForApproval) {
-
-		return new CreateAdminSignUpRequest(
-			username,
-			password,
-			clubType,
-			clubName,
-			email,
-			contact,
-			imageForApproval
-		);
-	}
-
 	public static CreateAdminPasswordFindRequest 인증_메일_전송_요청(String username, String email){
 		return new CreateAdminPasswordFindRequest(username, email);
 	}
