@@ -245,12 +245,11 @@ public class AdminAccountServiceTest {
 //        );
 //    }
 
-    @DisplayName("기존에 없는 동아리 관리자 아이디 중복 확인시 true 반환")
     @Test
-    void getAdminNewUsernameCheckDuplicate() {
+    void 기존에_존재하지_않는_동아리_관리자_아이디_중복확인() {
         //given
-        final String existUsername = "username";
-        final String nonExistUsername = "new username";
+        final String existUsername = "clubber123";
+        final String nonExistUsername = "newclubber123";
 
         Admin admin = AdminFixture.aAdmin()
                 .username(existUsername)
@@ -264,15 +263,13 @@ public class AdminAccountServiceTest {
         assertThat(response.isAvailable()).isEqualTo(true);
     }
 
-    @DisplayName("기존에 있는 동아리 관리자 아이디 중복 확인시 회원가입 가능 여부 false 반환")
     @Test
-    void getAdminExistUsernameCheckDuplicateTest() {
+    void 기존에_존재하는_동아리_관리자_아이디_중복확인() {
         //given
-        final String existUsername = "username";
+        final String existUsername = "clubber123";
         Admin admin = AdminFixture.aAdmin()
                 .username(existUsername)
                 .build();
-
         adminRepository.save(admin);
 
         //when
