@@ -21,8 +21,6 @@ public class AdminFixture {
     public static final String NEW_PASSWORD = "newPassword";
     public static final String INSTAGRAM = "@clubber_ssu";
 
-    public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
-            "동아리 1", "비밀번호 1");
 
     public static final UpdateAdminsPasswordRequest VALID_UPDATE_PASSWORD_REQUEST = new UpdateAdminsPasswordRequest("기존비밀번호",
             "수정비밀번호");
@@ -55,6 +53,15 @@ public class AdminFixture {
                 .contact(
                         new Contact(INSTAGRAM, null)
                 );
+    }
+
+    public static final CreateAdminsLoginRequest VALID_ADMIN_REQUEST = new CreateAdminsLoginRequest(
+            "동아리 1", "비밀번호 1");
+
+    public static ArbitraryBuilder<CreateAdminsLoginRequest> a_관리자_로그인_요청() {
+        return fixtureMonkey.giveMeBuilder(CreateAdminsLoginRequest.class)
+                .set("username", USERNAME)
+                .set("password", OLD_PASSWORD);
     }
 
     public static ArbitraryBuilder<UpdateAdminsPasswordRequest> a_마이페이지_비밀번호_변경_요청() {
