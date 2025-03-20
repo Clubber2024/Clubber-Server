@@ -90,8 +90,9 @@ public class AdminAccountServiceTest {
     @DisplayName("관리자 회원 탈퇴시 계정 상태가 변경된다.")
     public void adminWithDrawTest() {
         //given
-        Admin admin = getAdmin();
+        Admin admin = AdminFixture.aAdmin().build();
         when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+
         doNothing().when(softDeleteEventPublisher).throwSoftDeleteEvent(anyLong());
 
         //when
