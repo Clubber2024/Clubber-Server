@@ -61,22 +61,29 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    @DisplayName("관리자 비밀번호 정보를 수행한다.")
-    public void updateAdminsPasswordTest() {
+    public void 관리자_비밀번호_변경() {
         //given
-        Admin admin = getAdmin();
-        UpdateAdminsPasswordRequest updatePasswordRequest = AdminFixture.VALID_UPDATE_PASSWORD_REQUEST;
+        final String oldPassword = "oldPassword";
+        final String newPassword = "newPassword";
+        Admin admin = AdminFixture.aAdmin()
+                .password(oldPassword)
+                .build();
         when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+
         doNothing().when(adminValidator).validateEqualsWithExistPassword(anyString(), anyString());
-        when(passwordEncoder.encode(updatePasswordRequest.getNewPassword())).thenReturn(
-                "newPassword");
+        doNothing().when(adminValidator).validatePasswordInUpdatePassword(anyString(), anyString());
+
+        UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청()
+                .set("newPassword", newPassword)
+                .sample();
+        when(passwordEncoder.encode(anyString())).thenReturn(newPassword);
 
         //when
-        adminAccountService.updateAdminsPassword(updatePasswordRequest);
+        adminAccountService.updateAdminsPassword(request);
 
         //then
         assertThat(admin.getPassword()).isNotNull();
-        assertThat(admin.getPassword()).isEqualTo("newPassword");
+        assertThat(admin.getPassword()).isEqualTo(newPassword);
     }
 
     @Test
