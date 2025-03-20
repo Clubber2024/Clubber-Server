@@ -19,7 +19,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: ssuclubber/clubber-front-dev
+    image: ssuclubber/clubber-front-release
     environment:
       - TZ=Asia/Seoul
     expose:

@@ -115,7 +115,7 @@ jobs:
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-front-dev
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-front-release
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-nginx-dev
             sudo docker-compose -f docker-compose-dev.yml up -d
             sudo docker image prune -f
