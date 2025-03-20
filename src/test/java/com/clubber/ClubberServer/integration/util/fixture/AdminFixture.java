@@ -48,7 +48,7 @@ public class AdminFixture {
 				);
 	}
 
-	public static UpdateAdminsPasswordRequest getUpdateAdminsPasswordRequest(String oldPassword, String newPassword) {
+	public static UpdateAdminsPasswordRequest 마이페이지_비밀번호_변경_요청(String oldPassword, String newPassword) {
 		return fixtureMonkey.giveMeBuilder(UpdateAdminsPasswordRequest.class)
 				.set("oldPassword", oldPassword)
 				.set("newPassword", newPassword)

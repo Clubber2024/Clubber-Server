@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPassw
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
+import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -34,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -65,23 +65,24 @@ public class AdminAccountServiceTest {
     @Autowired
     private PendingAdminInfoRepository pendingAdminInfoRepository;
 
-    private void createSecurityContext(Long adminId) {
+    @Autowired
+    private AdminReadService adminReadService;
+
+    private void createSecurityContext(Admin admin) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        AuthDetails adminDetails = new AuthDetails(adminId.toString(), "ADMIN");
+        AuthDetails adminDetails = new AuthDetails(admin.getId().toString(), "ADMIN");
         UsernamePasswordAuthenticationToken adminToken = new UsernamePasswordAuthenticationToken(
                 adminDetails, "user", adminDetails.getAuthorities());
         context.setAuthentication(adminToken);
         SecurityContextHolder.setContext(context);
     }
 
-    @DisplayName("관리자 회원 정보를 조회한다.")
     @Test
-    void adminGetProfile() {
+    void 관리자_회원_정보_조회() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
-        Admin saved = adminRepository.save(admin);
-        createSecurityContext(saved.getId());
+        createSecurityContext(adminRepository.save(admin));
 
         //when
         GetAdminsProfileResponse response = adminAccountService.getAdminsProfile();
@@ -95,9 +96,8 @@ public class AdminAccountServiceTest {
         );
     }
 
-    @DisplayName("관리자 비밀번호 변경을 수행한다.")
     @Test
-    void adminUpdatePassword() {
+    void 관리자_비밀번호_변경() {
         //given
         final String oldPassword = "oldPassword";
         final String newPassword = "newPassword";
@@ -105,33 +105,29 @@ public class AdminAccountServiceTest {
         Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(oldPassword))
                 .build();
+        createSecurityContext(adminRepository.save(admin));
 
-        Long id = adminRepository.save(admin).getId();
-        createSecurityContext(id);
-
-        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(oldPassword, newPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(oldPassword, newPassword);
 
         //when
         adminAccountService.updateAdminsPassword(request);
-        Admin updatedAdmin = adminRepository.findAdminByIdAndAccountState(id, ACTIVE).get();
+        Admin currentAdmin = adminReadService.getCurrentAdmin();
 
         //then
-        assertThat(encoder.matches(oldPassword, updatedAdmin.getPassword()));
+        assertThat(encoder.matches(newPassword, currentAdmin.getPassword())).isEqualTo(true);
     }
 
     @Test
-    @DisplayName("변경하려는 비밀번호가 기존 비빌번호와 같을 시 예외가 발생한다.")
-    public void updateAdminWithSameWithPreviousPasswordTest() {
+    public void 비밀번호_변경_기존_비밀번호_동일_에러() {
         //given
         final String oldPassword = "oldPassword";
         Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(oldPassword))
                 .build();
 
-        Long id = adminRepository.save(admin).getId();
-        createSecurityContext(id);
+        createSecurityContext(adminRepository.save(admin));
 
-        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(oldPassword, oldPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(oldPassword, oldPassword);
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
@@ -139,8 +135,7 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    @DisplayName("기존 비밀번호가 잘못되었을 경우 비빌번호 변경시 예외가 발생한다.")
-    public void updateAdminWithInvalidOldPassword() {
+    public void 비밀번호_변경_잘못된_기존_비밀번호_오류() {
         //given
         String validPassword = "password";
         String invalidPassword = "invalidPassword";
@@ -148,10 +143,9 @@ public class AdminAccountServiceTest {
         Admin admin = AdminFixture.aAdmin()
                 .password(encoder.encode(validPassword))
                 .build();
-        Long id = adminRepository.save(admin).getId();
-        createSecurityContext(id);
+        createSecurityContext(adminRepository.save(admin));
 
-        UpdateAdminsPasswordRequest request = AdminFixture.getUpdateAdminsPasswordRequest(invalidPassword, invalidPassword);
+        UpdateAdminsPasswordRequest request = AdminFixture.마이페이지_비밀번호_변경_요청(invalidPassword, invalidPassword);
 
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
@@ -163,8 +157,7 @@ public class AdminAccountServiceTest {
     void withDrawAdmin() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
-        Long id = adminRepository.save(admin).getId();
-        createSecurityContext(id);
+        createSecurityContext(adminRepository.save(admin));
 
         adminAccountService.withDraw();
         Admin adminAfterWithdraw = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
