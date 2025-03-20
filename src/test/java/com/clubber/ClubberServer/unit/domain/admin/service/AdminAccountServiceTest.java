@@ -6,7 +6,6 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -100,24 +97,5 @@ public class AdminAccountServiceTest {
 
         //then
         assertThat(admin.getAccountState()).isEqualTo(INACTIVE);
-    }
-
-    private Admin getAdmin() {
-        return Admin.builder()
-                .id(1L)
-                .accountRole(ADMIN)
-                .accountState(ACTIVE)
-                .password("password")
-                .username("username")
-                .club(getClub())
-                .build();
-    }
-
-    private static Club getClub() {
-        return Club.builder()
-                .id(1L)
-                .name("club1")
-                .isAgreeToReview(true)
-                .build();
     }
 }
