@@ -3,6 +3,8 @@ package com.clubber.ClubberServer.integration.util.fixture;
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 
 public class AdminEmailAuthFixture {
     public static Long CLUB_ID = 1L;
@@ -19,10 +21,18 @@ public class AdminEmailAuthFixture {
                 .authCode(AUTH_CODE);
     }
 
+    public static CreateAdminSignupAuthVerifyRequest 회원가입_이메일_인증_요청(String clubName, String email, Integer authCode) {
+        return new CreateAdminSignupAuthVerifyRequest(clubName, email, authCode);
+    }
+
     public static AdminPasswordFindAuth.AdminPasswordFindAuthBuilder aAdminPasswordFindAuth() {
         return AdminPasswordFindAuth.builder()
                 .username(USERNAME)
                 .authCode(AUTH_CODE);
+    }
+
+    public static UpdateAdminPasswordFindAuthVerifyRequest 비밀번호_찾기_인증_요청(String username, Integer authCode){
+        return new UpdateAdminPasswordFindAuthVerifyRequest(username, authCode);
     }
 
     public static AdminUsernameFindAuth.AdminUsernameFindAuthBuilder aAdminUsernameFindAuth() {

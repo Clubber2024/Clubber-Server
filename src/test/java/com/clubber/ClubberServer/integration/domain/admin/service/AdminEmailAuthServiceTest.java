@@ -7,17 +7,24 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVer
 import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
-import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import com.clubber.ClubberServer.integration.util.fixture.AdminEmailAuthFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
+@ActiveProfiles("test")
 public class AdminEmailAuthServiceTest {
-    @Autowired
-    private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @Autowired
     private AdminSignupAuthRepository adminSignupAuthRepository;
+
+    @Autowired
+    private AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
 
     @Autowired
     private AdminEmailAuthService adminEmailAuthService;
@@ -28,10 +35,13 @@ public class AdminEmailAuthServiceTest {
         final String username = "clubber";
         final Integer authCode = 123456;
 
-        AdminPasswordFindAuth adminPasswordFindAuth = AdminFixture.비밀번호_찾기_인증(username, authCode);
+        AdminPasswordFindAuth adminPasswordFindAuth = AdminEmailAuthFixture.aAdminPasswordFindAuth()
+                .username(username)
+                .authCode(authCode)
+                .build();
         adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
 
-        UpdateAdminPasswordFindAuthVerifyRequest request = AdminFixture.비밀번호_찾기_인증_요청(username, authCode);
+        UpdateAdminPasswordFindAuthVerifyRequest request = AdminEmailAuthFixture.비밀번호_찾기_인증_요청(username, authCode);
 
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.updateAdminPasswordFindAuthVerify(request))
@@ -41,12 +51,18 @@ public class AdminEmailAuthServiceTest {
     @Test
     void 동아리_관리자_회원가입_인증번호_검증() {
         //given
-        final String clubName = "club";
-        final String email = "test@gmail.com";
+        final String clubName = "clubber";
+        final String email = "ssuclubber@gmail.com";
         final Integer authCode = 123456;
-        AdminSignupAuth adminSignupAuth = AdminFixture.회원가입_이메일_인증(clubName, email, authCode);
+
+        AdminSignupAuth adminSignupAuth = AdminEmailAuthFixture.aAdminSignupAuth()
+                .clubName(clubName)
+                .email(email)
+                .authCode(authCode)
+                .build();
         adminSignupAuthRepository.save(adminSignupAuth);
-        CreateAdminSignupAuthVerifyRequest request = AdminFixture.회원가입_이메일_인증_요청(clubName, email, authCode);
+
+        CreateAdminSignupAuthVerifyRequest request = AdminEmailAuthFixture.회원가입_이메일_인증_요청(clubName, email, authCode);
 
         //when & then
         Assertions.assertThatCode(() -> adminEmailAuthService.updateVerifyAdminSignupAuth(request))
