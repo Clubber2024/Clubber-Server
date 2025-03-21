@@ -120,6 +120,12 @@ public class DatabaseCleaner {
                 + "values (2, '2025-02-01 00:00:00','2025-02-20 23:59:59','ONE',2025, 'title', 'content', 'everytimeUrl', 100, false, 1)"
         ).executeUpdate();
 
+        //recruit3 추가
+        entityManager.createNativeQuery(
+            "insert into recruit(id, start_at, end_at, semester, year, title, content, everytime_url, total_view, is_deleted, club_id) "
+                + "values (3, '2025-01-01 00:00:00','2025-02-25 23:59:59','ONE',2025, 'title', 'content', 'everytimeUrl', 100, false, 1)"
+        ).executeUpdate();
+
         //recruitImage1 추가
         entityManager.createNativeQuery(
             "insert into recruit_image(id, image_url, is_deleted, order_num, recruit_id) "
