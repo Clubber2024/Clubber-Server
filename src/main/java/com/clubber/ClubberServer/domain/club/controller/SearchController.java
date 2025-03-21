@@ -23,8 +23,6 @@ public class SearchController {
 
     private final ClubService clubService;
 
-
-    // hashtag 기반 검색
     @DisableSwaggerSecurity
     @Operation(summary = "hashtag기반 검색")
     @GetMapping(params = "hashtag")
@@ -34,7 +32,6 @@ public class SearchController {
 
     }
 
-    // 동아리명 or 소모임명 기반 검색
     @DisableSwaggerSecurity
     @Operation(summary = "동아리명 및 소모임명 기반 검색")
     @GetMapping(params = "clubName")
@@ -43,7 +40,6 @@ public class SearchController {
         return clubService.getClubsByName(clubName);
     }
 
-    // 회원가입시 동아리명 검색
     @DisableSwaggerSecurity
     @Operation(summary = "회원가입시 동아리명 검색")
     @GetMapping(value = "/sign-up", params = "clubName")

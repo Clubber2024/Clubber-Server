@@ -212,4 +212,10 @@ public class ClubService {
             .collect(Collectors.toList());
     }
 
+    // [회원가입] 동아리 type 반환
+    public List<EnumMapperVO> getClubTypes() {
+        return enumDefaultMapper.get("ClubType");
+
+    }
+
 }

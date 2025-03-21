@@ -106,4 +106,12 @@ public class ClubController {
         return clubService.getOfficialClubs();
     }
 
+    @DisableSwaggerSecurity
+    @Operation(summary = "clubType 목록 반환")
+    @GetMapping(value = "/types")
+    public List<EnumMapperVO> getClubTypes() {
+        return clubService.getClubTypes();
+    }
+
+
 }
