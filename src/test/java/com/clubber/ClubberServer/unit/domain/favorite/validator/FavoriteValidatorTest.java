@@ -23,11 +23,19 @@ public class FavoriteValidatorTest {
     @Test
     void 즐겨찾기_삭제_다른_사용자_에러() {
         //given
-        User user = UserFixture.aUser().build();
+        final Long userId = 1L;
+        final Long wrongUserId = 2L;
+
+        User user = UserFixture.aUser()
+                .id(userId)
+                .build();
+
         Club club = ClubFixture.aClub().build();
         Favorite favorite = Favorite.create(user, club);
 
-        User wrongUser = UserFixture.aUser().id(2L).build();
+        User wrongUser = UserFixture.aUser()
+                .id(wrongUserId)
+                .build();
 
         //when & then
         assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, wrongUser, club.getId()))
