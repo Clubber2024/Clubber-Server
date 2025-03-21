@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.exception.ClubAlreadyRegisterdFavoriteException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.service.FavoriteService;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -61,6 +62,20 @@ public class FavoriteServiceTest {
 
         //then
         assertThat(favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false)).isEqualTo(true);
+    }
+
+    @Test
+    void 기존_즐겨찾기_추가_에러() {
+        //given
+        Club club = clubRepository.save(ClubFixture.aClub().build());
+        User user = userRepository.save(UserFixture.aUser().build());
+        createSecurityContext(user);
+
+        favoriteRepository.save(Favorite.create(user, club));
+
+        //when & then
+        assertThatThrownBy(() -> favoriteService.createFavorite(club.getId()))
+                .isInstanceOf(ClubAlreadyRegisterdFavoriteException.class);
     }
 
     @Test
