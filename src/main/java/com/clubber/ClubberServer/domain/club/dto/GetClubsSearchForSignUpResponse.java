@@ -18,14 +18,14 @@ public class GetClubsSearchForSignUpResponse {
     @Schema(description = "동아리명", example = "클러버")
     private final String clubName;
 
-    @Schema(description = "동아리 type", example = "중앙동아리")
+    @Schema(description = "동아리 type", example = "CENTER")
     private final String clubType;
 
     public static GetClubsSearchForSignUpResponse from(Club club) {
         return GetClubsSearchForSignUpResponse.builder()
                 .clubId(club.getId())
                 .clubName(club.getName())
-                .clubType(club.getClubType().getTitle())
+                .clubType(club.getClubType().getCode())
                 .build();
     }
 }
