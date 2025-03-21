@@ -34,12 +34,12 @@ public class FavoriteValidatorTest {
         Club club = ClubFixture.aClub().build();
         Favorite favorite = Favorite.create(user, club);
 
-        User wrongUser = UserFixture.aUser()
+        UserFixture.aUser()
                 .id(wrongUserId)
                 .build();
 
         //when & then
-        assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, wrongUser, club.getId()))
+        assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, wrongUserId, club.getId()))
                 .isInstanceOf(FavoriteNotMatchUserException.class);
     }
 
@@ -56,7 +56,7 @@ public class FavoriteValidatorTest {
         Favorite favorite = Favorite.create(user, club);
 
         //when
-        assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, user, wrongClubId))
+        assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, user.getId(), wrongClubId))
                 .isInstanceOf(FavoriteNotMatchClubException.class);
     }
 }
