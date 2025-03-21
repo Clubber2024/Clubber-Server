@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.integration.domain.favorite.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.service.FavoriteService;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -49,7 +50,7 @@ public class FavoriteServiceTest {
     }
 
     @Test
-    void 즐겨찾기_추가_테스트() {
+    void 즐겨찾기_추가() {
         //given
         Club club = clubRepository.save(ClubFixture.aClub().build());
         User user = userRepository.save(UserFixture.aUser().build());
@@ -60,5 +61,22 @@ public class FavoriteServiceTest {
 
         //then
         assertThat(favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false)).isEqualTo(true);
+    }
+
+    @Test
+    void 즐겨찾기_삭제() {
+        //given
+        Club club = clubRepository.save(ClubFixture.aClub().build());
+        User user = userRepository.save(UserFixture.aUser().build());
+        createSecurityContext(user);
+
+        Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
+
+        //when
+        favoriteService.deleteFavorite(club.getId(), favorite.getId());
+
+        //then
+        Favorite deletedFavorite = favoriteRepository.findById(favorite.getId()).get();
+        assertThat(deletedFavorite.isDeleted()).isEqualTo(true);
     }
 }
