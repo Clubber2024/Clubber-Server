@@ -20,9 +20,8 @@ public class FavoriteValidator {
 		}
 	}
 
-	public void validateDeleteFavorite(Favorite favorite, User user, Long clubId) {
-		favorite.checkUser(user.getId());
+	public void validateDeleteFavorite(Favorite favorite, Long userId, Long clubId) {
+		favorite.checkUser(userId);
 		favorite.checkClub(clubId);
-		favorite.checkAlreadyDeleted();
 	}
 }

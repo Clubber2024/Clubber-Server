@@ -14,6 +14,7 @@ import static com.clubber.ClubberServer.domain.club.domain.Hashtag.PROGRAMMING;
 import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 
 public class ClubFixture {
+    public static final Long CLUB_ID = 1L;
     public static final String CLUB_NAME = "클러버";
     public static final String CLUB_INTRODUCTION = "클러버를 소개합니다.";
     public static final String IMAGE_KEY = "/prod/clubber/imageKey";
@@ -26,6 +27,7 @@ public class ClubFixture {
 
     public static Club.ClubBuilder aClub() {
         return Club.builder()
+                .id(CLUB_ID)
                 .name(CLUB_NAME)
                 .clubType(ClubType.CENTER)
                 .introduction(CLUB_INTRODUCTION)

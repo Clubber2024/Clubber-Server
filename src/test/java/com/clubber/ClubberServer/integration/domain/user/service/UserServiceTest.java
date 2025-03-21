@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class FavoriteServiceTest extends ServiceTest {
+public class UserServiceTest extends ServiceTest {
 
 	@Autowired
 	private UserService userService;

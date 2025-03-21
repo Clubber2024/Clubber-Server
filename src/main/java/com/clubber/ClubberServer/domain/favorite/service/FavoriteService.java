@@ -18,35 +18,38 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FavoriteService {
 
-	private final FavoriteValidator favoriteValidator;
+    private final FavoriteValidator favoriteValidator;
 
-	private final FavoriteRepository favoriteRepository;
+    private final FavoriteRepository favoriteRepository;
 
-	private final ClubRepository clubRepository;
+    private final ClubRepository clubRepository;
 
-	private final UserReadService userReadService;
+    private final UserReadService userReadService;
 
-	@Transactional
-	public FavoriteResponse createFavorite(Long clubId) {
-		User user = userReadService.getUser();
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+    @Transactional
+    public FavoriteResponse createFavorite(Long clubId) {
+        User user = userReadService.getUser();
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		favoriteValidator.validateFavoriteExist(user, club);
+        favoriteValidator.validateFavoriteExist(user, club);
 
-		Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
-		return FavoriteResponse.from(favorite);
-	}
+        Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
+        return FavoriteResponse.from(favorite);
+    }
 
-	@Transactional
-	public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
-		User user = userReadService.getUser();
+    @Transactional
+    public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
+        User user = userReadService.getUser();
 
-		Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
-			.orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		favoriteValidator.validateDeleteFavorite(favorite, user, clubId);
-		favorite.delete();
-		return FavoriteResponse.from(favorite);
-	}
+        Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
+                .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+
+        favoriteValidator.validateDeleteFavorite(favorite, user.getId(), club.getId());
+        favorite.delete();
+        return FavoriteResponse.from(favorite);
+    }
 }
