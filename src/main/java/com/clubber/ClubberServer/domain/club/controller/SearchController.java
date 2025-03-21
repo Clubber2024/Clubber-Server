@@ -6,7 +6,6 @@ import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchForSignUpResponse
 import com.clubber.ClubberServer.domain.club.dto.GetClubsSearchResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -47,13 +46,6 @@ public class SearchController {
     public List<GetClubsSearchForSignUpResponse> searchForSignUpByClubName(
         @RequestParam(required = false) String clubName) {
         return clubService.searchForSignUp(clubName);
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "clubType 목록 반환")
-    @GetMapping(value = "/types")
-    public List<EnumMapperVO> getClubTypes() {
-        return clubService.getClubTypes();
     }
 
 }
