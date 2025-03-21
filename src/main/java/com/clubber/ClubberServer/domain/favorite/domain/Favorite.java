@@ -70,7 +70,7 @@ public class Favorite extends BaseEntity {
 	}
 
 	public void checkAlreadyDeleted() {
-		if (this.isDeleted == true) {
+		if (this.isDeleted) {
 			throw FavoriteAlreadyDeleteException.EXCEPTION;
 		}
 	}
