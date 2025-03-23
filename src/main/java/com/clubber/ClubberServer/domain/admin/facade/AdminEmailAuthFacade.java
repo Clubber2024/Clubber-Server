@@ -1,14 +1,13 @@
 package com.clubber.ClubberServer.domain.admin.facade;
 
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminUsernameFindAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthRequest;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminUsernameNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
+import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,7 @@ import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 public class AdminEmailAuthFacade {
 
     private final AdminEmailAuthService adminEmailAuthService;
+    private final AdminReadService adminReadService;
     private final AdminRepository adminRepository;
     private final MailService mailService;
 
@@ -62,5 +62,14 @@ public class AdminEmailAuthFacade {
 
             adminEmailAuthService.createAdminPasswordFindAuth(username, authCode);
         }
+    }
+
+    public void createAdminEmailUpdateAuth(CreateAdminUpdateEmailAuthRequest request) {
+        Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+        String email = request.getEmail();
+        mailService.send(email, "[클러버] 이메일 변경 인증 번호입니다.", authCode.toString());
+
+        Admin admin = adminReadService.getCurrentAdmin();
+        adminEmailAuthService.createAdminUpdateEmailAuth(admin.getId(), email, authCode);
     }
 }

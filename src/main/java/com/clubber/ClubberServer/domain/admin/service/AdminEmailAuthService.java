@@ -2,14 +2,12 @@ package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.domain.AdminUpdateEmailAuth;
 import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.ClubberServer.domain.admin.repository.*;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ public class AdminEmailAuthService {
     private final AdminUsernameFindAuthRepository adminUsernameFindAuthRepository;
     private final AdminValidator adminValidator;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
+    private final AdminUpdateEmailAuthRepository adminUpdateEmailAuthRepository;
 
     @Transactional
     public AdminSignupAuth createAdminSignupAuth(String clubName, String email, Integer authCode) {
@@ -65,6 +64,16 @@ public class AdminEmailAuthService {
                 .authCode(authCode)
                 .build();
         adminPasswordFindAuthRepository.save(adminPasswordFindAuth);
+    }
+
+    @Transactional
+    public void createAdminUpdateEmailAuth(Long adminId, String email, Integer authCode) {
+        AdminUpdateEmailAuth adminUpdateEmailAuth = AdminUpdateEmailAuth.builder()
+                .adminId(adminId)
+                .email(email)
+                .authCode(authCode)
+                .build();
+        adminUpdateEmailAuthRepository.save(adminUpdateEmailAuth);
     }
 
     @Transactional
