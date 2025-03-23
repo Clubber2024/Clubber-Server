@@ -55,6 +55,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/admins/sign-up")
                                 .permitAll()
+                                .requestMatchers("/api/v1/admins/auths/me/update-email/**")
+                                .hasRole("ADMIN")
                                 .requestMatchers("/api/v1/admins/auths/**")
                                 .permitAll()
                                 .requestMatchers("/api/v1/admins/username/**")
