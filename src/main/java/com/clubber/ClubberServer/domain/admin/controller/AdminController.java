@@ -76,6 +76,12 @@ public class AdminController {
         return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
     }
 
+    @Operation(summary = "동아리 계정 연락 수단 수정")
+    @PatchMapping("/me/contact")
+    public UpdateAdminContactResponse updateAdminsContact(@RequestBody @Valid UpdateAdminContactRequest updateAdminContactRequest){
+        return adminAccountService.updateAdminContact(updateAdminContactRequest);      
+    }
+
     @Operation(summary = "동아리 계정 회원탈퇴")
     @DeleteMapping("/withdraw")
     public ResponseEntity withdrawAdmin() {

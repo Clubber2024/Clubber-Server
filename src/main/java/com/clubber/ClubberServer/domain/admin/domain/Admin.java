@@ -64,6 +64,10 @@ public class Admin extends BaseEntity {
         this.password = password;
     }
 
+    public void updateContact(Contact contact){
+        this.contact = contact;
+    }
+
     public void withDraw() {
         if(this.accountState == AccountState.INACTIVE){
             throw AdminAlreadyDeletedException.EXCEPTION;
