@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
@@ -46,6 +47,12 @@ public class AdminAccountService {
 
         admin.updatePassword(passwordEncoder.encode(newPassword));
         return UpdateAdminsPasswordResponse.of(admin);
+    }
+
+    public UpdateAdminContactResponse updateAdminContact(UpdateAdminContactRequest updateAdminContactRequest) {
+        Admin admin = adminReadService.getCurrentAdmin();
+        admin.updateContact(updateAdminContactRequest.getContact());
+        return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
     }
 
     public void withDraw() {
