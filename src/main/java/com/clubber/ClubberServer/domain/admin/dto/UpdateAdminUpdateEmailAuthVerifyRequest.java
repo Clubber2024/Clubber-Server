@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class UpdateAdminUpdateEmailAuthVerifyRequest {
     @NotBlank(message = "이메일을 입력하세요")
-    @Schema(description = "전송한 이메일")
+    @Schema(description = "변경하려는 이메일 (직전 인증번호 전송된 이메일)")
     private String email;
 
     @NotNull(message = "인증번호를 입력하세요")
