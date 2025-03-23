@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminContactRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
@@ -153,6 +155,25 @@ public class AdminAccountServiceTest {
         //when & Then
         assertThatThrownBy(() -> adminAccountService.updateAdminsPassword(request))
                 .isInstanceOf(AdminInvalidCurrentPasswordException.class);
+    }
+
+    @Test
+    void 관리자_연락수단_변경 () {
+        //given
+        Admin admin = AdminFixture.aAdmin().build();
+        createSecurityContext(adminRepository.save(admin));
+
+        Contact contact = new Contact("@new_ssu_clubber", "new_etc");
+        UpdateAdminContactRequest request = AdminFixture.a_연락수단_변경_요청()
+                .set("contact", contact)
+                .sample();
+
+        //when
+        adminAccountService.updateAdminContact(request);
+
+        //then
+        Admin currentAdmin = adminReadService.getCurrentAdmin();
+        assertThat(currentAdmin.getContact()).isEqualTo(contact);
     }
 
     @Test

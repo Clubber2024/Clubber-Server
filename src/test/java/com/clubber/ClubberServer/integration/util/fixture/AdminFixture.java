@@ -2,10 +2,7 @@ package com.clubber.ClubberServer.integration.util.fixture;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminPasswordFindRequest;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
@@ -67,5 +64,9 @@ public class AdminFixture {
         return fixtureMonkey.giveMeBuilder(CreateAdminPasswordFindRequest.class)
                 .set("username", USERNAME)
                 .set("email", EMAIL);
+    }
+
+    public static ArbitraryBuilder<UpdateAdminContactRequest> a_연락수단_변경_요청() {
+        return fixtureMonkey.giveMeBuilder(UpdateAdminContactRequest.class);
     }
 }
