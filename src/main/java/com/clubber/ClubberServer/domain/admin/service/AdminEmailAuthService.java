@@ -1,15 +1,14 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminUpdateEmailAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
+import com.clubber.ClubberServer.domain.admin.domain.*;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminUpdateEmailAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.repository.*;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +22,8 @@ public class AdminEmailAuthService {
     private final AdminValidator adminValidator;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminUpdateEmailAuthRepository adminUpdateEmailAuthRepository;
+    private final AdminReadService adminReadService;
+    private final AdminUpdateEmailAuthRepository updateEmailAuthRepository;
 
     @Transactional
     public AdminSignupAuth createAdminSignupAuth(String clubName, String email, Integer authCode) {
@@ -97,6 +98,17 @@ public class AdminEmailAuthService {
         adminUsernameFindAuth.verify();
 
         adminUsernameFindAuthRepository.save(adminUsernameFindAuth);
+    }
+
+    public void updateVerifyAdminEmailUpdateAuth(UpdateAdminUpdateEmailAuthVerifyRequest request) {
+        Admin admin = adminReadService.getCurrentAdmin();
+        AdminUpdateEmailAuth adminUpdateEmailAuth = updateEmailAuthRepository.findById(admin.getId())
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(request.getAuthCode(), adminUpdateEmailAuth.getAuthCode());
+        adminUpdateEmailAuth.verify();;
+
+        adminUpdateEmailAuthRepository.save(adminUpdateEmailAuth);
     }
 
     public void checkAdminSignupAuthVerified(String clubName, Integer authCode){
