@@ -64,6 +64,10 @@ public class Admin extends BaseEntity {
         this.password = password;
     }
 
+    public void updateEmail(String email){
+        this.email = email;
+    }
+
     public void updateContact(Contact contact){
         this.contact = contact;
     }

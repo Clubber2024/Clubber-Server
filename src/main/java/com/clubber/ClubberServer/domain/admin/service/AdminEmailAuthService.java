@@ -135,6 +135,14 @@ public class AdminEmailAuthService {
         adminPasswordFindAuth.checkIsVerified();
     }
 
+    public void checkAdminUpdateEmailAuthVerified(Long adminId, Integer authCode) {
+        AdminUpdateEmailAuth adminUpdateEmailAuth = adminUpdateEmailAuthRepository.findById(adminId)
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(authCode, adminUpdateEmailAuth.getAuthCode());
+        adminUpdateEmailAuth.checkIsVerified();
+    }
+
     public void deleteAdminSingupAuthById(String clubName) {
         adminSignupAuthRepository.deleteById(clubName);
     }
@@ -145,5 +153,9 @@ public class AdminEmailAuthService {
 
     public void deleteAdminUsernameFindAuthById(Long clubId){
         adminUsernameFindAuthRepository.deleteById(clubId);
+    }
+
+    public void deleteAdminUpdateEmailAuthById(Long adminId) {
+        adminUpdateEmailAuthRepository.deleteById(adminId);
     }
 }
