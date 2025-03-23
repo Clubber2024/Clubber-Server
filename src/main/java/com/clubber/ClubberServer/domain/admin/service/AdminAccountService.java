@@ -55,6 +55,16 @@ public class AdminAccountService {
         return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
     }
 
+    public UpdateAdminEmailResponse updateAdminEmail(UpdateAdminEmailRequest updateAdminEmailRequest) {
+        Admin admin = adminReadService.getCurrentAdmin();
+        Long adminId = admin.getId();
+
+        adminEmailAuthService.checkAdminUpdateEmailAuthVerified(adminId, updateAdminEmailRequest.getAuthCode());
+        adminEmailAuthService.deleteAdminUpdateEmailAuthById(adminId);
+        admin.updateEmail(updateAdminEmailRequest.getEmail());
+        return new UpdateAdminEmailResponse(admin.getId(), admin.getEmail());
+    }
+
     public void withDraw() {
         Admin admin = adminReadService.getCurrentAdmin();
         admin.withDraw();

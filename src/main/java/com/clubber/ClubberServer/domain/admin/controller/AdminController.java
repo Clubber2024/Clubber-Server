@@ -76,6 +76,12 @@ public class AdminController {
         return adminAccountService.updateAdminsPassword(updateAdminsPasswordRequest);
     }
 
+    @Operation(summary = "동아리 계정 이메일 수정")
+    @PatchMapping("/me/email")
+    public UpdateAdminEmailResponse updateAdminEmail(@RequestBody @Valid UpdateAdminEmailRequest updateAdminEmailRequest) {
+        return adminAccountService.updateAdminEmail(updateAdminEmailRequest);
+    }
+    
     @Operation(summary = "동아리 계정 연락 수단 수정")
     @PatchMapping("/me/contact")
     public UpdateAdminContactResponse updateAdminsContact(@RequestBody @Valid UpdateAdminContactRequest updateAdminContactRequest){

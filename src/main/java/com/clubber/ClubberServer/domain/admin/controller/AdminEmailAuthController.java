@@ -67,4 +67,16 @@ public class AdminEmailAuthController {
             @Valid @RequestBody UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
         adminEmailAuthService.updateAdminPasswordFindAuthVerify(updateAdminPasswordFindAuthVerifyRequest);
     }
+
+    @Operation(summary = "동아리 이메일 변경 시 인증번호 메일 전송")
+    @PostMapping("/me/update-email/send")
+    public void createAdminEmailUpdateAuth(@Valid @RequestBody CreateAdminUpdateEmailAuthRequest createAdminUpdateEmailAuthRequest) {
+        adminEmailAuthFacade.createAdminEmailUpdateAuth(createAdminUpdateEmailAuthRequest);
+    }
+
+    @Operation(summary = "동아리 이메일 변경 시 인증번호 메일 검증")
+    @PostMapping("/me/update-email/verify")
+    public void updateAdminEmailUpdateAuthVerify(@Valid @RequestBody UpdateAdminUpdateEmailAuthVerifyRequest updateAdminUpdateEmailAuthVerifyRequest) {
+        adminEmailAuthService.updateVerifyAdminEmailUpdateAuth(updateAdminUpdateEmailAuthVerifyRequest);
+    }
 }

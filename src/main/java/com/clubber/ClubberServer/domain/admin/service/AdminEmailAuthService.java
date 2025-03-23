@@ -1,17 +1,14 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
+import com.clubber.ClubberServer.domain.admin.domain.*;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminUpdateEmailAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.ClubberServer.domain.admin.repository.*;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +21,9 @@ public class AdminEmailAuthService {
     private final AdminUsernameFindAuthRepository adminUsernameFindAuthRepository;
     private final AdminValidator adminValidator;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
+    private final AdminUpdateEmailAuthRepository adminUpdateEmailAuthRepository;
+    private final AdminReadService adminReadService;
+    private final AdminUpdateEmailAuthRepository updateEmailAuthRepository;
 
     @Transactional
     public AdminSignupAuth createAdminSignupAuth(String clubName, String email, Integer authCode) {
@@ -68,6 +68,16 @@ public class AdminEmailAuthService {
     }
 
     @Transactional
+    public void createAdminUpdateEmailAuth(Long adminId, String email, Integer authCode) {
+        AdminUpdateEmailAuth adminUpdateEmailAuth = AdminUpdateEmailAuth.builder()
+                .adminId(adminId)
+                .email(email)
+                .authCode(authCode)
+                .build();
+        adminUpdateEmailAuthRepository.save(adminUpdateEmailAuth);
+    }
+
+    @Transactional
     public void updateAdminPasswordFindAuthVerify(UpdateAdminPasswordFindAuthVerifyRequest updateAdminPasswordFindAuthVerifyRequest) {
         String username = updateAdminPasswordFindAuthVerifyRequest.getUsername();
         Integer requestAuthCode = updateAdminPasswordFindAuthVerifyRequest.getAuthCode();
@@ -88,6 +98,17 @@ public class AdminEmailAuthService {
         adminUsernameFindAuth.verify();
 
         adminUsernameFindAuthRepository.save(adminUsernameFindAuth);
+    }
+
+    public void updateVerifyAdminEmailUpdateAuth(UpdateAdminUpdateEmailAuthVerifyRequest request) {
+        Admin admin = adminReadService.getCurrentAdmin();
+        AdminUpdateEmailAuth adminUpdateEmailAuth = updateEmailAuthRepository.findById(admin.getId())
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(request.getAuthCode(), adminUpdateEmailAuth.getAuthCode());
+        adminUpdateEmailAuth.verify();;
+
+        adminUpdateEmailAuthRepository.save(adminUpdateEmailAuth);
     }
 
     public void checkAdminSignupAuthVerified(String clubName, Integer authCode){
@@ -114,6 +135,14 @@ public class AdminEmailAuthService {
         adminPasswordFindAuth.checkIsVerified();
     }
 
+    public void checkAdminUpdateEmailAuthVerified(Long adminId, Integer authCode) {
+        AdminUpdateEmailAuth adminUpdateEmailAuth = adminUpdateEmailAuthRepository.findById(adminId)
+                .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
+
+        adminValidator.validateAuthCode(authCode, adminUpdateEmailAuth.getAuthCode());
+        adminUpdateEmailAuth.checkIsVerified();
+    }
+
     public void deleteAdminSingupAuthById(String clubName) {
         adminSignupAuthRepository.deleteById(clubName);
     }
@@ -124,5 +153,9 @@ public class AdminEmailAuthService {
 
     public void deleteAdminUsernameFindAuthById(Long clubId){
         adminUsernameFindAuthRepository.deleteById(clubId);
+    }
+
+    public void deleteAdminUpdateEmailAuthById(Long adminId) {
+        adminUpdateEmailAuthRepository.deleteById(adminId);
     }
 }

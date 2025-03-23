@@ -39,6 +39,6 @@ public class AdminEmailAuthFacadeTest {
         adminEmailAuthFacade.createAdminPasswordFind(request);
 
         //then
-        verify(mailService, never()).send(anyString(), anyString(), anyString());
+        verify(mailService, never()).sendAsync(anyString(), anyString(), anyString());
     }
 }
