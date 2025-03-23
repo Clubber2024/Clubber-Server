@@ -19,6 +19,10 @@ public class MailService {
     private final JavaMailSender mailSender;
 
     @Async
+    public void sendAsync(String to, String subject, String text) {
+        send(to, subject, text);
+    }
+
     public void send(String to, String subject, String text) {
         MimeMessagePreparator messagePreparator =
                 mimeMessage -> {

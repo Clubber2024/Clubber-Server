@@ -3,7 +3,6 @@ package com.clubber.ClubberServer.domain.admin.facade;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminUsernameNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
@@ -30,7 +29,7 @@ public class AdminEmailAuthFacade {
         String clubName = createAdminSignupAuthRequest.getClubName();
 
         Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
-        mailService.send(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
+        mailService.sendAsync(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
 
         AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(clubName, email, authCode);
         return CreateAdminAuthResponse.from(adminMailAuth);
@@ -42,7 +41,7 @@ public class AdminEmailAuthFacade {
 
         if (adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
-            mailService.send(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
+            mailService.sendAsync(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
 
             adminEmailAuthService.createAdminUsernameFindAuth(clubId, authCode);
         }
@@ -58,7 +57,7 @@ public class AdminEmailAuthFacade {
 
         if (adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE)) {
             Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
-            mailService.send(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
+            mailService.sendAsync(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
             adminEmailAuthService.createAdminPasswordFindAuth(username, authCode);
         }
