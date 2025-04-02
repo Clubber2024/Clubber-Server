@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.admin.repository;
 
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,6 +17,8 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
     Optional<Admin> findByEmailAndAccountState(String email, AccountState accountState);
 
     Optional<Admin> findByEmailAndClubIdAndAccountState(String email, Long clubId, AccountState accountState);
+
+    Optional<Admin> findByClubAndAccountState(Club club, AccountState accountState);
 
     boolean existsByUsernameAndAccountState(String username, AccountState accountState);
 
