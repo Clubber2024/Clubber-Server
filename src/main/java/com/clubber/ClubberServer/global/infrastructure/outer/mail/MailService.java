@@ -50,47 +50,71 @@ public class MailService {
     }
 
     private String getHtml(String verificationCode) {
-        return "<!DOCTYPE html>" +
-                "<html lang=\"ko\">" +
-                "<head>" +
-                "    <meta charset=\"UTF-8\">" +
-                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-                "    <title>클러버 인증코드</title>" +
-                "    <style>" +
-                "        .code-box {" +
-                "            width: 274px;" +
-                "            height: 83px;" +
-                "            border-radius: 5px;" +
-                "            background: #d6d6d6;" +
-                "            display: flex;" +
-                "            align-items: center;" +
-                "            justify-content: center;" +
-                "        }" +
-                "        .code-text {" +
-                "            margin: 0;" +
-                "            font-size: 32px;" +
-                "            font-weight: bold;" +
-                "            letter-spacing: 2px;" +
-                "            text-align: center;" +
-                "            line-height: 1.2;" +
-                "        }" +
-                "    </style>" +
-                "</head>" +
-                "<body style=\"font-family:'Noto Sans KR', sans-serif;margin:10px;padding:0;background-color:white;color:#333;font:11px/20px 'Roboto', sans-serif;\">" +
-                "    <header style=\"background-color: #7bc8e0; color: white; width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; text-align: center;\">" +
-                "        <img src=\"https://image.ssuclubber.com/clubber/clubber_logo.png\" style=\"width: 315px; height: 132.82px;\" alt=\"클러버 로고\">" +
-                "    </header>" +
-                "    <nav style=\"display: flex; align-items: center; flex-direction: column; text-align: center;\">" +
-                "        <h2 style=\"margin-top: 50px;\">이메일 인증 코드</h2>" +
-                "        <p style=\"margin-bottom: 1em; font-family: 'Open Sans', sans-serif; text-align: justify;\">안녕하세요, 클러버에서 요청하신 인증번호를 보내드립니다.</p>" +
-                "        <div class=\"code-box\">" +
-                "            <h3 class=\"code-text\">" + verificationCode + "</h3>" +
-                "        </div>" +
-                "        <div style=\"margin-top: 1em; text-align: center;\">" +
-                "            <p style=\"margin-bottom: 1em; font-family: 'Open Sans', sans-serif;\">위 인증번호 6자리를 인증번호 입력창에 입력해주세요.<br><strong>인증코드는 5분 후 만료됩니다.</strong></p>" +
-                "        </div>" +
-                "    </nav>" +
-                "</body>" +
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"ko\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\" />\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n" +
+                "    <title>클러버 인증코드</title>\n" +
+                "    <link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap\" rel=\"stylesheet\" />\n" +
+                "    <style>\n" +
+                "        body {\n" +
+                "            font-family: 'Noto Sans KR', sans-serif;\n" +
+                "            margin: 0;\n" +
+                "            padding: 0;\n" +
+                "            background-color: white;\n" +
+                "            color: #333;\n" +
+                "        }\n" +
+                "        img {\n" +
+                "            width: 200px;\n" +
+                "            height: 100px;\n" +
+                "        }\n" +
+                "        h2 {\n" +
+                "            text-align: center;\n" +
+                "            margin-top: 30px;\n" +
+                "        }\n" +
+                "        h4, p {\n" +
+                "            text-align: center;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<table style=\"background-color: #7bc8e0; color: white; padding: 0; width: 100%; height: 150px; margin: auto\">\n" +
+                "    <tr>\n" +
+                "        <td align=\"center\"><img src=\"https://image.ssuclubber.com/clubber/clubber_logo.png\" /></td>\n" +
+                "    </tr>\n" +
+                "</table>\n" +
+                "<table style=\"width: 100%\">\n" +
+                "    <tr>\n" +
+                "        <td align=\"center\">\n" +
+                "            <h2>이메일 인증 코드</h2>\n" +
+                "            <p>안녕하세요, 클러버에서 요청하신 인증번호를 보내드립니다.</p>\n" +
+                "        </td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "        <td align=\"center\">\n" +
+                "            <div\n" +
+                "                    style=\"\n" +
+                "                            width: 150px;\n" +
+                "                            height: 50px;\n" +
+                "                            border-radius: 5px;\n" +
+                "                            background: #d6d6d666;\n" +
+                "                            text-align: center;\n" +
+                "                            padding-top: 22px;\n" +
+                "                        \"\n" +
+                "            >\n" +
+                "                " + verificationCode + "\n" +
+                "            </div>\n" +
+                "        </td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "        <td align=\"center\">\n" +
+                "            <p>위 인증번호 6자리를 인증번호 입력창에 입력해주세요.</p>\n" +
+                "            <h4 style=\"margin-top: 0\">인증코드는 5분 후 만료됩니다.</h4>\n" +
+                "        </td>\n" +
+                "    </tr>\n" +
+                "</table>\n" +
+                "</body>\n" +
                 "</html>";
     }
 }
