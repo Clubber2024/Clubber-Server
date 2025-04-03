@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PendingAdminInfoRepository extends JpaRepository<PendingAdminInfo, Long> {
 
-	Optional<PendingAdminInfo> findByClubName(String name);
+	boolean existsByClubNameAndApproved(String name, boolean isApproved);
 }
