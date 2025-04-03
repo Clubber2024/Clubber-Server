@@ -29,7 +29,7 @@ public class OwnerService {
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         String clubName = pendingAdminInfo.getClubName();
-        if (pendingAdminInfoRepository.existsByClubNameAndApproved(clubName, true)) {
+        if (pendingAdminInfoRepository.existsPendingAdminInfoByClubNameAndIsApproved(clubName, true)) {
             throw new RuntimeException("승인 내역 확인 : 이미 승인된 동아리입니다");
         }
 
