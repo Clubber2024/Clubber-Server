@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
+import com.clubber.ClubberServer.domain.club.domain.College;
 import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
@@ -32,8 +33,6 @@ public class ClubController {
 
     private final ClubService clubService;
 
-
-    // 중앙동아리 - 분과별 동아리 조회
     @DisableSwaggerSecurity
     @Operation(summary = "분과별 중앙동아리 조회")
     @GetMapping(params = "division")
@@ -42,8 +41,6 @@ public class ClubController {
         return clubService.getClubsByDivision(division);
     }
 
-
-    // 소모임 - 학과별 소모임 조회
     @DisableSwaggerSecurity
     @Operation(summary = "학과별 소모임 조회")
     @GetMapping(params = "department")
@@ -52,12 +49,9 @@ public class ClubController {
         return clubService.getClubsByDepartment(department);
     }
 
-
-    /* === 중앙 동아리 & 소모임 공통 ===*/
-    // 개별 동아리 및 소모임 페이지 조회
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 및 소모임 개별 페이지 조회")
-    @GetMapping("/{clubId}") //중앙동아리 및 소모임 개별 페이지 조회
+    @GetMapping("/{clubId}")
     public GetClubResponse getClubsIndividualPage(@PathVariable("clubId") Long clubId) {
         return clubService.getClubsIndividualPage(clubId);
     }
@@ -69,14 +63,12 @@ public class ClubController {
         return clubService.getClubsTotalHashtags();
     }
 
-
     @DisableSwaggerSecurity
-    @Operation(summary = "중앙동아리 - 분과 이름 목록 조회")
+    @Operation(summary = "중앙동아리 - 분과 이름 목록 조회 \uD83D\uDCCB")
     @GetMapping("/divisions")
     public List<EnumMapperVO> getDivisions() {
         return clubService.getDivisionNames();
     }
-
 
     @DisableSwaggerSecurity
     @Operation(summary = "소모임 - 단과대별 학과 이름 목록 조회")
@@ -107,10 +99,24 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "clubType 목록 반환")
+    @Operation(summary = "clubType 목록 반환 \uD83D\uDCCB")
     @GetMapping(value = "/types")
     public List<EnumMapperVO> getClubTypes() {
         return clubService.getClubTypes();
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "소모임 - 단과대 목록 조회 \uD83D\uDCCB")
+    @GetMapping(value = "/colleges/types")
+    public List<EnumMapperVO> getCollegeList() {
+        return clubService.getColleges();
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "소모임 - 단과대 소속 학과 목록 조회 \uD83D\uDCCB")
+    @GetMapping(value = "/departments", params = "college")
+    public List<EnumMapperVO> getDepartmentList(@RequestParam(required = false) College college) {
+        return clubService.getDepartmentList(college);
     }
 
 
