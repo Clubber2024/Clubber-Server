@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +33,10 @@ public class PendingAdminInfo extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ClubType clubType;
 
+    private College college = College.ETC;
+
+    private Department department = Department.ETC;
+
     @NotNull
     private String clubName;
 
@@ -45,12 +51,14 @@ public class PendingAdminInfo extends BaseEntity {
     private boolean isApproved = false;
 
     @Builder
-    public PendingAdminInfo(Long id, String username, String password, String clubName, ClubType clubType, String email, Contact contact, String imageForApproval) {
+    public PendingAdminInfo(Long id, String username, String password, String clubName, ClubType clubType, College college, Department department, String email, Contact contact, String imageForApproval) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.clubType = clubType;
         this.clubName = clubName;
+        this.department = department;
+        this.college = college;
         this.email = email;
         this.contact = contact;
         this.imageForApproval = imageForApproval;
