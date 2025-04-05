@@ -213,14 +213,12 @@ public class ClubService {
     }
 
     // [회원가입] 동아리 type 목록 조회
-    @Transactional(readOnly = true)
     public List<EnumMapperVO> getClubTypes() {
         return enumDefaultMapper.get("ClubType");
     }
 
 
     // [회원가입] 중앙동아리 분과 목록 조회
-    @Transactional(readOnly = true)
     public List<EnumMapperVO> getDepartmentList(College college) {
         return college.getDepartments().stream()
             .map(EnumMapperVO::new)
@@ -228,7 +226,6 @@ public class ClubService {
     }
 
     // [회원가입] 소모임 단과대 목록 조회
-    @Transactional(readOnly = true)
     public List<EnumMapperVO> getColleges() {
         return enumDefaultMapper.get("College");
     }
