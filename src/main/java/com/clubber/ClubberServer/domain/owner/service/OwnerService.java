@@ -52,6 +52,8 @@ public class OwnerService {
             Club club = Club.builder()
                     .name(clubName)
                     .clubType(pendingAdminInfo.getClubType())
+                    .college(pendingAdminInfo.getCollege())
+                    .department(pendingAdminInfo.getDepartment())
                     .build();
             Club savedClub = clubRepository.save(club);
 
