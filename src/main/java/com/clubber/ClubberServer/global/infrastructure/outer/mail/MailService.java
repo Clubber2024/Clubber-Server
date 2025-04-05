@@ -69,7 +69,8 @@ public class MailService {
                 "                text-align: center;\n" +
                 "                margin-top: 30px;\n" +
                 "            }\n" +
-                "            h4, p {\n" +
+                "            h4,\n" +
+                "            p {\n" +
                 "                text-align: center;\n" +
                 "            }\n" +
                 "        </style>\n" +
@@ -89,7 +90,7 @@ public class MailService {
                 "            <tr>\n" +
                 "                <td align=\"center\">\n" +
                 "                    <h2>이메일 인증 코드</h2>\n" +
-                "                    <p>안녕하세요, 클러버에서 요청하신 인증번호를 보내드립니다.</p>\n" +
+                "                    <p style=\"margin-bottom: 10px\">안녕하세요, 클러버에서 요청하신 인증번호를 보내드립니다.</p>\n" +
                 "                </td>\n" +
                 "            </tr>\n" +
                 "            <tr></tr>\n" +
@@ -113,8 +114,8 @@ public class MailService {
                 "            <tr></tr>\n" +
                 "            <tr>\n" +
                 "                <td align=\"center\">\n" +
-                "                    <p>위 인증번호 6자리를 인증번호 입력창에 입력해주세요.</p>\n" +
-                "                    <h4 style=\"margin-top: 0\">인증코드는 5분 후 만료됩니다.</h4>\n" +
+                "                    <p style=\"margin-top: 10px\">위 인증번호 6자리를 인증번호 입력창에 입력해주세요.</p>\n" +
+                "                    <h4 style=\"margin-top: 0; margin-bottom: 100px\">인증코드는 5분 후 만료됩니다.</h4>\n" +
                 "                </td>\n" +
                 "            </tr>\n" +
                 "        </table>\n" +
