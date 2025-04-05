@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
@@ -17,7 +18,9 @@ public class AdminFixture {
     public static final String OLD_PASSWORD = "oldPassword";
     public static final String NEW_PASSWORD = "newPassword";
     public static final String INSTAGRAM = "@clubber_ssu";
-    
+    public static final String NAME = "clubber";
+    public static final Integer AUTH_CODE = 123456;
+
     public static final UpdateClubPageRequest VALID_UPDATE_CLUB_PAGE_REQUEST =
             new UpdateClubPageRequest("수정imagekey", "수정introduction", "수정instagram", "수정youtube", "수정activity",
                     "수정leader", 1000L);
@@ -48,6 +51,13 @@ public class AdminFixture {
                 );
     }
 
+    public static AdminSignupAuth.AdminSignupAuthBuilder aAdminSignupAuth() {
+        return AdminSignupAuth.builder()
+                .clubName(NAME)
+                .authCode(AUTH_CODE)
+                .email(EMAIL);
+    }
+
     public static ArbitraryBuilder<CreateAdminsLoginRequest> a_관리자_로그인_요청() {
         return fixtureMonkey.giveMeBuilder(CreateAdminsLoginRequest.class)
                 .set("username", USERNAME)
@@ -68,5 +78,10 @@ public class AdminFixture {
 
     public static ArbitraryBuilder<UpdateAdminContactRequest> a_연락수단_변경_요청() {
         return fixtureMonkey.giveMeBuilder(UpdateAdminContactRequest.class);
+    }
+
+    public static ArbitraryBuilder<CreateAdminSignUpRequest> a_회원가입_요청() {
+        return fixtureMonkey.giveMeBuilder(CreateAdminSignUpRequest.class)
+                .set("contact", new Contact(INSTAGRAM, null));
     }
 }

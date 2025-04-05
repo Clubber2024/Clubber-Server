@@ -1,17 +1,19 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminContactRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -24,6 +26,7 @@ import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +69,9 @@ public class AdminAccountServiceTest {
 
     @Autowired
     private PendingAdminInfoRepository pendingAdminInfoRepository;
+
+    @Autowired
+    private AdminSignupAuthRepository adminSignupAuthRepository;
 
     @Autowired
     private AdminReadService adminReadService;
@@ -158,7 +164,7 @@ public class AdminAccountServiceTest {
     }
 
     @Test
-    void 관리자_연락수단_변경 () {
+    void 관리자_연락수단_변경() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
         createSecurityContext(adminRepository.save(admin));
@@ -190,6 +196,42 @@ public class AdminAccountServiceTest {
         Admin adminAfterWithdraw = adminRepository.findById(saved.getId()).get();
         assertThat(adminAfterWithdraw.getAccountState()).isEqualTo(AccountState.INACTIVE);
     }
+
+//    @Test
+//    void 회원가입_소모임이_아닌_경우_단과대_학과_기본값_저장() {
+//        //Given
+//        String username = "username";
+//        String email = "email";
+//        Integer authCode = 123456;
+//        String clubName = "clubber";
+//
+//        CreateAdminSignUpRequest request = AdminFixture.a_회원가입_요청()
+//                .set("college", null)
+//                .set("department", null)
+//                .set("username", username)
+//                .set("email", email)
+//                .set("authCode", authCode)
+//                .set("clubName", clubName)
+//                .sample();
+//
+//        AdminSignupAuth adminSignupAuth = AdminFixture.aAdminSignupAuth()
+//                .email(email)
+//                .authCode(authCode)
+//                .clubName(clubName).build();
+//
+//        adminSignupAuth.verify();
+//        adminSignupAuthRepository.save(adminSignupAuth);
+//
+//        //when
+//        adminAccountService.createAdminSignUp(request);
+//
+//        //then
+//        PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findByUsername(username).get();
+//        assertAll(
+//                () -> assertThat(pendingAdminInfo.getCollege()).isEqualTo(College.ETC),
+//                () -> assertThat(pendingAdminInfo.getDepartment()).isEqualTo(Department.ETC)
+//        );
+//    }
 
     /**
      * TODO : 비동기 soft-delete 추후 테스트 코드 변경
