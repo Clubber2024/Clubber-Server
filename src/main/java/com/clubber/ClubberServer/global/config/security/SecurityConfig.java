@@ -106,6 +106,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/clubs/{clubId}")
                 .requestMatchers("/api/v1/clubs/divisions")
                 .requestMatchers("/api/v1/clubs/colleges")
+                .requestMatchers("/api/v1/clubs/colleges/types")
+                .requestMatchers("/api/v1/clubs/departments")
                 .requestMatchers("/api/v1/clubs/summary")
                 .requestMatchers("/api/v1/clubs/popular")
                 .requestMatchers(HttpMethod.GET, "/api/v1/clubs/{clubId}/reviews/**")
