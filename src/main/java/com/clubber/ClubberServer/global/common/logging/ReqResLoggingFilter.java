@@ -35,8 +35,14 @@ public class ReqResLoggingFilter extends OncePerRequestFilter {
         filterChain.doFilter(cachingRequestWrapper, cachingResponseWrapper);
         long endTime = System.currentTimeMillis();
 
-        log.info(HttpLogMessage.createHttpLogMessage(cachingRequestWrapper, cachingResponseWrapper, endTime - startTime).toString());
+        if (!isSkipLogURI(cachingRequestWrapper.getRequestURI())) {
+            log.info(HttpLogMessage.createHttpLogMessage(cachingRequestWrapper, cachingResponseWrapper, endTime - startTime).toString());
+        }
         cachingResponseWrapper.copyBodyToResponse();
         MDC.remove(REQUEST_ID);
+    }
+
+    private boolean isSkipLogURI(String requestURI) {
+        return requestURI.startsWith("/swagger-ui") || requestURI.startsWith("/v3/api-docs");
     }
 }
