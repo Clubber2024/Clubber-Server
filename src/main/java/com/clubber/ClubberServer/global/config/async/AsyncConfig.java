@@ -28,6 +28,7 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setMaxPoolSize(5);
         executor.setQueueCapacity(10);
         executor.initialize();
+        executor.setTaskDecorator(new ClonedTaskDecorator());
         return executor;
     }
 
