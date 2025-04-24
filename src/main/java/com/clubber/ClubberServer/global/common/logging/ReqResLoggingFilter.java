@@ -43,6 +43,6 @@ public class ReqResLoggingFilter extends OncePerRequestFilter {
     }
 
     private boolean isSkipLogURI(String requestURI) {
-        return requestURI.startsWith("/swagger-ui") || requestURI.startsWith("/v3/api-docs");
+        return requestURI.startsWith("/swagger-ui") || requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/actuator");
     }
 }
