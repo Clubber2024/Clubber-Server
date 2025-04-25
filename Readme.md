@@ -30,11 +30,13 @@
 - [Java Enum을 활용한 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
 - [Java Enum을 활용한 프로젝트 개선기 (3)](https://minjun98.tistory.com/134)
 - [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
-- [@Builder을 활용한 독립적이고 가시적인 Fixture Setup](https://minjun98.tistory.com/133)
+- [@Builder을 활용한 독립적이고 가시적인 Fixture Setup](https://minjun98.tistory.com/137)
 
 ### Infa
-- [커스텀 nginx 이미지를 통해 DDoS공격 막기](https://velog.io/@sseongeun/ddos%EA%B3%B5%EA%B2%A9%EB%A7%89%EA%B8%B0)
+- [Spring Logging 전략 수립하기](https://minjun98.tistory.com/138)
 - [운영을 위한 초기 인프라 구축 과정](https://minjun98.tistory.com/133)
+- [커스텀 nginx 이미지를 통해 DDoS공격 막기](https://velog.io/@sseongeun/ddos%EA%B3%B5%EA%B2%A9%EB%A7%89%EA%B8%B0)
+
 
 ## 참여자
 
