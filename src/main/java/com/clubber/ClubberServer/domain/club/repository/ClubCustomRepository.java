@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ClubCustomRepository {
 
-    public List<GetClubPopularResponse> findAllOrderByTotalViewDesc();
+    List<GetClubPopularResponse> findAllOrderByTotalViewDesc();
 }

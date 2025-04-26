@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -10,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -27,7 +25,6 @@ public class CollegeResponse {
     private final List<EnumMapperVO> departments;
 
     public static CollegeResponse from(College college, List<EnumMapperVO> departmentVOS) {
-
         return CollegeResponse.builder()
                 .collegeCode(college.getCode())
                 .collegeTitle(college.getTitle())

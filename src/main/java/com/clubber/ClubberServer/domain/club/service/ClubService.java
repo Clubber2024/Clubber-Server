@@ -33,7 +33,7 @@ public class ClubService {
             throw DivisionNotFoundException.EXCEPTION;
         } else {
             List<GetClubIntoCardResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubIntoCardResponse.from(club))
+                    .map(GetClubIntoCardResponse::from)
                     .collect(Collectors.toList());
 
             return GetClubByDivisionResponse.of(division, clubDtos);
@@ -49,7 +49,7 @@ public class ClubService {
             throw DepartmentNotFoundException.EXCEPTION;
         } else {
             List<GetClubIntoCardResponse> clubDtos = clubs.stream()
-                    .map(club -> GetClubIntoCardResponse.from(club))
+                    .map(GetClubIntoCardResponse::from)
                     .collect(Collectors.toList());
             return new DepartmentSmallDto(department, clubDtos);
         }
@@ -75,7 +75,7 @@ public class ClubService {
 
         List<String> clubTypes = Arrays.stream(ClubType.values())
                 .map(ClubType::getTitle)
-                .collect(Collectors.toList());
+                .toList();
 
         if (clubs.isEmpty()) {
             throw ClubNotFoundException.EXCEPTION;
@@ -101,7 +101,7 @@ public class ClubService {
         }
 
         List<GetClubByHashTagResponse> clubDtos = clubs.stream()
-                .map(club -> GetClubByHashTagResponse.from(club))
+                .map(GetClubByHashTagResponse::from)
                 .collect(Collectors.toList());
 
         return GetClubsByHashTagResponse.of(hashtag, clubDtos);
@@ -118,7 +118,7 @@ public class ClubService {
         Pageable topTen = PageRequest.of(0, 10);
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
         return clubs.stream()
-                .map(club -> GetClubPopularResponse.from(club))
+                .map(GetClubPopularResponse::from)
                 .collect(Collectors.toList());
     }
 
