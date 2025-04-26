@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class ClubService {
@@ -90,7 +89,6 @@ public class ClubService {
         return GetClubsSearchResponse.of(groupedClubs);
     }
 
-
     // 특정 해시태그 반환
     @Transactional(readOnly = true)
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag) {
@@ -102,10 +100,9 @@ public class ClubService {
 
         List<GetClubByHashTagResponse> clubDtos = clubs.stream()
                 .map(GetClubByHashTagResponse::from)
-                .collect(Collectors.toList());
+                .toList();
 
         return GetClubsByHashTagResponse.of(hashtag, clubDtos);
-
     }
 
     @Transactional(readOnly = true)
@@ -119,7 +116,7 @@ public class ClubService {
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
         return clubs.stream()
                 .map(GetClubPopularResponse::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // [해시태그] 해시태그 목록 반환 (enum)
@@ -132,7 +129,6 @@ public class ClubService {
         return enumMapper.get("Division");
     }
 
-
     // [소모임] - 단과대 & 학과명 반환 (enum)
     public List<CollegeResponse> getCollegesWithDepartments() {
         return Arrays.stream(College.values())
@@ -144,6 +140,7 @@ public class ClubService {
     }
 
     // [한눈에 보기]
+    @Transactional(readOnly = true)
     public List<GetSummaryClubGroupResponse> getSummaryClubs() {
         List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.CENTER);
 
@@ -161,6 +158,7 @@ public class ClubService {
     }
 
     // [숭실대 공식 단체]
+    @Transactional(readOnly = true)
     public GetOfficialClubGroupResponse getOfficialClubs() {
         List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.OFFICIAL);
 
