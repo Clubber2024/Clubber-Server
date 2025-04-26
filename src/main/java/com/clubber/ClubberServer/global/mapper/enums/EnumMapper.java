@@ -9,10 +9,7 @@ public class EnumMapper {
 
     private final Map<String, List<EnumMapperVO>> factory = new LinkedHashMap<>();
 
-    private final Map<String, Class<? extends EnumMapperType>> typeFactory = new LinkedHashMap<>();
-
     public void put(String key, Class<? extends EnumMapperType> e) {
-        typeFactory.put(key, e);
         factory.put(key, toEnumValues(e));
     }
 
