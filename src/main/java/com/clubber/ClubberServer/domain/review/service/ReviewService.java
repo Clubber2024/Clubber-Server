@@ -16,7 +16,6 @@ import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
-import com.clubber.ClubberServer.global.vo.enums.EnumDefaultMapperVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
