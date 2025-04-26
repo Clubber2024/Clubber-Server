@@ -4,7 +4,6 @@ import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
 import lombok.RequiredArgsConstructor;
@@ -185,12 +184,9 @@ public class ClubService {
         return enumMapper.get("ClubType");
     }
 
-
     // [회원가입] 중앙동아리 분과 목록 조회
     public List<EnumMapperVO> getDepartmentList(College college) {
-        return college.getDepartments().stream()
-                .map(EnumDefaultMapperType::createVO)
-                .collect(Collectors.toList());
+        return enumMapper.toEnumValues(college.getDepartments());
     }
 
     // [회원가입] 소모임 단과대 목록 조회
