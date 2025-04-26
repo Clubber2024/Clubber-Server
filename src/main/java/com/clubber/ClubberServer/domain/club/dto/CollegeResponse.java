@@ -1,9 +1,14 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperType;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +29,7 @@ public class CollegeResponse {
     public static CollegeResponse from(College college) {
 
         List<EnumMapperVO> departments = college.getDepartments().stream()
-                .map(department -> new EnumMapperVO(department))
+                .map(EnumMapperType::createVO)
                 .collect(Collectors.toList());
 
         return CollegeResponse.builder()
