@@ -26,16 +26,12 @@ public class CollegeResponse {
     @Schema(description = "단과대 소속 학과들")
     private final List<EnumMapperVO> departments;
 
-    public static CollegeResponse from(College college) {
-
-        List<EnumMapperVO> departments = college.getDepartments().stream()
-                .map(EnumMapperType::createVO)
-                .collect(Collectors.toList());
+    public static CollegeResponse from(College college, List<EnumMapperVO> departmentVOS) {
 
         return CollegeResponse.builder()
                 .collegeCode(college.getCode())
                 .collegeTitle(college.getTitle())
-                .departments(departments)
+                .departments(departmentVOS)
                 .build();
     }
 }

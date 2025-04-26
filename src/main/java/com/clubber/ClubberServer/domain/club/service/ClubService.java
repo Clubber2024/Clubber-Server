@@ -136,8 +136,11 @@ public class ClubService {
     // [소모임] - 단과대 & 학과명 반환 (enum)
     public List<CollegeResponse> getCollegesWithDepartments() {
         return Arrays.stream(College.values())
-                .map(CollegeResponse::from)
-                .collect(Collectors.toList());
+                .map(
+                        college -> {
+                            List<EnumMapperVO> enumMapperVOs = enumMapper.toEnumValues(college.getDepartments());
+                            return CollegeResponse.from(college, enumMapperVOs);
+                        }).toList();
     }
 
     // [한눈에 보기]
