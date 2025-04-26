@@ -12,8 +12,7 @@ import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.vo.enums.EnumImageMapperVO;
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -59,7 +58,7 @@ public class ClubController {
     @DisableSwaggerSecurity
     @Operation(summary = "메인페이지에서의 전체 동아리 해시태그 목록 조회")
     @GetMapping("/hashtags")
-    public List<EnumImageMapperVO> getClubsTotalHashTags() {
+    public List<EnumMapperVO> getClubsTotalHashTags() {
         return clubService.getClubsTotalHashtags();
     }
 

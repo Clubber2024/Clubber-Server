@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
-import com.clubber.ClubberServer.global.vo.enums.EnumDefaultMapperVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
