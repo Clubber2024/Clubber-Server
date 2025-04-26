@@ -105,11 +105,6 @@ public class ClubService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetClubPopularResponse> getClubsPopularTemp() {
-        return clubRepository.findAllOrderByTotalViewDesc();
-    }
-
-    @Transactional(readOnly = true)
     public List<GetClubPopularResponse> getClubsPopular() {
         Pageable topTen = PageRequest.of(0, 10);
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
@@ -192,5 +187,13 @@ public class ClubService {
     // [회원가입] 소모임 단과대 목록 조회
     public List<EnumMapperVO> getColleges() {
         return enumMapper.get("College");
+    }
+
+    /**TODO**
+     * 추후 Projection으로 수정
+     */
+    @Transactional(readOnly = true)
+    public List<GetClubPopularResponse> getClubsPopularTemp() {
+        return clubRepository.findAllOrderByTotalViewDesc();
     }
 }
