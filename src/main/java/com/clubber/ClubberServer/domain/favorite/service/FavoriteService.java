@@ -52,4 +52,9 @@ public class FavoriteService {
         favorite.delete();
         return FavoriteResponse.from(favorite);
     }
+
+    @Transactional
+    public void softDeleteByClubId(Long clubId) {
+        favoriteRepository.softDeleteFavoriteByClubId(clubId);
+    }
 }

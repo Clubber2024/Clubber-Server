@@ -256,4 +256,9 @@ public class RecruitService {
         return UpdateRecruitResponse.of(recruit, requestPage.getImages());
 
     }
+
+    @Transactional
+    public void softDeleteByClubId(Long clubId) {
+        recruitRepository.softDeleteRecruitByClubId(clubId);
+    }
 }

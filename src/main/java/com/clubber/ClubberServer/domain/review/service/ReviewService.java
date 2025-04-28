@@ -121,4 +121,9 @@ public class ReviewService {
 	public void saveReview(Review review) {
 		reviewRepository.save(review);
 	}
+
+	@Transactional
+	public void softDeleteReviewByClubId(Long clubId) {
+		reviewRepository.softDeleteReviewByClubId(clubId);
+	}
 }
