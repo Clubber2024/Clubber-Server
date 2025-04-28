@@ -19,7 +19,7 @@ public class SoftDeleteEventHandler {
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleSoftDelete(SoftDeleteEvent event) {
-        Long clubId = event.getClubId();
+        Long clubId = event.clubId();
         reviewService.softDeleteReviewByClubId(clubId);
         favoriteService.softDeleteByClubId(clubId);
         recruitService.softDeleteByClubId(clubId);
