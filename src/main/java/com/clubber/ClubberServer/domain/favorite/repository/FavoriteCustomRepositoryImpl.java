@@ -1,18 +1,17 @@
 package com.clubber.ClubberServer.domain.favorite.repository;
 
-import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
-import static com.clubber.ClubberServer.domain.favorite.domain.QFavorite.favorite;
-import static com.clubber.ClubberServer.domain.user.domain.QUser.user;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+
+import java.util.List;
+
+import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
+import static com.clubber.ClubberServer.domain.favorite.domain.QFavorite.favorite;
 
 @RequiredArgsConstructor
 public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
@@ -53,6 +52,5 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
                         favorite.isDeleted.eq(false));
 
         return PageableExecutionUtils.getPage(favorites, pageable, countQuery::fetchOne);
-
     }
 }
