@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SoftDeleteEvent {
-	private Long adminId;
+	private Long clubId;
 }
