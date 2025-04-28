@@ -14,7 +14,7 @@ import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
 import static com.clubber.ClubberServer.domain.favorite.domain.QFavorite.favorite;
 
 @RequiredArgsConstructor
-public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
+public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -52,5 +52,13 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository{
                         favorite.isDeleted.eq(false));
 
         return PageableExecutionUtils.getPage(favorites, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public void softDeleteFavoriteByClubId(Long clubId) {
+        queryFactory.update(favorite)
+                .where(favorite.club.id.eq(clubId))
+                .set(favorite.isDeleted, true)
+                .execute();
     }
 }
