@@ -1,37 +1,18 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
-import jakarta.persistence.Column;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideInfoException;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
-import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
-
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -81,15 +62,6 @@ public class Club extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clubInfo_id")
 	private ClubInfo clubInfo;
-
-	@OneToMany(mappedBy = "club")
-	private List<Review> reviews = new ArrayList<>();
-
-	@OneToMany(mappedBy = "club")
-	private List<Favorite> favorites = new ArrayList<>();
-
-	@OneToMany(mappedBy = "club")
-	private List<Recruit> recruits = new ArrayList<>(); 
 
 	private boolean isAgreeToReview = false;
 
