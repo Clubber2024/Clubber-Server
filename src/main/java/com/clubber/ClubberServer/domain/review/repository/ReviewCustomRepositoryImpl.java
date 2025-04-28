@@ -132,7 +132,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     @Override
     public void softDeleteReviewByClubId(Long clubId) {
         queryFactory.update(review)
-                .where(review.club.id.eq(clubId))
+                .where(
+                        review.club.id.eq(clubId), review.club.isDeleted.eq(false)
+                )
                 .set(review.club.isDeleted, true)
                 .execute();
     }
