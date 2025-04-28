@@ -82,21 +82,4 @@ public class Admin extends BaseEntity {
         }
         this.accountState = AccountState.INACTIVE;
     }
-
-    public void deleteClub(){
-        club.delete();
-    }
-
-    public void deleteClubReviews(){
-        club.deleteReviews();
-    }
-
-    public void deleteClubRecruits() {
-        club.deleteRecruits();
-    }
-
-    public void deleteClubFavorites(){
-        club.deleteFavorites();
-    }
-
 }

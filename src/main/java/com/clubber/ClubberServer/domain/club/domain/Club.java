@@ -101,7 +101,7 @@ public class Club extends BaseEntity {
 	}
 
 	public void delete() {
-		if (this.isDeleted == true) {
+		if (this.isDeleted) {
 			throw ClubAlreadyDeletedException.EXCEPTION;
 		}
 		this.isDeleted = true;
@@ -115,18 +115,6 @@ public class Club extends BaseEntity {
 	public void validateAgreeToProvideInfo(){
 		if(!isAgreeToProvideInfo)
 			throw ClubNotAgreeToProvideInfoException.EXCEPTION;
-	}
-
-	public void deleteReviews() {
-		reviews.stream().forEach(Review::delete);
-	}
-
-	public void deleteFavorites() {
-		favorites.stream().forEach(Favorite::delete);
-	}
-
-	public void deleteRecruits() {
-		recruits.stream().forEach(Recruit::delete);
 	}
 
 	@Builder
