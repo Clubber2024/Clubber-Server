@@ -28,7 +28,6 @@
 ### Backend
 - [Java Enum을 활용한 프로젝트 개선기 (1)](https://minjun98.tistory.com/108)
 - [Java Enum을 활용한 프로젝트 개선기 (2)](https://minjun98.tistory.com/109)
-- [Java Enum을 활용한 프로젝트 개선기 (3)](https://minjun98.tistory.com/134)
 - [JPA 상속 매핑에 대한 고찰](https://minjun98.tistory.com/106)
 - [@Builder을 활용한 독립적이고 가시적인 Fixture Setup](https://minjun98.tistory.com/137)
 
