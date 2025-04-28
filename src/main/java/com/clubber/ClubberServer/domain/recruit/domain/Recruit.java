@@ -3,22 +3,13 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +20,7 @@ import org.hibernate.type.SqlTypes;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {@Index(name = "idx_recruit_club_id_is_deleted", columnList = "club_id, is_deleted")})
 public class Recruit extends BaseEntity {
 
     @Id
@@ -90,9 +82,9 @@ public class Recruit extends BaseEntity {
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
-        String title,
-        String content, String everytimeUrl, Long totalView,
-        Club club, List<RecruitImage> recruitImages) {
+                    String title,
+                    String content, String everytimeUrl, Long totalView,
+                    Club club, List<RecruitImage> recruitImages) {
         this.id = id;
         this.startAt = startAt;
         this.endAt = endAt;
@@ -108,11 +100,11 @@ public class Recruit extends BaseEntity {
 
     public static Recruit of(Club club, PostRecruitRequest request) {
         return Recruit.builder()
-            .title(request.getTitle())
-            .content(request.getContent())
-            .everytimeUrl(request.getEverytimeUrl())
-            .totalView(0L)
-            .club(club)
-            .build();
+                .title(request.getTitle())
+                .content(request.getContent())
+                .everytimeUrl(request.getEverytimeUrl())
+                .totalView(0L)
+                .club(club)
+                .build();
     }
 }
