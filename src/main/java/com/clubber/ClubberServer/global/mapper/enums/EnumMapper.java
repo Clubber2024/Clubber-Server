@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.global.mapper.enums;
 
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.NoArgsConstructor;
 
 import java.util.*;

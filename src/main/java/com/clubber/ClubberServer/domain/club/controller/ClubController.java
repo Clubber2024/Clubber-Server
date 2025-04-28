@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.club.dto.GetOfficialClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
