@@ -3,8 +3,6 @@ package com.clubber.ClubberServer.global.event.withdraw;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -16,18 +14,18 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class SoftDeleteEventHandler {
 
-	private final AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
 
-	@Async
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	@TransactionalEventListener
-	public void handleSoftDelete(SoftDeleteEvent event) {
-		Long adminId = event.getAdminId();
-		Admin admin = adminRepository.findById(adminId)
-			.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
-		admin.deleteClub();
-		admin.deleteClubReviews();
-		admin.deleteClubFavorites();
-		admin.deleteClubRecruits();
-	}
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @TransactionalEventListener
+    public void handleSoftDelete(SoftDeleteEvent event) {
+        Long adminId = event.getAdminId();
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        admin.deleteClub();
+        admin.deleteClubReviews();
+        admin.deleteClubFavorites();
+        admin.deleteClubRecruits();
+    }
 }
