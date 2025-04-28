@@ -85,11 +85,11 @@ public class RecruitCustomRepositoryImpl implements RecruitCustomRepository {
     @Override
     public void softDeleteRecruitByClubId(Long clubId) {
         jpaQueryFactory.update(recruit)
+                .set(recruit.isDeleted, true)
                 .where(
                         recruit.club.id.eq(clubId),
                         recruit.club.isDeleted.eq(false)
                 )
-                .set(recruit.isDeleted, true)
                 .execute();
     }
 }

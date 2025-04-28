@@ -57,11 +57,11 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
     @Override
     public void softDeleteFavoriteByClubId(Long clubId) {
         queryFactory.update(favorite)
+                .set(favorite.isDeleted, true)
                 .where(
                         favorite.club.id.eq(clubId),
                         favorite.isDeleted.eq(false)
                 )
-                .set(favorite.isDeleted, true)
                 .execute();
     }
 }
