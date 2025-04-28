@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.review.controller;
 import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.infrastructure.outer.perspective.client.PerspectiveClient;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

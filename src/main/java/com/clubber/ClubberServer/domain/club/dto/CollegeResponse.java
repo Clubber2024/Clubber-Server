@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapperVO;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
