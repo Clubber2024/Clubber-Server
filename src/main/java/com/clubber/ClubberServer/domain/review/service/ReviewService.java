@@ -123,7 +123,7 @@ public class ReviewService {
 		reviewRepository.save(review);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional
 	public void softDeleteReviewByClubId(Long clubId) {
 		reviewRepository.softDeleteReviewByClubId(clubId);
 	}

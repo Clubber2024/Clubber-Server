@@ -54,7 +54,7 @@ public class FavoriteService {
         return FavoriteResponse.from(favorite);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void softDeleteByClubId(Long clubId) {
         favoriteRepository.softDeleteFavoriteByClubId(clubId);
     }

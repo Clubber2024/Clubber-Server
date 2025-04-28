@@ -258,7 +258,7 @@ public class RecruitService {
 
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void softDeleteByClubId(Long clubId) {
         recruitRepository.softDeleteRecruitByClubId(clubId);
     }
