@@ -128,4 +128,12 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         .and(review.approvedStatus.ne(DELETED)))
                 .fetchOne());
     }
+
+    @Override
+    public void softDeleteReviewByClubId(Long clubId) {
+        queryFactory.update(review)
+                .where(review.club.id.eq(clubId))
+                .set(review.club.isDeleted, true)
+                .execute();
+    }
 }

@@ -23,4 +23,6 @@ public interface ReviewCustomRepository {
 	boolean existsByClubAndUserAndNotApprovedStatusDeleted(Club club, User user);
 
 	Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId);
+
+	void softDeleteReviewByClubId(Long clubId);
 }
