@@ -17,4 +17,6 @@ public interface RecruitCustomRepository {
     Page<Recruit> queryAllRecruits(Pageable pageable);
 
     Optional<Recruit> queryRecruitsById(Long recruitId);
+
+    void softDeleteRecruitByClubId(Long clubId);
 }

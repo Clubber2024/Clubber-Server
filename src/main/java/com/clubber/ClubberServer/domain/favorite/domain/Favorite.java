@@ -26,53 +26,56 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(indexes = @Index(name = "idx_favorite_user_id_is_deleted_id_desc", columnList = "user_id, is_deleted, id desc"))
+@Table(indexes = {
+        @Index(name = "idx_favorite_user_id_is_deleted_id_desc", columnList = "user_id, is_deleted, id desc"),
+        @Index(name = "idx_favorite_club_id_is_deleted", columnList = "club_id, is_deleted")}
+)
 public class Favorite extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "club_id")
-	private Club club;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
 
-	private boolean isDeleted = false;
+    private boolean isDeleted = false;
 
-	@Builder
-	private Favorite(Long id, User user, Club club) {
-		this.id = id;
-		this.user = user;
-		this.club = club;
-	}
+    @Builder
+    private Favorite(Long id, User user, Club club) {
+        this.id = id;
+        this.user = user;
+        this.club = club;
+    }
 
-	public static Favorite create(User user, Club club) {
-		return Favorite.builder()
-			.user(user)
-			.club(club)
-			.build();
-	}
+    public static Favorite create(User user, Club club) {
+        return Favorite.builder()
+                .user(user)
+                .club(club)
+                .build();
+    }
 
-	public void checkClub(Long clubId) {
-		if (!Objects.equals(clubId, club.getId())) {
-			throw FavoriteNotMatchClubException.EXCEPTION;
-		}
-	}
+    public void checkClub(Long clubId) {
+        if (!Objects.equals(clubId, club.getId())) {
+            throw FavoriteNotMatchClubException.EXCEPTION;
+        }
+    }
 
-	public void checkUser(Long userId) {
-		if (!Objects.equals(userId, this.user.getId())) {
-			throw FavoriteNotMatchUserException.EXCEPTION;
-		}
-	}
+    public void checkUser(Long userId) {
+        if (!Objects.equals(userId, this.user.getId())) {
+            throw FavoriteNotMatchUserException.EXCEPTION;
+        }
+    }
 
-	public void delete() {
-		if (this.isDeleted) {
-			throw FavoriteAlreadyDeleteException.EXCEPTION;
-		}
-		this.isDeleted = true;
-	}
+    public void delete() {
+        if (this.isDeleted) {
+            throw FavoriteAlreadyDeleteException.EXCEPTION;
+        }
+        this.isDeleted = true;
+    }
 }

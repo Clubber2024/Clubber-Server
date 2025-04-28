@@ -39,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -255,5 +256,10 @@ public class RecruitService {
         }
         return UpdateRecruitResponse.of(recruit, requestPage.getImages());
 
+    }
+
+    @Transactional
+    public void softDeleteByClubId(Long clubId) {
+        recruitRepository.softDeleteRecruitByClubId(clubId);
     }
 }

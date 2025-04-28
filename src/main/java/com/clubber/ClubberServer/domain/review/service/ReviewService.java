@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -120,5 +121,10 @@ public class ReviewService {
 	@Transactional
 	public void saveReview(Review review) {
 		reviewRepository.save(review);
+	}
+
+	@Transactional
+	public void softDeleteReviewByClubId(Long clubId) {
+		reviewRepository.softDeleteReviewByClubId(clubId);
 	}
 }

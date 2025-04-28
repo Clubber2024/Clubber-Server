@@ -1,19 +1,16 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
+import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminContactRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -26,7 +23,6 @@ import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
-import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,12 +62,6 @@ public class AdminAccountServiceTest {
 
     @Autowired
     private RecruitRepository recruitRepository;
-
-    @Autowired
-    private PendingAdminInfoRepository pendingAdminInfoRepository;
-
-    @Autowired
-    private AdminSignupAuthRepository adminSignupAuthRepository;
 
     @Autowired
     private AdminReadService adminReadService;

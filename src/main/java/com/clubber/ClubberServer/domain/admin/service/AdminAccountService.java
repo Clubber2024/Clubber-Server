@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
@@ -68,7 +69,9 @@ public class AdminAccountService {
     public void withDraw() {
         Admin admin = adminReadService.getCurrentAdmin();
         admin.withDraw();
-        eventPublisher.throwSoftDeleteEvent(admin.getId());
+        Club club = admin.getClub();
+        club.delete();
+        eventPublisher.throwSoftDeleteEvent(club.getId());
     }
 
     public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {

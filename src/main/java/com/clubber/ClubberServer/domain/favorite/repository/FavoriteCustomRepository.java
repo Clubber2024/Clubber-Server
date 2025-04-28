@@ -9,4 +9,6 @@ public interface FavoriteCustomRepository {
     List<Favorite> queryFavoritesByUserId(Long userId);
 
     Page<Favorite> queryFavoritesPageByUserId(Long userId, Pageable pageable);
+
+    void softDeleteFavoriteByClubId(Long clubId);
 }
