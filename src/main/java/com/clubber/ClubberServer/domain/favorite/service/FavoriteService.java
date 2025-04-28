@@ -12,6 +12,7 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -53,7 +54,7 @@ public class FavoriteService {
         return FavoriteResponse.from(favorite);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void softDeleteByClubId(Long clubId) {
         favoriteRepository.softDeleteFavoriteByClubId(clubId);
     }
