@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRep
     boolean existsClubByIdAndIsDeleted(Long clubId, boolean isDeleted);
 
     @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% AND c.isDeleted = false ORDER BY c.clubType")
-    List<Club> findByName(String name);
+    List<Club> findByNameOrderByClubType(String name);
 
     @Query("SELECT c FROM Club c JOIN FETCH c.clubInfo where c.isDeleted = false ORDER BY c.clubInfo.totalView DESC")
     List<Club> findTop10ByOrderByClubInfoTotalViewDesc(Pageable pageable);
@@ -36,6 +35,5 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRep
     List<Club> findByClubTypeAndIsDeletedFalse(ClubType clubType);
 
     @Query("SELECT c FROM Club c WHERE c.name LIKE %:name% AND c.isDeleted = false ORDER BY c.name ASC")
-    List<Club> findByNameSorted(String name);
-
+    List<Club> findByNameOrderByName(String name);
 }
