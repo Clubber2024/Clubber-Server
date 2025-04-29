@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClubCategoyService {
+public class ClubCategoryService {
     private final EnumMapper enumMapper;
 
     // [중앙 동아리] - 분과명 반환 (enum)
