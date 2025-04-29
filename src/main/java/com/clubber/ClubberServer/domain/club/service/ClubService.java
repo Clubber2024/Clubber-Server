@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ClubService {
 
     private final ClubRepository clubRepository;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
-    @Transactional(readOnly = true)
     public GetClubByDivisionResponse getClubsByDivision(Division division) {
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()) {
             throw DivisionNotFoundException.EXCEPTION;
         }
-        
+
         List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(GetClubIntoCardResponse::from)
                     .collect(Collectors.toList());
@@ -34,7 +34,6 @@ public class ClubService {
     }
 
     // [소모임] - 특정 학과 소속 소모임들 반환
-    @Transactional(readOnly = true)
     public DepartmentSmallDto getClubsByDepartment(Department department) {
         List<Club> clubs = clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()) {
@@ -60,7 +59,6 @@ public class ClubService {
     }
 
     // 동아리명 및 소모임명으로 검색
-    @Transactional(readOnly = true)
     public GetClubsSearchResponse getClubsByName(String clubName) {
         List<Club> clubs = clubRepository.findByName(clubName.toUpperCase());
 
@@ -81,8 +79,7 @@ public class ClubService {
         return GetClubsSearchResponse.of(groupedClubs);
     }
 
-    // 특정 해시태그 반환
-    @Transactional(readOnly = true)
+    // 해시태그별 동아리/소모임 조회
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag) {
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
 
@@ -97,7 +94,6 @@ public class ClubService {
         return GetClubsByHashTagResponse.of(hashtag, clubDtos);
     }
 
-    @Transactional(readOnly = true)
     public List<GetClubPopularResponse> getClubsPopular() {
         Pageable topTen = PageRequest.of(0, 10);
         List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
@@ -107,7 +103,6 @@ public class ClubService {
     }
 
     // [한눈에 보기]
-    @Transactional(readOnly = true)
     public List<GetSummaryClubGroupResponse> getSummaryClubs() {
         List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.CENTER);
 
@@ -125,7 +120,6 @@ public class ClubService {
     }
 
     // [숭실대 공식 단체]
-    @Transactional(readOnly = true)
     public GetOfficialClubGroupResponse getOfficialClubs() {
         List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.OFFICIAL);
 
@@ -137,7 +131,6 @@ public class ClubService {
     }
 
     // [회원가입] 동아리명 검색
-    @Transactional(readOnly = true)
     public List<GetClubsSearchForSignUpResponse> searchForSignUp(String clubName) {
         List<Club> clubs = clubRepository.findByNameSorted(clubName.toUpperCase());
 
@@ -149,7 +142,6 @@ public class ClubService {
     /**TODO**
      * 추후 Projection으로 수정
      */
-    @Transactional(readOnly = true)
     public List<GetClubPopularResponse> getClubsPopularTemp() {
         return clubRepository.findAllOrderByTotalViewDesc();
     }
