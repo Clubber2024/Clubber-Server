@@ -4,8 +4,6 @@ import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.exception.*;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +18,6 @@ import java.util.stream.Collectors;
 public class ClubService {
 
     private final ClubRepository clubRepository;
-
-    private final EnumMapper enumMapper;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     @Transactional(readOnly = true)
@@ -113,26 +109,6 @@ public class ClubService {
                 .toList();
     }
 
-    // [해시태그] 해시태그 목록 반환 (enum)
-    public List<EnumMapperVO> getClubsTotalHashtags() {
-        return enumMapper.get("Hashtag");
-    }
-
-    // [중앙 동아리] - 분과명 반환 (enum)
-    public List<EnumMapperVO> getDivisionNames() {
-        return enumMapper.get("Division");
-    }
-
-    // [소모임] - 단과대 & 학과명 반환 (enum)
-    public List<CollegeResponse> getCollegesWithDepartments() {
-        return Arrays.stream(College.values())
-                .map(
-                        college -> {
-                            List<EnumMapperVO> enumMapperVOs = enumMapper.toEnumValues(college.getDepartments());
-                            return CollegeResponse.from(college, enumMapperVOs);
-                        }).toList();
-    }
-
     // [한눈에 보기]
     @Transactional(readOnly = true)
     public List<GetSummaryClubGroupResponse> getSummaryClubs() {
@@ -172,21 +148,6 @@ public class ClubService {
         return clubs.stream()
                 .map(GetClubsSearchForSignUpResponse::from)
                 .collect(Collectors.toList());
-    }
-
-    // [회원가입] 동아리 type 목록 조회
-    public List<EnumMapperVO> getClubTypes() {
-        return enumMapper.get("ClubType");
-    }
-
-    // [회원가입] 중앙동아리 분과 목록 조회
-    public List<EnumMapperVO> getDepartmentList(College college) {
-        return enumMapper.toEnumValues(college.getDepartments());
-    }
-
-    // [회원가입] 소모임 단과대 목록 조회
-    public List<EnumMapperVO> getColleges() {
-        return enumMapper.get("College");
     }
 
     /**TODO**
