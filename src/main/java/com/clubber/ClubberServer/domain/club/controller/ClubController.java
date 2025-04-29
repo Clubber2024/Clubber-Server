@@ -84,6 +84,13 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
+    @Operation(summary="인기순위 조회")
+    @GetMapping("/popular")
+    public List<GetClubPopularResponse> getClubsPopular(){
+        return clubService.getClubsPopular();
+    }
+
+    @DisableSwaggerSecurity
     @Operation(summary = "숭실대 공식 단체 조회")
     @GetMapping("/official")
     public GetOfficialClubGroupResponse getOfficialClubs() {
