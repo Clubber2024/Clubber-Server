@@ -1,10 +1,6 @@
 package com.clubber.ClubberServer.domain.club.repository;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.Department;
-import com.clubber.ClubberServer.domain.club.domain.Division;
-import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.ClubberServer.domain.club.domain.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
