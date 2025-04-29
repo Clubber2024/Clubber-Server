@@ -19,12 +19,12 @@ public class ClubCategoyService {
     }
 
     // [중앙 동아리] - 분과명 반환 (enum)
-    public List<EnumMapperVO> getDivisionNames() {
+    public List<EnumMapperVO> getDivisions() {
         return enumMapper.get("Division");
     }
 
     // [소모임] 단과대별 소속 학과 목록 조회
-    public List<EnumMapperVO> getDepartmentList(College college) {
+    public List<EnumMapperVO> getDepartmentsByCollege(College college) {
         return enumMapper.toEnumValues(college.getDepartments());
     }
 
@@ -33,8 +33,8 @@ public class ClubCategoyService {
         return enumMapper.get("College");
     }
 
-    // [해시태그] 해시태그 목록 반환 (enum)
-    public List<EnumMapperVO> getClubsTotalHashtags() {
+    // [해시태그] 해시태그 목록 반환
+    public List<EnumMapperVO> getHashtags() {
         return enumMapper.get("Hashtag");
     }
 }
