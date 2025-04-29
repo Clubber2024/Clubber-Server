@@ -46,7 +46,7 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "hashtag기반 검색")
+    @Operation(summary = "해시태그별 동아리/소모임 조회")
     @GetMapping(params = "hashtag")
     public GetClubsByHashTagResponse searchByHashtag(
             @RequestParam(name = "hashtag", required = false) Hashtag hashtag) {
@@ -61,27 +61,6 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "메인페이지에서의 전체 동아리 해시태그 목록 조회")
-    @GetMapping("/hashtags")
-    public List<EnumMapperVO> getClubsTotalHashTags() {
-        return clubCategoyService.getHashtags();
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "중앙동아리 - 분과 이름 목록 조회 \uD83D\uDCCB")
-    @GetMapping("/divisions")
-    public List<EnumMapperVO> getDivisions() {
-        return clubCategoyService.getDivisions();
-    }
-
-    @DisableSwaggerSecurity
-    @Operation(summary = "소모임 - 단과대별 학과 이름 목록 조회")
-    @GetMapping("/colleges")
-    public List<CollegeResponse> getColleges() {
-        return clubCategoyService.getCollegesWithDepartments();
-    }
-
-    @DisableSwaggerSecurity
     @Operation(summary = "한눈에 보기")
     @GetMapping("/summary")
     public List<GetSummaryClubGroupResponse> getOneViewClubs() {
@@ -89,7 +68,7 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary="인기순위 조회")
+    @Operation(summary="조회수 기반 인기 순위 조회")
     @GetMapping("/popular")
     public List<GetClubPopularResponse> getClubsPopular(){
         return clubService.getClubsPopular();
@@ -110,6 +89,27 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
+    @Operation(summary = "해시태그 목록 조회")
+    @GetMapping("/hashtags")
+    public List<EnumMapperVO> getClubsTotalHashTags() {
+        return clubCategoyService.getHashtags();
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "중앙동아리 - 분과 이름 목록 조회 \uD83D\uDCCB")
+    @GetMapping("/divisions")
+    public List<EnumMapperVO> getDivisions() {
+        return clubCategoyService.getDivisions();
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "소모임 - 전체 단과대별 소속 목록 조회")
+    @GetMapping("/colleges")
+    public List<CollegeResponse> getColleges() {
+        return clubCategoyService.getCollegesWithDepartments();
+    }
+
+    @DisableSwaggerSecurity
     @Operation(summary = "소모임 - 단과대 목록 조회 \uD83D\uDCCB")
     @GetMapping(value = "/colleges/types")
     public List<EnumMapperVO> getCollegeList() {
@@ -117,7 +117,7 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "소모임 - 단과대 소속 학과 목록 조회 \uD83D\uDCCB")
+    @Operation(summary = "소모임 - 단과대별 소속 학과 목록 조회 \uD83D\uDCCB")
     @GetMapping(value = "/departments", params = "college")
     public List<EnumMapperVO> getDepartmentList(@RequestParam(required = false) College college) {
         return clubCategoyService.getDepartmentsByCollege(college);
