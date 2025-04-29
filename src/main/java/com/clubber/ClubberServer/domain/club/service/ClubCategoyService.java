@@ -1,0 +1,40 @@
+package com.clubber.ClubberServer.domain.club.service;
+
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ClubCategoyService {
+    private final EnumMapper enumMapper;
+
+    // [회원가입] 동아리 type 목록 조회
+    public List<EnumMapperVO> getClubTypes() {
+        return enumMapper.get("ClubType");
+    }
+
+    // [중앙 동아리] - 분과명 반환 (enum)
+    public List<EnumMapperVO> getDivisionNames() {
+        return enumMapper.get("Division");
+    }
+
+    // [소모임] 단과대별 소속 학과 목록 조회
+    public List<EnumMapperVO> getDepartmentList(College college) {
+        return enumMapper.toEnumValues(college.getDepartments());
+    }
+
+    // [회원가입] 소모임 단과대 목록 조회
+    public List<EnumMapperVO> getColleges() {
+        return enumMapper.get("College");
+    }
+
+    // [해시태그] 해시태그 목록 반환 (enum)
+    public List<EnumMapperVO> getClubsTotalHashtags() {
+        return enumMapper.get("Hashtag");
+    }
+}
