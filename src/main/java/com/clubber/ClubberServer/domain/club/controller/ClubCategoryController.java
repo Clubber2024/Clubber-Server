@@ -45,15 +45,15 @@ public class ClubCategoryController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "소모임 - 전체 단과대별 소속 학과 목록 조회")
-    @GetMapping("/colleges")
+    @Operation(summary = "소모임 - 전체 단과대 목록 + 소속 학과 목록 조회")
+    @GetMapping("/colleges/with-departments")
     public List<CollegeResponse> getColleges() {
         return clubCategoryService.getCollegesWithDepartments();
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "소모임 - 단과대 목록 조회 \uD83D\uDCCB")
-    @GetMapping(value = "/colleges/types")
+    @Operation(summary = "소모임 - 전체 단과대 목록 조회 \uD83D\uDCCB")
+    @GetMapping(value = "/colleges")
     public List<EnumMapperVO> getCollegeList() {
         return clubCategoryService.getColleges();
     }
