@@ -25,7 +25,7 @@ public class ClubCategoryController {
 
     @DisableSwaggerSecurity
     @Operation(summary = "clubType 목록 반환 \uD83D\uDCCB")
-    @GetMapping(value = "/types")
+    @GetMapping(value = "/club-types")
     public List<EnumMapperVO> getClubTypes() {
         return clubCategoryService.getClubTypes();
     }
