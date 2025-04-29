@@ -25,14 +25,12 @@ public class ClubService {
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()) {
             throw DivisionNotFoundException.EXCEPTION;
-        } else {
-            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+        }
+        
+        List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(GetClubIntoCardResponse::from)
                     .collect(Collectors.toList());
-
-            return GetClubByDivisionResponse.of(division, clubDtos);
-        }
-
+        return GetClubByDivisionResponse.of(division, clubDtos);
     }
 
     // [소모임] - 특정 학과 소속 소모임들 반환
@@ -41,12 +39,12 @@ public class ClubService {
         List<Club> clubs = clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()) {
             throw DepartmentNotFoundException.EXCEPTION;
-        } else {
-            List<GetClubIntoCardResponse> clubDtos = clubs.stream()
+        }
+
+        List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(GetClubIntoCardResponse::from)
                     .collect(Collectors.toList());
-            return new DepartmentSmallDto(department, clubDtos);
-        }
+        return new DepartmentSmallDto(department, clubDtos);
     }
 
     //[동아리 및 소모임] 개별 페이지 조회
@@ -59,7 +57,6 @@ public class ClubService {
 
         club.getClubInfo().increaseTotalView();
         return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
-
     }
 
     // 동아리명 및 소모임명으로 검색
@@ -138,7 +135,6 @@ public class ClubService {
 
         return GetOfficialClubGroupResponse.of(ClubType.OFFICIAL, clubList);
     }
-
 
     // [회원가입] 동아리명 검색
     @Transactional(readOnly = true)
