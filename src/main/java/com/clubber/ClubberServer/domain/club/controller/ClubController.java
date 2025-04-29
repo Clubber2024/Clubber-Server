@@ -77,13 +77,6 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
-    @Operation(summary = "인기 순위 반환 개선용(추후 적용)")
-    @GetMapping("/popular/temp")
-    public List<GetClubPopularResponse> getPopularClubs() {
-        return clubService.getClubsPopularTemp();
-    }
-
-    @DisableSwaggerSecurity
     @Operation(summary = "한눈에 보기")
     @GetMapping("/summary")
     public List<GetSummaryClubGroupResponse> getOneViewClubs() {
@@ -118,5 +111,14 @@ public class ClubController {
         return clubService.getDepartmentList(college);
     }
 
+    /**TODO
+     * 추후 수정
+     */
+    @DisableSwaggerSecurity
+    @Operation(summary = "인기 순위 반환 개선용(추후 적용)")
+    @GetMapping("/popular/temp")
+    public List<GetClubPopularResponse> getPopularClubs() {
+        return clubService.getClubsPopularTemp();
+    }
 
 }
