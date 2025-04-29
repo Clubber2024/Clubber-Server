@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.club.service.ClubCategoryService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clubs/category")
+@Tag(name = "[동아리/소모임] 관련 카테고리 조회 모음")
 public class ClubCategoryController {
 
     private final ClubCategoryService clubCategoryService;
