@@ -46,6 +46,22 @@ public class ClubController {
     }
 
     @DisableSwaggerSecurity
+    @Operation(summary = "동아리명 및 소모임명 기반 검색")
+    @GetMapping(params = "clubName")
+    public GetClubsSearchResponse searchByClubName(
+            @RequestParam(name = "clubName", required = false) String clubName) {
+        return clubService.getClubsByName(clubName);
+    }
+
+    @DisableSwaggerSecurity
+    @Operation(summary = "회원가입시 동아리명 검색")
+    @GetMapping(value = "/sign-up", params = "clubName")
+    public List<GetClubsSearchForSignUpResponse> searchForSignUpByClubName(
+            @RequestParam(required = false) String clubName) {
+        return clubService.searchForSignUp(clubName);
+    }
+
+    @DisableSwaggerSecurity
     @Operation(summary = "동아리 및 소모임 개별 페이지 조회")
     @GetMapping("/{clubId}")
     public GetClubResponse getClubsIndividualPage(@PathVariable("clubId") Long clubId) {
