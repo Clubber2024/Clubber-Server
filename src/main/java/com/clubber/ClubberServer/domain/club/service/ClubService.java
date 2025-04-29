@@ -82,7 +82,6 @@ public class ClubService {
     // 해시태그별 동아리/소모임 조회
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag) {
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
-
         if (clubs.isEmpty()) {
             throw HashtagNotFoundException.EXCEPTION;
         }
@@ -121,13 +120,14 @@ public class ClubService {
 
     // [숭실대 공식 단체]
     public GetOfficialClubGroupResponse getOfficialClubs() {
-        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.OFFICIAL);
+        ClubType officialType = ClubType.OFFICIAL;
+        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(officialType);
 
         List<GetOfficialClubResponse> clubList = clubs.stream()
                 .map(GetOfficialClubResponse::from)
                 .collect(Collectors.toList());
 
-        return GetOfficialClubGroupResponse.of(ClubType.OFFICIAL, clubList);
+        return GetOfficialClubGroupResponse.of(officialType, clubList);
     }
 
     // [회원가입] 동아리명 검색
