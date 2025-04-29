@@ -28,7 +28,7 @@ public class AdminEmailAuthFacade {
         final String email = createAdminSignupAuthRequest.getEmail();
         String clubName = createAdminSignupAuthRequest.getClubName();
 
-        Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+        Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
         mailService.sendAsync(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
 
         AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(clubName, email, authCode);
@@ -40,7 +40,7 @@ public class AdminEmailAuthFacade {
         String email = createAdminUsernameFindAuthRequest.getEmail();
 
         if (adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE)) {
-            Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+            Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
             mailService.sendAsync(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
 
             adminEmailAuthService.createAdminUsernameFindAuth(clubId, authCode);
@@ -56,7 +56,7 @@ public class AdminEmailAuthFacade {
         }
 
         if (adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE)) {
-            Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+            Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
             mailService.sendAsync(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
             adminEmailAuthService.createAdminPasswordFindAuth(username, authCode);
@@ -64,7 +64,7 @@ public class AdminEmailAuthFacade {
     }
 
     public void createAdminEmailUpdateAuth(CreateAdminUpdateEmailAuthRequest request) {
-        Integer authCode = RandomAuthCodeUtil.generateRandomInteger(6);
+        Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
         String email = request.getEmail();
         mailService.send(email, "[클러버] 이메일 변경 인증 번호입니다.", authCode.toString());
 
