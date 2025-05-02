@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.auth.vo;
+package com.clubber.ClubberServer.global.jwt.vo;
 
 public record TokenVO(String accessToken, String refreshToken) {
 }
