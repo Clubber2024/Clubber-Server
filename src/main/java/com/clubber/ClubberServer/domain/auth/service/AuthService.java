@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
+import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class AuthService {
 	private final JwtTokenService jwtTokenService;
 	private final TokenReader tokenReader;
 	private final TokenAppender tokenAppender;
+	private final UserReadService userReadService;
 
 	@Transactional
 	public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
@@ -40,8 +42,7 @@ public class AuthService {
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
 		log.info("[토큰 재발급] : {}", refreshToken);
 		Long id = tokenReader.parseRefreshTokenId(refreshToken);
-		User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
-			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
+		User user = userReadService.getUserById(id);
 		return jwtTokenService.generateUserToken(user);
 	}
 
