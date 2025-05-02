@@ -1,10 +1,10 @@
 package com.clubber.ClubberServer.domain.auth.facade;
 
-import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.kakao.KakaoInfoClient;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client.KakaoInfoClient;
 import com.clubber.ClubberServer.global.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
