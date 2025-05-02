@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.implement;
 
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.admin.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;

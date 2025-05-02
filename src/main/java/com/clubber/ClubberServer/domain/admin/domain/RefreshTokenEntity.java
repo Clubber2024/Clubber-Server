@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.domain;
+package com.clubber.ClubberServer.domain.admin.domain;
 
 
 
