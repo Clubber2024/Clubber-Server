@@ -53,8 +53,4 @@ public class AdminReadService {
 	public boolean existsByEmailAndClubId(String email, Long clubId) {
 		return adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE);
 	}
-
-    public boolean existsByEmailAndUsername(String email, String username) {
-        return adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE);
-    }
 }
