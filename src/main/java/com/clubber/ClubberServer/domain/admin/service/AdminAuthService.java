@@ -34,8 +34,7 @@ public class AdminAuthService {
 
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = tokenReader.getRefreshToken(refreshToken);
-		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
+		Long adminId = tokenReader.parseRefreshTokenId(refreshToken);
 		Admin admin = adminReadService.getAdminById(adminId);
 		TokenVO tokenVO = tokenAppender.createAdminsToken(admin);
 		return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
