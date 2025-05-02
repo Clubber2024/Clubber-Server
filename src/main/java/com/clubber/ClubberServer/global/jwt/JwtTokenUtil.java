@@ -24,90 +24,89 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 @RequiredArgsConstructor
 public class JwtTokenUtil {
 
-	private final JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
-	private Jws<Claims> getJws(String token) {
-		try {
-			return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
-		} catch (ExpiredJwtException e) {
-			throw TokenExpiredException.EXCEPTION;
-		} catch (Exception e) {
-			throw InvalidTokenException.EXCEPTION;
-		}
+    private Jws<Claims> getJws(String token) {
+        try {
+            return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            throw TokenExpiredException.EXCEPTION;
+        } catch (Exception e) {
+            throw InvalidTokenException.EXCEPTION;
+        }
+    }
 
-	}
+    private Key getSecretKey() {
+        return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+    }
 
-	private Key getSecretKey() {
-		return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
-	}
+    public String generateAccessToken(Long id, AccountRole accountRole) {
+        final Key encodedKey = getSecretKey();
+        final Date issuedAt = new Date();
+        final Date accessTokenExpiresIn =
+                new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
 
-	public String generateAccessToken(Long id, AccountRole accountRole) {
-		final Key encodedKey = getSecretKey();
-		final Date issuedAt = new Date();
-		final Date accessTokenExpiresIn =
-				new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
+        return Jwts.builder()
+                .setIssuer(TOKEN_ISSUER)
+                .setIssuedAt(issuedAt)
+                .setSubject(id.toString())
+                .claim(TOKEN_TYPE, ACCESS_TOKEN)
+                .claim(TOKEN_ROLE, accountRole.name())
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(encodedKey)
+                .compact();
+    }
 
-		return Jwts.builder()
-				.setIssuer(TOKEN_ISSUER)
-				.setIssuedAt(issuedAt)
-				.setSubject(id.toString())
-				.claim(TOKEN_TYPE, ACCESS_TOKEN)
-				.claim(TOKEN_ROLE, accountRole.name())
-				.setExpiration(accessTokenExpiresIn)
-				.signWith(encodedKey)
-				.compact();
-	}
+    public String generateRefreshToken(Long id) {
+        final Key encodedKey = getSecretKey();
+        final Date issuedAt = new Date();
+        final Date refreshTokenExpiresIn =
+                new Date(issuedAt.getTime() + jwtProperties.getRefreshExp() * MILLI_TO_SECOND);
 
-	public String generateRefreshToken(Long id) {
-		final Key encodedKey = getSecretKey();
-		final Date issuedAt = new Date();
-		final Date refreshTokenExpiresIn =
-			new Date(issuedAt.getTime() + jwtProperties.getRefreshExp() * MILLI_TO_SECOND);
+        return Jwts.builder()
+                .setIssuer(TOKEN_ISSUER)
+                .setIssuedAt(issuedAt)
+                .setSubject(id.toString())
+                .claim(TOKEN_TYPE, REFRESH_TOKEN)
+                .setExpiration(refreshTokenExpiresIn)
+                .signWith(encodedKey)
+                .compact();
+    }
 
-		return Jwts.builder()
-			.setIssuer(TOKEN_ISSUER)
-			.setIssuedAt(issuedAt)
-			.setSubject(id.toString())
-			.claim(TOKEN_TYPE, REFRESH_TOKEN)
-			.setExpiration(refreshTokenExpiresIn)
-			.signWith(encodedKey)
-			.compact();
-	}
+    private boolean isAccessToken(String token) {
+        Jws<Claims> jws = getJws(token);
+        return jws.getBody().get(TOKEN_TYPE).equals(ACCESS_TOKEN);
+    }
 
-	private boolean isAccessToken(String token) {
-		Jws<Claims> jws = getJws(token);
-		return jws.getBody().get(TOKEN_TYPE).equals(ACCESS_TOKEN);
-	}
+    public AccessTokenInfo parseAccessToken(String token) {
+        if (isAccessToken(token)) {
+            Claims claims = getJws(token).getBody();
+            return AccessTokenInfo.builder()
+                    .userId(Long.parseLong(claims.getSubject()))
+                    .role((String) claims.get(TOKEN_ROLE))
+                    .build();
+        }
+        throw InvalidTokenException.EXCEPTION;
+    }
 
-	public AccessTokenInfo parseAccessToken(String token) {
-		if (isAccessToken(token)) {
-			Claims claims = getJws(token).getBody();
-			return AccessTokenInfo.builder()
-				.userId(Long.parseLong(claims.getSubject()))
-				.role((String) claims.get(TOKEN_ROLE))
-				.build();
-		}
-		throw InvalidTokenException.EXCEPTION;
-	}
+    private boolean isRefreshToken(String token) {
+        Jws<Claims> jws = getJws(token);
+        return jws.getBody().get(TOKEN_TYPE).equals(REFRESH_TOKEN);
+    }
 
-	private boolean isRefreshToken(String token) {
-		Jws<Claims> jws = getJws(token);
-		return jws.getBody().get(TOKEN_TYPE).equals(REFRESH_TOKEN);
-	}
+    public Long parseRefreshToken(String token) {
+        try {
+            if (isRefreshToken(token)) {
+                Claims claims = getJws(token).getBody();
+                return Long.parseLong(claims.getSubject());
+            }
+        } catch (TokenExpiredException e) {
+            throw RefreshTokenExpiredException.EXCEPTION;
+        }
+        throw InvalidTokenException.EXCEPTION;
+    }
 
-	public Long parseRefreshToken(String token) {
-		try {
-			if (isRefreshToken(token)) {
-				Claims claims = getJws(token).getBody();
-				return Long.parseLong(claims.getSubject());
-			}
-		} catch (TokenExpiredException e) {
-			throw RefreshTokenExpiredException.EXCEPTION;
-		}
-		throw InvalidTokenException.EXCEPTION;
-	}
-
-	public Long getRefreshTokenTTlSecond() {
-		return jwtProperties.getRefreshExp();
-	}
+    public Long getRefreshTokenTTlSecond() {
+        return jwtProperties.getRefreshExp();
+    }
 }
