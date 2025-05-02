@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client;
 
-import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.global.config.feign.FeignConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoUserInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;

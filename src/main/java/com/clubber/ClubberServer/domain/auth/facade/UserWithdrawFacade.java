@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.auth.facade;
 
-import com.clubber.ClubberServer.domain.auth.dto.UnlinkKaKaoTarget;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;

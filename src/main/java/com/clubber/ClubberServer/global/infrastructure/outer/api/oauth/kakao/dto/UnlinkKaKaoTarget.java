@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.auth.dto;
+package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto;
 
 
 import lombok.Getter;
