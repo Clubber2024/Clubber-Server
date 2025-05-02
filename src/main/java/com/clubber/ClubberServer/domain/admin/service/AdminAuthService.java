@@ -7,7 +7,6 @@ import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
 import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class AdminAuthService {
 	}
 
 	@Transactional
-	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
+	public CreateAdminsLoginResponse createAdminsReissueToken(String refreshToken) {
 		Long adminId = tokenReader.parseRefreshTokenId(refreshToken);
 		Admin admin = adminReadService.getAdminById(adminId);
 		TokenVO tokenVO = tokenAppender.createAdminsToken(admin);

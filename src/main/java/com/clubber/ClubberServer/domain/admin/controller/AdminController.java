@@ -52,10 +52,10 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 토큰 재발급")
     @PostMapping("/refresh")
-    public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
+    public ResponseEntity<CreateAdminsLoginResponse> createAdminsReissueToken(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
             @RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-        CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.getAdminsParseToken(
+        CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.createAdminsReissueToken(
                 refreshToken);
         return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),
