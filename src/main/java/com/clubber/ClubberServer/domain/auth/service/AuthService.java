@@ -28,7 +28,7 @@ public class AuthService {
 	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
 				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse.toEntity()));
-		TokenVO tokenVO = userTokenAppender.generateUserToken(user);
+		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
@@ -42,7 +42,7 @@ public class AuthService {
 		log.info("[토큰 재발급] : {}", refreshToken);
 		Long id = userTokenReader.parseRefreshTokenId(refreshToken);
 		User user = userReadService.getUserById(id);
-		TokenVO tokenVO = userTokenAppender.generateUserToken(user);
+		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 

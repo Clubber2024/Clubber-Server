@@ -15,7 +15,7 @@ public class UserTokenAppender {
 
     private final JwtTokenUtil jwtTokenUtil;
 
-    public TokenVO generateUserToken(User user) {
+    public TokenVO saveUserToken(User user) {
         String accessToken = jwtTokenUtil.generateAccessToken(user.getId(), user.getRole());
         String refreshToken = jwtTokenUtil.generateRefreshToken(user.getId());
 
