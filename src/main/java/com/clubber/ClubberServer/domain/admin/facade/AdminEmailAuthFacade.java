@@ -3,7 +3,6 @@ package com.clubber.ClubberServer.domain.admin.facade;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.exception.AdminUsernameNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
@@ -11,8 +10,6 @@ import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +22,7 @@ public class AdminEmailAuthFacade {
 
     public CreateAdminAuthResponse signupAdminAuth(
             CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
-        final String email = createAdminSignupAuthRequest.getEmail();
+        String email = createAdminSignupAuthRequest.getEmail();
         String clubName = createAdminSignupAuthRequest.getClubName();
 
         Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
@@ -39,7 +36,7 @@ public class AdminEmailAuthFacade {
         Long clubId = createAdminUsernameFindAuthRequest.getClubId();
         String email = createAdminUsernameFindAuthRequest.getEmail();
 
-        if (adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE)) {
+        if (adminReadService.existsByEmailAndClubId(email, clubId)) {
             Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
             mailService.sendAsync(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
 
@@ -51,11 +48,9 @@ public class AdminEmailAuthFacade {
         String username = createAdminPasswordFindRequest.getUsername();
         String email = createAdminPasswordFindRequest.getEmail();
 
-        if (!adminRepository.existsByUsernameAndAccountState(username, ACTIVE)) {
-            throw AdminUsernameNotFoundException.EXCEPTION;
-        }
+        Admin admin = adminReadService.getAdminByUsername(username);
 
-        if (adminRepository.existsByEmailAndUsernameAndAccountState(email, username, ACTIVE)) {
+        if (admin.getEmail().equals(email)) {
             Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
             mailService.sendAsync(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
 
