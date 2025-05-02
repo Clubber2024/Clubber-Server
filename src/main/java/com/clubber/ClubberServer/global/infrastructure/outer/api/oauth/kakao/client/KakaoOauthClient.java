@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client;
 
 import com.clubber.ClubberServer.global.config.feign.FeignConfig;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoOAuthRequest;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoTokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 public interface KakaoOauthClient {
 
-	@PostMapping("/oauth/token?grant_type=authorization_code")
+	@PostMapping(value = "/oauth/token?grant_type=authorization_code", consumes =  MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	KakaoTokenResponse kakaoAuth(
-		@RequestParam("client_id") String restApiKey,
-		@RequestParam("redirect_uri") String redirectUrl,
-		@RequestParam("code") String code
+		KakaoOAuthRequest kakaoOAuthRequest
 	);
 }

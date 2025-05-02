@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client.KakaoInfoClient;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client.KakaoOauthClient;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoOAuthRequest;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoTokenResponse;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoUserInfoResponse;
 import com.clubber.ClubberServer.global.properties.KakaoProperties;
@@ -22,9 +23,11 @@ public class UserRegisterFacade {
     private final KakaoProperties kakaoProperties;
 
     public KakaoOauthResponse register(String code, String origin) {
-        String redirectUrl = origin + kakaoProperties.getRedirectUrl();
         String clientId = kakaoProperties.getClientId();
-        KakaoTokenResponse kakaoTokenResponse = kakaoOauthClient.kakaoAuth(clientId, redirectUrl, code);
+        String redirectUrl = origin + kakaoProperties.getRedirectUrl();
+
+        KakaoOAuthRequest kakaoOAuthRequest = new KakaoOAuthRequest(clientId, redirectUrl, code);
+        KakaoTokenResponse kakaoTokenResponse = kakaoOauthClient.kakaoAuth(kakaoOAuthRequest);
 
         String bearerAccessToken = BEARER + kakaoTokenResponse.accessToken();
         KakaoUserInfoResponse kakaoUserInfoResponse = kakaoInfoClient.getUserInfo(bearerAccessToken);
