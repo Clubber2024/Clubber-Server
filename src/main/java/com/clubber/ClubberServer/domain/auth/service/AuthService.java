@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.domain.auth.service;
 
-import com.clubber.ClubberServer.domain.admin.implement.UserTokenReader;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.implement.UserTokenAppender;
+import com.clubber.ClubberServer.domain.auth.implement.UserTokenReader;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
 	private final UserRepository userRepository;
-	private final UserTokenReader userTokenReader;
-	private final UserTokenAppender userTokenAppender;
 	private final UserReadService userReadService;
+	private final UserTokenAppender userTokenAppender;
+	private final UserTokenReader userTokenReader;
 
 	@Transactional
 	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
