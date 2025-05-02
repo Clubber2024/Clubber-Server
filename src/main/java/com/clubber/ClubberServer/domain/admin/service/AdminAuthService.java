@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
+import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
@@ -24,6 +25,7 @@ public class AdminAuthService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final AdminValidator adminValidator;
 	private final TokenAppender tokenAppender;
+	private final TokenReader tokenReader;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -45,12 +47,11 @@ public class AdminAuthService {
 
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
-			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
+		RefreshTokenEntity refreshTokenEntity = tokenReader.getRefreshToken(refreshToken);
 		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
 		Admin admin = adminReadService.getAdminById(adminId);
-		return createAdminsToken(admin);
+		TokenVO tokenVO = tokenAppender.createAdminsToken(admin);
+		return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	@Transactional
