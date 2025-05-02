@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.admin.impl;
+package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;

@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.admin.impl;
+package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;

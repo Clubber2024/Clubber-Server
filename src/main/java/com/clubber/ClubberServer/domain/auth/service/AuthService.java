@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.auth.service;
 
-import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
-import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
+import com.clubber.ClubberServer.domain.admin.implement.TokenReader;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.auth.implement.UserTokenAppender;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
