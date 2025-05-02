@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.auth.domain;
 
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
