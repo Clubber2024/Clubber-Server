@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
-import com.clubber.ClubberServer.domain.admin.implement.TokenAppender;
+import com.clubber.ClubberServer.domain.admin.implement.AdminTokenAppender;
 import com.clubber.ClubberServer.domain.admin.implement.TokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
@@ -18,14 +18,14 @@ public class AdminAuthService {
 
     private final AdminReadService adminReadService;
     private final AdminValidator adminValidator;
-    private final TokenAppender tokenAppender;
+    private final AdminTokenAppender adminTokenAppender;
     private final TokenReader tokenReader;
 
     @Transactional
     public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
         Admin admin = adminReadService.getAdminByUsernameInLogin(loginRequest.getUsername());
         adminValidator.validatePasswordInLogin(loginRequest.getPassword(), admin.getPassword());
-        TokenVO tokenVO = tokenAppender.createAdminsToken(admin);
+        TokenVO tokenVO = adminTokenAppender.createAdminsToken(admin);
         return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
     }
 
@@ -33,13 +33,13 @@ public class AdminAuthService {
     public CreateAdminsLoginResponse createAdminsReissueToken(String refreshToken) {
         Long adminId = tokenReader.parseRefreshTokenId(refreshToken);
         Admin admin = adminReadService.getAdminById(adminId);
-        TokenVO tokenVO = tokenAppender.createAdminsToken(admin);
+        TokenVO tokenVO = adminTokenAppender.createAdminsToken(admin);
         return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
     }
 
     @Transactional
     public void logout() {
         Long currentUserId = SecurityUtils.getCurrentUserId();
-        tokenAppender.deleteRefreshTokenById(currentUserId);
+        adminTokenAppender.deleteRefreshTokenById(currentUserId);
     }
 }
