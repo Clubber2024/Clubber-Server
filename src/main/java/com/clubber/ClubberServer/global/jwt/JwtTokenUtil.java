@@ -1,16 +1,6 @@
 package com.clubber.ClubberServer.global.jwt;
 
-
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.ACCESS_TOKEN;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.MILLI_TO_SECOND;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.REFRESH_TOKEN;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_ISSUER;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_ROLE;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.TOKEN_TYPE;
-
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.owner.domain.Owner;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.clubber.ClubberServer.domain.user.exception.InvalidTokenException;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.TokenExpiredException;
@@ -21,11 +11,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
 
 @Component
 @RequiredArgsConstructor
@@ -44,59 +37,25 @@ public class JwtTokenUtil {
 
 	}
 
-	public String generateAccessToken(User user) {
-		final Key encodedKey = getSecretKey();
-		final Date issuedAt = new Date();
-		final Date accessTokenExpiresIn =
-			new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
-
-		return Jwts.builder()
-			.setIssuer(TOKEN_ISSUER)
-			.setIssuedAt(issuedAt)
-			.setSubject(user.getId().toString())
-			.claim(TOKEN_TYPE, ACCESS_TOKEN)
-			.claim(TOKEN_ROLE, user.getRole().name())
-			.setExpiration(accessTokenExpiresIn)
-			.signWith(encodedKey)
-			.compact();
-	}
-
 	private Key getSecretKey() {
 		return Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
 	}
 
-	public String generateAccessToken(Admin admin) {
+	public String generateAccessToken(Long id, AccountRole accountRole) {
 		final Key encodedKey = getSecretKey();
 		final Date issuedAt = new Date();
 		final Date accessTokenExpiresIn =
-			new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
+				new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
 
 		return Jwts.builder()
-			.setIssuer(TOKEN_ISSUER)
-			.setIssuedAt(issuedAt)
-			.setSubject(admin.getId().toString())
-			.claim(TOKEN_TYPE, ACCESS_TOKEN)
-			.claim(TOKEN_ROLE, admin.getAccountRole().name())
-			.setExpiration(accessTokenExpiresIn)
-			.signWith(encodedKey)
-			.compact();
-	}
-
-	public String generateAccessToken(Owner owner) {
-		final Key encodedKey = getSecretKey();
-		final Date issuedAt = new Date();
-		final Date accessTokenExpiresIn =
-			new Date(issuedAt.getTime() + jwtProperties.getAccessExp() * MILLI_TO_SECOND);
-
-		return Jwts.builder()
-			.setIssuer(TOKEN_ISSUER)
-			.setIssuedAt(issuedAt)
-			.setSubject(owner.getId().toString())
-			.claim(TOKEN_TYPE, ACCESS_TOKEN)
-			.claim(TOKEN_ROLE, owner.getAccountRole().name())
-			.setExpiration(accessTokenExpiresIn)
-			.signWith(encodedKey)
-			.compact();
+				.setIssuer(TOKEN_ISSUER)
+				.setIssuedAt(issuedAt)
+				.setSubject(id.toString())
+				.claim(TOKEN_TYPE, ACCESS_TOKEN)
+				.claim(TOKEN_ROLE, accountRole.name())
+				.setExpiration(accessTokenExpiresIn)
+				.signWith(encodedKey)
+				.compact();
 	}
 
 	public String generateRefreshToken(Long id) {
