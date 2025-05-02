@@ -8,7 +8,7 @@ import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
+import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
