@@ -16,20 +16,19 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARE
 @RequiredArgsConstructor
 public class UserRegisterFacade {
 
-	private final AuthService authService;
-	private final KakaoOauthClient kakaoOauthClient;
-	private final KakaoInfoClient kakaoInfoClient;
-	private final KakaoProperties kakaoProperties;
+    private final AuthService authService;
+    private final KakaoOauthClient kakaoOauthClient;
+    private final KakaoInfoClient kakaoInfoClient;
+    private final KakaoProperties kakaoProperties;
 
-	public KakaoOauthResponse register(String code, String origin) {
-		KakaoTokenResponse kakaoTokenResponse = kakaoOauthClient.kakaoAuth(
-			kakaoProperties.getClientId(),
-			origin + kakaoProperties.getRedirectUrl(),
-			code);
+    public KakaoOauthResponse register(String code, String origin) {
+        String redirectUrl = origin + kakaoProperties.getRedirectUrl();
+        String clientId = kakaoProperties.getClientId();
+        KakaoTokenResponse kakaoTokenResponse = kakaoOauthClient.kakaoAuth(clientId, redirectUrl, code);
 
-		KakaoUserInfoResponse kakaoUserInfoResponse = kakaoInfoClient.getUserInfo(
-			BEARER + kakaoTokenResponse.getAccessToken());
+        String bearerAccessToken = BEARER + kakaoTokenResponse.getAccessToken();
+        KakaoUserInfoResponse kakaoUserInfoResponse = kakaoInfoClient.getUserInfo(bearerAccessToken);
 
-		return authService.loginOrSignUp(kakaoUserInfoResponse);
-	}
+        return authService.loginOrSignUp(kakaoUserInfoResponse);
+    }
 }
