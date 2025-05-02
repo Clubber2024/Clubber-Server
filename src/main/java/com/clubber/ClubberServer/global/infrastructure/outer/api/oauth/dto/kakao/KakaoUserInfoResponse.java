@@ -20,8 +20,5 @@ public record KakaoUserInfoResponse(long id, KakaoAccount kakaoAccount) {
 		return kakaoAccount.email();
 	}
 
-	@JsonNaming(SnakeCaseStrategy.class)
-	public record KakaoAccount(String email) {
-
-	}
+	public record KakaoAccount(String email) { }
 }
