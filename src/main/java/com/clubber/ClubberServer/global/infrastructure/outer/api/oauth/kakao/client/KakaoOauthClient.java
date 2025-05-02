@@ -6,17 +6,14 @@ import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
-	name = "KakaoAuthClient",
-	configuration = FeignConfig.class,
-	url = "https://kauth.kakao.com"
+        name = "KakaoAuthClient",
+        configuration = FeignConfig.class,
+        url = "https://kauth.kakao.com"
 )
 public interface KakaoOauthClient {
 
-	@PostMapping(value = "/oauth/token?grant_type=authorization_code", consumes =  MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	KakaoTokenResponse kakaoAuth(
-		KakaoOAuthRequest kakaoOAuthRequest
-	);
+    @PostMapping(value = "/oauth/token?grant_type=authorization_code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    KakaoTokenResponse kakaoAuth(KakaoOAuthRequest kakaoOAuthRequest);
 }
