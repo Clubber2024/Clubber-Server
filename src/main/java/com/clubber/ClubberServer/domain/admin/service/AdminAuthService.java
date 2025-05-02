@@ -24,7 +24,7 @@ public class AdminAuthService {
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
-		Admin admin = adminReadService.getAdminByUsername(loginRequest.getUsername());
+		Admin admin = adminReadService.getAdminByUsernameInLogin(loginRequest.getUsername());
 		adminValidator.validatePasswordInLogin(loginRequest.getPassword(), admin.getPassword());
 		return createAdminsToken(admin);
 	}
