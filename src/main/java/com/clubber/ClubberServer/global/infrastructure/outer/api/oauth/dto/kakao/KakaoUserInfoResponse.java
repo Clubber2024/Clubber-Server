@@ -16,9 +16,9 @@ public record KakaoUserInfoResponse(long id, KakaoAccount kakaoAccount) {
 			.build();
 	}
 
-	public String getEmail() {
+	private String getEmail() {
 		return kakaoAccount.email();
 	}
 
-	public record KakaoAccount(String email) { }
+	private record KakaoAccount(String email) { }
 }
