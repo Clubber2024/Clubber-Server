@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.domain.admin.repository;
+package com.clubber.ClubberServer.domain.auth.repository;
 
-import com.clubber.ClubberServer.domain.admin.domain.UserRefreshToken;
+import com.clubber.ClubberServer.domain.auth.domain.UserRefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRefreshTokenRepository extends CrudRepository<UserRefreshToken, Long> {

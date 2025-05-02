@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.admin.domain;
+package com.clubber.ClubberServer.domain.auth.domain;
 
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import lombok.Builder;
