@@ -1,12 +1,11 @@
 package com.clubber.ClubberServer.domain.auth.service;
 
+import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
+import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
@@ -22,7 +21,8 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 	private final JwtTokenService jwtTokenService;
-	private final RefreshTokenRepository refreshTokenRepository;
+	private final TokenReader tokenReader;
+	private final TokenAppender tokenAppender;
 
 	@Transactional
 	public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
@@ -39,10 +39,7 @@ public class AuthService {
 	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
 		log.info("[토큰 재발급] : {}", refreshToken);
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
-			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-		Long id = jwtTokenService.parseRefreshToken(refreshTokenEntity);
+		Long id = tokenReader.parseRefreshTokenId(refreshToken);
 		User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 		return jwtTokenService.generateUserToken(user);
@@ -51,7 +48,7 @@ public class AuthService {
 	@Transactional
 	public void logoutKakaoUser() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
-		refreshTokenRepository.deleteById(currentUserId);
+		tokenAppender.deleteRefreshTokenById(currentUserId);
 	}
 
 	@Transactional
@@ -59,6 +56,6 @@ public class AuthService {
 		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
-		refreshTokenRepository.deleteById(user.getId());
+		tokenAppender.deleteRefreshTokenById(user.getId());
 	}
 }
