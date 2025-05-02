@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.domain.auth.implement;
 
+import com.clubber.ClubberServer.domain.auth.domain.UserRefreshToken;
+import com.clubber.ClubberServer.domain.auth.repository.UserRefreshTokenRepository;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserTokenAppender {
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final UserRefreshTokenRepository userRefreshTokenRepository;
 
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -19,13 +19,13 @@ public class UserTokenAppender {
         String accessToken = jwtTokenUtil.generateAccessToken(user.getId(), user.getRole());
         String refreshToken = jwtTokenUtil.generateRefreshToken(user.getId());
 
-        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(user.getId(), refreshToken,
+        UserRefreshToken userRefreshToken = UserRefreshToken.of(user.getId(), refreshToken,
                 jwtTokenUtil.getRefreshTokenTTlSecond());
-        refreshTokenRepository.save(refreshTokenEntity);
+        userRefreshTokenRepository.save(userRefreshToken);
         return new TokenVO(accessToken, refreshToken);
     }
 
     public void deleteRefreshTokenById(Long id) {
-        refreshTokenRepository.deleteById(id);
+        userRefreshTokenRepository.deleteById(id);
     }
 }

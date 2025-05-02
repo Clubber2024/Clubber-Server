@@ -27,8 +27,8 @@ public class UserRefreshToken {
         this.ttl = ttl;
     }
 
-    public static RefreshTokenEntity of(Long id, String refreshToken, Long ttl){
-        return RefreshTokenEntity.builder()
+    public static UserRefreshToken of(Long id, String refreshToken, Long ttl){
+        return UserRefreshToken.builder()
                 .id(id)
                 .refreshToken(refreshToken)
                 .ttl(ttl)
