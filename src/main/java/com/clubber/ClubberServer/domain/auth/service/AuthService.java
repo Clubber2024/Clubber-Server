@@ -27,13 +27,12 @@ public class AuthService {
 	@Transactional
 	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
-				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
+				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse.toEntity()));
 		TokenVO tokenVO = tokenAppender.generateUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
-	public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse) {
-		User user = kakaoUserInfoResponse.toEntity();
+	public User createKakaoUser(User user) {
 		log.info("[회원가입 (카카오) id] : {}", user.getId());
 		return userRepository.save(user);
 	}
