@@ -3,9 +3,8 @@ package com.clubber.ClubberServer.domain.auth.service;
 import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
 import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
+import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
 	private final UserRepository userRepository;
-	private final JwtTokenService jwtTokenService;
 	private final TokenReader tokenReader;
 	private final TokenAppender tokenAppender;
 	private final UserReadService userReadService;
@@ -43,7 +41,8 @@ public class AuthService {
 		log.info("[토큰 재발급] : {}", refreshToken);
 		Long id = tokenReader.parseRefreshTokenId(refreshToken);
 		User user = userReadService.getUserById(id);
-		return jwtTokenService.generateUserToken(user);
+		TokenVO tokenVO = tokenAppender.generateUserToken(user);
+		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	@Transactional
