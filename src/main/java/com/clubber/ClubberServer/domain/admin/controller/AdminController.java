@@ -52,7 +52,7 @@ public class AdminController {
     @DisableSwaggerSecurity
     @Operation(summary = "동아리 계정 토큰 재발급")
     @PostMapping("/refresh")
-    public ResponseEntity<CreateAdminsLoginResponse> createAdminsReissueToken(
+    public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
             @RequestHeader(value = "refreshToken", required = false) String refreshToken) {
         CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.createAdminsReissueToken(

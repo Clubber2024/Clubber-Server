@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class JwtTokenProvider {
+public class JwtTokenUtil {
 
 	private final JwtProperties jwtProperties;
 
