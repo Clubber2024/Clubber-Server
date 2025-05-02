@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.client.kakao;
+package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client;
 
 import com.clubber.ClubberServer.global.config.feign.FeignConfig;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoTokenResponse;
