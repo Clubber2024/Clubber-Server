@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.admin.service;
+package com.clubber.ClubberServer.domain.admin.implement;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminReadService {
+public class AdminReader {
 
 	private final AdminRepository adminRepository;
 

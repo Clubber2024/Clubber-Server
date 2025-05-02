@@ -55,7 +55,7 @@ public class AdminController {
     public ResponseEntity<CreateAdminsLoginResponse> createAdminsTokenRefresh(
 //		@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie,
             @RequestHeader(value = "refreshToken", required = false) String refreshToken) {
-        CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.getAdminsParseToken(
+        CreateAdminsLoginResponse createAdminsLoginResponse = adminAuthService.createAdminsReissueToken(
                 refreshToken);
         return ResponseEntity.ok()
 //			.headers(cookieHelper.getCookies(createAdminsLoginResponse.getAccessToken(),

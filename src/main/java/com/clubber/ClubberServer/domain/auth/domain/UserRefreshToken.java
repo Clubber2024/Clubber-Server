@@ -1,6 +1,4 @@
-package com.clubber.ClubberServer.domain.user.domain;
-
-
+package com.clubber.ClubberServer.domain.auth.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,10 +7,9 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
-@RedisHash(value = "refreshToken")
+@RedisHash(value = "userRefreshToken")
 @Getter
-public class RefreshTokenEntity {
-
+public class UserRefreshToken {
     @Id
     private Long id;
 
@@ -23,14 +20,14 @@ public class RefreshTokenEntity {
     private Long ttl;
 
     @Builder
-    private RefreshTokenEntity(Long id, String refreshToken, Long ttl) {
+    private UserRefreshToken(Long id, String refreshToken, Long ttl) {
         this.id = id;
         this.refreshToken = refreshToken;
         this.ttl = ttl;
     }
 
-    public static RefreshTokenEntity of(Long id, String refreshToken, Long ttl){
-        return RefreshTokenEntity.builder()
+    public static UserRefreshToken of(Long id, String refreshToken, Long ttl){
+        return UserRefreshToken.builder()
                 .id(id)
                 .refreshToken(refreshToken)
                 .ttl(ttl)

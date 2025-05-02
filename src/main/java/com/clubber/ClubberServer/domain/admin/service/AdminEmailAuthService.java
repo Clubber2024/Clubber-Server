@@ -5,10 +5,10 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVer
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminUpdateEmailAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.repository.*;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ public class AdminEmailAuthService {
     private final AdminValidator adminValidator;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminUpdateEmailAuthRepository adminUpdateEmailAuthRepository;
-    private final AdminReadService adminReadService;
+    private final AdminReader adminReader;
     private final AdminUpdateEmailAuthRepository updateEmailAuthRepository;
 
     @Transactional
@@ -101,7 +101,7 @@ public class AdminEmailAuthService {
     }
 
     public void updateVerifyAdminEmailUpdateAuth(UpdateAdminUpdateEmailAuthVerifyRequest request) {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         AdminUpdateEmailAuth adminUpdateEmailAuth = updateEmailAuthRepository.findById(admin.getId())
                 .orElseThrow(() -> AdminInvalidAuthCodeException.EXCEPTION);
 

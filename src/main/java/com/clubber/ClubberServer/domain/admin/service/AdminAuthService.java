@@ -3,12 +3,12 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.admin.implement.AdminTokenAppender;
+import com.clubber.ClubberServer.domain.admin.implement.AdminTokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
-import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
+import com.clubber.ClubberServer.global.jwt.vo.TokenVO;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
-import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,41 +17,30 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminAuthService {
 
-	private final AdminReadService adminReadService;
-	private final JwtTokenProvider jwtTokenProvider;
-	private final RefreshTokenRepository refreshTokenRepository;
-	private final AdminValidator adminValidator;
+    private final AdminReader adminReader;
+    private final AdminValidator adminValidator;
+    private final AdminTokenAppender adminTokenAppender;
+    private final AdminTokenReader adminTokenReader;
 
-	@Transactional
-	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
-		Admin admin = adminReadService.getAdminByUsernameInLogin(loginRequest.getUsername());
-		adminValidator.validatePasswordInLogin(loginRequest.getPassword(), admin.getPassword());
-		return createAdminsToken(admin);
-	}
+    @Transactional
+    public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
+        Admin admin = adminReader.getAdminByUsernameInLogin(loginRequest.getUsername());
+        adminValidator.validatePasswordInLogin(loginRequest.getPassword(), admin.getPassword());
+        TokenVO tokenVO = adminTokenAppender.createAdminsToken(admin);
+        return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
+    }
 
-	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
-		String accessToken = jwtTokenProvider.generateAccessToken(admin);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(admin.getId());
-		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
-			jwtTokenProvider.getRefreshTokenTTlSecond());
-		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
-		return CreateAdminsLoginResponse.of(admin, accessToken,
-			savedRefreshToken.getRefreshToken());
-	}
+    @Transactional
+    public CreateAdminsLoginResponse createAdminsReissueToken(String refreshToken) {
+        Long adminId = adminTokenReader.parseRefreshTokenId(refreshToken);
+        Admin admin = adminReader.getAdminById(adminId);
+        TokenVO tokenVO = adminTokenAppender.createAdminsToken(admin);
+        return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
+    }
 
-	@Transactional
-	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
-			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-		Long adminId = jwtTokenProvider.parseRefreshToken(refreshTokenEntity.getRefreshToken());
-		Admin admin = adminReadService.getAdminById(adminId);
-		return createAdminsToken(admin);
-	}
-
-	@Transactional
-	public void logout() {
-		Long currentUserId = SecurityUtils.getCurrentUserId();
-		refreshTokenRepository.deleteById(currentUserId);
-	}
+    @Transactional
+    public void logout() {
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        adminTokenAppender.deleteRefreshTokenById(currentUserId);
+    }
 }

@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AdminAccountService {
 
-    private final AdminReadService adminReadService;
+    private final AdminReader adminReader;
     private final AdminRepository adminRepository;
     private final AdminEmailAuthService adminEmailAuthService;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
@@ -33,13 +33,13 @@ public class AdminAccountService {
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         return GetAdminsProfileResponse.from(admin);
     }
 
     public UpdateAdminsPasswordResponse updateAdminsPassword(
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         String storedEncodedPassword = admin.getPassword();
         adminValidator.validatePasswordInUpdatePassword(updateAdminsPasswordRequest.getOldPassword(), storedEncodedPassword);
 
@@ -51,13 +51,13 @@ public class AdminAccountService {
     }
 
     public UpdateAdminContactResponse updateAdminContact(UpdateAdminContactRequest updateAdminContactRequest) {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         admin.updateContact(updateAdminContactRequest.getContact());
         return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
     }
 
     public UpdateAdminEmailResponse updateAdminEmail(UpdateAdminEmailRequest updateAdminEmailRequest) {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         Long adminId = admin.getId();
 
         adminEmailAuthService.checkAdminUpdateEmailAuthVerified(adminId, updateAdminEmailRequest.getAuthCode());
@@ -67,7 +67,7 @@ public class AdminAccountService {
     }
 
     public void withDraw() {
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         admin.withDraw();
         Club club = admin.getClub();
         club.delete();
@@ -101,7 +101,7 @@ public class AdminAccountService {
         adminEmailAuthService.checkAdminUsernameFindAuthVerified(clubId, authCode);
         adminEmailAuthService.deleteAdminUsernameFindAuthById(clubId);
 
-        Admin admin = adminReadService.getAdminByEmailAndClubId(request.getEmail(), clubId);
+        Admin admin = adminReader.getAdminByEmailAndClubId(request.getEmail(), clubId);
         String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
 
         return new GetAdminUsernameFindResponse(maskedUsername);
@@ -113,7 +113,7 @@ public class AdminAccountService {
         adminEmailAuthService.checkAdminPasswordFindAuthVerified(username, request.getAuthCode());
         adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
 
-        Admin admin = adminReadService.getAdminByUsername(username);
+        Admin admin = adminReader.getAdminByUsername(username);
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         admin.updatePassword(encodedPassword);

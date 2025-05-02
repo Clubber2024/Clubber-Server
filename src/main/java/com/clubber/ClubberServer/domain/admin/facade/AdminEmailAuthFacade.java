@@ -3,9 +3,8 @@ package com.clubber.ClubberServer.domain.admin.facade;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,7 @@ import org.springframework.stereotype.Component;
 public class AdminEmailAuthFacade {
 
     private final AdminEmailAuthService adminEmailAuthService;
-    private final AdminReadService adminReadService;
-    private final AdminRepository adminRepository;
+    private final AdminReader adminReader;
     private final MailService mailService;
 
     public CreateAdminAuthResponse signupAdminAuth(
@@ -36,7 +34,7 @@ public class AdminEmailAuthFacade {
         Long clubId = createAdminUsernameFindAuthRequest.getClubId();
         String email = createAdminUsernameFindAuthRequest.getEmail();
 
-        if (adminReadService.existsByEmailAndClubId(email, clubId)) {
+        if (adminReader.existsByEmailAndClubId(email, clubId)) {
             Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
             mailService.sendAsync(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
 
@@ -48,7 +46,7 @@ public class AdminEmailAuthFacade {
         String username = createAdminPasswordFindRequest.getUsername();
         String email = createAdminPasswordFindRequest.getEmail();
 
-        Admin admin = adminReadService.getAdminByUsername(username);
+        Admin admin = adminReader.getAdminByUsername(username);
 
         if (admin.getEmail().equals(email)) {
             Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
@@ -63,7 +61,7 @@ public class AdminEmailAuthFacade {
         String email = request.getEmail();
         mailService.send(email, "[클러버] 이메일 변경 인증 번호입니다.", authCode.toString());
 
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         adminEmailAuthService.createAdminUpdateEmailAuth(admin.getId(), email, authCode);
     }
 }

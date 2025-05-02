@@ -1,13 +1,12 @@
 package com.clubber.ClubberServer.domain.auth.service;
 
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.auth.implement.UserTokenAppender;
+import com.clubber.ClubberServer.domain.auth.implement.UserTokenReader;
+import com.clubber.ClubberServer.global.jwt.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
-import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
+import com.clubber.ClubberServer.domain.user.service.UserReadService;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.dto.kakao.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
 	private final UserRepository userRepository;
-	private final JwtTokenService jwtTokenService;
-	private final RefreshTokenRepository refreshTokenRepository;
+	private final UserReadService userReadService;
+	private final UserTokenAppender userTokenAppender;
+	private final UserTokenReader userTokenReader;
 
 	@Transactional
-	public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
-		return userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
-			.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
+	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
+		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
+				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse.toEntity()));
+		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
+		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
-	public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse) {
-		User user = kakaoUserInfoResponse.toEntity();
+	public User createKakaoUser(User user) {
 		log.info("[회원가입 (카카오) id] : {}", user.getId());
 		return userRepository.save(user);
 	}
@@ -39,19 +40,16 @@ public class AuthService {
 	@Transactional
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
 		log.info("[토큰 재발급] : {}", refreshToken);
-		RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByRefreshToken(
-				refreshToken)
-			.orElseThrow(() -> RefreshTokenExpiredException.EXCEPTION);
-		Long id = jwtTokenService.parseRefreshToken(refreshTokenEntity);
-		User user = userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
-			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
-		return jwtTokenService.generateUserToken(user);
+		Long id = userTokenReader.parseRefreshTokenId(refreshToken);
+		User user = userReadService.getUserById(id);
+		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
+		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	@Transactional
 	public void logoutKakaoUser() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
-		refreshTokenRepository.deleteById(currentUserId);
+		userTokenAppender.deleteRefreshTokenById(currentUserId);
 	}
 
 	@Transactional
@@ -59,6 +57,6 @@ public class AuthService {
 		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
-		refreshTokenRepository.deleteById(user.getId());
+		userTokenAppender.deleteRefreshTokenById(user.getId());
 	}
 }

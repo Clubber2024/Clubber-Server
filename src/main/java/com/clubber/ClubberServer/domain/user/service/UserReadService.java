@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.user.service;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
@@ -21,5 +22,10 @@ public class UserReadService {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		return userRepository.findByIdAndAccountState(currentUserId, ACTIVE)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);
+	}
+
+	public User getUserById(Long id) {
+		return userRepository.findByIdAndAccountState(id, AccountState.ACTIVE)
+				.orElseThrow(() -> UserNotFoundException.EXCEPTION);
 	}
 }

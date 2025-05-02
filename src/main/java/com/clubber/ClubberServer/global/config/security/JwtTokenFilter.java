@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.config.security;
 
-import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
-import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
+import com.clubber.ClubberServer.global.jwt.vo.AccessTokenInfo;
+import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -25,7 +25,7 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARE
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenUtil jwtTokenUtil;
 
 
     @Override
@@ -57,10 +57,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private Authentication getAuthentication(String token) {
-        AccessTokenInfo accessTokenInfo = jwtTokenProvider.parseAccessToken(token);
+        AccessTokenInfo accessTokenInfo = jwtTokenUtil.parseAccessToken(token);
 
-        Long id = accessTokenInfo.getUserId();
-        String role = accessTokenInfo.getRole();
+        Long id = accessTokenInfo.userId();
+        String role = accessTokenInfo.role();
 
         log.info("[Authentication] id : [{}] role [{}]", id, role);
         UserDetails userDetails = new AuthDetails(id.toString(), role);
