@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewApprovedStatusResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.mapper.AdminReviewMapper;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;

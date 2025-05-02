@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.recruit.service;
 import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -39,7 +39,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

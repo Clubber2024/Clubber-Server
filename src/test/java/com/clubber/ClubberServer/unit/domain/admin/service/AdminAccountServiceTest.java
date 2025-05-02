@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
