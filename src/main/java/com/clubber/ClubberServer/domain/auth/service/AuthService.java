@@ -25,9 +25,11 @@ public class AuthService {
 	private final UserReadService userReadService;
 
 	@Transactional
-	public User loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
-		return userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
-			.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
+	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
+		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
+				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse));
+		TokenVO tokenVO = tokenAppender.generateUserToken(user);
+		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	public User createKakaoUser(KakaoUserInfoResponse kakaoUserInfoResponse) {
