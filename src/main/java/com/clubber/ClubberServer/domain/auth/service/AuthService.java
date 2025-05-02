@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.auth.service;
 import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
 import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
+import com.clubber.ClubberServer.domain.auth.implement.UserTokenAppender;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
@@ -21,14 +22,14 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 	private final TokenReader tokenReader;
-	private final TokenAppender tokenAppender;
+	private final UserTokenAppender userTokenAppender;
 	private final UserReadService userReadService;
 
 	@Transactional
 	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
 		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
 				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse.toEntity()));
-		TokenVO tokenVO = tokenAppender.generateUserToken(user);
+		TokenVO tokenVO = userTokenAppender.generateUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
@@ -42,14 +43,14 @@ public class AuthService {
 		log.info("[토큰 재발급] : {}", refreshToken);
 		Long id = tokenReader.parseRefreshTokenId(refreshToken);
 		User user = userReadService.getUserById(id);
-		TokenVO tokenVO = tokenAppender.generateUserToken(user);
+		TokenVO tokenVO = userTokenAppender.generateUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	@Transactional
 	public void logoutKakaoUser() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
-		tokenAppender.deleteRefreshTokenById(currentUserId);
+		userTokenAppender.deleteRefreshTokenById(currentUserId);
 	}
 
 	@Transactional
@@ -57,6 +58,6 @@ public class AuthService {
 		log.info("[회원 탈퇴 id] : {}", user.getId());
 		user.deleteFavorites();
 		user.delete();
-		tokenAppender.deleteRefreshTokenById(user.getId());
+		userTokenAppender.deleteRefreshTokenById(user.getId());
 	}
 }
