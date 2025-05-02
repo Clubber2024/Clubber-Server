@@ -35,16 +35,6 @@ public class AdminAuthService {
 		return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
-	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
-		String accessToken = jwtTokenProvider.generateAccessToken(admin);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(admin.getId());
-		RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.of(admin.getId(), refreshToken,
-			jwtTokenProvider.getRefreshTokenTTlSecond());
-		RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
-		return CreateAdminsLoginResponse.of(admin, accessToken,
-			savedRefreshToken.getRefreshToken());
-	}
-
 	@Transactional
 	public CreateAdminsLoginResponse getAdminsParseToken(String refreshToken) {
 		RefreshTokenEntity refreshTokenEntity = tokenReader.getRefreshToken(refreshToken);
