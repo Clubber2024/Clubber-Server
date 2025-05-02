@@ -3,7 +3,9 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
+import com.clubber.ClubberServer.domain.admin.impl.TokenAppender;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
 import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
@@ -21,12 +23,14 @@ public class AdminAuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final AdminValidator adminValidator;
+	private final TokenAppender tokenAppender;
 
 	@Transactional
 	public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
 		Admin admin = adminReadService.getAdminByUsernameInLogin(loginRequest.getUsername());
 		adminValidator.validatePasswordInLogin(loginRequest.getPassword(), admin.getPassword());
-		return createAdminsToken(admin);
+		TokenVO tokenVO = tokenAppender.createAdminsToken(admin);
+		return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
 	}
 
 	private CreateAdminsLoginResponse createAdminsToken(Admin admin) {
