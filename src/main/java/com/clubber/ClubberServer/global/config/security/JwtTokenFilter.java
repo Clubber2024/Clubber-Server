@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.config.security;
 
-import com.clubber.ClubberServer.global.dto.AccessTokenInfo;
+import com.clubber.ClubberServer.global.jwt.vo.AccessTokenInfo;
 import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

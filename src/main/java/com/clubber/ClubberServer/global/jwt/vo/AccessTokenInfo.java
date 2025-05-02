@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.dto;
+package com.clubber.ClubberServer.global.jwt.vo;
 
 import lombok.Builder;
 import lombok.Getter;
