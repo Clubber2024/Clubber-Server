@@ -26,7 +26,7 @@ public class UserRegisterFacade {
         String clientId = kakaoProperties.getClientId();
         KakaoTokenResponse kakaoTokenResponse = kakaoOauthClient.kakaoAuth(clientId, redirectUrl, code);
 
-        String bearerAccessToken = BEARER + kakaoTokenResponse.getAccessToken();
+        String bearerAccessToken = BEARER + kakaoTokenResponse.accessToken();
         KakaoUserInfoResponse kakaoUserInfoResponse = kakaoInfoClient.getUserInfo(bearerAccessToken);
 
         return authService.loginOrSignUp(kakaoUserInfoResponse);

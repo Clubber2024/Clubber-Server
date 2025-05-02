@@ -26,7 +26,7 @@ public class AuthService {
 
 	@Transactional
 	public KakaoOauthResponse loginOrSignUp(KakaoUserInfoResponse kakaoUserInfoResponse) {
-		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.getId())
+		User user = userRepository.findUserBySnsId(kakaoUserInfoResponse.id())
 				.orElseGet(() -> createKakaoUser(kakaoUserInfoResponse.toEntity()));
 		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());

@@ -4,17 +4,9 @@ import com.clubber.ClubberServer.domain.user.domain.SnsType;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
 @JsonNaming(SnakeCaseStrategy.class)
-public class KakaoUserInfoResponse {
-
-	long id;
-
-	private KakaoAccount kakaoAccount;
+public record KakaoUserInfoResponse(long id, KakaoAccount kakaoAccount) {
 
 	public User toEntity() {
 		return User.builder()
@@ -25,14 +17,11 @@ public class KakaoUserInfoResponse {
 	}
 
 	public String getEmail() {
-		return kakaoAccount.getEmail();
+		return kakaoAccount.email();
 	}
 
-	@Getter
-	@NoArgsConstructor
 	@JsonNaming(SnakeCaseStrategy.class)
-	public static class KakaoAccount {
+	public record KakaoAccount(String email) {
 
-		private String email;
 	}
 }
