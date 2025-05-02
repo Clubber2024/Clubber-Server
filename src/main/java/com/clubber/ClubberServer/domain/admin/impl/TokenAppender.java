@@ -24,4 +24,8 @@ public class TokenAppender {
         RefreshTokenEntity savedRefreshToken = refreshTokenRepository.save(refreshTokenEntity);
         return new TokenVO(accessToken, refreshToken);
     }
+
+    public void deleteRefreshTokenById(Long id) {
+        refreshTokenRepository.deleteById(id);
+    }
 }

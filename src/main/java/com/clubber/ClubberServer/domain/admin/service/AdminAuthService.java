@@ -8,8 +8,6 @@ import com.clubber.ClubberServer.domain.admin.impl.TokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.RefreshTokenEntity;
-import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ public class AdminAuthService {
 
 	private final AdminReadService adminReadService;
 	private final JwtTokenProvider jwtTokenProvider;
-	private final RefreshTokenRepository refreshTokenRepository;
 	private final AdminValidator adminValidator;
 	private final TokenAppender tokenAppender;
 	private final TokenReader tokenReader;
@@ -47,6 +44,6 @@ public class AdminAuthService {
 	@Transactional
 	public void logout() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
-		refreshTokenRepository.deleteById(currentUserId);
+		tokenAppender.deleteRefreshTokenById(currentUserId);
 	}
 }
