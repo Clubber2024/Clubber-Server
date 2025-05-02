@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.domain.admin.domain.AdminRefreshToken;
-import com.clubber.ClubberServer.domain.user.repository.RefreshTokenRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminRefreshTokenRepository;
+import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AdminTokenAppender {
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final AdminRefreshTokenRepository adminRefreshTokenRepository;
 
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -21,11 +21,11 @@ public class AdminTokenAppender {
 
         AdminRefreshToken adminRefreshToken = AdminRefreshToken.of(admin.getId(), refreshToken,
                 jwtTokenUtil.getRefreshTokenTTlSecond());
-        refreshTokenRepository.save(adminRefreshToken);
+        adminRefreshTokenRepository.save(adminRefreshToken);
         return new TokenVO(accessToken, refreshToken);
     }
 
     public void deleteRefreshTokenById(Long id) {
-        refreshTokenRepository.deleteById(id);
+        adminRefreshTokenRepository.deleteById(id);
     }
 }
