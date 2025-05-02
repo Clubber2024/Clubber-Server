@@ -3,9 +3,8 @@ package com.clubber.ClubberServer.domain.admin.facade;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ public class AdminEmailAuthFacade {
 
     private final AdminEmailAuthService adminEmailAuthService;
     private final AdminReader adminReader;
-    private final AdminRepository adminRepository;
     private final MailService mailService;
 
     public CreateAdminAuthResponse signupAdminAuth(
