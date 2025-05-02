@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.implement.AdminTokenAppender;
-import com.clubber.ClubberServer.domain.admin.implement.TokenReader;
+import com.clubber.ClubberServer.domain.admin.implement.AdminTokenReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.domain.auth.vo.TokenVO;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
@@ -19,7 +19,7 @@ public class AdminAuthService {
     private final AdminReadService adminReadService;
     private final AdminValidator adminValidator;
     private final AdminTokenAppender adminTokenAppender;
-    private final TokenReader tokenReader;
+    private final AdminTokenReader adminTokenReader;
 
     @Transactional
     public CreateAdminsLoginResponse createAdminsLogin(CreateAdminsLoginRequest loginRequest) {
@@ -31,7 +31,7 @@ public class AdminAuthService {
 
     @Transactional
     public CreateAdminsLoginResponse createAdminsReissueToken(String refreshToken) {
-        Long adminId = tokenReader.parseRefreshTokenId(refreshToken);
+        Long adminId = adminTokenReader.parseRefreshTokenId(refreshToken);
         Admin admin = adminReadService.getAdminById(adminId);
         TokenVO tokenVO = adminTokenAppender.createAdminsToken(admin);
         return CreateAdminsLoginResponse.of(admin, tokenVO.accessToken(), tokenVO.refreshToken());
