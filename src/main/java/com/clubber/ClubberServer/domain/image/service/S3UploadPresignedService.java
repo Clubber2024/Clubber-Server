@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class S3UploadPresignedService {
 
 	private final AmazonS3 amazonS3;
-	private final AdminReadService adminReadService;
+	private final AdminReader adminReader;
 	private final ClubRepository clubRepository;
 	@Value("${aws.s3.bucket}")
 	private String bucket;
@@ -37,7 +37,7 @@ public class S3UploadPresignedService {
 
 	public CreateImagePresignedUrlResponse createClubsLogoImagePresignedUrl(
 		ImageFileExtension fileExtension) {
-		Admin admin = adminReadService.getCurrentAdmin();
+		Admin admin = adminReader.getCurrentAdmin();
 
 		Long clubId = admin.getClub().getId();
 		if (!clubRepository.existsClubByIdAndIsDeleted(clubId, false)) {
@@ -54,7 +54,7 @@ public class S3UploadPresignedService {
 
 	public List<CreateImagePresignedUrlResponse> createRecruitsImagePresignedUrl(
 		CreateRecruitsImagePresigneUrlRequest request) {
-		Admin admin = adminReadService.getCurrentAdmin();
+		Admin admin = adminReader.getCurrentAdmin();
 
 		Long clubId = admin.getClub().getId();
 		if (!clubRepository.existsClubByIdAndIsDeleted(clubId, false)) {

@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.repository.ClubInfoRepository;
@@ -37,7 +37,7 @@ public class AdminClubServiceTest {
     private AdminClubService adminClubService;
 
     @Autowired
-    private AdminReadService adminReadService;
+    private AdminReader adminReader;
 
     @Autowired
     private ClubRepository clubRepository;
@@ -116,7 +116,7 @@ public class AdminClubServiceTest {
     void updateAdminsPageWithImageServerURL() {
         adminClubService.updateAdminsPage(IMAGE_KEY_WITH_IMAGE_SERVER_PAGE_REQUEST);
 
-        Admin admin = adminReadService.getCurrentAdmin();
+        Admin admin = adminReader.getCurrentAdmin();
         Club club = clubRepository.findById(admin.getClub().getId()).get();
 
         assertAll(

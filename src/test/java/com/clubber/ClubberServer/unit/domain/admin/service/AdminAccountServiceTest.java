@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
@@ -28,7 +28,7 @@ public class AdminAccountServiceTest {
     private AdminAccountService adminAccountService;
 
     @Mock
-    private AdminReadService adminReadService;
+    private AdminReader adminReader;
 
     @Mock
     private AdminValidator adminValidator;
@@ -43,7 +43,7 @@ public class AdminAccountServiceTest {
     public void 관리자_프로필_조회() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
-        when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+        when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
         //when
         GetAdminsProfileResponse response = adminAccountService.getAdminsProfile();
@@ -64,7 +64,7 @@ public class AdminAccountServiceTest {
         Admin admin = AdminFixture.aAdmin()
                 .password(oldPassword)
                 .build();
-        when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+        when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
         doNothing().when(adminValidator).validateEqualsWithExistPassword(anyString(), anyString());
         doNothing().when(adminValidator).validatePasswordInUpdatePassword(anyString(), anyString());
@@ -86,7 +86,7 @@ public class AdminAccountServiceTest {
     public void 관리자_회원탈퇴_계정_상태_변경() {
         //given
         Admin admin = AdminFixture.aAdmin().build();
-        when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+        when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
         doNothing().when(softDeleteEventPublisher).throwSoftDeleteEvent(anyLong());
 

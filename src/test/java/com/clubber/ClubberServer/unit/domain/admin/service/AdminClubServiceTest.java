@@ -14,7 +14,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
@@ -35,14 +35,14 @@ public class AdminClubServiceTest {
 	private AdminClubService adminClubService;
 
 	@Mock
-	private AdminReadService adminReadService;
+	private AdminReader adminReader;
 
 	@Test
 	@DisplayName("동아리 개별 페이지 조회를 수행한다.")
 	public void getAdminsMyPageTest() {
 		//given
 		Admin admin = getAdmin();
-		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+		when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
 		//when
 		GetClubResponse response = adminClubService.getAdminsMyPage();
@@ -77,7 +77,7 @@ public class AdminClubServiceTest {
 	public void updateAdminsPageTest() {
 		//given
 		Admin admin = getAdmin();
-		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+		when(adminReader.getCurrentAdmin()).thenReturn(admin);
 		UpdateClubPageRequest updateClubPageRequest = AdminFixture.VALID_UPDATE_CLUB_PAGE_REQUEST;
 
 		//when

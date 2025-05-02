@@ -10,7 +10,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPassw
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -64,7 +64,7 @@ public class AdminAccountServiceTest {
     private RecruitRepository recruitRepository;
 
     @Autowired
-    private AdminReadService adminReadService;
+    private AdminReader adminReader;
 
     private void createSecurityContext(Admin admin) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -109,7 +109,7 @@ public class AdminAccountServiceTest {
 
         //when
         adminAccountService.updateAdminsPassword(request);
-        Admin currentAdmin = adminReadService.getCurrentAdmin();
+        Admin currentAdmin = adminReader.getCurrentAdmin();
 
         //then
         assertThat(encoder.matches(newPassword, currentAdmin.getPassword())).isEqualTo(true);
@@ -168,7 +168,7 @@ public class AdminAccountServiceTest {
         adminAccountService.updateAdminContact(request);
 
         //then
-        Admin currentAdmin = adminReadService.getCurrentAdmin();
+        Admin currentAdmin = adminReader.getCurrentAdmin();
         assertThat(currentAdmin.getContact()).isEqualTo(contact);
     }
 
