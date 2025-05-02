@@ -1,11 +1,11 @@
 package com.clubber.ClubberServer.domain.user.repository;
 
-import com.clubber.ClubberServer.domain.admin.domain.RefreshTokenEntity;
+import com.clubber.ClubberServer.domain.admin.domain.AdminRefreshToken;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RefreshTokenRepository extends CrudRepository<RefreshTokenEntity, Long> {
+public interface RefreshTokenRepository extends CrudRepository<AdminRefreshToken, Long> {
 
-    Optional<RefreshTokenEntity> findByRefreshToken(String refreshToken);
+    Optional<AdminRefreshToken> findByRefreshToken(String refreshToken);
 
 }
