@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.favorite.implement;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class FavoriteReader {
 
     public Page<Favorite> findUserFavoritePages(Long userId, Pageable pageable) {
         return favoriteRepository.queryFavoritesPageByUserId(userId, pageable);
+    }
+
+    public Favorite findById(Long id) {
+        return favoriteRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
     }
 }

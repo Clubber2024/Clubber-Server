@@ -5,6 +5,8 @@ import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteAppender;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -19,7 +21,9 @@ public class FavoriteService {
 
     private final FavoriteValidator favoriteValidator;
 
-    private final FavoriteRepository favoriteRepository;
+    private final FavoriteAppender favoriteAppender;
+
+    private final FavoriteReader favoriteReader;
 
     private final UserReader userReader;
 
@@ -32,7 +36,7 @@ public class FavoriteService {
 
         favoriteValidator.validateFavoriteExist(user, club);
 
-        Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
+        Favorite favorite = favoriteAppender.append(user, club);
         return FavoriteResponse.from(favorite);
     }
 
@@ -41,16 +45,15 @@ public class FavoriteService {
         User user = userReader.getCurrentUser();
         Club club = clubReader.findById(clubId);
 
-        Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
-                .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+        Favorite favorite = favoriteReader.findById(favoriteId);
 
         favoriteValidator.validateDeleteFavorite(favorite, user.getId(), club.getId());
-        favorite.delete();
+        favoriteAppender.delete(favorite);
         return FavoriteResponse.from(favorite);
     }
 
     @Transactional
     public void softDeleteByClubId(Long clubId) {
-        favoriteRepository.softDeleteFavoriteByClubId(clubId);
+        favoriteAppender.softDeleteByClubId(clubId);
     }
 }
