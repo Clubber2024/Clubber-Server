@@ -30,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
 
-	private final FavoriteRepository favoriteRepository;
-
 	private final ReviewRepository reviewRepository;
 
 	private final UserReader userReader;
@@ -49,7 +47,7 @@ public class UserService {
 
 	public GetUserFavoritesResponse getUserFavorites() {
 		User user = userReader.getCurrentUser();
-		List<Favorite> favorites = favoriteRepository.queryFavoritesByUserId(user.getId());
+		List<Favorite> favorites = favoriteReader.findUserFavorites(user.getId());
 		return GetUserFavoritesResponse.of(user, favorites);
 	}
 
@@ -61,8 +59,7 @@ public class UserService {
 
 	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
 		User user = userReader.getCurrentUser();
-		Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(user.getId(),
-			pageable);
+		Page<Favorite> favorites = favoriteReader.findUserFavoritePages(user.getId(), pageable);
 		Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
 			GetFavoriteDetailsResponse::of);
 		return PageResponse.of(favoriteResponses);
