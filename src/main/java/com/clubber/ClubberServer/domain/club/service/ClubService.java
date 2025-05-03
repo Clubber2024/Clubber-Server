@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.club.service;
 
 import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
+import com.clubber.ClubberServer.domain.club.implement.ClubAppender;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class ClubService {
 
     private final ClubReader clubReader;
+    private final ClubAppender clubAppender;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     public GetClubByDivisionResponse getClubsByDivision(Division division) {
@@ -44,8 +46,9 @@ public class ClubService {
 
         club.validateAgreeToProvideInfo();
 
-        club.getClubInfo().increaseTotalView();
-        return GetClubResponse.of(club, GetClubInfoResponse.from(club.getClubInfo()));
+        ClubInfo clubInfo = club.getClubInfo();
+        clubAppender.increaseClubTotalView(clubInfo);
+        return GetClubResponse.of(club, GetClubInfoResponse.from(clubInfo));
     }
 
     // 동아리명 및 소모임명으로 검색
