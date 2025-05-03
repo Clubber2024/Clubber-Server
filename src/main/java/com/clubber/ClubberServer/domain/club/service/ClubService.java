@@ -2,11 +2,8 @@ package com.clubber.ClubberServer.domain.club.service;
 
 import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
-import com.clubber.ClubberServer.domain.club.exception.*;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +15,11 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ClubService {
 
-    private final ClubRepository clubRepository;
+    private final ClubReader clubReader;
 
     //[중앙 동아리] - 특정 분과 소속 동아리들 반환
     public GetClubByDivisionResponse getClubsByDivision(Division division) {
-        List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
-        if (clubs.isEmpty()) {
-            throw DivisionNotFoundException.EXCEPTION;
-        }
+        List<Club> clubs = clubReader.findByDivision(division);
 
         List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(GetClubIntoCardResponse::from)
@@ -35,10 +29,7 @@ public class ClubService {
 
     // [소모임] - 특정 학과 소속 소모임들 반환
     public DepartmentSmallDto getClubsByDepartment(Department department) {
-        List<Club> clubs = clubRepository.findByDepartmentAndIsDeleted(department, false);
-        if (clubs.isEmpty()) {
-            throw DepartmentNotFoundException.EXCEPTION;
-        }
+        List<Club> clubs = clubReader.findByDepartment(department);
 
         List<GetClubIntoCardResponse> clubDtos = clubs.stream()
                     .map(GetClubIntoCardResponse::from)
@@ -49,8 +40,7 @@ public class ClubService {
     //[동아리 및 소모임] 개별 페이지 조회
     @Transactional
     public GetClubResponse getClubsIndividualPage(Long clubId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubIdNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         club.validateAgreeToProvideInfo();
 
@@ -60,15 +50,11 @@ public class ClubService {
 
     // 동아리명 및 소모임명으로 검색
     public GetClubsSearchResponse getClubsByName(String clubName) {
-        List<Club> clubs = clubRepository.findByNameOrderByClubType(clubName.toUpperCase());
+        List<Club> clubs = clubReader.findByName(clubName);
 
         List<String> clubTypes = Arrays.stream(ClubType.values())
                 .map(ClubType::getTitle)
                 .toList();
-
-        if (clubs.isEmpty()) {
-            throw ClubNotFoundException.EXCEPTION;
-        }
 
         Map<String, List<GetClubSearchResponse>> groupedClubs = clubs.stream()
                 .collect(Collectors.groupingBy(
@@ -81,10 +67,7 @@ public class ClubService {
 
     // 해시태그별 동아리/소모임 조회
     public GetClubsByHashTagResponse getClubsHashtag(Hashtag hashtag) {
-        List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
-        if (clubs.isEmpty()) {
-            throw HashtagNotFoundException.EXCEPTION;
-        }
+        List<Club> clubs = clubReader.findByHashtag(hashtag);
 
         List<GetClubByHashTagResponse> clubDtos = clubs.stream()
                 .map(GetClubByHashTagResponse::from)
@@ -94,8 +77,7 @@ public class ClubService {
     }
 
     public List<GetClubPopularResponse> getClubsPopular() {
-        Pageable topTen = PageRequest.of(0, 10);
-        List<Club> clubs = clubRepository.findTop10ByOrderByClubInfoTotalViewDesc(topTen);
+        List<Club> clubs = clubReader.findPopularTopTenClubs();
         return clubs.stream()
                 .map(GetClubPopularResponse::from)
                 .toList();
@@ -103,7 +85,7 @@ public class ClubService {
 
     // [한눈에 보기]
     public List<GetSummaryClubGroupResponse> getSummaryClubs() {
-        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(ClubType.CENTER);
+        List<Club> clubs = clubReader.findByClubType(ClubType.CENTER);
 
         return clubs.stream()
                 .sorted(Comparator.comparing(Club::getDivision))
@@ -120,29 +102,21 @@ public class ClubService {
 
     // [숭실대 공식 단체]
     public GetOfficialClubGroupResponse getOfficialClubs() {
-        ClubType officialType = ClubType.OFFICIAL;
-        List<Club> clubs = clubRepository.findByClubTypeAndIsDeletedFalse(officialType);
+        List<Club> clubs = clubReader.findByClubType(ClubType.OFFICIAL);
 
         List<GetOfficialClubResponse> clubList = clubs.stream()
                 .map(GetOfficialClubResponse::from)
                 .collect(Collectors.toList());
 
-        return GetOfficialClubGroupResponse.of(officialType, clubList);
+        return GetOfficialClubGroupResponse.from(clubList);
     }
 
     // [회원가입] 동아리명 검색
     public List<GetClubsSearchForSignUpResponse> searchForSignUp(String clubName) {
-        List<Club> clubs = clubRepository.findByNameOrderByName(clubName.toUpperCase());
+        List<Club> clubs = clubReader.findByNameOrderByName(clubName);
 
         return clubs.stream()
                 .map(GetClubsSearchForSignUpResponse::from)
                 .collect(Collectors.toList());
-    }
-
-    /**TODO**
-     * 추후 Projection으로 수정
-     */
-    public List<GetClubPopularResponse> getClubsPopularTemp() {
-        return clubRepository.findAllOrderByTotalViewDesc();
     }
 }
