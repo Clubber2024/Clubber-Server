@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.favorite.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
@@ -22,15 +23,14 @@ public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
 
-    private final ClubRepository clubRepository;
-
     private final UserReader userReader;
+
+    private final ClubReader clubReader;
 
     @Transactional
     public FavoriteResponse createFavorite(Long clubId) {
         User user = userReader.getCurrentUser();
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         favoriteValidator.validateFavoriteExist(user, club);
 
@@ -41,9 +41,7 @@ public class FavoriteService {
     @Transactional
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
         User user = userReader.getCurrentUser();
-
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
                 .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
