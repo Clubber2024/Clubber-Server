@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundExcepti
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReadService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

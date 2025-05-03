@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepositor
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReadService;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;

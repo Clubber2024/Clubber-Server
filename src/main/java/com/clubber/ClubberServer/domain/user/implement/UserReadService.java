@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.service;
+package com.clubber.ClubberServer.domain.user.implement;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 

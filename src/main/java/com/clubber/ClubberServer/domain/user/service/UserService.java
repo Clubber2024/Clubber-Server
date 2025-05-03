@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.ClubberServer.domain.user.dto.GetUserProfileResponse;
+import com.clubber.ClubberServer.domain.user.implement.UserReadService;
 import com.clubber.ClubberServer.domain.user.mapper.UserMapper;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import java.util.List;

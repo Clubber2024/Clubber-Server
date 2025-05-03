@@ -9,10 +9,9 @@ import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundExcep
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
