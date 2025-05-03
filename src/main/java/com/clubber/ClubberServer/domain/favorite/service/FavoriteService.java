@@ -28,7 +28,7 @@ public class FavoriteService {
 
     @Transactional
     public FavoriteResponse createFavorite(Long clubId) {
-        User user = userReader.getUser();
+        User user = userReader.getCurrentUser();
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
@@ -40,7 +40,7 @@ public class FavoriteService {
 
     @Transactional
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
-        User user = userReader.getUser();
+        User user = userReader.getCurrentUser();
 
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);

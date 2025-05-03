@@ -40,7 +40,7 @@ public class ReviewService {
 	@Transactional
 	public CreateClubReviewResponse createReview(Long clubId,
 		@Valid CreateClubReviewRequest reviewRequest) {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 

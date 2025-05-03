@@ -18,7 +18,7 @@ public class UserReader {
 
 	private final UserRepository userRepository;
 
-	public User getUser() {
+	public User getCurrentUser() {
 		Long currentUserId = SecurityUtils.getCurrentUserId();
 		return userRepository.findByIdAndAccountState(currentUserId, ACTIVE)
 			.orElseThrow(() -> UserNotFoundException.EXCEPTION);

@@ -33,7 +33,7 @@ public class RecruitCommentService {
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
         PostRecruitCommentRequest request) {
 
-        User user = userReader.getUser();
+        User user = userReader.getCurrentUser();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
@@ -78,7 +78,7 @@ public class RecruitCommentService {
 
     @Transactional
     public DeleteRecruitCommentResponse deleteRecruitComment(Long recruitId, Long commentId) {
-        User user = userReader.getUser();
+        User user = userReader.getCurrentUser();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);

@@ -39,24 +39,24 @@ public class UserService {
 	private final UserMapper userMapper;
 
 	public GetUserProfileResponse getUserProfile() {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		return GetUserProfileResponse.of(user);
 	}
 
 	public GetUserFavoritesResponse getUserFavorites() {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		List<Favorite> favorites = favoriteRepository.queryFavoritesByUserId(user.getId());
 		return GetUserFavoritesResponse.of(user, favorites);
 	}
 
 	public GetUserReviewsResponse getUserReviews() {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		List<Review> reviews = reviewRepository.queryReviewByUserOrderByIdDesc(user);
 		return userMapper.getGetUserReviewResponse(user, reviews);
 	}
 
 	public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		Page<Favorite> favorites = favoriteRepository.queryFavoritesPageByUserId(user.getId(),
 			pageable);
 		Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
@@ -65,7 +65,7 @@ public class UserService {
 	}
 
 	public GetIsUserFavoriteResponse getIsUserFavorite(Long clubId) {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 		boolean isFavorite = favoriteRepository.existsByUserAndClubAndIsDeleted(user, club, false);

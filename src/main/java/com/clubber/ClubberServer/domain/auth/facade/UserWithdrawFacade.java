@@ -19,7 +19,7 @@ public class UserWithdrawFacade {
 	private final AuthService authService;
 
 	public void withDraw() {
-		User user = userReader.getUser();
+		User user = userReader.getCurrentUser();
 		unlinkKakao(user);
 		authService.deleteKakaoUser(user);
 	}
