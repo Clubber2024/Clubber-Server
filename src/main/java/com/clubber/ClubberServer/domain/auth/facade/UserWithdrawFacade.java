@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.auth.facade;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.UnlinkKaKaoTarget;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.implement.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.client.KakaoInfoClient;
 import com.clubber.ClubberServer.global.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ public class UserWithdrawFacade {
 
 	private final KakaoInfoClient kakaoInfoClient;
 	private final KakaoProperties kakaoProperties;
-	private final UserReadService userReadService;
+	private final UserReader userReader;
 	private final AuthService authService;
 
 	public void withDraw() {
-		User user = userReadService.getUser();
+		User user = userReader.getUser();
 		unlinkKakao(user);
 		authService.deleteKakaoUser(user);
 	}

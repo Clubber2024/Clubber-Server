@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.auth.implement.UserTokenReader;
 import com.clubber.ClubberServer.global.jwt.vo.TokenVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
-import com.clubber.ClubberServer.domain.user.implement.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
 	private final UserRepository userRepository;
-	private final UserReadService userReadService;
+	private final UserReader userReader;
 	private final UserTokenAppender userTokenAppender;
 	private final UserTokenReader userTokenReader;
 
@@ -41,7 +41,7 @@ public class AuthService {
 	public KakaoOauthResponse tokenRefresh(String refreshToken) {
 		log.info("[토큰 재발급] : {}", refreshToken);
 		Long id = userTokenReader.parseRefreshTokenId(refreshToken);
-		User user = userReadService.getUserById(id);
+		User user = userReader.getUserById(id);
 		TokenVO tokenVO = userTokenAppender.saveUserToken(user);
 		return KakaoOauthResponse.of(user, tokenVO.accessToken(), tokenVO.refreshToken());
 	}

@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundExcepti
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.implement.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RecruitCommentService {
 
-    private final UserReadService userReadService;
+    private final UserReader userReader;
     private final RecruitRepository recruitRepository;
     private final RecruitCommentRepository recruitCommentRepository;
 
@@ -33,7 +33,7 @@ public class RecruitCommentService {
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
         PostRecruitCommentRequest request) {
 
-        User user = userReadService.getUser();
+        User user = userReader.getUser();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
@@ -78,7 +78,7 @@ public class RecruitCommentService {
 
     @Transactional
     public DeleteRecruitCommentResponse deleteRecruitComment(Long recruitId, Long commentId) {
-        User user = userReadService.getUser();
+        User user = userReader.getUser();
 
         Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
             .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);

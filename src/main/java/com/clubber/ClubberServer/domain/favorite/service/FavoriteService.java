@@ -9,7 +9,7 @@ import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundExcep
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.implement.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +24,11 @@ public class FavoriteService {
 
     private final ClubRepository clubRepository;
 
-    private final UserReadService userReadService;
+    private final UserReader userReader;
 
     @Transactional
     public FavoriteResponse createFavorite(Long clubId) {
-        User user = userReadService.getUser();
+        User user = userReader.getUser();
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
@@ -40,7 +40,7 @@ public class FavoriteService {
 
     @Transactional
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
-        User user = userReadService.getUser();
+        User user = userReader.getUser();
 
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
