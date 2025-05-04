@@ -4,10 +4,8 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
-import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteAppender;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
-import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
@@ -37,7 +35,7 @@ public class FavoriteService {
         favoriteValidator.validateFavoriteExist(user, club);
 
         Favorite favorite = favoriteAppender.append(user, club);
-        return FavoriteResponse.from(favorite);
+        return FavoriteResponse.of(favorite, club, user);
     }
 
     @Transactional
@@ -49,7 +47,7 @@ public class FavoriteService {
 
         favoriteValidator.validateDeleteFavorite(favorite, user.getId(), club.getId());
         favoriteAppender.delete(favorite);
-        return FavoriteResponse.from(favorite);
+        return FavoriteResponse.of(favorite, club, user);
     }
 
     @Transactional
