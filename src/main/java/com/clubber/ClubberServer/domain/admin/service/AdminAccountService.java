@@ -6,13 +6,10 @@ import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.implement.AdminAppender;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
