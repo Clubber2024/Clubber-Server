@@ -58,8 +58,8 @@ public class UserService {
     public PageResponse<GetFavoriteDetailsResponse> getUserFavoritesPagination(Pageable pageable) {
         User user = userReader.getCurrentUser();
         Page<Favorite> favorites = favoriteReader.findUserFavoritePages(user.getId(), pageable);
-        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
-                GetFavoriteDetailsResponse::of);
+        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites
+                .map(GetFavoriteDetailsResponse::of);
         return PageResponse.of(favoriteResponses);
     }
 
