@@ -42,10 +42,10 @@ public class FavoriteService {
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
         User user = userReader.getCurrentUser();
         Club club = clubReader.findById(clubId);
-
         Favorite favorite = favoriteReader.findById(favoriteId);
 
         favoriteValidator.validateDeleteFavorite(favorite, user.getId(), club.getId());
+
         favoriteAppender.delete(favorite);
         return FavoriteResponse.of(favorite, club, user);
     }
