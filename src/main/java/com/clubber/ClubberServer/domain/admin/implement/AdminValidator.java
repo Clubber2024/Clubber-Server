@@ -21,7 +21,7 @@ public class AdminValidator {
 		}
 	}
 
-	public void validatePasswordInUpdatePassword(String rawPassword, Admin admin) {
+	public void validateExistPassword(String rawPassword, Admin admin) {
 		String encodedPassword = admin.getPassword();
 		if (!encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminInvalidCurrentPasswordException.EXCEPTION;

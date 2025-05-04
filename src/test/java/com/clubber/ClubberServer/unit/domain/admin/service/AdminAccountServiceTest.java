@@ -67,7 +67,7 @@ public class AdminAccountServiceTest {
         when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
         doNothing().when(adminValidator).validateEqualsWithExistPassword(anyString(), anyString());
-        doNothing().when(adminValidator).validatePasswordInUpdatePassword(anyString(), anyString());
+        doNothing().when(adminValidator).validateExistPassword(anyString(), anyString());
 
         UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청()
                 .set("newPassword", newPassword)
