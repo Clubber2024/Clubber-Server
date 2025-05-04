@@ -23,7 +23,6 @@ public class AdminAccountService {
 
     private final AdminReader adminReader;
     private final AdminEmailAuthService adminEmailAuthService;
-    private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminValidator adminValidator;
     private final PasswordEncoder passwordEncoder;
     private final SoftDeleteEventPublisher eventPublisher;
@@ -79,9 +78,7 @@ public class AdminAccountService {
         adminEmailAuthService.checkAdminSignupAuthVerified(clubName, createAdminSignUpRequest.getAuthCode());
         adminEmailAuthService.deleteAdminSingupAuthById(clubName);
 
-        String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
-        PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
-        pendingAdminInfoRepository.save(pendingAdminInfo);
+        PendingAdminInfo pendingAdminInfo = adminAppender.appendPendingAdminInfo(createAdminSignUpRequest);
 
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
