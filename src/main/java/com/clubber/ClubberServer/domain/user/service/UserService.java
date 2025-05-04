@@ -40,7 +40,7 @@ public class UserService {
 
     public GetUserProfileResponse getUserProfile() {
         User user = userReader.getCurrentUser();
-        return GetUserProfileResponse.of(user);
+        return GetUserProfileResponse.from(user);
     }
 
     public GetUserFavoritesResponse getUserFavorites() {

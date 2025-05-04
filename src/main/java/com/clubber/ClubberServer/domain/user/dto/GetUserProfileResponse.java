@@ -12,7 +12,7 @@ public record GetUserProfileResponse(
         @Schema(description = "유저 이메일", example = "ssuclubber@gmail.com")
         String email
 ) {
-    public static GetUserProfileResponse of(User user) {
+    public static GetUserProfileResponse from(User user) {
         return GetUserProfileResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
