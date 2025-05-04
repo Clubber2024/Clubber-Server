@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.implement.AdminAppender;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
@@ -27,6 +28,7 @@ public class AdminAccountService {
     private final PasswordEncoder passwordEncoder;
     private final SoftDeleteEventPublisher eventPublisher;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+    private final AdminAppender adminAppender;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
@@ -37,13 +39,14 @@ public class AdminAccountService {
     public UpdateAdminsPasswordResponse updateAdminsPassword(
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Admin admin = adminReader.getCurrentAdmin();
+
         String storedEncodedPassword = admin.getPassword();
         adminValidator.validatePasswordInUpdatePassword(updateAdminsPasswordRequest.getOldPassword(), storedEncodedPassword);
 
         String newPassword = updateAdminsPasswordRequest.getNewPassword();
         adminValidator.validateEqualsWithExistPassword(newPassword, storedEncodedPassword);
 
-        admin.updatePassword(passwordEncoder.encode(newPassword));
+        adminAppender.updatePassword(admin, newPassword);
         return UpdateAdminsPasswordResponse.of(admin);
     }
 
