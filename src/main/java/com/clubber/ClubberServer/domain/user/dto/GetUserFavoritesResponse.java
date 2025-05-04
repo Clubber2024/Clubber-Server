@@ -14,11 +14,7 @@ public record GetUserFavoritesResponse(
         Long userId,
         List<FavoriteDetailResponse> userFavorites
 ) {
-    public static GetUserFavoritesResponse of(User user, List<Favorite> favorites) {
-        List<FavoriteDetailResponse> favoriteDetailResponse = favorites.stream()
-                .map(FavoriteDetailResponse::of)
-                .toList();
-
+    public static GetUserFavoritesResponse of(User user, List<FavoriteDetailResponse> favoriteDetailResponse) {
         return GetUserFavoritesResponse.builder()
                 .userId(user.getId())
                 .userFavorites(favoriteDetailResponse)

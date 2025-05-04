@@ -12,8 +12,7 @@ public record FavoriteDetailResponse(
         @Schema(description = "즐겨찾기한 동아리")
         FavoriteClubDetailResponse favoriteClub
 ) {
-    public static FavoriteDetailResponse of(Favorite favorite) {
-        FavoriteClubDetailResponse favoriteClubDetailResponse = FavoriteClubDetailResponse.of(favorite.getClub());
+    public static FavoriteDetailResponse of(Favorite favorite, FavoriteClubDetailResponse favoriteClubDetailResponse) {
         return FavoriteDetailResponse
                 .builder()
                 .favoriteId(favorite.getId())

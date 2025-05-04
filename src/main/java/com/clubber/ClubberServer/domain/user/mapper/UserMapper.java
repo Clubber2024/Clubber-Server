@@ -6,8 +6,7 @@ import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
-import com.clubber.ClubberServer.domain.user.dto.UserReviewResponse;
+import com.clubber.ClubberServer.domain.user.dto.*;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -44,5 +43,17 @@ public class UserMapper {
                     return GetFavoriteDetailsResponse.of(favorite, club);
                 });
         return PageResponse.of(favoriteResponses);
+    }
+
+    public GetUserFavoritesResponse getGetUserFavoritesResponse(User user, List<Favorite> favorites) {
+        List<FavoriteDetailResponse> favoriteDetailResponses = favorites.stream()
+                .map(
+                        favorite -> {
+                            Club club = favorite.getClub();
+                            FavoriteClubDetailResponse favoriteClubDetailResponse = FavoriteClubDetailResponse.of(club);
+                            return FavoriteDetailResponse.of(favorite, favoriteClubDetailResponse);
+                        })
+                .toList();
+        return GetUserFavoritesResponse.of(user, favoriteDetailResponses);
     }
 }

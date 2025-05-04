@@ -46,7 +46,7 @@ public class UserService {
     public GetUserFavoritesResponse getUserFavorites() {
         User user = userReader.getCurrentUser();
         List<Favorite> favorites = favoriteReader.findUserFavorites(user.getId());
-        return GetUserFavoritesResponse.of(user, favorites);
+        return userMapper.getGetUserFavoritesResponse(user, favorites);
     }
 
     public GetUserReviewsResponse getUserReviews() {
