@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
-import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;
 import com.clubber.ClubberServer.integration.util.fixture.UserFixture;

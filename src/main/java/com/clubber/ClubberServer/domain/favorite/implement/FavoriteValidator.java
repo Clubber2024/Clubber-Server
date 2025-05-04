@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.favorite.validator;
+package com.clubber.ClubberServer.domain.favorite.implement;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;

@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteAppender;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
-import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import lombok.RequiredArgsConstructor;
