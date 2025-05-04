@@ -66,10 +66,8 @@ public class AdminAccountService {
 
     public void withDraw() {
         Admin admin = adminReader.getCurrentAdmin();
-        admin.withDraw();
-        Club club = admin.getClub();
-        club.delete();
-        eventPublisher.throwSoftDeleteEvent(club.getId());
+        Long clubId = adminAppender.withDraw(admin);
+        eventPublisher.throwSoftDeleteEvent(clubId);
     }
 
     public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {
