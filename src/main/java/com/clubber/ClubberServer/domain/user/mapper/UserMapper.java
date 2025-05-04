@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.user.mapper;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.domain.Review;
@@ -37,7 +38,11 @@ public class UserMapper {
     }
 
     public PageResponse<GetFavoriteDetailsResponse> getUserFavoritePageResponse(Page<Favorite> favorites) {
-        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(GetFavoriteDetailsResponse::of);
+        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(
+                favorite -> {
+                    Club club = favorite.getClub();
+                    return GetFavoriteDetailsResponse.of(favorite, club);
+                });
         return PageResponse.of(favoriteResponses);
     }
 }
