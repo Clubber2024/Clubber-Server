@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminAccountService {
 
     private final AdminReader adminReader;
-    private final AdminRepository adminRepository;
     private final AdminEmailAuthService adminEmailAuthService;
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminValidator adminValidator;
@@ -89,7 +88,7 @@ public class AdminAccountService {
 
     @Transactional(readOnly = true)
     public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username) {
-        boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
+        boolean isExist = adminReader.existsByUsername(username);
         return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
     }
 
