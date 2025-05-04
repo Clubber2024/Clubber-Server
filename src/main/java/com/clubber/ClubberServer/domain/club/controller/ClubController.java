@@ -88,14 +88,4 @@ public class ClubController {
     public GetOfficialClubGroupResponse getOfficialClubs() {
         return clubService.getOfficialClubs();
     }
-
-    /**TODO
-     * 추후 수정
-     */
-    @DisableSwaggerSecurity
-    @Operation(summary = "인기 순위 반환 개선용(추후 적용)")
-    @GetMapping("/popular/temp")
-    public List<GetClubPopularResponse> getPopularClubs() {
-        return clubService.getClubsPopularTemp();
-    }
 }

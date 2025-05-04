@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,7 @@ public class AdminAccountServiceTest {
         when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
         doNothing().when(adminValidator).validateEqualsWithExistPassword(anyString(), anyString());
-        doNothing().when(adminValidator).validatePasswordInUpdatePassword(anyString(), anyString());
+        doNothing().when(adminValidator).validateExistPassword(anyString(), anyString());
 
         UpdateAdminsPasswordRequest request = AdminFixture.a_마이페이지_비밀번호_변경_요청()
                 .set("newPassword", newPassword)

@@ -1,13 +1,16 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.*;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminUpdateEmailAuthVerifyRequest;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.admin.repository.*;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminUpdateEmailAuthRepository;
+import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +23,6 @@ public class AdminEmailAuthService {
     private final AdminPasswordFindAuthRepository adminPasswordFindAuthRepository;
     private final AdminUsernameFindAuthRepository adminUsernameFindAuthRepository;
     private final AdminValidator adminValidator;
-    private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final AdminUpdateEmailAuthRepository adminUpdateEmailAuthRepository;
     private final AdminReader adminReader;
     private final AdminUpdateEmailAuthRepository updateEmailAuthRepository;

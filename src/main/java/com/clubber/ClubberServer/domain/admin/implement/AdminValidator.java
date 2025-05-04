@@ -1,5 +1,6 @@
-package com.clubber.ClubberServer.domain.admin.validator;
+package com.clubber.ClubberServer.domain.admin.implement;
 
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
@@ -20,7 +21,7 @@ public class AdminValidator {
 		}
 	}
 
-	public void validatePasswordInUpdatePassword(String rawPassword, String encodedPassword) {
+	public void validateExistPassword(String rawPassword, String encodedPassword) {
 		if (!encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminInvalidCurrentPasswordException.EXCEPTION;
 		}

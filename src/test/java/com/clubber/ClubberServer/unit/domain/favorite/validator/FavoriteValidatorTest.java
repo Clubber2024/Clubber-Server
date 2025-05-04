@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
-import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;
 import com.clubber.ClubberServer.integration.util.fixture.UserFixture;
@@ -32,7 +32,7 @@ public class FavoriteValidatorTest {
                 .build();
 
         Club club = ClubFixture.aClub().build();
-        Favorite favorite = Favorite.create(user, club);
+        Favorite favorite = Favorite.from(user, club);
 
         UserFixture.aUser()
                 .id(wrongUserId)
@@ -53,7 +53,7 @@ public class FavoriteValidatorTest {
                 .id(clubId)
                 .build();
         User user = UserFixture.aUser().build();
-        Favorite favorite = Favorite.create(user, club);
+        Favorite favorite = Favorite.from(user, club);
 
         //when
         assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, user.getId(), wrongClubId))

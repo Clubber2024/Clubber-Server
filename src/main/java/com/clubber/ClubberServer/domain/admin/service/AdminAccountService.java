@@ -3,17 +3,13 @@ package com.clubber.ClubberServer.domain.admin.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.implement.AdminAppender;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminAccountService {
 
     private final AdminReader adminReader;
-    private final AdminRepository adminRepository;
-    private final AdminEmailAuthService adminEmailAuthService;
-    private final PendingAdminInfoRepository pendingAdminInfoRepository;
+    private final AdminAppender adminAppender;
     private final AdminValidator adminValidator;
-    private final PasswordEncoder passwordEncoder;
-    private final SoftDeleteEventPublisher eventPublisher;
+    private final AdminEmailAuthService adminEmailAuthService;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+    private final SoftDeleteEventPublisher eventPublisher;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
@@ -40,19 +34,19 @@ public class AdminAccountService {
     public UpdateAdminsPasswordResponse updateAdminsPassword(
             UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
         Admin admin = adminReader.getCurrentAdmin();
-        String storedEncodedPassword = admin.getPassword();
-        adminValidator.validatePasswordInUpdatePassword(updateAdminsPasswordRequest.getOldPassword(), storedEncodedPassword);
+
+        adminValidator.validateExistPassword(updateAdminsPasswordRequest.getOldPassword(), admin.getPassword());
 
         String newPassword = updateAdminsPasswordRequest.getNewPassword();
-        adminValidator.validateEqualsWithExistPassword(newPassword, storedEncodedPassword);
+        adminValidator.validateEqualsWithExistPassword(newPassword, admin.getPassword());
 
-        admin.updatePassword(passwordEncoder.encode(newPassword));
+        adminAppender.updatePassword(admin, newPassword);
         return UpdateAdminsPasswordResponse.of(admin);
     }
 
     public UpdateAdminContactResponse updateAdminContact(UpdateAdminContactRequest updateAdminContactRequest) {
         Admin admin = adminReader.getCurrentAdmin();
-        admin.updateContact(updateAdminContactRequest.getContact());
+        adminAppender.updateContact(admin, updateAdminContactRequest.getContact());
         return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
     }
 
@@ -62,16 +56,15 @@ public class AdminAccountService {
 
         adminEmailAuthService.checkAdminUpdateEmailAuthVerified(adminId, updateAdminEmailRequest.getAuthCode());
         adminEmailAuthService.deleteAdminUpdateEmailAuthById(adminId);
-        admin.updateEmail(updateAdminEmailRequest.getEmail());
+
+        adminAppender.updateEmail(admin, updateAdminEmailRequest.getEmail());
         return new UpdateAdminEmailResponse(admin.getId(), admin.getEmail());
     }
 
     public void withDraw() {
         Admin admin = adminReader.getCurrentAdmin();
-        admin.withDraw();
-        Club club = admin.getClub();
-        club.delete();
-        eventPublisher.throwSoftDeleteEvent(club.getId());
+        Long clubId = adminAppender.withDraw(admin);
+        eventPublisher.throwSoftDeleteEvent(clubId);
     }
 
     public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {
@@ -79,9 +72,7 @@ public class AdminAccountService {
         adminEmailAuthService.checkAdminSignupAuthVerified(clubName, createAdminSignUpRequest.getAuthCode());
         adminEmailAuthService.deleteAdminSingupAuthById(clubName);
 
-        String encodedPassword = passwordEncoder.encode(createAdminSignUpRequest.getPassword());
-        PendingAdminInfo pendingAdminInfo = createAdminSignUpRequest.toEntity(encodedPassword);
-        pendingAdminInfoRepository.save(pendingAdminInfo);
+        PendingAdminInfo pendingAdminInfo = adminAppender.appendPendingAdminInfo(createAdminSignUpRequest);
 
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
@@ -89,7 +80,7 @@ public class AdminAccountService {
 
     @Transactional(readOnly = true)
     public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username) {
-        boolean isExist = adminRepository.existsByUsernameAndAccountState(username, AccountState.ACTIVE);
+        boolean isExist = adminReader.existsByUsername(username);
         return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
     }
 
@@ -114,8 +105,6 @@ public class AdminAccountService {
         adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
 
         Admin admin = adminReader.getAdminByUsername(username);
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        admin.updatePassword(encodedPassword);
+        adminAppender.updatePassword(admin, request.getPassword());
     }
 }

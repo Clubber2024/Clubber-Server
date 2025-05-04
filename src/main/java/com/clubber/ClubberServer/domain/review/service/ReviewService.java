@@ -12,7 +12,7 @@ import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepositor
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
 import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
@@ -35,12 +35,12 @@ public class ReviewService {
 	private final ClubRepository clubRepository;
 	private final EnumMapper enumMapper;
 	private final ReviewApproveEvnetPublisher publisher;
-	private final UserReadService userReadService;
+	private final UserReader userReader;
 
 	@Transactional
 	public CreateClubReviewResponse createReview(Long clubId,
 		@Valid CreateClubReviewRequest reviewRequest) {
-		User user = userReadService.getUser();
+		User user = userReader.getCurrentUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 

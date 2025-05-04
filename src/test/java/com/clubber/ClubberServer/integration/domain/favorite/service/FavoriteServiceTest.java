@@ -39,7 +39,7 @@ public class FavoriteServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    private void createSecurityContext(User user) {
+    private void fromSecurityContext(User user) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
         AuthDetails adminDetails = new AuthDetails(user.getId().toString(), "USER");
@@ -54,7 +54,7 @@ public class FavoriteServiceTest {
         //given
         Club club = clubRepository.save(ClubFixture.aClub().build());
         User user = userRepository.save(UserFixture.aUser().build());
-        createSecurityContext(user);
+        fromSecurityContext(user);
 
         //when
         favoriteService.createFavorite(club.getId());
@@ -68,9 +68,9 @@ public class FavoriteServiceTest {
         //given
         Club club = clubRepository.save(ClubFixture.aClub().build());
         User user = userRepository.save(UserFixture.aUser().build());
-        createSecurityContext(user);
+        fromSecurityContext(user);
 
-        favoriteRepository.save(Favorite.create(user, club));
+        favoriteRepository.save(Favorite.from(user, club));
 
         //when & then
         assertThatThrownBy(() -> favoriteService.createFavorite(club.getId()))
@@ -82,9 +82,9 @@ public class FavoriteServiceTest {
         //given
         Club club = clubRepository.save(ClubFixture.aClub().build());
         User user = userRepository.save(UserFixture.aUser().build());
-        createSecurityContext(user);
+        fromSecurityContext(user);
 
-        Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
+        Favorite favorite = favoriteRepository.save(Favorite.from(user, club));
 
         //when
         favoriteService.deleteFavorite(club.getId(), favorite.getId());
