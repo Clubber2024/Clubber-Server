@@ -21,15 +21,13 @@ public class AdminValidator {
 		}
 	}
 
-	public void validateExistPassword(String rawPassword, Admin admin) {
-		String encodedPassword = admin.getPassword();
+	public void validateExistPassword(String rawPassword, String encodedPassword) {
 		if (!encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminInvalidCurrentPasswordException.EXCEPTION;
 		}
 	}
 
-	public void validateEqualsWithExistPassword(String rawPassword, Admin admin) {
-		String encodedPassword = admin.getPassword();
+	public void validateEqualsWithExistPassword(String rawPassword, String encodedPassword) {
 		if (encoder.matches(rawPassword, encodedPassword)) {
 			throw AdminEqualsPreviousPasswordExcpetion.EXCEPTION;
 		}
