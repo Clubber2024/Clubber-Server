@@ -1,27 +1,18 @@
 package com.clubber.ClubberServer.domain.favorite.domain;
 
-import java.util.Objects;
-
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
 import com.clubber.ClubberServer.domain.user.domain.User;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
