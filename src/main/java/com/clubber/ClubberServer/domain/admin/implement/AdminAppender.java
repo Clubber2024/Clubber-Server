@@ -20,7 +20,7 @@ public class AdminAppender {
 
     public void updatePassword(Admin admin, String password) {
         String encodedPassword = encoder.encode(password);
-        admin.updatePassword(password);
+        admin.updatePassword(encodedPassword);
     }
 
     public void updateEmail(Admin admin, String email){
