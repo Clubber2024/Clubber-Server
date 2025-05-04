@@ -53,7 +53,7 @@ public class Favorite extends BaseEntity {
         this.club = club;
     }
 
-    public static Favorite create(User user, Club club) {
+    public static Favorite from(User user, Club club) {
         return Favorite.builder()
                 .user(user)
                 .club(club)

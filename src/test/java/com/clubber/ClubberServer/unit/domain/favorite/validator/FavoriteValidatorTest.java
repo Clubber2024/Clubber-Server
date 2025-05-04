@@ -32,7 +32,7 @@ public class FavoriteValidatorTest {
                 .build();
 
         Club club = ClubFixture.aClub().build();
-        Favorite favorite = Favorite.create(user, club);
+        Favorite favorite = Favorite.from(user, club);
 
         UserFixture.aUser()
                 .id(wrongUserId)
@@ -53,7 +53,7 @@ public class FavoriteValidatorTest {
                 .id(clubId)
                 .build();
         User user = UserFixture.aUser().build();
-        Favorite favorite = Favorite.create(user, club);
+        Favorite favorite = Favorite.from(user, club);
 
         //when
         assertThatThrownBy(() -> favoriteValidator.validateDeleteFavorite(favorite, user.getId(), wrongClubId))
