@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminAccountService {
 
     private final AdminReader adminReader;
-    private final AdminEmailAuthService adminEmailAuthService;
-    private final AdminValidator adminValidator;
-    private final SoftDeleteEventPublisher eventPublisher;
-    private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
     private final AdminAppender adminAppender;
+    private final AdminValidator adminValidator;
+    private final AdminEmailAuthService adminEmailAuthService;
+    private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+    private final SoftDeleteEventPublisher eventPublisher;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
