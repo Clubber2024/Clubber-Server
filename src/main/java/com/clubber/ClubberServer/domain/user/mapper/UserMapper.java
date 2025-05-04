@@ -15,7 +15,7 @@ public class UserMapper {
 
     // 리뷰 조회 (일반 회원)
     public GetUserReviewsResponse getGetUserReviewResponse(User user, List<Review> reviews) {
-        List<UserReviewResponse> userReviewResponse = UserMapper.getUserReviewResponse(
+        List<UserReviewResponse> userReviewResponse = getUserReviewResponse(
                 reviews);
         return GetUserReviewsResponse.of(user, userReviewResponse);
     }
