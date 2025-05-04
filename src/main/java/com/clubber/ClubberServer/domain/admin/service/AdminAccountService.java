@@ -24,7 +24,6 @@ public class AdminAccountService {
     private final AdminReader adminReader;
     private final AdminEmailAuthService adminEmailAuthService;
     private final AdminValidator adminValidator;
-    private final PasswordEncoder passwordEncoder;
     private final SoftDeleteEventPublisher eventPublisher;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
     private final AdminAppender adminAppender;
@@ -111,8 +110,6 @@ public class AdminAccountService {
         adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
 
         Admin admin = adminReader.getAdminByUsername(username);
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        admin.updatePassword(encodedPassword);
+        adminAppender.updatePassword(admin, request.getPassword());
     }
 }
