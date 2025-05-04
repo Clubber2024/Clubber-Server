@@ -50,7 +50,7 @@ public class AdminAccountService {
 
     public UpdateAdminContactResponse updateAdminContact(UpdateAdminContactRequest updateAdminContactRequest) {
         Admin admin = adminReader.getCurrentAdmin();
-        admin.updateContact(updateAdminContactRequest.getContact());
+        adminAppender.updateContact(admin, updateAdminContactRequest.getContact());
         return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
     }
 

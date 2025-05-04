@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
@@ -24,6 +25,10 @@ public class AdminAppender {
 
     public void updateEmail(Admin admin, String email){
         admin.updateEmail(email);
+    }
+
+    public void updateContact(Admin admin, Contact contact) {
+        admin.updateContact(contact);
     }
 
     public PendingAdminInfo appendPendingAdminInfo(CreateAdminSignUpRequest request) {
