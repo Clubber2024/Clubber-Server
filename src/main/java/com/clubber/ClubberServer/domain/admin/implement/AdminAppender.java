@@ -22,6 +22,10 @@ public class AdminAppender {
         admin.updatePassword(password);
     }
 
+    public void updateEmail(Admin admin, String email){
+        admin.updateEmail(email);
+    }
+
     public PendingAdminInfo appendPendingAdminInfo(CreateAdminSignUpRequest request) {
         String encodedPassword = encoder.encode(request.getPassword());
         PendingAdminInfo pendingAdminInfo = request.toEntity(encodedPassword);

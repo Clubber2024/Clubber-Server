@@ -60,7 +60,8 @@ public class AdminAccountService {
 
         adminEmailAuthService.checkAdminUpdateEmailAuthVerified(adminId, updateAdminEmailRequest.getAuthCode());
         adminEmailAuthService.deleteAdminUpdateEmailAuthById(adminId);
-        admin.updateEmail(updateAdminEmailRequest.getEmail());
+
+        adminAppender.updateEmail(admin, updateAdminEmailRequest.getEmail());
         return new UpdateAdminEmailResponse(admin.getId(), admin.getEmail());
     }
 
