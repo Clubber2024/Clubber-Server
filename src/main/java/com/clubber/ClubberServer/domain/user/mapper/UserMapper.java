@@ -1,10 +1,14 @@
 package com.clubber.ClubberServer.domain.user.mapper;
 
+import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.ClubberServer.domain.user.dto.UserReviewResponse;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,5 +34,10 @@ public class UserMapper {
                         }
                 )
                 .toList();
+    }
+
+    public PageResponse<GetFavoriteDetailsResponse> getUserFavoritePageResponse(Page<Favorite> favorites) {
+        Page<GetFavoriteDetailsResponse> favoriteResponses = favorites.map(GetFavoriteDetailsResponse::of);
+        return PageResponse.of(favoriteResponses);
     }
 }
