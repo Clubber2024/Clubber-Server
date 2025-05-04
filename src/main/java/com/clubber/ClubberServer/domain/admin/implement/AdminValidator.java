@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.admin.validator;
+package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;

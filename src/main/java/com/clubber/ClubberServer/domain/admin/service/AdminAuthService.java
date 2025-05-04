@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginResponse;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.implement.AdminTokenAppender;
 import com.clubber.ClubberServer.domain.admin.implement.AdminTokenReader;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.global.jwt.vo.TokenVO;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;

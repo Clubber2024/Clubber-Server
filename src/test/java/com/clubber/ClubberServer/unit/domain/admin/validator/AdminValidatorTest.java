@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -7,7 +7,7 @@ import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
