@@ -46,8 +46,7 @@ public class RecruitCommentService {
     @Transactional(readOnly = true)
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
 
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
 
         List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(
             recruit);
@@ -59,10 +58,11 @@ public class RecruitCommentService {
             GetRecruitCommentResponse oneComment = GetRecruitCommentResponse.from(comment);
             commentMap.put(oneComment.getCommentId(), oneComment);
 
-            if (comment.getParentComment() == null) {
+            RecruitComment parentComment = comment.getParentComment();
+            if (parentComment == null) {
                 totalComments.add(oneComment);
             } else {
-                commentMap.get(comment.getParentComment().getId()).getReplies()
+                commentMap.get(parentComment.getId()).getReplies()
                     .add(oneComment);
             }
         }
