@@ -12,6 +12,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundExcepti
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
@@ -34,6 +35,7 @@ public class RecruitCommentService {
     private final RecruitReader recruitReader;
     private final RecruitCommentAppender recruitCommentAppender;
     private final RecruitCommentReader recruitCommentReader;
+    private final RecruitValidator recruitValidator;
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
@@ -67,13 +69,9 @@ public class RecruitCommentService {
 
         RecruitComment recruitComment = recruitCommentReader.findByIdAndRecruit(commentId, recruit);
 
-        if (!recruitComment.getUser().equals(user)) {
-            throw RecruitCommentUserUnauthorizedException.EXCEPTION;
-        }
-
+        recruitValidator.validateCommentUser(recruitComment, user);
         recruitComment.delete();
 
         return DeleteRecruitCommentResponse.from(recruitComment);
     }
-
 }
