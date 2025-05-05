@@ -10,6 +10,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFound
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
@@ -32,6 +33,7 @@ public class RecruitCommentService {
     private final RecruitCommentRepository recruitCommentRepository;
     private final RecruitReader recruitReader;
     private final RecruitCommentAppender recruitCommentAppender;
+    private final RecruitCommentReader recruitCommentReader;
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
@@ -63,8 +65,7 @@ public class RecruitCommentService {
         User user = userReader.getCurrentUser();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
 
-        RecruitComment recruitComment = recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(
-                commentId, recruit).orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
+        RecruitComment recruitComment = recruitCommentReader.findByIdAndRecruit(commentId, recruit);
 
         if (!recruitComment.getUser().equals(user)) {
             throw RecruitCommentUserUnauthorizedException.EXCEPTION;

@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.implement;
 
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
@@ -18,6 +19,11 @@ public class RecruitCommentReader {
             return null;
         }
         return recruitCommentRepository.findById(parentId)
+                .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
+    }
+
+    public RecruitComment findByIdAndRecruit(Long commentId, Recruit recruit) {
+        return recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(commentId, recruit)
                 .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
     }
 }
