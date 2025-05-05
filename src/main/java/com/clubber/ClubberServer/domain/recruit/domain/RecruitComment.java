@@ -1,15 +1,8 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,13 +51,12 @@ public class RecruitComment extends BaseEntity {
     }
 
     public static RecruitComment of(Recruit recruit, User user,
-        PostRecruitCommentRequest commentRequest, RecruitComment parentComment) {
+        String content, RecruitComment parentComment) {
         return RecruitComment.builder()
-            .content(commentRequest.getContent())
+            .content(content)
             .parentComment(parentComment)
             .user(user)
             .recruit(recruit)
             .build();
     }
-
 }

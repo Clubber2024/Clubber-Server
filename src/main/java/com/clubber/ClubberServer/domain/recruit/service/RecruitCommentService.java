@@ -43,7 +43,7 @@ public class RecruitCommentService {
                 .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
         }
 
-        RecruitComment newComment = RecruitComment.of(recruit, user, request, parentComment);
+        RecruitComment newComment = RecruitComment.of(recruit, user, request.getContent(), parentComment);
         RecruitComment savedComment = recruitCommentRepository.save(newComment);
 
         return PostRecruitCommentResponse.from(savedComment);
