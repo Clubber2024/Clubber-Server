@@ -1,10 +1,13 @@
 package com.clubber.ClubberServer.domain.recruit.mapper;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
+import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import org.springframework.data.domain.Page;
@@ -79,4 +82,14 @@ public class RecruitMapper {
         return GetRecruitsMainPageResponse.from(recruitsDto);
     }
 
+    public List<GetRecruitCommentResponse> getRecruitCommentResponses(List<RecruitComment> comments) {
+        RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
+        for (RecruitComment comment : comments) {
+            GetRecruitCommentResponse nowCommentResponse = GetRecruitCommentResponse.from(comment);
+
+            recruitCommentVO.addToTreeStructure(nowCommentResponse);
+            recruitCommentVO.updateInCommentResponse(comment.getParentComment(), nowCommentResponse);
+        }
+        return recruitCommentVO.getTotalComments();
+    }
 }
