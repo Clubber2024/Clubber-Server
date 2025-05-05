@@ -53,12 +53,12 @@ public class RecruitCommentService {
 
         RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
         for (RecruitComment comment : comments) {
-            GetRecruitCommentResponse recruitCommentResponse = GetRecruitCommentResponse.from(comment);
+            GetRecruitCommentResponse nowCommentResponse = GetRecruitCommentResponse.from(comment);
 
-            recruitCommentVO.addToTreeStructure(recruitCommentResponse);
+            recruitCommentVO.addToTreeStructure(nowCommentResponse);
             RecruitComment parentComment = comment.getParentComment();
 
-            recruitCommentVO.updateInCommentResponse(parentComment, recruitCommentResponse);
+            recruitCommentVO.updateInCommentResponse(parentComment, nowCommentResponse);
         }
         return recruitCommentVO.getTotalComments();
     }
