@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCo
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.user.domain.User;
@@ -28,15 +29,13 @@ public class RecruitCommentService {
     private final UserReader userReader;
     private final RecruitRepository recruitRepository;
     private final RecruitCommentRepository recruitCommentRepository;
+    private final RecruitReader recruitReader;
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
         PostRecruitCommentRequest request) {
-
         User user = userReader.getCurrentUser();
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
 
         RecruitComment parentComment = null;
         if (request.getParentId() != null) {
