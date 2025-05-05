@@ -10,7 +10,7 @@ import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
-import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
+import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +28,7 @@ public class RecruitCommentService {
     private final RecruitCommentReader recruitCommentReader;
     private final RecruitCommentAppender recruitCommentAppender;
     private final RecruitValidator recruitValidator;
+    private final RecruitMapper recruitMapper;
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
@@ -43,15 +44,7 @@ public class RecruitCommentService {
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
         Recruit recruit = recruitReader.findRecruitById(recruitId);
         List<RecruitComment> comments = recruitCommentReader.findByRecruit(recruit);
-
-        RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
-        for (RecruitComment comment : comments) {
-            GetRecruitCommentResponse nowCommentResponse = GetRecruitCommentResponse.from(comment);
-
-            recruitCommentVO.addToTreeStructure(nowCommentResponse);
-            recruitCommentVO.updateInCommentResponse(comment.getParentComment(), nowCommentResponse);
-        }
-        return recruitCommentVO.getTotalComments();
+        return recruitMapper.getRecruitCommentResponses(comments);
     }
 
     @Transactional
