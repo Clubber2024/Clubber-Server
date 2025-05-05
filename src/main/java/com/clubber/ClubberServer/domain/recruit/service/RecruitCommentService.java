@@ -31,8 +31,7 @@ public class RecruitCommentService {
     private final RecruitMapper recruitMapper;
 
     @Transactional
-    public PostRecruitCommentResponse postRecruitComment(Long recruitId,
-                                                         PostRecruitCommentRequest request) {
+    public PostRecruitCommentResponse postRecruitComment(Long recruitId, PostRecruitCommentRequest request) {
         User user = userReader.getCurrentUser();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
 
