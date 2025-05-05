@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
+import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import java.util.ArrayList;
@@ -51,22 +52,16 @@ public class RecruitCommentService {
         List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(
             recruit);
 
-        List<GetRecruitCommentResponse> totalComments = new ArrayList<>();
-        Map<Long, GetRecruitCommentResponse> commentMap = new HashMap<>();
-
+        RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
         for (RecruitComment comment : comments) {
-            GetRecruitCommentResponse oneComment = GetRecruitCommentResponse.from(comment);
-            commentMap.put(oneComment.getCommentId(), oneComment);
+            GetRecruitCommentResponse recruitCommentResponse = GetRecruitCommentResponse.from(comment);
 
+            recruitCommentVO.putCommentInMap(recruitCommentResponse);
             RecruitComment parentComment = comment.getParentComment();
-            if (parentComment == null) {
-                totalComments.add(oneComment);
-            } else {
-                commentMap.get(parentComment.getId()).getReplies()
-                    .add(oneComment);
-            }
+
+            recruitCommentVO.updateInCommentResponse(parentComment, recruitCommentResponse);
         }
-        return totalComments;
+        return recruitCommentVO.getTotalComments();
     }
 
     @Transactional
