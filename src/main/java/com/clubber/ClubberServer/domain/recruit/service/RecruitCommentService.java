@@ -70,7 +70,7 @@ public class RecruitCommentService {
         RecruitComment recruitComment = recruitCommentReader.findByIdAndRecruit(commentId, recruit);
 
         recruitValidator.validateCommentUser(recruitComment, user);
-        recruitComment.delete();
+        recruitCommentAppender.delete(recruitComment);
 
         return DeleteRecruitCommentResponse.from(recruitComment);
     }

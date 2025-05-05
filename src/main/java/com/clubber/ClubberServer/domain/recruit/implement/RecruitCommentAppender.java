@@ -22,4 +22,8 @@ public class RecruitCommentAppender {
         RecruitComment newComment = RecruitComment.of(recruit, user, request.getContent(), parentComment);
         return recruitCommentRepository.save(newComment);
     }
+
+    public void delete(RecruitComment recruitComment) {
+        recruitComment.delete();
+    }
 }
