@@ -50,7 +50,7 @@ public class RecruitCommentService {
     @Transactional(readOnly = true)
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
         Recruit recruit = recruitReader.findRecruitById(recruitId);
-        List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(recruit);
+        List<RecruitComment> comments = recruitCommentReader.findByRecruit(recruit);
 
         RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
         for (RecruitComment comment : comments) {

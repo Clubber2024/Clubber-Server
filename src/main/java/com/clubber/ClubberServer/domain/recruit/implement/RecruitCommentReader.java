@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,5 +27,9 @@ public class RecruitCommentReader {
     public RecruitComment findByIdAndRecruit(Long commentId, Recruit recruit) {
         return recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(commentId, recruit)
                 .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
+    }
+
+    public List<RecruitComment> findByRecruit(Recruit recruit) {
+        return recruitCommentRepository.findByRecruitOrderByIdAsc(recruit);
     }
 }
