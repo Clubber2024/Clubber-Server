@@ -6,35 +6,27 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.DeleteRecruit
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentResponse;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class RecruitCommentService {
 
     private final UserReader userReader;
-    private final RecruitRepository recruitRepository;
-    private final RecruitCommentRepository recruitCommentRepository;
     private final RecruitReader recruitReader;
-    private final RecruitCommentAppender recruitCommentAppender;
     private final RecruitCommentReader recruitCommentReader;
+    private final RecruitCommentAppender recruitCommentAppender;
     private final RecruitValidator recruitValidator;
 
     @Transactional
@@ -66,7 +58,6 @@ public class RecruitCommentService {
     public DeleteRecruitCommentResponse deleteRecruitComment(Long recruitId, Long commentId) {
         User user = userReader.getCurrentUser();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
-
         RecruitComment recruitComment = recruitCommentReader.findByIdAndRecruit(commentId, recruit);
 
         recruitValidator.validateCommentUser(recruitComment, user);
