@@ -35,7 +35,7 @@ public class RecruitCommentService {
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
-        PostRecruitCommentRequest request) {
+                                                         PostRecruitCommentRequest request) {
         User user = userReader.getCurrentUser();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
 
@@ -45,11 +45,8 @@ public class RecruitCommentService {
 
     @Transactional(readOnly = true)
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
-
         Recruit recruit = recruitReader.findRecruitById(recruitId);
-
-        List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(
-            recruit);
+        List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(recruit);
 
         RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
         for (RecruitComment comment : comments) {
@@ -64,12 +61,10 @@ public class RecruitCommentService {
     @Transactional
     public DeleteRecruitCommentResponse deleteRecruitComment(Long recruitId, Long commentId) {
         User user = userReader.getCurrentUser();
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
 
         RecruitComment recruitComment = recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(
-            commentId, recruit).orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
+                commentId, recruit).orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
 
         if (!recruitComment.getUser().equals(user)) {
             throw RecruitCommentUserUnauthorizedException.EXCEPTION;
