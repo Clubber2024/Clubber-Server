@@ -16,10 +16,9 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +55,7 @@ public class RecruitCommentService {
         for (RecruitComment comment : comments) {
             GetRecruitCommentResponse recruitCommentResponse = GetRecruitCommentResponse.from(comment);
 
-            recruitCommentVO.putCommentInMap(recruitCommentResponse);
+            recruitCommentVO.addToTreeStructure(recruitCommentResponse);
             RecruitComment parentComment = comment.getParentComment();
 
             recruitCommentVO.updateInCommentResponse(parentComment, recruitCommentResponse);

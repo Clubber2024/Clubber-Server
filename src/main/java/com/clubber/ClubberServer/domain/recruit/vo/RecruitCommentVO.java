@@ -14,7 +14,7 @@ public class RecruitCommentVO {
     private final List<GetRecruitCommentResponse> totalComments = new ArrayList<>();
     private final Map<Long, GetRecruitCommentResponse> commentMap = new HashMap<>();
 
-    public void putCommentInMap(GetRecruitCommentResponse response) {
+    public void addToTreeStructure(GetRecruitCommentResponse response) {
         commentMap.put(response.getCommentId(), response);
     }
 
