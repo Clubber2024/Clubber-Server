@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCo
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
@@ -30,6 +31,7 @@ public class RecruitCommentService {
     private final RecruitRepository recruitRepository;
     private final RecruitCommentRepository recruitCommentRepository;
     private final RecruitReader recruitReader;
+    private final RecruitCommentAppender recruitCommentAppender;
 
     @Transactional
     public PostRecruitCommentResponse postRecruitComment(Long recruitId,
@@ -37,15 +39,7 @@ public class RecruitCommentService {
         User user = userReader.getCurrentUser();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
 
-        RecruitComment parentComment = null;
-        if (request.getParentId() != null) {
-            parentComment = recruitCommentRepository.findById(request.getParentId())
-                .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
-        }
-
-        RecruitComment newComment = RecruitComment.of(recruit, user, request.getContent(), parentComment);
-        RecruitComment savedComment = recruitCommentRepository.save(newComment);
-
+        RecruitComment savedComment = recruitCommentAppender.append(request, recruit, user);
         return PostRecruitCommentResponse.from(savedComment);
     }
 
