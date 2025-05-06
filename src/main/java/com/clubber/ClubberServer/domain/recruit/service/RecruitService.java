@@ -137,25 +137,16 @@ public class RecruitService {
 
     @Transactional
     public GetOneRecruitWithClubResponse getRecruitsByRecruitId(Long recruitId) {
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        recruit.increaseTotalview();
-
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+        recruitAppender.increaseTotalView(recruit);
         return recruitMapper.getRecruitsByRecruitId(recruit);
     }
 
     @Transactional(readOnly = true)
     public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId) {
         Admin admin = adminReader.getCurrentAdmin();
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        if (recruit.getClub() != admin.getClub()) {
-            throw RecruitUnauthorizedException.EXCEPTION;
-        }
-
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+        recruitValidator.validateRecruitClub(recruit, admin);
         return recruitMapper.getOneAdminRecruitsById(recruit);
     }
 
@@ -163,13 +154,8 @@ public class RecruitService {
     public UpdateRecruitResponse changeAdminRecruits(Long recruitId,
         UpdateRecruitRequest requestPage) {
         Admin admin = adminReader.getCurrentAdmin();
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        if (recruit.getClub() != admin.getClub()) {
-            throw RecruitUnauthorizedException.EXCEPTION;
-        }
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+        recruitValidator.validateRecruitClub(recruit, admin);
 
         recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent(),
             requestPage.getEverytimeUrl());

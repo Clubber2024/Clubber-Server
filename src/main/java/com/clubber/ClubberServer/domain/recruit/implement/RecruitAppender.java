@@ -10,4 +10,8 @@ public class RecruitAppender {
     public void delete(Recruit recruit) {
         recruit.delete();
     }
+
+    public void increaseTotalView(Recruit recruit) {
+        recruit.increaseTotalview();
+    }
 }
