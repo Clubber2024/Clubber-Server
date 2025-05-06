@@ -4,7 +4,6 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -19,7 +18,6 @@ import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
@@ -203,7 +201,7 @@ public class RecruitService {
             recruitImages.stream()
                 .filter(
                     recruitImage -> recruitImage.getImageUrl().getImageUrl().equals(deleteImage))
-                .forEach(RecruitImage::updateStatus); // 존재하는 경우 상태 업데이트
+                .forEach(RecruitImage::delete); // 존재하는 경우 상태 업데이트
         });
 
         // 유지해야 하는 이미지가 삭제 요청 목록에 포함되었는지 확인

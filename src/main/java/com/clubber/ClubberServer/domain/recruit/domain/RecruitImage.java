@@ -42,7 +42,7 @@ public class RecruitImage extends BaseEntity {
                 .build();
     }
 
-    public void updateStatus(){this.isDeleted=true;}
+    public void delete(){this.isDeleted=true;}
 
     public void updateOrderNum(Long orderNum){this.orderNum=orderNum;}
 

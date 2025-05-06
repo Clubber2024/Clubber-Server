@@ -16,6 +16,6 @@ public class RecruitImageAppender {
     public void deleteRecruitImages(List<RecruitImage> recruitImages) {
         recruitImages.stream()
                 .filter(recruitImage -> !recruitImage.isDeleted())
-                .forEach(RecruitImage::updateStatus);
+                .forEach(RecruitImage::delete);
     }
 }
