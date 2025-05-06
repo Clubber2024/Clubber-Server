@@ -18,7 +18,7 @@ public class RecruitCommentAppender {
 
     public RecruitComment append(PostRecruitCommentRequest request, Recruit recruit, User user) {
         RecruitComment parentComment = recruitCommentReader.findParentComment(request.getParentId());
-        RecruitComment newComment = RecruitComment.of(recruit, user, request.getContent(), parentComment);
+        RecruitComment newComment = request.toEntity(recruit, user, parentComment);
         return recruitCommentRepository.save(newComment);
     }
 
