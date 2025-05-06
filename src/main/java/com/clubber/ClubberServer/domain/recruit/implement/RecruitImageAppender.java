@@ -27,7 +27,8 @@ public class RecruitImageAppender {
 
         return imageKeys.stream()
                 .map(imageUrl -> {
-                    RecruitImage recruitImage = RecruitImage.of(ImageVO.valueOf(imageUrl), recruit, order.getAndIncrement());
+                    ImageVO imageVO = ImageVO.valueOf(imageUrl);
+                    RecruitImage recruitImage = RecruitImage.of(imageVO, recruit, order.getAndIncrement());
                     return recruitImageRepository.save(recruitImage);
                 })
                 .toList();
