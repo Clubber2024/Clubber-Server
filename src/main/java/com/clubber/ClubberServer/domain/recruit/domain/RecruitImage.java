@@ -29,7 +29,7 @@ public class RecruitImage extends BaseEntity {
     private boolean isDeleted=false;
 
     @Builder
-    private RecruitImage(Long id, ImageVO imageUrl,Recruit recruit){
+    private RecruitImage(Long id, ImageVO imageUrl,Recruit recruit, Long orderNum) {
         this.id=id;
         this.imageUrl=imageUrl;
         this.recruit=recruit;
@@ -39,6 +39,14 @@ public class RecruitImage extends BaseEntity {
         return RecruitImage.builder()
                 .imageUrl(imageUrl)
                 .recruit(recruit)
+                .build();
+    }
+
+    public static RecruitImage of(ImageVO imageUrl,Recruit recruit, Long orderNum){
+        return RecruitImage.builder()
+                .imageUrl(imageUrl)
+                .recruit(recruit)
+                .orderNum(orderNum)
                 .build();
     }
 
