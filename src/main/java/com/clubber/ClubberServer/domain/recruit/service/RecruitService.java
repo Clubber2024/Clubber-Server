@@ -11,7 +11,6 @@ import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPage
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitImageAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
@@ -54,10 +53,7 @@ public class RecruitService {
     public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(Pageable pageable) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-
-        Page<Recruit> recruits = recruitRepository.queryRecruitsByClub(club,
-            pageable);
-
+        Page<Recruit> recruits = recruitReader.findRecruitPagesByClub(club, pageable);
         return recruitMapper.getRecruitsPageResponse(recruits);
     }
 
@@ -89,28 +85,19 @@ public class RecruitService {
     public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,
         Pageable pageable) {
         Club club = clubReader.findById(clubId);
-
-        Page<Recruit> recruits = recruitRepository.queryRecruitsByClub(club,
-            pageable);
-
+        Page<Recruit> recruits = recruitReader.findRecruitPagesByClub(club, pageable);
         return recruitMapper.getRecruitsPageResponse(recruits);
     }
 
     @Transactional(readOnly = true)
     public GetRecruitsMainPageResponse getRecruitsMainPage() {
-        List<Recruit> recruits = recruitRepository.queryTop5Recruits();
-
-        if (recruits.isEmpty()) {
-            throw RecruitNotFoundException.EXCEPTION;
-        }
-
+        List<Recruit> recruits = recruitReader.findTop5Recruits();
         return recruitMapper.getRecruitsMainPage(recruits);
     }
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getAllRecruitsPage(Pageable pageable) {
-        Page<Recruit> recruits = recruitRepository.queryAllRecruits(pageable);
-
+        Page<Recruit> recruits = recruitReader.findAllRecruits(pageable);
         return recruitMapper.getRecruitsPageResponse(recruits);
     }
 
