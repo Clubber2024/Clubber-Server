@@ -25,6 +25,8 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundEx
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorizedException;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitAppender;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitImageAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
 import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
@@ -52,7 +54,9 @@ public class RecruitService {
     private final ClubRepository clubRepository;
     private final RecruitRepository recruitRepository;
     private final RecruitReader recruitReader;
+    private final RecruitAppender recruitAppender;
     private final RecruitValidator recruitValidator;
+    private final RecruitImageAppender recruitImageAppender;
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
 
@@ -96,13 +100,10 @@ public class RecruitService {
 
         recruitValidator.validateRecruitClub(recruit, admin);
 
+        recruitAppender.delete(recruit);
+        recruitImageAppender.deleteRecruitImages(recruit.getRecruitImages());
+
         List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
-
-        recruit.getRecruitImages().stream()
-            .filter(recruitImage -> !recruitImage.isDeleted())
-            .forEach(RecruitImage::updateStatus);
-        recruit.delete();
-
         return DeleteRecruitByIdResponse.from(recruit, imageUrls);
     }
 
