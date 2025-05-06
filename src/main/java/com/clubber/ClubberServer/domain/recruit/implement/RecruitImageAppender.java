@@ -23,15 +23,14 @@ public class RecruitImageAppender {
                 .forEach(RecruitImage::delete);
     }
 
-    public void appendRecruitImages(List<String> imageKeys, Recruit recruit) {
+    public List<RecruitImage> appendRecruitImages(List<String> imageKeys, Recruit recruit) {
         AtomicLong order = new AtomicLong(1L);
 
-        imageKeys.stream()
+        return imageKeys.stream()
                 .map(imageUrl -> {
                     RecruitImage recruitImage = RecruitImage.of(ImageVO.valueOf(imageUrl), recruit, order.getAndIncrement());
-                    recruitImageRepository.save(recruitImage);
-                    return recruitImage;
+                    return recruitImageRepository.save(recruitImage);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 }

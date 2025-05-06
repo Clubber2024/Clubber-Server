@@ -69,7 +69,7 @@ public class RecruitService {
         Recruit newRecruit = request.toEntity(club);
         recruitRepository.save(newRecruit);
 
-        recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
+        List<RecruitImage> savedImages = recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
         return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages);
     }
 
