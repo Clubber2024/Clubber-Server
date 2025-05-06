@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
+import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
@@ -49,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecruitService {
 
     private final AdminReader adminReader;
-    private final ClubRepository clubRepository;
+    private final ClubReader clubReader;
     private final RecruitRepository recruitRepository;
     private final RecruitReader recruitReader;
     private final RecruitAppender recruitAppender;
@@ -108,8 +109,7 @@ public class RecruitService {
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,
         Pageable pageable) {
-        Club club = clubRepository.findById(clubId)
-            .orElseThrow(() -> ClubIdNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         Page<Recruit> recruits = recruitRepository.queryRecruitsByClub(club,
             pageable);
