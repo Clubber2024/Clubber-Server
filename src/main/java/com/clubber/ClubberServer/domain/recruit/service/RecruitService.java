@@ -69,17 +69,7 @@ public class RecruitService {
         Recruit newRecruit = request.toEntity(club);
         recruitRepository.save(newRecruit);
 
-        AtomicLong order = new AtomicLong(1L);
-
-        List<RecruitImage> savedImages = request.getImageKey().stream()
-            .map(imageUrl -> {
-                RecruitImage recruitImage = RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit);
-                RecruitImage savedRecruitImage = recruitImageRepository.save(recruitImage);
-                savedRecruitImage.updateOrderNum(order.getAndIncrement());
-                return recruitImage;
-            })
-            .collect(Collectors.toList());
-
+        recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
         return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages);
     }
 
