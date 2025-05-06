@@ -62,16 +62,16 @@ public class RecruitService {
     }
 
     @Transactional
-    public PostRecruitResponse postRecruitsPage(PostRecruitRequest requestDTO) {
+    public PostRecruitResponse postRecruitsPage(PostRecruitRequest request) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
 
-        Recruit newRecruit = requestDTO.toEntity(club);
+        Recruit newRecruit = request.toEntity(club);
         recruitRepository.save(newRecruit);
 
         AtomicLong order = new AtomicLong(1L);
 
-        List<RecruitImage> savedImages = requestDTO.getImageKey().stream()
+        List<RecruitImage> savedImages = request.getImageKey().stream()
             .map(imageUrl -> {
                 RecruitImage recruitImage = RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit);
                 RecruitImage savedRecruitImage = recruitImageRepository.save(recruitImage);
