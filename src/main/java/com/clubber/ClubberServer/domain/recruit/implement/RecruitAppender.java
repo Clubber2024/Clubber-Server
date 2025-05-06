@@ -17,7 +17,7 @@ public class RecruitAppender {
         recruit.increaseTotalview();
     }
 
-    public Recruit save(Recruit recruit) {
+    public Recruit append(Recruit recruit) {
         return recruitRepository.save(recruit);
     }
 }

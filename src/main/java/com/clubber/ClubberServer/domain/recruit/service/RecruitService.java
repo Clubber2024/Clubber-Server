@@ -65,7 +65,7 @@ public class RecruitService {
     public PostRecruitResponse postRecruitsPage(PostRecruitRequest request) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        Recruit newRecruit = recruitAppender.save(request.toEntity(club));
+        Recruit newRecruit = recruitAppender.append(request.toEntity(club));
 
         List<RecruitImage> savedImages = recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
         return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages);
