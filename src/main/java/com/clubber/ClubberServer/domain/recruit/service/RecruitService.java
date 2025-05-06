@@ -67,7 +67,7 @@ public class RecruitService {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
 
-        Recruit newRecruit = Recruit.of(club, requestDTO);
+        Recruit newRecruit = requestDTO.toEntity(club);
         recruitRepository.save(newRecruit);
 
         AtomicLong order = new AtomicLong(1L);

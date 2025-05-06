@@ -1,5 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -27,4 +29,12 @@ public class PostRecruitRequest {
     @Schema(description = "모집글 이미지 목록", example = "[\"image1\",\"image2\"]")
     private List<String> imageKey;
 
+    public Recruit toEntity(Club club) {
+        return Recruit.builder()
+                .title(title)
+                .content(content)
+                .everytimeUrl(everytimeUrl)
+                .club(club)
+                .build();
+    }
 }

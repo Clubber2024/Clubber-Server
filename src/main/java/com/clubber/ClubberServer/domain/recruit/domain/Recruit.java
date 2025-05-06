@@ -2,20 +2,18 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -53,7 +51,7 @@ public class Recruit extends BaseEntity {
 
     private String everytimeUrl;
 
-    private Long totalView;
+    private Long totalView = 0L;
 
     private boolean isDeleted = false;
 
@@ -96,15 +94,5 @@ public class Recruit extends BaseEntity {
         this.totalView = totalView;
         this.club = club;
         this.recruitImages = recruitImages;
-    }
-
-    public static Recruit of(Club club, PostRecruitRequest request) {
-        return Recruit.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .everytimeUrl(request.getEverytimeUrl())
-                .totalView(0L)
-                .club(club)
-                .build();
     }
 }
