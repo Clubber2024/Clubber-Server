@@ -62,7 +62,7 @@ public class RecruitService {
     }
 
     @Transactional
-    public PostRecruitResponse postRecruitsPage(PostRecruitRequest request) {
+    public PostRecruitResponse createRecruit(PostRecruitRequest request) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
         Recruit newRecruit = recruitAppender.append(request.toEntity(club));

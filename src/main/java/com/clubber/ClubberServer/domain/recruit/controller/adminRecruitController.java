@@ -29,8 +29,8 @@ public class adminRecruitController {
 
     @PostMapping("/admins/recruits")
     @Operation(summary = "동아리 계정 모집글 작성")
-    public PostRecruitResponse postRecruitsPage(@RequestBody @Valid PostRecruitRequest request){
-        return recruitService.postRecruitsPage(request);
+    public PostRecruitResponse createRecruit(@RequestBody @Valid PostRecruitRequest request){
+        return recruitService.createRecruit(request);
     }
 
     //관리자 권한으로 모집글 삭제
