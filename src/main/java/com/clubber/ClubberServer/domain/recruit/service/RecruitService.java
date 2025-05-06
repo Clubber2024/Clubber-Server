@@ -74,10 +74,9 @@ public class RecruitService {
 
         List<RecruitImage> savedImages = requestDTO.getImageKey().stream()
             .map(imageUrl -> {
-                RecruitImage recruitImage = recruitImageRepository.save(
-                    RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit)
-                );
-                recruitImage.updateOrderNum(order.getAndIncrement());
+                RecruitImage recruitImage = RecruitImage.of(ImageVO.valueOf(imageUrl), newRecruit);
+                RecruitImage savedRecruitImage = recruitImageRepository.save(recruitImage);
+                savedRecruitImage.updateOrderNum(order.getAndIncrement());
                 return recruitImage;
             })
             .collect(Collectors.toList());
