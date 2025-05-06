@@ -4,6 +4,7 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubIdNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
@@ -24,6 +25,8 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundEx
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitUnauthorizedException;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
 import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
@@ -48,6 +51,8 @@ public class RecruitService {
     private final AdminReader adminReader;
     private final ClubRepository clubRepository;
     private final RecruitRepository recruitRepository;
+    private final RecruitReader recruitReader;
+    private final RecruitValidator recruitValidator;
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
 
@@ -87,13 +92,9 @@ public class RecruitService {
     @Transactional
     public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId) {
         Admin admin = adminReader.getCurrentAdmin();
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
 
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        if (recruit.getClub() != admin.getClub()) {
-            throw RecruitDeleteUnauthorizedException.EXCEPTION;
-        }
+        recruitValidator.validateRecruitClub(recruit, admin);
 
         List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
 
