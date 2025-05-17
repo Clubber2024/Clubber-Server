@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,10 @@ public class ClubCategoryService {
 
     // [중앙 동아리] - 분과명 반환 (enum)
     public List<EnumMapperVO> getDivisions() {
-        return enumMapper.get("Division");
+        return enumMapper.get("Division")
+                .stream()
+                .filter(enumMapperVO -> !Objects.equals(enumMapperVO.getCode(), "ETC"))
+                .toList();
     }
 
     // [소모임] - 전체 단과대별 소속 학과 목록 조회
