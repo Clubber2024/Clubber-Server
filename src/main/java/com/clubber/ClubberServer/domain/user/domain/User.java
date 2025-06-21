@@ -72,6 +72,6 @@ public class User extends BaseEntity {
 	}
 
 	public void deleteFavorites() {
-		favorites.stream().forEach(Favorite::delete);
+		favorites.stream().forEach(favorite -> favorite.deleteByUserId(id));
 	}
 }

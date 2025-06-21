@@ -92,4 +92,9 @@ public class Favorite extends BaseEntity {
         }
         this.isDeleted = true;
     }
+
+    public void deleteByUserId(Long userId) {
+        checkUser(userId);
+        this.isDeleted = true;
+    }
 }
