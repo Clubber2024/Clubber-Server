@@ -13,12 +13,12 @@ public class FavoriteAppender {
     private final FavoriteRepository favoriteRepository;
 
     public Favorite append(User user, Club club) {
-        Favorite favorite = Favorite.from(user, club);
+        Favorite favorite = Favorite.create(user, club);
         return favoriteRepository.save(favorite);
     }
 
-    public void delete(Favorite favorite) {
-        favorite.delete();
+    public void delete(Favorite favorite, Long userId, Long clubId) {
+        favorite.delete(userId, clubId);
     }
 
     public void softDeleteByClubId(Long clubId) {
