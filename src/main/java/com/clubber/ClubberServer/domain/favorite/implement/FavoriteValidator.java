@@ -19,8 +19,4 @@ public class FavoriteValidator {
 			throw ClubAlreadyRegisterdFavoriteException.EXCEPTION;
 		}
 	}
-
-	public void validateDeleteFavorite(Favorite favorite, Long userId, Long clubId) {
-
-	}
 }
