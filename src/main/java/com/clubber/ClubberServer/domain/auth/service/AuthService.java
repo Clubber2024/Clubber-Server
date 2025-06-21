@@ -55,7 +55,7 @@ public class AuthService {
 	@Transactional
 	public void deleteKakaoUser(User user) {
 		log.info("[회원 탈퇴 id] : {}", user.getId());
-		user.delete();
+		user.withDraw();
 		userTokenAppender.deleteRefreshTokenById(user.getId());
 	}
 }

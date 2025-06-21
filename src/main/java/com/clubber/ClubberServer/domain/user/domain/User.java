@@ -62,7 +62,7 @@ public class User extends BaseEntity {
 		this.snsId = snsId;
 	}
 
-	public void delete() {
+	public void withDraw() {
 		if (this.accountState == AccountState.INACTIVE) {
 			throw UserAlreadyDeletedException.EXCEPTION;
 		}

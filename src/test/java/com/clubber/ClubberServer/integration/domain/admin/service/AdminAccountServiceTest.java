@@ -224,7 +224,7 @@ public class AdminAccountServiceTest {
 //    }
 
     /**
-     * TODO : 비동기 soft-delete 추후 테스트 코드 변경
+     * TODO : 비동기 soft-withDraw 추후 테스트 코드 변경
      */
     @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
     @WithMockCustomUser
