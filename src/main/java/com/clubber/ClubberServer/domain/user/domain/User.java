@@ -69,9 +69,10 @@ public class User extends BaseEntity {
 		this.email = null;
 		this.snsId = null;
 		this.accountState = AccountState.INACTIVE;
+		deleteFavorites();
 	}
 
-	public void deleteFavorites() {
+	private void deleteFavorites() {
 		favorites.forEach(favorite -> favorite.deleteByUserId(id));
 	}
 }
