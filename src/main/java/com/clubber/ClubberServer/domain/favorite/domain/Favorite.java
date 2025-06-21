@@ -46,10 +46,11 @@ public class Favorite extends BaseEntity {
     private boolean isDeleted = false;
 
     @Builder
-    private Favorite(Long id, User user, Club club) {
+    private Favorite(Long id, User user, Club club, boolean isDeleted) {
         this.id = id;
         this.user = user;
         this.club = club;
+        this.isDeleted = isDeleted;
     }
 
     public static Favorite from(User user, Club club) {
