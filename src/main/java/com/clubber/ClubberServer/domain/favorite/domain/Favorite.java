@@ -6,7 +6,6 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import jakarta.persistence.*;
@@ -53,7 +52,7 @@ public class Favorite extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
-    public static Favorite from(User user, Club club) {
+    public static Favorite create(User user, Club club) {
         return Favorite.builder()
                 .user(user)
                 .club(club)

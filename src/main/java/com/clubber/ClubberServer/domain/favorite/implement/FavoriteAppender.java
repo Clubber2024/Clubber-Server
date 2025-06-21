@@ -13,7 +13,7 @@ public class FavoriteAppender {
     private final FavoriteRepository favoriteRepository;
 
     public Favorite append(User user, Club club) {
-        Favorite favorite = Favorite.from(user, club);
+        Favorite favorite = Favorite.create(user, club);
         return favoriteRepository.save(favorite);
     }
 
