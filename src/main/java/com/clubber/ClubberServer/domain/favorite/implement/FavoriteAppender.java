@@ -17,8 +17,8 @@ public class FavoriteAppender {
         return favoriteRepository.save(favorite);
     }
 
-    public void delete(Favorite favorite) {
-        favorite.delete();
+    public void delete(Favorite favorite, Long userId, Long clubId) {
+        favorite.delete(userId, clubId);
     }
 
     public void softDeleteByClubId(Long clubId) {

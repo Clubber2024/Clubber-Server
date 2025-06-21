@@ -9,6 +9,7 @@ import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,19 +36,15 @@ public class FavoriteService {
         favoriteValidator.validateFavoriteExist(user, club);
 
         Favorite favorite = favoriteAppender.append(user, club);
-        return FavoriteResponse.of(favorite, club, user);
+        return FavoriteResponse.of(favorite, club.getId(), user.getId());
     }
 
     @Transactional
     public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
-        User user = userReader.getCurrentUser();
-        Club club = clubReader.findById(clubId);
         Favorite favorite = favoriteReader.findById(favoriteId);
-
-        favoriteValidator.validateDeleteFavorite(favorite, user.getId(), club.getId());
-
-        favoriteAppender.delete(favorite);
-        return FavoriteResponse.of(favorite, club, user);
+        Long userId = SecurityUtils.getCurrentUserId();
+        favoriteAppender.delete(favorite, userId, clubId);
+        return FavoriteResponse.of(favorite, clubId, userId);
     }
 
     @Transactional

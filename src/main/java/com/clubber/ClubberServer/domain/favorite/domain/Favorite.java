@@ -59,7 +59,7 @@ public class Favorite extends BaseEntity {
                 .build();
     }
 
-    public void checkClub(Long clubId) {
+    private void checkClub(Long clubId) {
         if (club.isDeleted()) {
             throw ClubNotFoundException.EXCEPTION;
         }
@@ -69,7 +69,7 @@ public class Favorite extends BaseEntity {
         }
     }
 
-    public void checkUser(Long userId) {
+    private void checkUser(Long userId) {
         if (user.getAccountState() == INACTIVE) {
             throw UserNotFoundException.EXCEPTION;
         }
@@ -79,7 +79,14 @@ public class Favorite extends BaseEntity {
         }
     }
 
+    private void validate(Long userId, Long clubId) {
+        checkUser(userId);
+        checkClub(clubId);
+    }
+
     public void delete(Long userId, Long clubId) {
+        validate(userId, clubId);
+
         if (this.isDeleted) {
             throw FavoriteAlreadyDeleteException.EXCEPTION;
         }
