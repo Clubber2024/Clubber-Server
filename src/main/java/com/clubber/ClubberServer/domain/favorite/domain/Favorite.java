@@ -1,11 +1,14 @@
 package com.clubber.ClubberServer.domain.favorite.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
+import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -14,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
+
+import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,18 +60,26 @@ public class Favorite extends BaseEntity {
     }
 
     public void checkClub(Long clubId) {
+        if (club.isDeleted()) {
+            throw ClubNotFoundException.EXCEPTION;
+        }
+
         if (!Objects.equals(clubId, club.getId())) {
             throw FavoriteNotMatchClubException.EXCEPTION;
         }
     }
 
     public void checkUser(Long userId) {
+        if (user.getAccountState() == INACTIVE) {
+            throw UserNotFoundException.EXCEPTION;
+        }
+
         if (!Objects.equals(userId, this.user.getId())) {
             throw FavoriteNotMatchUserException.EXCEPTION;
         }
     }
 
-    public void delete() {
+    public void delete(Long userId, Long clubId) {
         if (this.isDeleted) {
             throw FavoriteAlreadyDeleteException.EXCEPTION;
         }
