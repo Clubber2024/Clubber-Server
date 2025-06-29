@@ -61,4 +61,9 @@ public class Calender {
         this.endAt = endAt;
         this.url = url;
     }
+
+    public String getStatus() {
+        CalenderStatus status = CalenderStatus.getStatus(startAt, endAt, recruitType);
+        return status.getTitle();
+    }
 }
