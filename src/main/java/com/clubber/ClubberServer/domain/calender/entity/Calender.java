@@ -38,6 +38,10 @@ public class Calender {
 
     private boolean isDeleted = false;
 
+    public void delete() {
+        isDeleted = true;
+    }
+
     @Builder
     public Calender(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
         this.id = id;

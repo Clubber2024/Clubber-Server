@@ -16,4 +16,8 @@ public class CalenderAppender {
     public void append(Calender calender) {
         calenderRepository.save(calender);
     }
+
+    public void delete(Calender calender) {
+        calender.delete();
+    }
 }
