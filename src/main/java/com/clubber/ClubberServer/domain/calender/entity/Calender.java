@@ -53,4 +53,12 @@ public class Calender {
         this.writerRole = writerRole;
         this.isDeleted = isDeleted;
     }
+
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt, String url) {
+        this.title = title;
+        this.recruitType = recruitType;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.url = url;
+    }
 }
