@@ -40,6 +40,11 @@ public class Recruit extends BaseEntity {
     private Semester semester;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private RecruitType recruitType;
+
+    @NotNull
     private int year;
 
     @NotNull
