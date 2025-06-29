@@ -38,10 +38,6 @@ public class Calender {
 
     private boolean isDeleted = false;
 
-    public void delete() {
-        isDeleted = true;
-    }
-
     @Builder
     public Calender(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
         this.id = id;
@@ -52,6 +48,10 @@ public class Calender {
         this.endAt = endAt;
         this.writerRole = writerRole;
         this.isDeleted = isDeleted;
+    }
+
+    public void delete() {
+        isDeleted = true;
     }
 
     public void update(String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt, String url) {
