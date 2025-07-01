@@ -87,6 +87,10 @@ public class Recruit extends BaseEntity {
         this.everytimeUrl = everytimeUrl;
     }
 
+    public void unlink() {
+        this.calender = null;
+    }
+
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
                     String title,
