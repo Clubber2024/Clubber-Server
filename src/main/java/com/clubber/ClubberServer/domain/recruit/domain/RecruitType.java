@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RecruitType implements EnumDefaultMapperType {
-    ALWAYS("상시"),
-    REGULAR("정기"),
-    ADDITIONAL("추가");
+    ALWAYS("상시모집"),
+    REGULAR("정규모집"),
+    ADDITIONAL("추가모집");
 
     private final String title;
 
