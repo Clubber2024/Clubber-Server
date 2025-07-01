@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
+import com.clubber.ClubberServer.domain.calender.entity.Calender;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -39,6 +40,11 @@ public class Recruit extends BaseEntity {
     private Semester semester;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private RecruitType recruitType;
+
+    @NotNull
     private int year;
 
     @NotNull
@@ -60,6 +66,10 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
+    @OneToOne
+    @JoinColumn(name = "calender_id")
+    private Calender calender;
+
     @OneToMany(mappedBy = "recruit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages = new ArrayList<>();
 
@@ -77,6 +87,9 @@ public class Recruit extends BaseEntity {
         this.everytimeUrl = everytimeUrl;
     }
 
+    public void unlink() {
+        this.calender = null;
+    }
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
