@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.calender.dto;
 import com.clubber.ClubberServer.domain.calender.entity.Calender;
 
 public record CreateCalenderResponse(
-        Long calenderId,
+        Long id,
         String title
 ) {
     public static CreateCalenderResponse from(Calender calender) {
