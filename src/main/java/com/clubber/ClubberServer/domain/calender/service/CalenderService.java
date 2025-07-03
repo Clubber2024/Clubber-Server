@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calender.service;
 
 import com.clubber.ClubberServer.domain.calender.dto.CreateCalenderRequest;
+import com.clubber.ClubberServer.domain.calender.dto.CreateCalenderResponse;
 import com.clubber.ClubberServer.domain.calender.entity.Calender;
 import com.clubber.ClubberServer.domain.calender.implement.CalenderAppender;
 import com.clubber.ClubberServer.domain.calender.implement.CalenderReader;
@@ -15,9 +16,10 @@ public class CalenderService {
     private final CalenderAppender calenderAppender;
     private final CalenderReader calenderReader;
 
-    public void createCalender(CreateCalenderRequest request) {
+    public CreateCalenderResponse createCalender(CreateCalenderRequest request) {
         Calender calender = request.toEntity();
-        calenderAppender.append(calender);
+        Calender savedCalender = calenderAppender.append(calender);
+        return CreateCalenderResponse.from(savedCalender);
     }
 
     public void deleteCalender(Long calenderId) {

@@ -14,8 +14,8 @@ public class CalenderAppender {
 
     private final CalenderRepository calenderRepository;
 
-    public void append(Calender calender) {
-        calenderRepository.save(calender);
+    public Calender append(Calender calender) {
+        return calenderRepository.save(calender);
     }
 
     public void update(Calender calender, UpdateCalenderRequest request) {
