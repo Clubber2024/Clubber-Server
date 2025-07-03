@@ -36,6 +36,8 @@ public class Calendar {
     private LocalDateTime endAt;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
     private boolean isDeleted = false;
