@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.calender.controller;
 
 import com.clubber.ClubberServer.domain.calender.dto.CreateCalenderRequest;
 import com.clubber.ClubberServer.domain.calender.dto.CreateCalenderResponse;
+import com.clubber.ClubberServer.domain.calender.dto.GetCalenderResponse;
 import com.clubber.ClubberServer.domain.calender.dto.UpdateCalenderRequest;
 import com.clubber.ClubberServer.domain.calender.service.CalenderService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ public class CalenderController {
     @PostMapping("/calenders/")
     public CreateCalenderResponse createCalender(@RequestBody CreateCalenderRequest request) {
         return calenderService.createCalender(request);
+    }
+
+    @GetMapping("/calenders/{id}")
+    public GetCalenderResponse getCalender(@PathVariable Long id) {
+        return calenderService.getCalender(id);
     }
 
     @PatchMapping("/calenders/{id}")
