@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calender.entity;
+package com.clubber.ClubberServer.domain.calendar.entity;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-public enum CalenderStatus implements EnumDefaultMapperType {
+public enum CalendarStatus implements EnumDefaultMapperType {
     NOT_STARTED("모집전"),
     RECRUITING("진행중"),
     CLOSED("마감됨");
@@ -24,7 +24,7 @@ public enum CalenderStatus implements EnumDefaultMapperType {
         return title;
     }
 
-    public static CalenderStatus getStatus(LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
+    public static CalendarStatus getStatus(LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
         if (recruitType == RecruitType.ALWAYS) {
             return RECRUITING;
         }

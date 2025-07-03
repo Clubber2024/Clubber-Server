@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calender.entity;
+package com.clubber.ClubberServer.domain.calendar.entity;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Calender {
+public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +41,7 @@ public class Calender {
     private boolean isDeleted = false;
 
     @Builder
-    public Calender(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
+    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -65,7 +65,7 @@ public class Calender {
     }
 
     public String getStatus() {
-        CalenderStatus status = CalenderStatus.getStatus(startAt, endAt, recruitType);
+        CalendarStatus status = CalendarStatus.getStatus(startAt, endAt, recruitType);
         return status.getTitle();
     }
 }

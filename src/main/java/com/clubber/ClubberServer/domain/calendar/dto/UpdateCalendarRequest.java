@@ -1,11 +1,11 @@
-package com.clubber.ClubberServer.domain.calender.dto;
+package com.clubber.ClubberServer.domain.calendar.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
-public record UpdateCalenderRequest(
+public record UpdateCalendarRequest(
         @NotBlank(message = "제목을 입력해주세요")
         String title,
         @NotBlank(message = "모집 종류를 입력해주세요")
