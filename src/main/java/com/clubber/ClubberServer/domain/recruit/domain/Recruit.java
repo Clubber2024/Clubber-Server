@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
-import com.clubber.ClubberServer.domain.calender.entity.Calender;
+import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -67,8 +67,8 @@ public class Recruit extends BaseEntity {
     private Club club;
 
     @OneToOne
-    @JoinColumn(name = "calender_id")
-    private Calender calender;
+    @JoinColumn(name = "calendar_id")
+    private Calendar calendar;
 
     @OneToMany(mappedBy = "recruit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecruitImage> recruitImages = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Recruit extends BaseEntity {
     }
 
     public void unlink() {
-        this.calender = null;
+        this.calendar = null;
     }
 
     @Builder

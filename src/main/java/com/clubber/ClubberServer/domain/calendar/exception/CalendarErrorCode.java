@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calender.exception;
+package com.clubber.ClubberServer.domain.calendar.exception;
 
 import com.clubber.ClubberServer.global.exception.BaseErrorCode;
 import com.clubber.ClubberServer.global.exception.ErrorReason;
@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-public enum CalenderErrorCode implements BaseErrorCode {
-    CALENDER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CALENDER_404_1", "존재하지 않는 캘린더입니다");
+public enum CalendarErrorCode implements BaseErrorCode {
+    CALENDAR_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CALENDAR_404_1", "존재하지 않는 캘린더입니다");
 
     private final Integer status;
     private final String code;

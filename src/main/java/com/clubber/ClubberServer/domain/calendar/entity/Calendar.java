@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calender.entity;
+package com.clubber.ClubberServer.domain.calendar.entity;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
@@ -6,15 +6,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Calender {
+public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,12 +36,14 @@ public class Calender {
     private LocalDateTime endAt;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
     private boolean isDeleted = false;
 
     @Builder
-    public Calender(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
+    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -63,7 +67,7 @@ public class Calender {
     }
 
     public String getStatus() {
-        CalenderStatus status = CalenderStatus.getStatus(startAt, endAt, recruitType);
+        CalendarStatus status = CalendarStatus.getStatus(startAt, endAt, recruitType);
         return status.getTitle();
     }
 }
