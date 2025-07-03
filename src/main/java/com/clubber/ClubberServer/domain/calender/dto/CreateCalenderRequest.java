@@ -4,9 +4,11 @@ import com.clubber.ClubberServer.domain.calender.entity.Calender;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public record CreateCalenderRequest(
         @NotBlank(message = "제목을 입력해주세요")
         String title,
@@ -26,6 +28,16 @@ public record CreateCalenderRequest(
                 .endAt(endAt)
                 .url(url)
                 .writerRole(AccountRole.ADMIN)
+                .build();
+    }
+
+    public static CreateCalenderRequest from(Calender calender, String recruitUrl) {
+        return CreateCalenderRequest.builder()
+                .title(calender.getTitle())
+                .recruitType(calender.getRecruitType())
+                .startAt(calender.getStartAt())
+                .endAt(calender.getEndAt())
+                .url(recruitUrl)
                 .build();
     }
 }
