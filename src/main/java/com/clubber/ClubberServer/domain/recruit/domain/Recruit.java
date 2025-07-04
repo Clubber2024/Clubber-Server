@@ -19,7 +19,8 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = {@Index(name = "idx_recruit_club_id_is_deleted", columnList = "club_id, is_deleted")})
+@Table(indexes = {
+    @Index(name = "idx_recruit_club_id_is_deleted", columnList = "club_id, is_deleted")})
 public class Recruit extends BaseEntity {
 
     @Id
@@ -34,18 +35,18 @@ public class Recruit extends BaseEntity {
     @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime endAt;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private Semester semester;
+//    @NotNull
+//    @Enumerated(EnumType.STRING)
+//    @JdbcTypeCode(SqlTypes.VARCHAR)
+//    private Semester semester;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private RecruitType recruitType;
 
-    @NotNull
-    private int year;
+//    @NotNull
+//    private int year;
 
     @NotNull
     @Column(length = 100)
@@ -55,7 +56,7 @@ public class Recruit extends BaseEntity {
     @Column(length = 2000)
     private String content;
 
-    private String everytimeUrl;
+    private String applyLink;
 
     private Long totalView = 0L;
 
@@ -81,10 +82,10 @@ public class Recruit extends BaseEntity {
         this.totalView++;
     }
 
-    public void updateRecruitPage(String title, String content, String everytimeUrl) {
+    public void updateRecruitPage(String title, String content, String applyLink) {
         this.title = title;
         this.content = content;
-        this.everytimeUrl = everytimeUrl;
+        this.applyLink = applyLink;
     }
 
     public void unlink() {
@@ -92,18 +93,18 @@ public class Recruit extends BaseEntity {
     }
 
     @Builder
-    private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, Semester semester, int year,
-                    String title,
-                    String content, String everytimeUrl, Long totalView,
-                    Club club, List<RecruitImage> recruitImages) {
+    private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, String title,
+        RecruitType recruitType, String content, String applyLink, Long totalView, Club club,
+        List<RecruitImage> recruitImages) {
         this.id = id;
         this.startAt = startAt;
         this.endAt = endAt;
-        this.semester = semester;
-        this.year = year;
+//        this.semester = semester;
+//        this.year = year;
         this.title = title;
+        this.recruitType = recruitType;
         this.content = content;
-        this.everytimeUrl = everytimeUrl;
+        this.applyLink = applyLink;
         this.totalView = totalView;
         this.club = club;
         this.recruitImages = recruitImages;

@@ -124,7 +124,7 @@ public class RecruitService {
         recruitValidator.validateRecruitClub(recruit, admin);
 
         recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent(),
-            requestPage.getEverytimeUrl());
+            requestPage.getApplyLink());
 
         // 기존 모집글의 모든 이미지 조회
         List<RecruitImage> recruitImages = recruit.getRecruitImages().stream()

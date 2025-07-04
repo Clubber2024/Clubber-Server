@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -18,11 +19,15 @@ public class UpdateRecruitRequest {
     private String title;
 
     @NotBlank
+    @Schema(description = "모집 유형", example = "정규모집")
+    private RecruitType recruitType;
+
+    @NotBlank
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private String content;
 
-    @Schema(description = "에브리타임 링크", example = "https://everytime.kr/recruit")
-    private String everytimeUrl;
+    @Schema(description = "지원링크", example = "https://docs.google.com/forms")
+    private String applyLink;
 
     @Schema(description = "삭제할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private List<String> deletedImageUrls;
