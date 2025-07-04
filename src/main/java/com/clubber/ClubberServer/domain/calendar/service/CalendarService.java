@@ -31,12 +31,6 @@ public class CalendarService {
         calendarAppender.update(calendar, request);
     }
 
-    public void createLinkedCalendar(CreateLinkedCalendarRequest linkedCalendarRequest) {
-        Calendar calendar = calendarReader.readById(linkedCalendarRequest.recruitId());
-        CreateCalendarRequest request = CreateCalendarRequest.from(calendar, linkedCalendarRequest.recruitUrl());
-        calendarAppender.append(request.toEntity());
-    }
-
     public void deleteCalendar(Long calendarId) {
         Calendar calendar = calendarReader.readById(calendarId);
         calendarAppender.delete(calendar);
