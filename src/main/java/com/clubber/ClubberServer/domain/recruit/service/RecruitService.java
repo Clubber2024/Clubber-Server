@@ -64,8 +64,9 @@ public class RecruitService {
         Recruit newRecruit = recruitAppender.append(request.toEntity(club));
 
         List<RecruitImage> savedImages = recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
-        return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages);
+        return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages, request.getIsCalendarLinked());
     }
+
 
     @Transactional
     public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId) {
@@ -204,8 +205,13 @@ public class RecruitService {
             }
             recruitImage.updateOrderNum(order.getAndIncrement());
         }
-        return UpdateRecruitResponse.of(recruit, requestPage.getImages());
 
+        // calendar 연동 여부에 따라 저장
+        if (recruit.isCalendarLinked() && !requestPage.getIsCalendarLinked()) { // 연동된 캘린더의 해제를 원하는 경우
+            recruit.unlinkCalendar();
+        }
+
+        return UpdateRecruitResponse.of(recruit, requestPage.getImages(), requestPage.getIsCalendarLinked());
     }
 
     @Transactional

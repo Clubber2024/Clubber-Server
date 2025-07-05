@@ -48,6 +48,9 @@ public class GetOneRecruitWithClubResponse {
     @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private final List<ImageVO> imageUrls;
 
+    @Schema(description = "캘린더 연동 여부", example = "true")
+    private final Boolean isCalendarLinked;
+
     @Schema(description = "조회수", example = "32")
     private final Long totalView;
 
@@ -68,6 +71,7 @@ public class GetOneRecruitWithClubResponse {
             .content(recruit.getContent())
             .applyLink(recruit.getApplyLink())
             .imageUrls(images)
+            .isCalendarLinked(recruit.isCalendarLinked())
             .totalView(recruit.getTotalView())
             .createdAt(recruit.getCreatedAt())
             .build();

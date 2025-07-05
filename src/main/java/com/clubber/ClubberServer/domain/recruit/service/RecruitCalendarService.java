@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.recruit.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -10,7 +9,6 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalid
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalidYearException;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
@@ -25,22 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecruitCalendarService {
 
     private final RecruitRepository recruitRepository;
-    private final RecruitReader recruitReader;
-    private final AdminReader adminReader;
-    private final CalendarService calendarService;
-
-    // 모집글 캘린더 연동
-    @Transactional
-    public void connectRecruitCalendar(Long recruitId) {
-
-        Admin admin = adminReader.getCurrentAdmin();
-        Recruit recruit = recruitReader.findRecruitById(recruitId);
-
-        calendarService.createLinkedCalendar();
-
-
-
-    }
 
 
     @Transactional(readOnly = true)

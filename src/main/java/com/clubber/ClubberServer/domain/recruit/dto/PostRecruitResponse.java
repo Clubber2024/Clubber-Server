@@ -32,10 +32,14 @@ public class PostRecruitResponse {
     @Schema(description = "등록된 imageurls", example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image3\"]")
     private final List<ImageVO> imageUrls;
 
+    @Schema(description = "캘린더 연동 여부", example = "ture")
+    private Boolean isCalendarLinked;
+
     @Schema(description = "조회수", example = "32")
     private final Long totalView;
 
-    public static PostRecruitResponse of(Recruit recruit, List<ImageVO> images) {
+    public static PostRecruitResponse of(Recruit recruit, List<ImageVO> images,
+        Boolean isCalendarLinked) {
         return PostRecruitResponse.builder()
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
@@ -43,6 +47,7 @@ public class PostRecruitResponse {
             .content(recruit.getContent())
             .applyLink(recruit.getApplyLink())
             .imageUrls(images)
+            .isCalendarLinked(isCalendarLinked)
             .totalView(recruit.getTotalView())
             .build();
     }

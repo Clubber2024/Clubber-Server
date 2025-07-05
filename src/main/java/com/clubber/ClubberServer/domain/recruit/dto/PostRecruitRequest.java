@@ -34,6 +34,9 @@ public class PostRecruitRequest {
     @Schema(description = "모집글 이미지 목록", example = "[\"image1\",\"image2\"]")
     private List<String> imageKey;
 
+    @Schema(description = "캘린더 연동 여부", example = "ture")
+    private Boolean isCalendarLinked;
+
     public Recruit toEntity(Club club) {
         return Recruit.builder()
             .title(title)

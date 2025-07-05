@@ -56,13 +56,13 @@ public class RecruitMapper {
     }
 
     public PostRecruitResponse getRecruitWithImageUrls(Recruit newRecruit,
-        List<RecruitImage> savedImages) {
+        List<RecruitImage> savedImages, Boolean isCalendarLinked) {
         List<ImageVO> imageUrls = savedImages.stream()
             .sorted(Comparator.comparing(RecruitImage::getOrderNum))
             .map(RecruitImage::getImageUrl)
             .collect(Collectors.toList());
 
-        return PostRecruitResponse.of(newRecruit, imageUrls);
+        return PostRecruitResponse.of(newRecruit, imageUrls, isCalendarLinked);
     }
 
     private List<ImageVO> getRecruitImages(Recruit recruit) {
