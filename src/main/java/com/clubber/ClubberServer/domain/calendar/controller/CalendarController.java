@@ -7,26 +7,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/calendars")
 public class CalendarController {
     private final CalendarService calendarService;
 
-    @PostMapping("/calendars/")
+    @PostMapping
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
         return calendarService.createCalendar(request);
     }
 
-    @PostMapping("/calendars/linked")
+    @PostMapping("/linked")
     public CreateLinkedCalenderResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
         return calendarService.createLinkedCalender(request);
     }
 
-    @GetMapping("/calendars/{id}")
+    @GetMapping("/{id}")
     public GetCalendarResponse getCalendar(@PathVariable Long id) {
         return calendarService.getCalendar(id);
     }
 
-    @PatchMapping("/calendars/{id}")
+    @PatchMapping("/{id}")
     public void updateCalendar(@PathVariable Long id, @RequestBody UpdateCalendarRequest request) {
         calendarService.updateCalendar(request, id);
     }
