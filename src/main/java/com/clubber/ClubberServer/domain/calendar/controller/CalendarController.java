@@ -17,8 +17,8 @@ public class CalendarController {
     }
 
     @PostMapping("/calendars/linked")
-    public void createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
-        calendarService.createLinkedCalender(request);
+    public CreateLinkedCalenderResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
+        return calendarService.createLinkedCalender(request);
     }
 
     @GetMapping("/calendars/{id}")

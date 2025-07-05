@@ -25,10 +25,11 @@ public class CalendarService {
         return CreateCalendarResponse.from(savedCalendar);
     }
 
-    public void createLinkedCalender(CreateLinkedCalendarRequest request) {
+    public CreateLinkedCalenderResponse createLinkedCalender(CreateLinkedCalendarRequest request) {
         Recruit recruit = recruitReader.findRecruitById(request.recruitId());
         CreateCalendarRequest calendarRequest = CreateCalendarRequest.from(recruit, request.recruitUrl());
-        calendarAppender.append(calendarRequest.toEntity());
+        Calendar savedCalendar = calendarAppender.append(calendarRequest.toEntity());
+        return new CreateLinkedCalenderResponse(request.recruitId(), savedCalendar.getId());
     }
 
     public GetCalendarResponse getCalendar(Long id) {
