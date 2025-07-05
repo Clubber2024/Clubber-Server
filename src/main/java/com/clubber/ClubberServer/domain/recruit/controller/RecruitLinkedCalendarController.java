@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/calendars/linked")
+@RequestMapping("/calendars/link")
 @RequiredArgsConstructor
 public class RecruitLinkedCalendarController {
 
@@ -16,5 +16,10 @@ public class RecruitLinkedCalendarController {
     @PostMapping
     public CreateLinkedCalenderResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
         return recruitLinkedCalendarService.createLinkedCalender(request);
+    }
+
+    @PatchMapping("/{id}/unlink")
+    public void unlinkCalendar(@PathVariable Long id) {
+        recruitLinkedCalendarService.unlinkCalendar(id);
     }
 }
