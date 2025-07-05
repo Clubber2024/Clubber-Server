@@ -1,10 +1,14 @@
 package com.clubber.ClubberServer.domain.recruit.service;
 
+import com.clubber.ClubberServer.domain.admin.domain.Admin;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitCalendar.GetCalendarInListResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitCalendar.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalidMonthException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCalendarInvalidYearException;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +25,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecruitCalendarService {
 
     private final RecruitRepository recruitRepository;
+    private final RecruitReader recruitReader;
+    private final AdminReader adminReader;
+    private final CalendarService calendarService;
+
+    // 모집글 캘린더 연동
+    @Transactional
+    public void connectRecruitCalendar(Long recruitId) {
+
+        Admin admin = adminReader.getCurrentAdmin();
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+
+        calendarService.createLinkedCalendar();
+
+
+
+    }
+
 
     @Transactional(readOnly = true)
     public GetCalendarInListResponse getRecruitCalendar(int year, int month) {
@@ -33,17 +54,17 @@ public class RecruitCalendarService {
             throw RecruitCalendarInvalidMonthException.EXCEPTION;
         }
 
-        LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1,0,0,0);
-        LocalDateTime endOfMonth = YearMonth.of(year, month).atEndOfMonth().atTime(23,59,59);
+        LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0, 0);
+        LocalDateTime endOfMonth = YearMonth.of(year, month).atEndOfMonth().atTime(23, 59, 59);
 
         List<Recruit> recruits = recruitRepository.findRecruitsWithinDateRange(startOfMonth,
             endOfMonth);
 
-        List<GetCalendarResponse> calendarRecruits= recruits.stream()
+        List<GetCalendarResponse> calendarRecruits = recruits.stream()
             .map(recruit -> GetCalendarResponse.of(recruit))
             .collect(Collectors.toList());
 
-        return GetCalendarInListResponse.of(year,month,calendarRecruits);
+        return GetCalendarInListResponse.of(year, month, calendarRecruits);
 
     }
 
