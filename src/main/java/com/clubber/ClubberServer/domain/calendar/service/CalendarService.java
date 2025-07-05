@@ -1,11 +1,12 @@
 package com.clubber.ClubberServer.domain.calendar.service;
 
-import com.clubber.ClubberServer.domain.calendar.dto.*;
+import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CalendarService {
     private final CalendarAppender calendarAppender;
     private final CalendarReader calendarReader;
-    //TODO 패키지 순환참조 해결
-    private final RecruitReader recruitReader;
 
     public CreateCalendarResponse createCalendar(CreateCalendarRequest request) {
         Calendar calendar = request.toEntity();
         Calendar savedCalendar = calendarAppender.append(calendar);
         return CreateCalendarResponse.from(savedCalendar);
-    }
-
-    public CreateLinkedCalenderResponse createLinkedCalender(CreateLinkedCalendarRequest request) {
-        Recruit recruit = recruitReader.findRecruitById(request.recruitId());
-        CreateCalendarRequest calendarRequest = CreateCalendarRequest.from(recruit, request.recruitUrl());
-        Calendar savedCalendar = calendarAppender.append(calendarRequest.toEntity());
-        return new CreateLinkedCalenderResponse(request.recruitId(), savedCalendar.getId());
     }
 
     public GetCalendarResponse getCalendar(Long id) {
