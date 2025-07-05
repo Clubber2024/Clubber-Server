@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +14,11 @@ public class CalendarController {
     @PostMapping("/calendars/")
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
         return calendarService.createCalendar(request);
+    }
+
+    @PostMapping("/calendars/linked")
+    public void createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
+        calendarService.createLinkedCalender(request);
     }
 
     @GetMapping("/calendars/{id}")
