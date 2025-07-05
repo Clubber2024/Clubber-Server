@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.dto;
 
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.validation.constraints.NotBlank;
@@ -31,12 +32,12 @@ public record CreateCalendarRequest(
                 .build();
     }
 
-    public static CreateCalendarRequest from(Calendar calendar, String recruitUrl) {
+    public static CreateCalendarRequest from(Recruit recruit, String recruitUrl) {
         return CreateCalendarRequest.builder()
-                .title(calendar.getTitle())
-                .recruitType(calendar.getRecruitType())
-                .startAt(calendar.getStartAt())
-                .endAt(calendar.getEndAt())
+                .title(recruit.getTitle())
+                .recruitType(recruit.getRecruitType())
+                .startAt(recruit.getStartAt())
+                .endAt(recruit.getEndAt())
                 .url(recruitUrl)
                 .build();
     }

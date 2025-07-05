@@ -1,30 +1,32 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/calendars")
 public class CalendarController {
     private final CalendarService calendarService;
 
-    @PostMapping("/calendars/")
+    @PostMapping
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
         return calendarService.createCalendar(request);
     }
 
-    @GetMapping("/calendars/{id}")
+    @PostMapping("/linked")
+    public CreateLinkedCalenderResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
+        return calendarService.createLinkedCalender(request);
+    }
+
+    @GetMapping("/{id}")
     public GetCalendarResponse getCalendar(@PathVariable Long id) {
         return calendarService.getCalendar(id);
     }
 
-    @PatchMapping("/calendars/{id}")
+    @PatchMapping("/{id}")
     public void updateCalendar(@PathVariable Long id, @RequestBody UpdateCalendarRequest request) {
         calendarService.updateCalendar(request, id);
     }

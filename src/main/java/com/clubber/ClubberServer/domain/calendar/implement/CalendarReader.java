@@ -14,7 +14,7 @@ public class CalendarReader {
     private final CalendarRepository calendarRepository;
 
     public Calendar readById(Long id) {
-        return calendarRepository.findById(id)
+        return calendarRepository.findCalendarByIdAndDeleted(id, false)
                 .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
     }
 }
