@@ -39,6 +39,12 @@ public class GetOneRecruitWithClubResponse {
     @Schema(description = "모집 유형", example = "정규모집")
     private final String recruitType;
 
+    @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
+    private final LocalDateTime startAt;
+
+    @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
+    private final LocalDateTime endAt;
+
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
@@ -47,9 +53,6 @@ public class GetOneRecruitWithClubResponse {
 
     @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private final List<ImageVO> imageUrls;
-
-    @Schema(description = "캘린더 연동 여부", example = "true")
-    private final Boolean isCalendarLinked;
 
     @Schema(description = "조회수", example = "32")
     private final Long totalView;
@@ -68,10 +71,11 @@ public class GetOneRecruitWithClubResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .recruitType(recruit.getRecruitType().getTitle())
+            .startAt(recruit.getStartAt())
+            .endAt(recruit.getEndAt())
             .content(recruit.getContent())
             .applyLink(recruit.getApplyLink())
             .imageUrls(images)
-            .isCalendarLinked(recruit.isCalendarLinked())
             .totalView(recruit.getTotalView())
             .createdAt(recruit.getCreatedAt())
             .build();

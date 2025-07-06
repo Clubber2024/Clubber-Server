@@ -3,6 +3,8 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +24,14 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "모집 유형", example = "정규모집")
     private final String recruitType;
 
+    @NotBlank
+    @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
+    private LocalDateTime startAt;
+
+    @NotBlank
+    @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
+    private LocalDateTime endAt;
+
     @Schema(description = "모집글 내용", example = "숭실대학교 클러버 부원 모집을 시작...")
     private final String content;
 
@@ -37,6 +47,8 @@ public class GetOneRecruitInListResponse {
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .recruitType(recruit.getRecruitType().getTitle())
+            .startAt(recruit.getStartAt())
+            .endAt(recruit.getEndAt())
             .content(content)
             .applyLink(recruit.getApplyLink())
             .imageUrl(imageUrl)

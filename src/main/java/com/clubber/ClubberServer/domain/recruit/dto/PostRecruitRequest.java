@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,14 @@ public class PostRecruitRequest {
     private RecruitType recruitType;
 
     @NotBlank
+    @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
+    private LocalDateTime startAt;
+
+    @NotBlank
+    @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
+    private LocalDateTime endAt;
+
+    @NotBlank
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private String content;
 
@@ -40,6 +49,8 @@ public class PostRecruitRequest {
     public Recruit toEntity(Club club) {
         return Recruit.builder()
             .title(title)
+            .startAt(startAt)
+            .endAt(endAt)
             .recruitType(recruitType)
             .content(content)
             .applyLink(applyLink)
