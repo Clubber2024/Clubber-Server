@@ -3,18 +3,31 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -27,18 +40,11 @@ public class Recruit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime startAt;
 
-    @NotNull
     @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime endAt;
-
-//    @NotNull
-//    @Enumerated(EnumType.STRING)
-//    @JdbcTypeCode(SqlTypes.VARCHAR)
-//    private Semester semester;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -82,22 +88,27 @@ public class Recruit extends BaseEntity {
         this.totalView++;
     }
 
-    public void updateRecruitPage(String title, String content, String applyLink) {
+    public void updateRecruitPage(String title, String content, String applyLink,
+        LocalDateTime startAt, LocalDateTime endAt) {
         this.title = title;
         this.content = content;
         this.applyLink = applyLink;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 
     public boolean isCalendarLinked() {
         return this.calendar != null;
     }
+
     public void unlinkCalendar() {
         this.calendar = null;
     }
 
-    public void unlink() {
-        this.calendar = null;
+    public void linkCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
+
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, String title,
@@ -106,8 +117,6 @@ public class Recruit extends BaseEntity {
         this.id = id;
         this.startAt = startAt;
         this.endAt = endAt;
-//        this.semester = semester;
-//        this.year = year;
         this.title = title;
         this.recruitType = recruitType;
         this.content = content;

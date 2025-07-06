@@ -15,6 +15,8 @@ public enum RecruitErrorCode implements BaseErrorCode {
         "유효하지 않은 연도입니다."),
     RECRUIT_CALENDAR_MONTH_INVALID(HttpStatus.BAD_REQUEST.value(), "RECRUIT_400_4",
         "유효하지 않은 월입니다."),
+    RECRUIT_DATE_REQUIRED(HttpStatus.BAD_REQUEST.value(), "RECRUIT_400_5", "startAt과 endAt은 필수입니다."),
+    RECRUIT_INVALID_DATE(HttpStatus.BAD_REQUEST.value(),"RECRUIT_400_6", "시작일은 마감일보다 이전이어야 합니다."),
     RECRUIT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_1", "모집글 접근 권한이 없습니다."),
     RECRUIT_DELETE_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_2", "모집글 삭제 권한이 없습니다."),
     RECRUIT_COMMENT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_3", "댓글 권한이 없습니다."),

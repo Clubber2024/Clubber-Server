@@ -5,7 +5,9 @@ import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ public class CalendarService {
         Recruit recruit = recruitReader.findRecruitById(request.recruitId());
         CreateCalendarRequest calendarRequest = CreateCalendarRequest.from(recruit, request.recruitUrl());
         Calendar savedCalendar = calendarAppender.append(calendarRequest.toEntity());
+        recruit.linkCalendar(savedCalendar);
         return new CreateLinkedCalenderResponse(request.recruitId(), savedCalendar.getId());
     }
 
@@ -40,6 +43,11 @@ public class CalendarService {
     public void updateCalendar(UpdateCalendarRequest request, Long recruitId) {
         Calendar calendar = calendarReader.readById(recruitId);
         calendarAppender.update(calendar, request);
+    }
+
+    public void syncCalendarWithRecruit(Long recruitId, String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt) {
+            Calendar calendar = calendarReader.readById(recruitId);
+            calendarAppender.update(calendar,title,recruitType,startAt,endAt);
     }
 
     public void deleteCalendar(Long calendarId) {

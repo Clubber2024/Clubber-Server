@@ -66,6 +66,14 @@ public class Calendar {
         this.url = url;
     }
 
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt) {
+        this.title = title;
+        this.recruitType = recruitType;
+        this.startAt = startAt;
+        this.endAt = endAt;
+
+    }
+
     public String getStatus() {
         CalendarStatus status = CalendarStatus.getStatus(startAt, endAt, recruitType);
         return status.getTitle();

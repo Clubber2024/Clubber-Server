@@ -50,9 +50,9 @@ public class RecruitMapper {
         return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
-    public GetOneRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
+    public GetOneAdminRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
         List<ImageVO> imageUrls = getRecruitImages(recruit);
-        return GetOneRecruitResponse.of(recruit, imageUrls);
+        return GetOneAdminRecruitResponse.of(recruit, imageUrls);
     }
 
     public PostRecruitResponse getRecruitWithImageUrls(Recruit newRecruit,

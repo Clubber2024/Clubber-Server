@@ -36,11 +36,15 @@ public class UpdateRecruitResponse {
     @Schema(description = "캘린더 연동 여부", example = "true")
     private final Boolean isCalendarLinked;
 
+    @Schema(description = "새로운 캘린더 생성 여부", example = "true")
+    private final Boolean shouldCreateCalendar;
+
     @Schema(description = "모집글 수정 일자", example = "2025-01-05", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime updatedAt;
 
-    public static UpdateRecruitResponse of(Recruit recruit, List<String> imageUrls , Boolean isCalendarLinked) {
+    public static UpdateRecruitResponse of(Recruit recruit, List<String> imageUrls,
+        Boolean isCalendarLinked, Boolean shouldCreateCalendar) {
         return UpdateRecruitResponse.builder()
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
@@ -49,6 +53,7 @@ public class UpdateRecruitResponse {
             .applyLink(recruit.getApplyLink())
             .imageUrls(imageUrls)
             .isCalendarLinked(isCalendarLinked)
+            .shouldCreateCalendar(shouldCreateCalendar)
             .updatedAt(recruit.getUpdatedAt())
             .build();
     }

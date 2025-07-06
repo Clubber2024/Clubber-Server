@@ -3,9 +3,13 @@ package com.clubber.ClubberServer.domain.recruit.implement;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorizedException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitInvalidPeriodException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitMissingPeriodException;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +24,18 @@ public class RecruitValidator {
     public void validateRecruitClub(Recruit recruit, Admin admin) {
         if (recruit.getClub() != admin.getClub()) {
             throw RecruitDeleteUnauthorizedException.EXCEPTION;
+        }
+    }
+
+    public void validateRecruitDate(RecruitType recruitType, LocalDateTime startAt,
+        LocalDateTime endAt) {
+        if (recruitType != RecruitType.ALWAYS) {
+            if (startAt == null || endAt == null) {
+                throw RecruitMissingPeriodException.EXCEPTION;
+            }
+            if (startAt.isAfter(endAt)) {
+                throw RecruitInvalidPeriodException.EXCEPTION;
+            }
         }
     }
 }

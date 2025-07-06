@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,14 +24,22 @@ public class UpdateRecruitRequest {
     private RecruitType recruitType;
 
     @NotBlank
+    @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
+    private LocalDateTime startAt;
+
+    @NotBlank
+    @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
+    private LocalDateTime endAt;
+
+    @NotBlank
     @Schema(description = "모집글 내용", example = "10/22일부터 클러버 부원을 모집하고 있습니다..")
     private String content;
 
     @Schema(description = "지원링크", example = "https://docs.google.com/forms")
     private String applyLink;
 
-    @Schema(description = "캘린더 연동 여부", example = "ture")
-    private Boolean isCalendarLinked;
+    @Schema(description = "캘린더 연동 요청 여부", example = "true")
+    private Boolean shouldLinkCalendar;
 
     @Schema(description = "삭제할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private List<String> deletedImageUrls;

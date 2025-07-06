@@ -25,11 +25,9 @@ public class PostRecruitRequest {
     @Schema(description = "모집 유형", example = "REGULAR")
     private RecruitType recruitType;
 
-    @NotBlank
     @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
     private LocalDateTime startAt;
 
-    @NotBlank
     @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
     private LocalDateTime endAt;
 

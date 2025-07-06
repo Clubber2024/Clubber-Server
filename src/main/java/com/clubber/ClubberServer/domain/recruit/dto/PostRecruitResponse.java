@@ -40,7 +40,7 @@ public class PostRecruitResponse {
     @Schema(description = "등록된 imageurls", example = "[\"www.clubber/amazon/club/image1\",\"www.clubber/amazon/club/image3\"]")
     private final List<ImageVO> imageUrls;
 
-    @Schema(description = "캘린더 연동 여부", example = "ture")
+    @Schema(description = "캘린더 연동 여부", example = "true")
     private Boolean isCalendarLinked;
 
     @Schema(description = "조회수", example = "32")

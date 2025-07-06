@@ -2,6 +2,7 @@ package com.clubber.ClubberServer.domain.recruit.controller;
 
 
 import com.clubber.ClubberServer.domain.recruit.dto.*;
+import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,6 @@ public class adminRecruitController {
         return recruitService.createRecruit(request);
     }
 
-    //관리자 권한으로 모집글 삭제
     @DeleteMapping("/admins/recruits/{recruitId}")
     @Operation(summary = "동아리 계정 모집글 삭제")
     public DeleteRecruitByIdResponse deleteRecruitsById(@PathVariable("recruitId")Long recruitId){
@@ -42,7 +42,7 @@ public class adminRecruitController {
 
     @GetMapping("/admins/recruits/{recruitId}")
     @Operation(summary= " 동아리 계정 개별 모집글 조회")
-    public GetOneRecruitResponse getOneAdminRecruitsById(@PathVariable("recruitId")Long recruitId){
+    public GetOneAdminRecruitResponse getOneAdminRecruitsById(@PathVariable("recruitId")Long recruitId){
         return recruitService.getOneAdminRecruitsById(recruitId);
     }
 
