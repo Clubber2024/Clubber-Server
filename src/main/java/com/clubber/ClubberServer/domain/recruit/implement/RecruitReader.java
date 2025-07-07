@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.implement;
 
+import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
@@ -39,5 +40,10 @@ public class RecruitReader {
 
     public Page<Recruit> findAllRecruits(Pageable pageable) {
         return recruitRepository.queryAllRecruits(pageable);
+    }
+
+    public Recruit findByCalendar(Calendar calendar) {
+        return recruitRepository.findByCalendar(calendar)
+                .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
     }
 }
