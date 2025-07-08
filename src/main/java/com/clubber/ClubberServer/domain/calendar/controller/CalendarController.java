@@ -37,7 +37,7 @@ public class CalendarController {
         calendarService.updateCalendar(request, id);
     }
 
-    @DeleteMapping("/calendars/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCalendar(@PathVariable Long id) {
         calendarService.deleteCalendar(id);
     }
