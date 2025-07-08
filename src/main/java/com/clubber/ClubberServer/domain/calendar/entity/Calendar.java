@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.entity;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.persistence.*;
@@ -39,6 +40,10 @@ public class Calendar {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
+
+    @ManyToOne
+    @JoinColumn(name = "club_id")
+    private Club club;
 
     private boolean isDeleted = false;
 

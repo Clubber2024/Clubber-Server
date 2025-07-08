@@ -89,9 +89,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/perspective/**")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/v1/calendars/**")
-                                .permitAll()
-                                .requestMatchers("/api/v1/calendars/**")
+                                .requestMatchers("/api/v1/admins/calendars/**")
                                 .hasRole("ADMIN")
                                 .anyRequest()
                                 .hasRole("USER"));
