@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/calendars/link")
+@RequestMapping("/api/v1/admins/calendars/link")
 @RequiredArgsConstructor
 public class RecruitLinkedCalendarController {
 
