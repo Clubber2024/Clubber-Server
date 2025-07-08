@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
-import com.clubber.ClubberServer.domain.calendar.service.AdminCalendarService;
+import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/admins/calendars")
 @Tag(name = "[관리자 캘린더 관련 API]")
-public class CalendarController {
-    private final AdminCalendarService calendarService;
+public class CalendarAdminController {
+    private final CalendarAdminService calendarService;
 
     @PostMapping
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {

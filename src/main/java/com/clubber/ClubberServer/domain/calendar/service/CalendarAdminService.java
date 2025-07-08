@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AdminCalendarService {
+public class CalendarAdminService {
     private final CalendarAppender calendarAppender;
     private final CalendarReader calendarReader;
     private final AdminReader adminReader;
