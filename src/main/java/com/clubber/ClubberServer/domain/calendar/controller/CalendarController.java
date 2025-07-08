@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
-import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
+import com.clubber.ClubberServer.domain.calendar.service.AdminCalendarService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/calendars")
+@RequestMapping("/api/v1/admins/calendars")
 public class CalendarController {
-    private final CalendarService calendarService;
+    private final AdminCalendarService calendarService;
 
     @PostMapping
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
