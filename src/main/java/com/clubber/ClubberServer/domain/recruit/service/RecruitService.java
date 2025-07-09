@@ -7,15 +7,12 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
-import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitInvalidPeriodException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitMissingPeriodException;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitImageAppender;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
@@ -26,7 +23,6 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -55,6 +51,7 @@ public class RecruitService {
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
     private final CalendarService calendarService;
+    private final RecruitLinkedCalendarService recruitLinkedCalendarService;
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,
@@ -228,7 +225,7 @@ public class RecruitService {
             recruit.unlinkCalendar();
         } else if (recruit.isCalendarLinked()
             && requestPage.getShouldLinkCalendar()) { // 연동된 캘린더의 연동 유지
-            calendarService.syncCalendarWithRecruit(recruitId, requestPage.getTitle(),
+            recruitLinkedCalendarService.syncCalendarWithRecruit(recruitId, requestPage.getTitle(),
                 requestPage.getRecruitType(), requestPage.getStartAt(), requestPage.getEndAt());
         } else if (!recruit.isCalendarLinked()
             && requestPage.getShouldLinkCalendar()) { // 새로 연동

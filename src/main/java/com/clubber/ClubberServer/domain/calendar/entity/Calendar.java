@@ -43,6 +43,7 @@ public class Calendar extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
