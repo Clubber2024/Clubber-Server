@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -19,16 +21,16 @@ public class UpdateRecruitRequest {
     @Schema(description = "모집글 제목", example = "클러버 부원을 모집합니다")
     private String title;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "모집 유형", example = "정규모집")
     private RecruitType recruitType;
 
-    @NotBlank
-    @Schema(description = "모집 시작 일자", example = "2025-07-06T10:00:00")
+    @Schema(description = "모집 시작 일자", example = "2025-07-10 00:00", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startAt;
 
-    @NotBlank
-    @Schema(description = "모집 종료 일자", example = "2025-07-12T12:00:00")
+    @Schema(description = "모집 종료 일자", example = "2025-07-30 00:00", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endAt;
 
     @NotBlank

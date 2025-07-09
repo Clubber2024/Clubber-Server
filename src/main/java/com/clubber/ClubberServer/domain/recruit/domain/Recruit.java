@@ -51,9 +51,6 @@ public class Recruit extends BaseEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private RecruitType recruitType;
 
-//    @NotNull
-//    private int year;
-
     @NotNull
     @Column(length = 100)
     private String title;
