@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Calendar extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,7 +42,6 @@ public class Calendar extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -52,8 +50,8 @@ public class Calendar extends BaseEntity {
 
     @Builder
     public Calendar(Long id, String title, RecruitType recruitType, String url,
-        LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, Club club,
-        boolean isDeleted) {
+                    LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, Club club,
+                    boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -61,8 +59,8 @@ public class Calendar extends BaseEntity {
         this.startAt = startAt;
         this.endAt = endAt;
         this.writerRole = writerRole;
-        this.club = club;
         this.isDeleted = isDeleted;
+        this.club = club;
     }
 
     public void delete() {
@@ -70,7 +68,7 @@ public class Calendar extends BaseEntity {
     }
 
     public void update(String title, RecruitType recruitType, LocalDateTime startAt,
-        LocalDateTime endAt, String url) {
+                       LocalDateTime endAt, String url) {
         this.title = title;
         this.recruitType = recruitType;
         this.startAt = startAt;
@@ -79,7 +77,7 @@ public class Calendar extends BaseEntity {
     }
 
     public void update(String title, RecruitType recruitType, LocalDateTime startAt,
-        LocalDateTime endAt) {
+                       LocalDateTime endAt) {
         this.title = title;
         this.recruitType = recruitType;
         this.startAt = startAt;

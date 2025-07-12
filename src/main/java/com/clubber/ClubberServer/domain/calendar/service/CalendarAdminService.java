@@ -2,20 +2,20 @@ package com.clubber.ClubberServer.domain.calendar.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.YearMonth;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +29,6 @@ public class CalendarAdminService {
     public CreateCalendarResponse createCalendar(CreateCalendarRequest request) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-
         Calendar calendar = request.toEntity(club);
         Calendar savedCalendar = calendarAppender.append(calendar);
         return CreateCalendarResponse.from(savedCalendar);
@@ -55,5 +54,14 @@ public class CalendarAdminService {
     public void deleteCalendar(Long calendarId) {
         Calendar calendar = calendarReader.readById(calendarId);
         calendarAppender.delete(calendar);
+    }
+
+    public GetCalendarDuplicateResponse checkDuplicateCalendar(GetCalendarDuplicateRequest request) {
+        Club club = adminReader.getCurrentAdmin().getClub();
+        YearMonth recruitYearMonth = YearMonth.from(request.startAt());
+        RecruitType recruitType = request.recruitType();
+
+        boolean isExist = calendarReader.isExistInSameMonth(recruitType, recruitYearMonth, club);
+        return new GetCalendarDuplicateResponse(isExist, recruitType, recruitYearMonth.getYear(), recruitYearMonth.getMonthValue());
     }
 }

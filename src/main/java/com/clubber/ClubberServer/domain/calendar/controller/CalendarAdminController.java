@@ -1,9 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.CreateCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
@@ -48,5 +45,11 @@ public class CalendarAdminController {
     @Operation(summary = "특정 캘린더 삭제")
     public void deleteCalendar(@PathVariable Long id) {
         calendarService.deleteCalendar(id);
+    }
+
+    @PostMapping("/duplicate")
+    @Operation(summary = "캘린더 중복 여부 확인 API")
+    public GetCalendarDuplicateResponse getCalendarDuplicate(@RequestBody GetCalendarDuplicateRequest request) {
+        return calendarService.checkDuplicateCalendar(request);
     }
 }
