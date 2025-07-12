@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name = "[모집글 댓글]")
-public class recruitCommentController {
+@Tag(name = "[모집글 댓글 API]")
+public class RecruitCommentController {
 
     private final RecruitCommentService recruitCommentService;
 

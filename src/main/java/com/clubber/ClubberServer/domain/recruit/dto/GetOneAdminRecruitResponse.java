@@ -2,9 +2,10 @@ package com.clubber.ClubberServer.domain.recruit.dto;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,10 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetOneRecruitInListResponse {
+public class GetOneAdminRecruitResponse {
+
+    @Schema(description = "club id", example = "1")
+    private final Long clubId;
 
     @Schema(description = "모집글 id", example = "10")
     private final Long recruitId;
@@ -36,20 +40,34 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "지원링크", example = "https://docs.google.com/forms")
     private final String applyLink;
 
-    @Schema(description = "모집글 대표 이미지", example = "https://image.ssuclubber.com/club/image2")
-    private final ImageVO imageUrl;
+    @Schema(description = "모집글 imageUrls", example = "[\"https://image.ssuclubber.com/club/image1\",\"https://image.ssuclubber.com/club/image3\"]")
+    private final List<ImageVO> imageUrls;
 
-    public static GetOneRecruitInListResponse of(Recruit recruit, String content,
-        ImageVO imageUrl) {
-        return GetOneRecruitInListResponse.builder()
+    @Schema(description = "캘린더 연동 여부", example = "true")
+    private Boolean isCalendarLinked;
+
+    @Schema(description = "조회수", example = "32")
+    private final Long totalView;
+
+    @Schema(description = "모집글 생성 일자", example = "2025-01-05", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private final LocalDateTime createdAt;
+
+    public static GetOneAdminRecruitResponse of(Recruit recruit, List<ImageVO> images) {
+        return GetOneAdminRecruitResponse.builder()
+            .clubId(recruit.getClub().getId())
             .recruitId(recruit.getId())
             .title(recruit.getTitle())
             .recruitType(recruit.getRecruitType().getTitle())
             .startAt(recruit.getStartAt())
             .endAt(recruit.getEndAt())
-            .content(content)
+            .content(recruit.getContent())
             .applyLink(recruit.getApplyLink())
-            .imageUrl(imageUrl)
+            .imageUrls(images)
+            .isCalendarLinked(recruit.isCalendarLinked())
+            .totalView(recruit.getTotalView())
+            .createdAt(recruit.getCreatedAt())
             .build();
     }
+
 }

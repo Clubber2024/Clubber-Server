@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.recruit.dto.recruitCalendar;
+package com.clubber.ClubberServer.domain.calendar.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -18,17 +18,21 @@ public class GetCalendarInListResponse {
     @Schema(description = "모집 월", example = "2")
     private final int month;
 
-    @Schema(description = "모집글 목록")
-    private final List<GetCalendarResponse> recruitList;
+    @Schema(description = "정규,추가 모집 캘린더 목록")
+    private final List<GetNonAlwaysCalendarResponse> nonAlwaysCalendars;
+
+    @Schema(description = "상시 모집 캘린더 목록")
+    private final List<GetAlwaysCalendarResponse> alwaysCalendars;
 
     public static GetCalendarInListResponse of(int year, int month,
-        List<GetCalendarResponse> recruitList) {
+        List<GetNonAlwaysCalendarResponse> nonAlwaysCalendars,
+        List<GetAlwaysCalendarResponse> alwaysCalendars) {
         return GetCalendarInListResponse.builder()
             .year(year)
             .month(month)
-            .recruitList(recruitList)
+            .nonAlwaysCalendars(nonAlwaysCalendars)
+            .alwaysCalendars(alwaysCalendars)
             .build();
-
     }
 
 }

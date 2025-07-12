@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.domain.recruit.dto.recruitCalendar;
+package com.clubber.ClubberServer.domain.calendar.dto;
 
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetCalendarResponse {
+public class GetNonAlwaysCalendarResponse {
 
     @Schema(description = "동아리 id", example = "1")
     private final Long clubId;
@@ -20,11 +20,8 @@ public class GetCalendarResponse {
     @Schema(description = "동아리명", example = "클러버")
     private final String clubName;
 
-    @Schema(description = "에브리타임 url", example = "https://www.everytime.com")
-    private final String everytimeUrl;
-
-    @Schema(description = "모집시기", example = "ALWAYS")
-    private final String semester;
+    @Schema(description = "모집 유형", example = "정규모집")
+    private final String recruitType;
 
     @Schema(description = "모집 시작 일자", example = "2025-02-05 00:00:00")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -34,14 +31,13 @@ public class GetCalendarResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime endAt;
 
-    public static GetCalendarResponse of(Recruit recruit) {
-        return GetCalendarResponse.builder()
-            .clubId(recruit.getClub().getId())
-            .clubName(recruit.getClub().getName())
-            .everytimeUrl(recruit.getEverytimeUrl())
-            .semester(recruit.getSemester().name())
-            .startAt(recruit.getStartAt())
-            .endAt(recruit.getEndAt())
+    public static GetNonAlwaysCalendarResponse from(Calendar calendar) {
+        return GetNonAlwaysCalendarResponse.builder()
+            .clubId(calendar.getClub().getId())
+            .clubName(calendar.getClub().getName())
+            .recruitType(calendar.getRecruitType().getTitle())
+            .startAt(calendar.getStartAt())
+            .endAt(calendar.getEndAt())
             .build();
     }
 

@@ -21,12 +21,14 @@ import java.time.YearMonth;
 @RequiredArgsConstructor
 @Transactional
 public class CalendarAdminService {
+
     private final CalendarAppender calendarAppender;
     private final CalendarReader calendarReader;
     private final AdminReader adminReader;
 
     public CreateCalendarResponse createCalendar(CreateCalendarRequest request) {
-        Club club = adminReader.getCurrentAdmin().getClub();
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
         Calendar calendar = request.toEntity(club);
         Calendar savedCalendar = calendarAppender.append(calendar);
         return CreateCalendarResponse.from(savedCalendar);

@@ -17,7 +17,7 @@ public class RecruitImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated
+    @Embedded
     private ImageVO imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +33,7 @@ public class RecruitImage extends BaseEntity {
         this.id=id;
         this.imageUrl=imageUrl;
         this.recruit=recruit;
+        this.orderNum = orderNum;
     }
 
     public static RecruitImage of(ImageVO imageUrl,Recruit recruit){

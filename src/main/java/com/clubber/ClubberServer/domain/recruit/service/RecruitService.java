@@ -1,12 +1,22 @@
 package com.clubber.ClubberServer.domain.recruit.service;
 
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
-import com.clubber.ClubberServer.domain.recruit.dto.*;
+import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.GetOneAdminRecruitResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitInListResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitWithClubResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
+import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
+import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
@@ -20,20 +30,17 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepositor
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,38 +55,8 @@ public class RecruitService {
     private final RecruitImageAppender recruitImageAppender;
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
-
-    @Transactional(readOnly = true)
-    public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(Pageable pageable) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Club club = admin.getClub();
-        Page<Recruit> recruits = recruitReader.findRecruitPagesByClub(club, pageable);
-        return recruitMapper.getRecruitsPageResponse(recruits);
-    }
-
-    @Transactional
-    public PostRecruitResponse createRecruit(PostRecruitRequest request) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Club club = admin.getClub();
-        Recruit newRecruit = recruitAppender.append(request.toEntity(club));
-
-        List<RecruitImage> savedImages = recruitImageAppender.appendRecruitImages(request.getImageKey(), newRecruit);
-        return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages);
-    }
-
-    @Transactional
-    public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Recruit recruit = recruitReader.findRecruitById(recruitId);
-
-        recruitValidator.validateRecruitClub(recruit, admin);
-
-        recruitAppender.delete(recruit);
-        recruitImageAppender.deleteRecruitImages(recruit.getRecruitImages());
-
-        List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
-        return DeleteRecruitByIdResponse.from(recruit, imageUrls);
-    }
+    private final CalendarService calendarService;
+    private final RecruitLinkedCalendarService recruitLinkedCalendarService;
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,
@@ -108,8 +85,48 @@ public class RecruitService {
         return recruitMapper.getRecruitsByRecruitId(recruit);
     }
 
+
+    // Admin
     @Transactional(readOnly = true)
-    public GetOneRecruitResponse getOneAdminRecruitsById(Long recruitId) {
+    public PageResponse<GetOneRecruitInListResponse> getAllAdminRecruits(Pageable pageable) {
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
+        Page<Recruit> recruits = recruitReader.findRecruitPagesByClub(club, pageable);
+        return recruitMapper.getRecruitsPageResponse(recruits);
+    }
+
+    @Transactional
+    public PostRecruitResponse createRecruit(PostRecruitRequest request) {
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
+
+        recruitValidator.validateRecruitDate(request.getRecruitType(), request.getStartAt(),
+            request.getEndAt());
+
+        Recruit newRecruit = recruitAppender.append(request.toEntity(club));
+        List<RecruitImage> savedImages = recruitImageAppender.appendRecruitImages(
+            request.getImageKey(), newRecruit);
+        return recruitMapper.getRecruitWithImageUrls(newRecruit, savedImages,
+            request.getIsCalendarLinked());
+    }
+
+    @Transactional
+    public DeleteRecruitByIdResponse deleteRecruitsById(Long recruitId) {
+        Admin admin = adminReader.getCurrentAdmin();
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+
+        recruitValidator.validateRecruitClub(recruit, admin);
+
+        recruitAppender.delete(recruit);
+        recruitImageAppender.deleteRecruitImages(recruit.getRecruitImages());
+
+        List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
+        return DeleteRecruitByIdResponse.from(recruit, imageUrls);
+    }
+
+
+    @Transactional(readOnly = true)
+    public GetOneAdminRecruitResponse getOneAdminRecruitsById(Long recruitId) {
         Admin admin = adminReader.getCurrentAdmin();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
         recruitValidator.validateRecruitClub(recruit, admin);
@@ -122,14 +139,16 @@ public class RecruitService {
         Admin admin = adminReader.getCurrentAdmin();
         Recruit recruit = recruitReader.findRecruitById(recruitId);
         recruitValidator.validateRecruitClub(recruit, admin);
+        recruitValidator.validateRecruitDate(requestPage.getRecruitType(), requestPage.getStartAt(),
+            requestPage.getEndAt());
 
         recruit.updateRecruitPage(requestPage.getTitle(), requestPage.getContent(),
-            requestPage.getEverytimeUrl());
+            requestPage.getApplyLink(), requestPage.getStartAt(), requestPage.getEndAt());
 
         // 기존 모집글의 모든 이미지 조회
         List<RecruitImage> recruitImages = recruit.getRecruitImages().stream()
             .filter(recruitImage -> !recruitImage.isDeleted())
-            .collect(Collectors.toList());
+            .toList();
 
         Set<String> existingImageUrls = recruitImages.stream()
             .map(img -> img.getImageUrl().getImageUrl())
@@ -173,7 +192,7 @@ public class RecruitService {
             .map(imageKey -> recruitImageRepository.save(
                 RecruitImage.of(ImageVO.valueOf(imageKey), recruit))
             )
-            .collect(Collectors.toList());
+            .toList();
 
         List<RecruitImage> revisedRecruitImages = recruitImageRepository.queryRecruitImages(
             recruit);
@@ -204,8 +223,22 @@ public class RecruitService {
             }
             recruitImage.updateOrderNum(order.getAndIncrement());
         }
-        return UpdateRecruitResponse.of(recruit, requestPage.getImages());
 
+        Boolean shouldCreateCalendar = Boolean.FALSE;
+        if (recruit.isCalendarLinked()
+            && !requestPage.getIsCalendarLinked()) {  // 연동된 캘린더의 해제
+            recruit.unlinkCalendar();
+        } else if (recruit.isCalendarLinked()
+            && requestPage.getIsCalendarLinked()) { // 연동된 캘린더의 연동 유지
+            recruitLinkedCalendarService.syncCalendarWithRecruit(recruit, requestPage.getTitle(),
+                requestPage.getRecruitType(), requestPage.getStartAt(), requestPage.getEndAt());
+        } else if (!recruit.isCalendarLinked()
+            && requestPage.getIsCalendarLinked()) { // 새로 연동
+            shouldCreateCalendar = Boolean.TRUE;
+        }
+
+        return UpdateRecruitResponse.of(recruit, requestPage.getImages(),
+            requestPage.getIsCalendarLinked(), shouldCreateCalendar);
     }
 
     @Transactional

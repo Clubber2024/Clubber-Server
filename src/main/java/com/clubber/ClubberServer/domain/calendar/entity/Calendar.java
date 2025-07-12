@@ -49,7 +49,9 @@ public class Calendar extends BaseEntity {
     private boolean isDeleted = false;
 
     @Builder
-    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted, Club club) {
+    public Calendar(Long id, String title, RecruitType recruitType, String url,
+                    LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, Club club,
+                    boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -65,12 +67,21 @@ public class Calendar extends BaseEntity {
         isDeleted = true;
     }
 
-    public void update(String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt, String url) {
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt,
+                       LocalDateTime endAt, String url) {
         this.title = title;
         this.recruitType = recruitType;
         this.startAt = startAt;
         this.endAt = endAt;
         this.url = url;
+    }
+
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt,
+                       LocalDateTime endAt) {
+        this.title = title;
+        this.recruitType = recruitType;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 
     public String getStatus() {
