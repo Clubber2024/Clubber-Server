@@ -28,7 +28,7 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
 
     private BooleanExpression betweenCalendarPeriod(RecruitType recruitType, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth) {
         if (recruitType == RecruitType.ALWAYS)
-            return calendar.createdAt.between(startOfMonth, endOfMonth);
-        return calendar.startAt.between(startOfThisMonth, endOfThisMonth);
+            return calendar.createdAt.between(startOfThisMonth, endOfThisMonth);
+        return calendar.startAt.between(startOfMonth, endOfMonth);
     }
 }
