@@ -50,19 +50,19 @@ public class RecruitMapper {
         return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
-    public GetOneRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
+    public GetOneAdminRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
         List<ImageVO> imageUrls = getRecruitImages(recruit);
-        return GetOneRecruitResponse.of(recruit, imageUrls);
+        return GetOneAdminRecruitResponse.of(recruit, imageUrls);
     }
 
     public PostRecruitResponse getRecruitWithImageUrls(Recruit newRecruit,
-        List<RecruitImage> savedImages) {
+        List<RecruitImage> savedImages, Boolean isCalendarLinked) {
         List<ImageVO> imageUrls = savedImages.stream()
             .sorted(Comparator.comparing(RecruitImage::getOrderNum))
             .map(RecruitImage::getImageUrl)
             .collect(Collectors.toList());
 
-        return PostRecruitResponse.of(newRecruit, imageUrls);
+        return PostRecruitResponse.of(newRecruit, imageUrls, isCalendarLinked);
     }
 
     private List<ImageVO> getRecruitImages(Recruit recruit) {

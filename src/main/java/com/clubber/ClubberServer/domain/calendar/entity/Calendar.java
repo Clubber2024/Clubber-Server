@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.entity;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.persistence.*;
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Calendar {
+public class Calendar extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,14 +43,17 @@ public class Calendar {
     @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
     private boolean isDeleted = false;
 
     @Builder
-    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
+    public Calendar(Long id, String title, RecruitType recruitType, String url,
+        LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, Club club,
+        boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -56,6 +61,7 @@ public class Calendar {
         this.startAt = startAt;
         this.endAt = endAt;
         this.writerRole = writerRole;
+        this.club = club;
         this.isDeleted = isDeleted;
     }
 
@@ -63,12 +69,21 @@ public class Calendar {
         isDeleted = true;
     }
 
-    public void update(String title, RecruitType recruitType, LocalDateTime startAt, LocalDateTime endAt, String url) {
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt,
+        LocalDateTime endAt, String url) {
         this.title = title;
         this.recruitType = recruitType;
         this.startAt = startAt;
         this.endAt = endAt;
         this.url = url;
+    }
+
+    public void update(String title, RecruitType recruitType, LocalDateTime startAt,
+        LocalDateTime endAt) {
+        this.title = title;
+        this.recruitType = recruitType;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 
     public String getStatus() {

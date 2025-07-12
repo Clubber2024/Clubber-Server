@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.recruit.dto.recruitCalendar;
+package com.clubber.ClubberServer.domain.recruit.dto;
 
 public record CreateLinkedCalendarRequest(
         Long recruitId,
