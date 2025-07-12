@@ -54,10 +54,11 @@ public class CalendarAdminService {
     }
 
     public GetCalendarDuplicateResponse checkDuplicateCalendar(GetCalendarDuplicateRequest request) {
+        Club club = adminReader.getCurrentAdmin().getClub();
         YearMonth recruitYearMonth = YearMonth.from(request.startAt());
         RecruitType recruitType = request.recruitType();
 
-        boolean isExist = calendarReader.isExistInSameMonth(recruitType, recruitYearMonth);
+        boolean isExist = calendarReader.isExistInSameMonth(recruitType, recruitYearMonth, club);
         return new GetCalendarDuplicateResponse(isExist, recruitType, recruitYearMonth.getYear(), recruitYearMonth.getMonthValue());
     }
 }

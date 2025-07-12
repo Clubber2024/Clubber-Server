@@ -29,7 +29,7 @@ public class CalendarReader {
         return calendarRepository.findCalendarByClubAndIsDeleted(club, false, pageable);
     }
 
-    public boolean isExistInSameMonth(RecruitType recruitType, YearMonth recruitYearMonth) {
+    public boolean isExistInSameMonth(RecruitType recruitType, YearMonth recruitYearMonth, Club club) {
         LocalDateTime startOfRecruitMonth = recruitYearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfRecruitMonth = recruitYearMonth.atEndOfMonth().atTime(23, 59, 59);
 
@@ -37,6 +37,6 @@ public class CalendarReader {
         LocalDateTime startOfThisMonth = nowYearMonth.atDay(1).atStartOfDay();
         LocalDateTime endOfThisMonth = nowYearMonth.atEndOfMonth().atTime(23, 59, 59);
 
-        return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(recruitType, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
+        return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(recruitType, club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
     }
 }

@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.repository;
 
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,11 +15,12 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public boolean isExistByRecruitTypeAndBetweenPeriod(RecruitType recruitType, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth) {
+    public boolean isExistByRecruitTypeAndBetweenPeriod(RecruitType recruitType, Club club, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth) {
         return queryFactory.selectFrom(calendar)
                 .where(
                         calendar.isDeleted.eq(false),
                         calendar.recruitType.eq(recruitType),
+                        calendar.club.eq(club),
                         betweenCalendarPeriod(recruitType, startOfMonth, endOfMonth, startOfThisMonth, endOfThisMonth)
                 )
                 .fetchFirst() != null;
