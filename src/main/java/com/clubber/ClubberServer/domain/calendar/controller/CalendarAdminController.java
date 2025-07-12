@@ -48,6 +48,7 @@ public class CalendarAdminController {
     }
 
     @PostMapping("/duplicate")
+    @Operation(summary = "캘린더 중복 여부 확인 API")
     public GetCalendarDuplicateResponse getCalendarDuplicate(@RequestBody GetCalendarDuplicateRequest request) {
         return calendarService.checkDuplicateCalendar(request);
     }
