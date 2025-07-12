@@ -42,14 +42,14 @@ public class Calendar extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountRole writerRole;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
     private boolean isDeleted = false;
 
     @Builder
-    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted) {
+    public Calendar(Long id, String title, RecruitType recruitType, String url, LocalDateTime startAt, LocalDateTime endAt, AccountRole writerRole, boolean isDeleted, Club club) {
         this.id = id;
         this.title = title;
         this.recruitType = recruitType;
@@ -58,6 +58,7 @@ public class Calendar extends BaseEntity {
         this.endAt = endAt;
         this.writerRole = writerRole;
         this.isDeleted = isDeleted;
+        this.club = club;
     }
 
     public void delete() {
