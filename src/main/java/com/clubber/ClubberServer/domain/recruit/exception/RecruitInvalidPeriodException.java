@@ -7,7 +7,7 @@ public class RecruitInvalidPeriodException extends BaseException {
     public static final BaseException EXCEPTION = new RecruitInvalidPeriodException();
 
     private RecruitInvalidPeriodException() {
-        super(RecruitErrorCode.RECRUIT_CALENDAR_MONTH_INVALID);
+        super(RecruitErrorCode.RECRUIT_DATE_OUT_OF_ORDER);
     }
 
 }
