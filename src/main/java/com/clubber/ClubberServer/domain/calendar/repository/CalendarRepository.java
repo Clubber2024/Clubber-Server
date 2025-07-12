@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CalendarRepository extends JpaRepository<Calendar, Long> {
+public interface CalendarRepository extends JpaRepository<Calendar, Long>, CalendarCustomRepository {
     Optional<Calendar> findCalendarByIdAndIsDeleted(Long id, boolean deleted);
 
     Page<Calendar> findCalendarByClubAndIsDeleted(Club club, Boolean isDeleted, Pageable pageable);
