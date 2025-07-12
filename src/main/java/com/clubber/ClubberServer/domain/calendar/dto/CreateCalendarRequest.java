@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.dto;
 
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
@@ -27,7 +28,7 @@ public record CreateCalendarRequest(
         LocalDateTime endAt,
         String url
 ) {
-    public Calendar toEntity() {
+    public Calendar toEntity(Club club) {
         return Calendar.builder()
                 .title(title)
                 .recruitType(recruitType)
@@ -35,6 +36,7 @@ public record CreateCalendarRequest(
                 .endAt(endAt)
                 .url(url)
                 .writerRole(AccountRole.ADMIN)
+                .club(club)
                 .build();
     }
 

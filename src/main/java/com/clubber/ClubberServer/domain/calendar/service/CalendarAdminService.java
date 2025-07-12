@@ -26,7 +26,8 @@ public class CalendarAdminService {
     private final AdminReader adminReader;
 
     public CreateCalendarResponse createCalendar(CreateCalendarRequest request) {
-        Calendar calendar = request.toEntity();
+        Club club = adminReader.getCurrentAdmin().getClub();
+        Calendar calendar = request.toEntity(club);
         Calendar savedCalendar = calendarAppender.append(calendar);
         return CreateCalendarResponse.from(savedCalendar);
     }
