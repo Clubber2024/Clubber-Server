@@ -44,9 +44,9 @@ public class RecruitLinkedCalendarService {
 
 
     @Transactional
-    public void syncCalendarWithRecruit(Long recruitId, String title, RecruitType recruitType,
+    public void syncCalendarWithRecruit(Recruit recruit, String title, RecruitType recruitType,
         LocalDateTime startAt, LocalDateTime endAt) {
-        Calendar calendar = calendarReader.readById(recruitId);
+        Calendar calendar = calendarReader.readById(recruit.getCalendar().getId());
         calendarAppender.update(calendar, title, recruitType, startAt, endAt);
     }
 

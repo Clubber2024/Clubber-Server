@@ -226,19 +226,19 @@ public class RecruitService {
 
         Boolean shouldCreateCalendar = Boolean.FALSE;
         if (recruit.isCalendarLinked()
-            && !requestPage.getShouldLinkCalendar()) {  // 연동된 캘린더의 해제
+            && !requestPage.getIsCalendarLinked()) {  // 연동된 캘린더의 해제
             recruit.unlinkCalendar();
         } else if (recruit.isCalendarLinked()
-            && requestPage.getShouldLinkCalendar()) { // 연동된 캘린더의 연동 유지
-            recruitLinkedCalendarService.syncCalendarWithRecruit(recruitId, requestPage.getTitle(),
+            && requestPage.getIsCalendarLinked()) { // 연동된 캘린더의 연동 유지
+            recruitLinkedCalendarService.syncCalendarWithRecruit(recruit, requestPage.getTitle(),
                 requestPage.getRecruitType(), requestPage.getStartAt(), requestPage.getEndAt());
         } else if (!recruit.isCalendarLinked()
-            && requestPage.getShouldLinkCalendar()) { // 새로 연동
+            && requestPage.getIsCalendarLinked()) { // 새로 연동
             shouldCreateCalendar = Boolean.TRUE;
         }
 
         return UpdateRecruitResponse.of(recruit, requestPage.getImages(),
-            requestPage.getShouldLinkCalendar(), shouldCreateCalendar);
+            requestPage.getIsCalendarLinked(), shouldCreateCalendar);
     }
 
     @Transactional

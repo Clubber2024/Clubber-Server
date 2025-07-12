@@ -40,8 +40,8 @@ public class UpdateRecruitRequest {
     @Schema(description = "지원링크", example = "https://docs.google.com/forms")
     private String applyLink;
 
-    @Schema(description = "캘린더 연동 요청 여부", example = "true")
-    private Boolean shouldLinkCalendar;
+    @Schema(description = "캘린더 연동 여부", example = "true")
+    private Boolean isCalendarLinked;
 
     @Schema(description = "삭제할 imageurls", example = "[\"https://image.ssuclubber.com/recruit/image1\",\"https://image.ssuclubber.com/recruit/image3\"]")
     private List<String> deletedImageUrls;
