@@ -58,5 +58,11 @@ public class RecruitLinkedCalendarService {
         recruit.unlinkCalendar();
     }
 
+    @Transactional
+    public void deleteLinkedCalendar(Long calendarId){
+        Calendar calendar = calendarReader.readById(calendarId);
+        calendarAppender.delete(calendar);
+    }
+
 
 }
