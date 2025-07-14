@@ -109,7 +109,7 @@ public class Recruit extends BaseEntity {
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, String title,
-        RecruitType recruitType, String content, String applyLink, Long totalView, Club club,
+        RecruitType recruitType, String content, String applyLink, Club club,
         List<RecruitImage> recruitImages) {
         this.id = id;
         this.startAt = startAt;
@@ -118,7 +118,6 @@ public class Recruit extends BaseEntity {
         this.recruitType = recruitType;
         this.content = content;
         this.applyLink = applyLink;
-        this.totalView = totalView;
         this.club = club;
         this.recruitImages = recruitImages;
     }
