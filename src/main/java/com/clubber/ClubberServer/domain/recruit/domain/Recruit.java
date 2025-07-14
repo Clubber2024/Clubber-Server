@@ -3,25 +3,8 @@ package com.clubber.ClubberServer.domain.recruit.domain;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,11 +12,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = {
-    @Index(name = "idx_recruit_club_id_is_deleted", columnList = "club_id, is_deleted")})
+        @Index(name = "idx_recruit_club_id_is_deleted", columnList = "club_id, is_deleted")})
 public class Recruit extends BaseEntity {
 
     @Id
@@ -86,7 +73,7 @@ public class Recruit extends BaseEntity {
     }
 
     public void updateRecruitPage(String title, String content, String applyLink,
-        LocalDateTime startAt, LocalDateTime endAt) {
+                                  LocalDateTime startAt, LocalDateTime endAt) {
         this.title = title;
         this.content = content;
         this.applyLink = applyLink;
@@ -109,8 +96,8 @@ public class Recruit extends BaseEntity {
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, String title,
-        RecruitType recruitType, String content, String applyLink, Club club,
-        List<RecruitImage> recruitImages) {
+                    RecruitType recruitType, String content, String applyLink, Club club,
+                    List<RecruitImage> recruitImages) {
         this.id = id;
         this.startAt = startAt;
         this.endAt = endAt;
