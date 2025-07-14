@@ -48,7 +48,8 @@ public class Recruit extends BaseEntity {
 
     private String applyLink;
 
-    private Long totalView;
+    @NotNull
+    private Long totalView = 0L;
 
     private boolean isDeleted = false;
 
@@ -107,6 +108,5 @@ public class Recruit extends BaseEntity {
         this.applyLink = applyLink;
         this.club = club;
         this.recruitImages = recruitImages;
-        this.totalView = 0L;
     }
 }
