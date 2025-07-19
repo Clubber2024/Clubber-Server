@@ -38,7 +38,4 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long>, Calen
     );
 
     Optional<Calendar> findCalendarByIdAndIsDeleted(Long id, boolean deleted);
-
-    Page<Calendar> findCalendarByClubAndIsDeleted(Club club, Boolean isDeleted, Pageable pageable);
-
 }
