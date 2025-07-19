@@ -28,18 +28,18 @@ public class CalendarReader {
 
     public Calendar readById(Long id) {
         return calendarRepository.findCalendarByIdAndIsDeleted(id, false)
-            .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
+                .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
     }
 
     public List<Calendar> findCalendarsByDateRangeAndTypes(LocalDateTime startOfMonth,
-        LocalDateTime endOfMonth,
-        List<RecruitType> recruitTypes) {
+                                                           LocalDateTime endOfMonth,
+                                                           List<RecruitType> recruitTypes) {
         return calendarRepository.findCalendarsWithinDateRange(startOfMonth, endOfMonth,
-            recruitTypes);
+                recruitTypes);
     }
 
     public List<GetAlwaysCalendarResponse> findCalendarsByEndDateAndType(LocalDateTime endOfMonth,
-        RecruitType recruitType) {
+                                                                         RecruitType recruitType) {
         return calendarRepository.findAlwaysRecruitCreatedBefore(endOfMonth, recruitType);
     }
 

@@ -50,7 +50,7 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
         return calendar.endAt.desc();
     }
 
-    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarFilterType calendarFilterType, Pageable pageable){
+    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
         List<Calendar> calendars = queryFactory.selectFrom(calendar)
                 .where(
                         calendar.isDeleted.eq(false),
