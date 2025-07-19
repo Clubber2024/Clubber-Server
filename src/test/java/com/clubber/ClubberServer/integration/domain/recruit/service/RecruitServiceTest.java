@@ -241,8 +241,8 @@ public class RecruitServiceTest extends ServiceTest {
                         UPDATE_NO_IMAGE_RECRUIT_REQUEST.getTitle()),
                     () -> assertThat(updatedRecruit.get().getContent()).isEqualTo(
                         UPDATE_NO_IMAGE_RECRUIT_REQUEST.getContent()),
-                    () -> assertThat(updatedRecruit.get().getEverytimeUrl()).isEqualTo(
-                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getEverytimeUrl()));
+                    () -> assertThat(updatedRecruit.get().getApplyLink()).isEqualTo(
+                        UPDATE_NO_IMAGE_RECRUIT_REQUEST.getApplyLink()));
             }
         }
     }
