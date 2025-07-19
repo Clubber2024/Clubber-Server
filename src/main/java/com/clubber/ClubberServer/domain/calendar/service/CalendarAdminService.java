@@ -34,11 +34,10 @@ public class CalendarAdminService {
         return CreateCalendarResponse.from(savedCalendar);
     }
 
-    public PageResponse<Calendar> getCalenderPages(Pageable pageable) {
+    public PageResponse<GetCalendarResponse> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        Page<Calendar> calendars = calendarReader.readClubCalendarPage(club, pageable);
-        return PageResponse.of(calendars);
+        return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
     }
 
     public GetCalendarResponse getCalendar(Long id) {

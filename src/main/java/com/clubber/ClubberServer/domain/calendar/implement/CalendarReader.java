@@ -1,11 +1,14 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
+import com.clubber.ClubberServer.domain.calendar.dto.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarNotFoundException;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +43,10 @@ public class CalendarReader {
         return calendarRepository.findAlwaysRecruitCreatedBefore(endOfMonth, recruitType);
     }
 
-    public Page<Calendar> readClubCalendarPage(Club club, Pageable pageable) {
-        return calendarRepository.findCalendarByClubAndIsDeleted(club, false, pageable);
+    public PageResponse<GetCalendarResponse> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
+        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarFilterType, pageable);
+        Page<GetCalendarResponse> pageDtos = calendarPages.map(GetCalendarResponse::from);
+        return PageResponse.of(pageDtos);
     }
 
     public boolean isExistInSameMonth(RecruitType recruitType, YearMonth recruitYearMonth, Club club) {
