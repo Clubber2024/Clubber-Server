@@ -33,8 +33,10 @@ public class Calendar extends BaseEntity {
 
     private String url;
 
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime startAt;
 
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime endAt;
 
     @NotNull

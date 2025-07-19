@@ -8,15 +8,16 @@ import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-import lombok.Builder;
-
 @Builder
 public record CreateCalendarRequest(
+        @Schema(description = "캘린더 제목")
         @NotBlank(message = "제목을 입력해주세요")
         String title,
+        @Schema(description = "모집 종류")
         @NotBlank(message = "모집 종류를 입력해주세요")
         RecruitType recruitType,
         @Schema(description = "기간 시작일", example = "2025-08-30 00:00", type = "string")
