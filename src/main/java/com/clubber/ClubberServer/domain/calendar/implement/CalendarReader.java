@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
-import com.clubber.ClubberServer.domain.calendar.dto.CalendarFilterType;
+import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;

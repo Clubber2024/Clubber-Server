@@ -1,6 +1,5 @@
 package com.clubber.ClubberServer.domain.calendar.repository;
 
-import com.clubber.ClubberServer.domain.calendar.dto.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;

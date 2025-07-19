@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
 import com.clubber.ClubberServer.domain.calendar.dto.*;
+import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;

@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
+import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
