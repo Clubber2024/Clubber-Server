@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
@@ -49,14 +50,26 @@ public class CalendarReader {
         return PageResponse.of(pageDtos);
     }
 
-    public boolean isExistInSameMonth(RecruitType recruitType, YearMonth recruitYearMonth, Club club) {
-        LocalDateTime startOfRecruitMonth = recruitYearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endOfRecruitMonth = recruitYearMonth.atEndOfMonth().atTime(23, 59, 59);
-
+    public boolean isExistInSameMonth(GetCalendarDuplicateRequest request, Club club) {
         YearMonth nowYearMonth = YearMonth.from(LocalDateTime.now());
-        LocalDateTime startOfThisMonth = nowYearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endOfThisMonth = nowYearMonth.atEndOfMonth().atTime(23, 59, 59);
+        LocalDateTime startOfThisMonth = getStartOfMonth(nowYearMonth);
+        LocalDateTime endOfThisMonth = getEndOfMonth(nowYearMonth);
 
-        return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(recruitType, club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
+        if (request.recruitType() == RecruitType.ALWAYS) {
+            return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(RecruitType.ALWAYS, club, null, null, startOfThisMonth, endOfThisMonth);
+        }
+
+        YearMonth recruitYearMonth = YearMonth.from(request.startAt());
+        LocalDateTime startOfRecruitMonth = getStartOfMonth(recruitYearMonth);
+        LocalDateTime endOfRecruitMonth = getEndOfMonth(recruitYearMonth);
+        return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(request.recruitType(), club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
+    }
+
+    private static LocalDateTime getEndOfMonth(YearMonth nowYearMonth) {
+        return nowYearMonth.atEndOfMonth().atTime(23, 59, 59);
+    }
+
+    private static LocalDateTime getStartOfMonth(YearMonth nowYearMonth) {
+        return nowYearMonth.atDay(1).atStartOfDay();
     }
 }

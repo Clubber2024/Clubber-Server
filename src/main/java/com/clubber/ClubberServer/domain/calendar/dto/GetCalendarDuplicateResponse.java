@@ -7,10 +7,6 @@ public record GetCalendarDuplicateResponse(
         @Schema(description = "존재여부")
         boolean isExist,
         @Schema(description = "모집 종류")
-        RecruitType recruitType,
-        @Schema(description = "년도")
-        int year,
-        @Schema(description = "달")
-        int month
+        RecruitType recruitType
 ) {
 }
