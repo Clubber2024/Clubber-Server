@@ -12,11 +12,11 @@ import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.dto.CreateLinkedCalendarRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.CreateLinkedCalenderResponse;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class RecruitLinkedCalendarService {
 
         Recruit recruit = recruitReader.findRecruitById(request.recruitId());
         CreateCalendarRequest calendarRequest = CreateCalendarRequest.from(recruit,
-            request.recruitUrl());
+                request.recruitUrl());
         Calendar savedCalendar = calendarAppender.append(calendarRequest.toEntity(club));
         recruit.linkCalendar(savedCalendar);
         return new CreateLinkedCalenderResponse(request.recruitId(), savedCalendar.getId());
@@ -45,7 +45,7 @@ public class RecruitLinkedCalendarService {
 
     @Transactional
     public void syncCalendarWithRecruit(Recruit recruit, String title, RecruitType recruitType,
-        LocalDateTime startAt, LocalDateTime endAt) {
+                                        LocalDateTime startAt, LocalDateTime endAt) {
         Calendar calendar = calendarReader.readById(recruit.getCalendar().getId());
         calendarAppender.update(calendar, title, recruitType, startAt, endAt);
     }
@@ -59,10 +59,8 @@ public class RecruitLinkedCalendarService {
     }
 
     @Transactional
-    public void deleteLinkedCalendar(Long calendarId){
+    public void deleteLinkedCalendar(Long calendarId) {
         Calendar calendar = calendarReader.readById(calendarId);
         calendarAppender.delete(calendar);
     }
-
-
 }
