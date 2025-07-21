@@ -58,7 +58,7 @@ public class Recruit extends BaseEntity {
     @NotNull
     private Club club;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendar_id")
     private Calendar calendar;
 
