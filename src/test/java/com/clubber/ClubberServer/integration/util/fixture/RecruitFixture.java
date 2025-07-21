@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
@@ -17,6 +18,10 @@ public class RecruitFixture {
 
     private static final LocalDateTime endAt2 = LocalDateTime.parse("2025-07-01 23:59",
            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+    public static final String TITLE = "title";
+    public static final String CONTENT = "content";
+    public static final String APPLY_LINK = "applylink";
 
     // 모집글 작성 테스트 데이터
     public static final PostRecruitRequest VALID_RECRUIT_POST_REQUEST = new PostRecruitRequest(
@@ -114,5 +119,13 @@ public class RecruitFixture {
          List.of("newImage1", "newImage2"), List.of("https://image.ssuclubber.com/image1"),
          List.of("newImage2", "https://image.ssuclubber.com/image1", "newImage1"));
 
-
+    public static Recruit.RecruitBuilder aRecruit() {
+        return Recruit.builder()
+                .recruitType(RecruitType.REGULAR)
+                .title(TITLE)
+                .content(CONTENT)
+                .startAt(startAt)
+                .endAt(endAt1)
+                .applyLink(APPLY_LINK);
+    }
 }
