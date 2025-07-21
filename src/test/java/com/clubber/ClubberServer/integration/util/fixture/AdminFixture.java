@@ -40,7 +40,6 @@ public class AdminFixture {
 
     public static Admin.AdminBuilder aAdmin() {
         return Admin.builder()
-                .id(1L)
                 .username(USERNAME)
                 .email(EMAIL)
                 .password(OLD_PASSWORD)

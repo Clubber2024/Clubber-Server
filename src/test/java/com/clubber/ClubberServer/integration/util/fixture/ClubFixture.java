@@ -27,7 +27,6 @@ public class ClubFixture {
 
     public static Club.ClubBuilder aClub() {
         return Club.builder()
-                .id(CLUB_ID)
                 .name(CLUB_NAME)
                 .clubType(ClubType.CENTER)
                 .introduction(CLUB_INTRODUCTION)
