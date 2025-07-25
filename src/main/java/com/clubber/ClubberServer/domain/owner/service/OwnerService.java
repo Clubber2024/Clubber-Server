@@ -40,7 +40,7 @@ public class OwnerService {
             Admin admin = adminRepository.findByClubAndAccountState(club, ACTIVE)
                     .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-            admin.updateUsername(admin.getUsername());
+            admin.updateUsername(pendingAdminInfo.getUsername());
             admin.updatePassword(pendingAdminInfo.getPassword());
             admin.updateContact(pendingAdminInfo.getContact());
             admin.updateEmail(pendingAdminInfo.getEmail());
