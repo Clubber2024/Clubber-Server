@@ -23,7 +23,7 @@ public class AdminAppender {
         admin.updatePassword(encodedPassword);
     }
 
-    public void updateEmail(Admin admin, String email){
+    public void updateEmail(Admin admin, String email) {
         admin.updateEmail(email);
     }
 
@@ -35,6 +35,13 @@ public class AdminAppender {
         String encodedPassword = encoder.encode(request.getPassword());
         PendingAdminInfo pendingAdminInfo = request.toEntity(encodedPassword);
         return pendingAdminInfoRepository.save(pendingAdminInfo);
+    }
+
+    public void updateBySignUpApproved(Admin admin, String username, String password, Contact contact, String email) {
+        admin.updateUsername(username);
+        admin.updatePassword(password);
+        admin.updateContact(contact);
+        admin.updateEmail(email);
     }
 
     public Long withDraw(Admin admin) {

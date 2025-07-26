@@ -18,8 +18,10 @@ public class PendingAdminInfoAppender {
     private final PendingAdminMapper pendingAdminMapper;
     private final ClubRepository clubRepository;
     private final AdminRepository adminRepository;
+    private final AdminReader adminReader;
+    private final AdminAppender adminAppender;
 
-    public Club registerClub(PendingAdminInfo pendingAdminInfo, String clubName) {
+    private Club registerClub(PendingAdminInfo pendingAdminInfo, String clubName) {
         if (pendingAdminInfo.getClubType() == ClubType.CENTER) {
             throw new RuntimeException("동아리 이름 확인 필요 : 중앙 동아리는 이미 존재해야 합니다.");
         }
@@ -33,10 +35,23 @@ public class PendingAdminInfoAppender {
         adminRepository.save(admin);
     }
 
-    public void updateAdminByApprove(Admin admin, PendingAdminInfo pendingAdminInfo) {
-        admin.updateUsername(pendingAdminInfo.getUsername());
-        admin.updatePassword(pendingAdminInfo.getPassword());
-        admin.updateContact(pendingAdminInfo.getContact());
-        admin.updateEmail(pendingAdminInfo.getEmail());
+    public void upsertByApprove(PendingAdminInfo pendingAdminInfo, String clubName) {
+        clubRepository.findClubByNameAndIsDeleted(clubName, false)
+                .ifPresentOrElse(
+                        club -> {
+                            Admin admin = adminReader.getAdminByClub(club);
+                            adminAppender.updateBySignUpApproved(
+                                    admin,
+                                    pendingAdminInfo.getUsername(),
+                                    pendingAdminInfo.getPassword(),
+                                    pendingAdminInfo.getContact(),
+                                    pendingAdminInfo.getEmail()
+                            );
+                        },
+                        () -> {
+                            Club savedClub = registerClub(pendingAdminInfo, clubName);
+                            registerAdmin(pendingAdminInfo, savedClub);
+                        }
+                );
     }
 }

@@ -5,6 +5,7 @@ import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoAppender;
+import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoReader;
 import com.clubber.ClubberServer.domain.admin.mapper.PendingAdminMapper;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
@@ -22,26 +23,13 @@ public class OwnerService {
     private final ClubRepository clubRepository;
     private final AdminReader adminReader;
     private final PendingAdminInfoAppender pendingAdminInfoAppender;
+    private final PendingAdminInfoReader pendingAdminInfoReader;
 
     public void approveClubAdmin(Long id) {
-        PendingAdminInfo pendingAdminInfo = pendingAdminInfoRepository.findById(id)
-                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        PendingAdminInfo pendingAdminInfo = pendingAdminInfoReader.getById(id);
 
         String clubName = pendingAdminInfo.getClubName();
-        if (pendingAdminInfoRepository.existsPendingAdminInfoByClubNameAndIsApproved(clubName, true)) {
-            throw new RuntimeException("승인 내역 확인 : 이미 승인된 동아리입니다");
-        }
-
-        clubRepository.findClubByNameAndIsDeleted(clubName, false)
-                .ifPresentOrElse(
-                        club -> {
-                            Admin admin = adminReader.getAdminByClub(club);
-                            pendingAdminInfoAppender.updateAdminByApprove(admin, pendingAdminInfo);
-                        },
-                        () -> {
-                            Club savedClub = pendingAdminInfoAppender.registerClub(pendingAdminInfo, clubName);
-                            pendingAdminInfoAppender.registerAdmin(pendingAdminInfo, savedClub);
-                        }
-                );
+        pendingAdminInfoReader.checkAlreadyApproved(clubName);
+        pendingAdminInfoAppender.upsertByApprove(pendingAdminInfo, clubName);
     }
 }
