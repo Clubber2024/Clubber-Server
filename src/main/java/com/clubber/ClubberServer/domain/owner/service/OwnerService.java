@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.owner.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoAppender;
+import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoManager;
 import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class OwnerService {
-    private final PendingAdminInfoAppender pendingAdminInfoAppender;
+    private final PendingAdminInfoManager pendingAdminInfoManager;
     private final PendingAdminInfoReader pendingAdminInfoReader;
 
     public void approveClubAdmin(Long id) {
@@ -19,6 +19,6 @@ public class OwnerService {
 
         String clubName = pendingAdminInfo.getClubName();
         pendingAdminInfoReader.checkAlreadyApproved(clubName);
-        pendingAdminInfoAppender.upsertByApprove(pendingAdminInfo, clubName);
+        pendingAdminInfoManager.upsertByApprove(pendingAdminInfo, clubName);
     }
 }

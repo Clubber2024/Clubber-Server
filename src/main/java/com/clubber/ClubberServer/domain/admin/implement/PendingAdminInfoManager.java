@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional
-public class PendingAdminInfoAppender {
+public class PendingAdminInfoManager {
     private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final PendingAdminMapper pendingAdminMapper;
     private final ClubRepository clubRepository;

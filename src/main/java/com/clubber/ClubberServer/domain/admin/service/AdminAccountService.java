@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.admin.dto.*;
 import com.clubber.ClubberServer.domain.admin.implement.AdminAppender;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
-import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoAppender;
+import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoManager;
 import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
 import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
@@ -25,7 +25,7 @@ public class AdminAccountService {
     private final AdminEmailAuthService adminEmailAuthService;
     private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
     private final SoftDeleteEventPublisher eventPublisher;
-    private final PendingAdminInfoAppender pendingAdminInfoAppender;
+    private final PendingAdminInfoManager pendingAdminInfoManager;
 
     @Transactional(readOnly = true)
     public GetAdminsProfileResponse getAdminsProfile() {
@@ -74,7 +74,7 @@ public class AdminAccountService {
         adminEmailAuthService.checkAdminSignupAuthVerified(clubName, createAdminSignUpRequest.getAuthCode());
         adminEmailAuthService.deleteAdminSingupAuthById(clubName);
 
-        PendingAdminInfo pendingAdminInfo = pendingAdminInfoAppender.appendPendingAdminInfo(createAdminSignUpRequest);
+        PendingAdminInfo pendingAdminInfo = pendingAdminInfoManager.appendPendingAdminInfo(createAdminSignUpRequest);
 
         signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
         return CreateAdminSignUpResponse.from(pendingAdminInfo);
