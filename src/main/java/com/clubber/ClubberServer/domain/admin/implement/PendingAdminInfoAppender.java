@@ -2,12 +2,15 @@ package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.ClubberServer.domain.admin.mapper.PendingAdminMapper;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class PendingAdminInfoAppender {
+    private final PendingAdminInfoRepository pendingAdminInfoRepository;
     private final PendingAdminMapper pendingAdminMapper;
     private final ClubRepository clubRepository;
     private final AdminRepository adminRepository;
     private final AdminReader adminReader;
     private final AdminAppender adminAppender;
+    private final PasswordEncoder encoder;
 
     private Club registerClub(PendingAdminInfo pendingAdminInfo, String clubName) {
         if (pendingAdminInfo.getClubType() == ClubType.CENTER) {
@@ -53,5 +58,11 @@ public class PendingAdminInfoAppender {
                             registerAdmin(pendingAdminInfo, savedClub);
                         }
                 );
+    }
+
+    public PendingAdminInfo appendPendingAdminInfo(CreateAdminSignUpRequest request) {
+        String encodedPassword = encoder.encode(request.getPassword());
+        PendingAdminInfo pendingAdminInfo = request.toEntity(encodedPassword);
+        return pendingAdminInfoRepository.save(pendingAdminInfo);
     }
 }
