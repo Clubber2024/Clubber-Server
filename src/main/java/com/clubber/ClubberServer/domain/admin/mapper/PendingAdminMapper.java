@@ -24,6 +24,8 @@ public class PendingAdminMapper {
                 .clubType(pendingAdminInfo.getClubType())
                 .college(pendingAdminInfo.getCollege())
                 .department(pendingAdminInfo.getDepartment())
+                .division(pendingAdminInfo.getDivision())
+                .hashtag(pendingAdminInfo.getHashtag())
                 .build();
     }
 }
