@@ -7,15 +7,14 @@ import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Admin extends BaseEntity {
 
@@ -34,10 +33,12 @@ public class Admin extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Builder.Default
     private AccountState accountState = AccountState.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Builder.Default
     private AccountRole accountRole = AccountRole.ADMIN;
 
     @Embedded
@@ -47,18 +48,18 @@ public class Admin extends BaseEntity {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    @Builder
-    public Admin(Long id, String username, String password, String email, AccountState accountState,
-        AccountRole accountRole, Contact contact, Club club) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.accountState = accountState;
-        this.accountRole = accountRole;
-        this.contact = contact;
-        this.club = club;
-    }
+//    @Builder
+//    public Admin(Long id, String username, String password, String email, AccountState accountState,
+//        AccountRole accountRole, Contact contact, Club club) {
+//        this.id = id;
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.accountState = accountState;
+//        this.accountRole = accountRole;
+//        this.contact = contact;
+//        this.club = club;
+//    }
 
     public void updateUsername(String username) {
         this.username = username;
