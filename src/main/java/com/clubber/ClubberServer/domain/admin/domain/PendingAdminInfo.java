@@ -1,19 +1,16 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+@Builder
 @Getter
+@AllArgsConstructor
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PendingAdminInfo extends BaseEntity {
@@ -31,11 +28,31 @@ public class PendingAdminInfo extends BaseEntity {
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Enumerated(EnumType.STRING)
-    private ClubType clubType;
+    @Builder.Default
+    private ClubType clubType = ClubType.ETC;
 
+    @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
     private College college = College.ETC;
 
+    @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
     private Department department = Department.ETC;
+
+    @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Division division = Division.ETC;
+
+    @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Hashtag hashtag = Hashtag.ETC;
 
     @NotNull
     private String clubName;
@@ -50,17 +67,18 @@ public class PendingAdminInfo extends BaseEntity {
 
     private boolean isApproved = false;
 
-    @Builder
-    public PendingAdminInfo(Long id, String username, String password, String clubName, ClubType clubType, College college, Department department, String email, Contact contact, String imageForApproval) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.clubType = clubType;
-        this.clubName = clubName;
-        this.department = department;
-        this.college = college;
-        this.email = email;
-        this.contact = contact;
-        this.imageForApproval = imageForApproval;
-    }
+//    @Builder
+//    public PendingAdminInfo(String username, String password, String clubName, ClubType clubType, College college, Department department, String email, Contact contact, String imageForApproval) {
+//        this.username = username;
+//        this.password = password;
+//        this.clubType = clubType;
+//        this.clubName = clubName;
+//        this.department = department;
+//        this.division = division;
+//        this.hashtag = hashtag;
+//        this.college = college;
+//        this.email = email;
+//        this.contact = contact;
+//        this.imageForApproval = imageForApproval;
+//    }
 }

@@ -7,6 +7,7 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedExceptio
 import com.clubber.ClubberServer.domain.admin.exception.AdminNotFoundException;
 import com.clubber.ClubberServer.domain.admin.exception.AdminUsernameNotFoundException;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,10 @@ public class AdminReader {
 				.orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 	}
 
+    public Admin getAdminByClub(Club club) {
+        return adminRepository.findByClubAndAccountState(club, ACTIVE)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+    }
 	public boolean existsByEmailAndClubId(String email, Long clubId) {
 		return adminRepository.existsByEmailAndClubIdAndAccountState(email, clubId, ACTIVE);
 	}

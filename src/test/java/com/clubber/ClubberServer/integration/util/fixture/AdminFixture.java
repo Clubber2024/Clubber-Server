@@ -3,7 +3,11 @@ package com.clubber.ClubberServer.integration.util.fixture;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
+import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.ClubberServer.domain.club.domain.Department;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
@@ -55,6 +59,20 @@ public class AdminFixture {
                 .clubName(NAME)
                 .authCode(AUTH_CODE)
                 .email(EMAIL);
+    }
+
+    public static PendingAdminInfo.PendingAdminInfoBuilder aPendingAdminInfo() {
+        return PendingAdminInfo.builder()
+                .username(USERNAME)
+                .password(OLD_PASSWORD)
+                .clubType(ClubType.SMALL)
+                .college(College.IT_COLLEGE)
+                .department(Department.COMPUTER_SCIENCE)
+                .clubName(ClubFixture.CLUB_NAME)
+                .email(EMAIL)
+                .contact(
+                        new Contact(INSTAGRAM, null)
+                );
     }
 
     public static ArbitraryBuilder<CreateAdminsLoginRequest> a_관리자_로그인_요청() {
