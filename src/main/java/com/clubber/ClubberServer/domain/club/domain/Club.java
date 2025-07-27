@@ -7,16 +7,15 @@ import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+@Builder
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Club extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +28,8 @@ public class Club extends BaseEntity {
 	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
-	private ClubType clubType;
+	@Builder.Default
+	private ClubType clubType = ClubType.ETC;
 
 	@Column(length = 1000)
 	private String introduction;
@@ -37,21 +37,25 @@ public class Club extends BaseEntity {
 	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private Hashtag hashtag = Hashtag.ETC;
 
 	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private Division division = Division.ETC;
 
 	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private College college = College.ETC;
 
 	@NotNull
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
+	@Builder.Default
 	private Department department = Department.ETC;
 
 	@Embedded
@@ -89,20 +93,20 @@ public class Club extends BaseEntity {
 			throw ClubNotAgreeToProvideInfoException.EXCEPTION;
 	}
 
-	@Builder
-	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
-		College college, Department department, ImageVO imageUrl, ClubInfo clubInfo, boolean isAgreeToReview, boolean isAgreeToProvideInfo) {
-		this.id = id;
-		this.name = name;
-		this.clubType = clubType;
-		this.introduction = introduction;
-		this.hashtag = hashtag;
-		this.division = division;
-		this.college = college;
-		this.department = department;
-		this.imageUrl = imageUrl;
-		this.clubInfo = clubInfo;
-		this.isAgreeToReview = isAgreeToReview;
-		this.isAgreeToProvideInfo = isAgreeToProvideInfo;
-	}
+//	@Builder
+//	private Club(Long id, String name, ClubType clubType, String introduction, Hashtag hashtag, Division division,
+//		College college, Department department, ImageVO imageUrl, ClubInfo clubInfo, boolean isAgreeToReview, boolean isAgreeToProvideInfo) {
+//		this.id = id;
+//		this.name = name;
+//		this.clubType = clubType;
+//		this.introduction = introduction;
+//		this.hashtag = hashtag;
+//		this.division = division;
+//		this.college = college;
+//		this.department = department;
+//		this.imageUrl = imageUrl;
+//		this.clubInfo = clubInfo;
+//		this.isAgreeToReview = isAgreeToReview;
+//		this.isAgreeToProvideInfo = isAgreeToProvideInfo;
+//	}
 }
