@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.repository;
 
-import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.querydsl.core.types.OrderSpecifier;

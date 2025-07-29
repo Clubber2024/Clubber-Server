@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calendar.entity;
+package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;

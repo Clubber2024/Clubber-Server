@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateResponse;
-import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
 import com.clubber.ClubberServer.domain.club.domain.Club;

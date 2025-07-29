@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
 import com.clubber.ClubberServer.domain.calendar.dto.UpdateCalendarRequest;
-import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarPostUnauthorizedException;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarInvalidMonthException;
 import org.springframework.stereotype.Component;

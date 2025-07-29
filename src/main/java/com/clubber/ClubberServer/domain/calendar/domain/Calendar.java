@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calendar.entity;
+package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
