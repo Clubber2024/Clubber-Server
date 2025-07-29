@@ -87,7 +87,7 @@ public class Calendar extends BaseEntity {
     }
 
     public String getStatus() {
-        CalendarStatus status = CalendarStatus.getStatus(startAt, endAt, recruitType);
+        CalendarStatus status = CalendarStatus.getStatus(LocalDateTime.now(), startAt, endAt, recruitType);
         return status.getTitle();
     }
 }

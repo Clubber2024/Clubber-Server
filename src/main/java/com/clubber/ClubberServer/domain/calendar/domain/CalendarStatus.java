@@ -24,12 +24,11 @@ public enum CalendarStatus implements EnumDefaultMapperType {
         return title;
     }
 
-    public static CalendarStatus getStatus(LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
+    public static CalendarStatus getStatus(LocalDateTime now, LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
         if (recruitType == RecruitType.ALWAYS) {
             return RECRUITING;
         }
 
-        LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(startAt)) return NOT_STARTED;
         if (now.isBefore(endAt)) return RECRUITING;
         return CLOSED;
