@@ -24,6 +24,7 @@ public class CorsConfig implements WebMvcConfigurer {
 		//개발 서버 : localhost 포함
 		if(!springEnvironmentHelper.isProdProfile()){
 			allowedOriginPatterns.add("http://localhost:3000");
+			allowedOriginPatterns.add("http://localhost:3001");
 			allowedOriginPatterns.add("https://dev.ssuclubber.com");
 		}
 
