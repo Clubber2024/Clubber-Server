@@ -16,7 +16,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.clubber.ClubberServer.domain.calendar.entity.QCalendar.calendar;
+import static com.clubber.ClubberServer.domain.calendar.domain.QCalendar.calendar;
 import static com.clubber.ClubberServer.domain.recruit.domain.RecruitType.ALWAYS;
 
 @RequiredArgsConstructor
