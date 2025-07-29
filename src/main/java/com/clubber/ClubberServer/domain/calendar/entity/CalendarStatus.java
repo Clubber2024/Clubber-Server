@@ -31,7 +31,7 @@ public enum CalendarStatus implements EnumDefaultMapperType {
 
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(startAt)) return NOT_STARTED;
-        if (now.isAfter(endAt)) return CLOSED;
-        return RECRUITING;
+        if (now.isBefore(endAt)) return RECRUITING;
+        return CLOSED;
     }
 }
