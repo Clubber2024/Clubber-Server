@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.dto;
 
-import com.clubber.ClubberServer.domain.calendar.entity.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 
 public record CreateCalendarResponse(
         Long id,

@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calendar.entity;
+package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
@@ -24,14 +24,13 @@ public enum CalendarStatus implements EnumDefaultMapperType {
         return title;
     }
 
-    public static CalendarStatus getStatus(LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
+    public static CalendarStatus getStatus(LocalDateTime now, LocalDateTime startAt, LocalDateTime endAt, RecruitType recruitType) {
         if (recruitType == RecruitType.ALWAYS) {
             return RECRUITING;
         }
 
-        LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(startAt)) return NOT_STARTED;
-        if (now.isAfter(endAt)) return CLOSED;
-        return RECRUITING;
+        if (now.isBefore(endAt)) return RECRUITING;
+        return CLOSED;
     }
 }

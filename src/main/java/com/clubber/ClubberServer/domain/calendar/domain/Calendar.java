@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.calendar.entity;
+package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
@@ -87,7 +87,7 @@ public class Calendar extends BaseEntity {
     }
 
     public String getStatus() {
-        CalendarStatus status = CalendarStatus.getStatus(startAt, endAt, recruitType);
+        CalendarStatus status = CalendarStatus.getStatus(LocalDateTime.now(), startAt, endAt, recruitType);
         return status.getTitle();
     }
 }
