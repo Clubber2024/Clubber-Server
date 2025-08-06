@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -94,6 +95,10 @@ public class Recruit extends BaseEntity {
         this.calendar = calendar;
     }
 
+    public String getStatus() {
+        CalendarStatus status = CalendarStatus.getStatus(LocalDateTime.now(), startAt, endAt, recruitType);
+        return status.getTitle();
+    }
 
     @Builder
     private Recruit(Long id, LocalDateTime startAt, LocalDateTime endAt, String title,
