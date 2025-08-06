@@ -5,8 +5,10 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,23 +63,26 @@ public class GetOneRecruitWithClubResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
+    private final String recruitStatus;
+
     public static GetOneRecruitWithClubResponse of(Recruit recruit, Club club,
-        List<ImageVO> images) {
+                                                   List<ImageVO> images) {
         return GetOneRecruitWithClubResponse.builder()
-            .clubId(club.getId())
-            .clubName(club.getName())
-            .clubType(club.getClubType().getTitle())
-            .clubImage(club.getImageUrl())
-            .recruitId(recruit.getId())
-            .title(recruit.getTitle())
-            .recruitType(recruit.getRecruitType().getTitle())
-            .startAt(recruit.getStartAt())
-            .endAt(recruit.getEndAt())
-            .content(recruit.getContent())
-            .applyLink(recruit.getApplyLink())
-            .imageUrls(images)
-            .totalView(recruit.getTotalView())
-            .createdAt(recruit.getCreatedAt())
-            .build();
+                .clubId(club.getId())
+                .clubName(club.getName())
+                .clubType(club.getClubType().getTitle())
+                .clubImage(club.getImageUrl())
+                .recruitId(recruit.getId())
+                .title(recruit.getTitle())
+                .recruitType(recruit.getRecruitType().getTitle())
+                .startAt(recruit.getStartAt())
+                .endAt(recruit.getEndAt())
+                .content(recruit.getContent())
+                .applyLink(recruit.getApplyLink())
+                .imageUrls(images)
+                .totalView(recruit.getTotalView())
+                .createdAt(recruit.getCreatedAt())
+                .recruitStatus(recruit.getStatus())
+                .build();
     }
 }
