@@ -63,6 +63,7 @@ public class GetOneRecruitWithClubResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
+    @Schema(description = "모집글 모집 상태")
     private final String recruitStatus;
 
     public static GetOneRecruitWithClubResponse of(Recruit recruit, Club club,
