@@ -1,11 +1,14 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,21 +56,24 @@ public class GetOneAdminRecruitResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
+    @Schema(description = "모집글 모집 상태")
+    private final String recruitStatus;
+
     public static GetOneAdminRecruitResponse of(Recruit recruit, List<ImageVO> images) {
         return GetOneAdminRecruitResponse.builder()
-            .clubId(recruit.getClub().getId())
-            .recruitId(recruit.getId())
-            .title(recruit.getTitle())
-            .recruitType(recruit.getRecruitType().getTitle())
-            .startAt(recruit.getStartAt())
-            .endAt(recruit.getEndAt())
-            .content(recruit.getContent())
-            .applyLink(recruit.getApplyLink())
-            .imageUrls(images)
-            .isCalendarLinked(recruit.isCalendarLinked())
-            .totalView(recruit.getTotalView())
-            .createdAt(recruit.getCreatedAt())
-            .build();
+                .clubId(recruit.getClub().getId())
+                .recruitId(recruit.getId())
+                .title(recruit.getTitle())
+                .recruitType(recruit.getRecruitType().getTitle())
+                .startAt(recruit.getStartAt())
+                .endAt(recruit.getEndAt())
+                .content(recruit.getContent())
+                .applyLink(recruit.getApplyLink())
+                .imageUrls(images)
+                .isCalendarLinked(recruit.isCalendarLinked())
+                .totalView(recruit.getTotalView())
+                .createdAt(recruit.getCreatedAt())
+                .calendarStatus(recruit.getStatus())
+                .build();
     }
-
 }
