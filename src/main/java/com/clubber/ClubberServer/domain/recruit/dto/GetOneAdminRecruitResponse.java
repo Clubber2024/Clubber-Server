@@ -73,7 +73,7 @@ public class GetOneAdminRecruitResponse {
                 .isCalendarLinked(recruit.isCalendarLinked())
                 .totalView(recruit.getTotalView())
                 .createdAt(recruit.getCreatedAt())
-                .calendarStatus(recruit.getStatus())
+                .recruitStatus(recruit.getStatus())
                 .build();
     }
 }
