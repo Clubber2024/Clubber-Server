@@ -34,5 +34,4 @@ public class GetCalendarInListResponse {
             .alwaysCalendars(alwaysCalendars)
             .build();
     }
-
 }

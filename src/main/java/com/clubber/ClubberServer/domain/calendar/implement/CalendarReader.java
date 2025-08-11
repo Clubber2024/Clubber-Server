@@ -35,16 +35,18 @@ public class CalendarReader {
                 .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
     }
 
-    public List<Calendar> findCalendarsByDateRangeAndTypes(LocalDateTime startOfMonth,
-                                                           LocalDateTime endOfMonth,
-                                                           List<RecruitType> recruitTypes) {
-        return calendarRepository.findCalendarsWithinDateRange(startOfMonth, endOfMonth,
+    public List<Calendar> findCalendarsByDateRangeAndTypes(
+            YearMonth recruitYearMonth,
+            List<RecruitType> recruitTypes) {
+        LocalDateTime startOfMonth = getStartOfMonth(recruitYearMonth);
+        LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
+        return calendarRepository.findCalendarsWithinDateRange(startOfMonth, startOfNextMonth,
                 recruitTypes);
     }
 
-    public List<GetAlwaysCalendarResponse> findCalendarsByEndDateAndType(LocalDateTime endOfMonth,
-                                                                         RecruitType recruitType) {
-        return calendarRepository.findAlwaysRecruitCreatedBefore(endOfMonth, recruitType);
+    public List<GetAlwaysCalendarResponse> findCalendarsByEndDateAndType(YearMonth recruitYearMonth, RecruitType recruitType) {
+        LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
+        return calendarRepository.findAlwaysRecruitCreatedBefore(startOfNextMonth, recruitType);
     }
 
     public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {

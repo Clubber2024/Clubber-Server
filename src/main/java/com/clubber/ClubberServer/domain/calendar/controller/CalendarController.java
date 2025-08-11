@@ -18,11 +18,10 @@ public class CalendarController {
 
     private final CalendarService calendarService;
 
-    @GetMapping("")
+    @GetMapping
     @DisableSwaggerSecurity
     public GetCalendarInListResponse getCalendarList(@RequestParam int year,
-        @RequestParam int month) {
+                                                     @RequestParam int month) {
         return calendarService.getCalendarList(year, month);
     }
-
 }
