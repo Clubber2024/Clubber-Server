@@ -24,21 +24,23 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public boolean isExistByRecruitTypeAndBetweenPeriod(RecruitType recruitType, Club club, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth) {
+    public boolean isExistByRecruitTypeAndBetweenPeriod(RecruitType recruitType, Club club, LocalDateTime startOfRecruitMonth, LocalDateTime startOfRecruitNextMonth, LocalDateTime startOfThisMonth, LocalDateTime startOfNextMonth) {
         return queryFactory.selectFrom(calendar)
                 .where(
                         calendar.isDeleted.eq(false),
                         calendar.recruitType.eq(recruitType),
                         calendar.club.eq(club),
-                        betweenCalendarPeriod(recruitType, startOfMonth, endOfMonth, startOfThisMonth, endOfThisMonth)
+                        betweenCalendarPeriod(recruitType, startOfRecruitMonth, startOfRecruitNextMonth, startOfThisMonth, startOfNextMonth)
                 )
                 .fetchFirst() != null;
     }
 
-    private BooleanExpression betweenCalendarPeriod(RecruitType recruitType, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth) {
+    private BooleanExpression betweenCalendarPeriod(RecruitType recruitType, LocalDateTime startOfRecruitMonth, LocalDateTime startOfRecruitNextMonth, LocalDateTime startOfThisMonth, LocalDateTime startOfNextMonth) {
         if (recruitType == ALWAYS)
-            return calendar.createdAt.between(startOfThisMonth, endOfThisMonth);
-        return calendar.startAt.between(startOfMonth, endOfMonth);
+            return calendar.createdAt.goe(startOfThisMonth)
+                    .and(calendar.createdAt.lt(startOfNextMonth));
+        return calendar.startAt.goe(startOfRecruitMonth)
+                .and(calendar.startAt.lt(startOfRecruitNextMonth));
     }
 
     private OrderSpecifier<LocalDateTime> descCreatedAt() {

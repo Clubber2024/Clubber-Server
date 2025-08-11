@@ -1,19 +1,19 @@
 package com.clubber.ClubberServer.domain.calendar.service;
 
 
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarInListResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetNonAlwaysCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.YearMonth;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,22 +28,14 @@ public class CalendarService {
 
         calendarValidator.validateCalendarMonth(month);
 
-        LocalDateTime startOfMonth = LocalDateTime.of(year, month, 1, 0, 0, 0);
-        LocalDateTime endOfMonth = YearMonth.of(year, month).atEndOfMonth().atTime(23, 59, 59);
-
+        YearMonth recruitYearMonth = YearMonth.of(year, month);
         List<RecruitType> recruitTypes = List.of(RecruitType.REGULAR, RecruitType.ADDITIONAL);
-        List<Calendar> nonAlwaysCalendars = calendarReader.findCalendarsByDateRangeAndTypes(
-            startOfMonth, endOfMonth,
-            recruitTypes);
+        List<Calendar> nonAlwaysCalendars = calendarReader.findCalendarsByDateRangeAndTypes(recruitYearMonth, recruitTypes);
         List<GetNonAlwaysCalendarResponse> nonAlwaysCalendarDto = nonAlwaysCalendars.stream()
-            .map(GetNonAlwaysCalendarResponse::from)
-            .toList();
+                .map(GetNonAlwaysCalendarResponse::from)
+                .toList();
 
-        List<GetAlwaysCalendarResponse> alwaysCalendarDto = calendarReader.findCalendarsByEndDateAndType(
-            endOfMonth, RecruitType.ALWAYS);
-
+        List<GetAlwaysCalendarResponse> alwaysCalendarDto = calendarReader.findCalendarsByEndDateAndType(recruitYearMonth, RecruitType.ALWAYS);
         return GetCalendarInListResponse.of(year, month, nonAlwaysCalendarDto, alwaysCalendarDto);
-
     }
-
 }
