@@ -43,7 +43,11 @@ public class RecruitReader {
     }
 
     public Recruit findByCalendar(Calendar calendar) {
-        return recruitRepository.findByCalendar(calendar)
+        return recruitRepository.findByCalendarAndIsDeletedFalse(calendar)
                 .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
+    }
+
+    public boolean isCalendarLinked(Calendar calendar) {
+        return recruitRepository.existsByCalendarAndIsDeletedFalse(calendar);
     }
 }

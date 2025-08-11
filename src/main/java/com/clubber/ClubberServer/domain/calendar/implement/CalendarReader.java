@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponseWithLinkedStatus;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
@@ -9,6 +10,7 @@ import com.clubber.ClubberServer.domain.calendar.exception.CalendarNotFoundExcep
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import java.util.List;
 public class CalendarReader {
 
     private final CalendarRepository calendarRepository;
+    private final RecruitReader recruitReader;
 
     public Calendar readById(Long id) {
         return calendarRepository.findCalendarByIdAndIsDeleted(id, false)
@@ -44,9 +47,14 @@ public class CalendarReader {
         return calendarRepository.findAlwaysRecruitCreatedBefore(endOfMonth, recruitType);
     }
 
-    public PageResponse<GetCalendarResponse> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
         Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarFilterType, pageable);
-        Page<GetCalendarResponse> pageDtos = calendarPages.map(GetCalendarResponse::from);
+        Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
+                calendar -> {
+                    boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);
+                    return GetCalendarResponseWithLinkedStatus.from(calendar, isCalendarLinked);
+                }
+        );
         return PageResponse.of(pageDtos);
     }
 

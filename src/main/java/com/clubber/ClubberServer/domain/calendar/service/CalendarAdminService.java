@@ -31,7 +31,7 @@ public class CalendarAdminService {
         return CreateCalendarResponse.from(savedCalendar);
     }
 
-    public PageResponse<GetCalendarResponse> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
         return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
