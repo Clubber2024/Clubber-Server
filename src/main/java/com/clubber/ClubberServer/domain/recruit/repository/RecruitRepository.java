@@ -20,5 +20,6 @@ public interface RecruitRepository extends JpaRepository<Recruit, Long>, Recruit
            "AND r.isDeleted = false")
     List<Recruit> findRecruitsWithinDateRange(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
-    Optional<Recruit> findByCalendar(Calendar calendar);
+    Optional<Recruit> findByCalendarAndIsDeletedFalse(Calendar calendar);
+    boolean existsByCalendarAndIsDeletedFalse(Calendar calendar);
 }

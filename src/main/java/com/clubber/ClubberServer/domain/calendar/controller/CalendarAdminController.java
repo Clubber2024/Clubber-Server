@@ -25,7 +25,7 @@ public class CalendarAdminController {
 
     @GetMapping
     @Operation(summary = "캘린더 목록 (페이지) 조회")
-    public PageResponse<GetCalendarResponse> getCalendars(Pageable pageable, @RequestParam CalendarFilterType calendarFilterType) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalendars(Pageable pageable, @RequestParam CalendarFilterType calendarFilterType) {
         return calendarService.getCalenderPages(pageable, calendarFilterType);
     }
 
