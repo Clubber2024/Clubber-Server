@@ -61,7 +61,7 @@ public class CalendarReader {
     public boolean isExistInSameMonth(GetCalendarDuplicateRequest request, Club club) {
         YearMonth nowYearMonth = YearMonth.from(LocalDateTime.now());
         LocalDateTime startOfThisMonth = getStartOfMonth(nowYearMonth);
-        LocalDateTime endOfThisMonth = getEndOfMonth(nowYearMonth);
+        LocalDateTime endOfThisMonth = getStartOfNextMonth(nowYearMonth);
 
         if (request.recruitType() == RecruitType.ALWAYS) {
             return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(RecruitType.ALWAYS, club, null, null, startOfThisMonth, endOfThisMonth);
@@ -69,15 +69,18 @@ public class CalendarReader {
 
         YearMonth recruitYearMonth = YearMonth.from(request.startAt());
         LocalDateTime startOfRecruitMonth = getStartOfMonth(recruitYearMonth);
-        LocalDateTime endOfRecruitMonth = getEndOfMonth(recruitYearMonth);
+        LocalDateTime endOfRecruitMonth = getStartOfNextMonth(recruitYearMonth);
         return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(request.recruitType(), club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
     }
 
-    private static LocalDateTime getEndOfMonth(YearMonth nowYearMonth) {
-        return nowYearMonth.atEndOfMonth().atTime(23, 59, 59);
+    private static LocalDateTime getStartOfNextMonth(YearMonth yearMonth) {
+        return yearMonth.plusMonths(1)
+                .atDay(1)
+                .atStartOfDay();
     }
 
     private static LocalDateTime getStartOfMonth(YearMonth nowYearMonth) {
-        return nowYearMonth.atDay(1).atStartOfDay();
+        return nowYearMonth.atDay(1)
+                .atStartOfDay();
     }
 }
