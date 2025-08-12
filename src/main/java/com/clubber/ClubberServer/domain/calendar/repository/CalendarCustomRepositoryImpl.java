@@ -121,6 +121,17 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
         return PageableExecutionUtils.getPage(calendars, pageable, countQuery::fetchOne);
     }
 
+    @Override
+    public List<Club> findTodayDistinctCalendar(LocalDateTime todayStart, LocalDateTime tomorrowStart) {
+        return queryFactory.select(calendar.club).distinct()
+                .from(calendar)
+                .where(
+                        calendar.isDeleted.eq(false),
+                        calendar.endAt.goe(todayStart),
+                        calendar.endAt.lt(tomorrowStart)
+                ).fetch();
+    }
+
     private BooleanExpression eqCalendarStats(CalendarStatus calendarStatus) {
         if (calendarStatus == null) return null;
         LocalDateTime now = LocalDateTime.now();

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface CalendarCustomRepository {
     boolean isExistByRecruitTypeAndBetweenPeriod(RecruitType recruitType, Club club, LocalDateTime startOfMonth, LocalDateTime endOfMonth, LocalDateTime startOfThisMonth, LocalDateTime endOfThisMonth);
@@ -16,4 +17,6 @@ public interface CalendarCustomRepository {
     Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarFilterType calendarFilterType, Pageable pageable);
 
     Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus);
+
+    List<Club> findTodayDistinctCalendar(LocalDateTime todayStart, LocalDateTime endAt);
 }

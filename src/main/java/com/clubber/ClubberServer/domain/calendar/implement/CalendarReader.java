@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
@@ -84,6 +85,12 @@ public class CalendarReader {
         LocalDateTime startOfRecruitMonth = getStartOfMonth(recruitYearMonth);
         LocalDateTime endOfRecruitMonth = getStartOfNextMonth(recruitYearMonth);
         return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(request.recruitType(), club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
+    }
+
+    public List<Club> getTodayEndCalendars() {
+        LocalDateTime todayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime tomorrowStart = todayStart.plusDays(1);
+        return calendarRepository.findTodayDistinctCalendar(todayStart, tomorrowStart);
     }
 
     private static LocalDateTime getStartOfNextMonth(YearMonth yearMonth) {
