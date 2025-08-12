@@ -28,7 +28,7 @@ public class ClubReader {
     public List<Club> findByDivision(Division division) {
         List<Club> clubs = clubRepository.findByDivisionAndIsDeleted(division, false);
         if (clubs.isEmpty()) {
-            throw DivisionNotFoundException.EXCEPTION;
+            throw ClubNotFoundException.EXCEPTION;
         }
         return clubs;
     }
@@ -36,7 +36,7 @@ public class ClubReader {
     public List<Club> findByDepartment(Department department) {
         List<Club> clubs = clubRepository.findByDepartmentAndIsDeleted(department, false);
         if (clubs.isEmpty()) {
-            throw DepartmentNotFoundException.EXCEPTION;
+            throw ClubNotFoundException.EXCEPTION;
         }
         return clubs;
     }
@@ -44,7 +44,7 @@ public class ClubReader {
     public List<Club> findByHashtag(Hashtag hashtag) {
         List<Club> clubs = clubRepository.findByHashtagAndIsDeletedOrderByClubType(hashtag, false);
         if (clubs.isEmpty()) {
-            throw HashtagNotFoundException.EXCEPTION;
+            throw ClubNotFoundException.EXCEPTION;
         }
         return clubs;
     }
