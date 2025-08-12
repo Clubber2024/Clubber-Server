@@ -2,9 +2,10 @@ package com.clubber.ClubberServer.domain.calendar.repository;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
-import com.clubber.ClubberServer.domain.calendar.domain.QCalendar;
+import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -96,7 +97,7 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
             .otherwise(0)
             .asc();
 
-    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable) {
+    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
         List<Calendar> calendars = queryFactory.selectFrom(calendar)
                 .where(
                         calendar.isDeleted.eq(false),
@@ -104,6 +105,7 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
                         eqCalendarStats(calendarStatus),
                         eqRecruitType(recruitType)
                 )
+                .orderBy(getOrderSpecifier(orderStatus))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -136,5 +138,12 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
             return null;
         }
         return calendar.recruitType.eq(recruitType);
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(OrderStatus orderStatus) {
+        return new OrderSpecifier<>(
+                orderStatus == OrderStatus.ASC ? Order.ASC : Order.DESC,
+                calendar.createdAt
+        );
     }
 }

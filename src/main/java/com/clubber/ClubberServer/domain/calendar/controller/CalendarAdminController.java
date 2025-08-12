@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
+import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
@@ -34,8 +35,11 @@ public class CalendarAdminController {
     @GetMapping
     @Operation(summary = "캘린더 목록 (페이지) 조회")
     public PageResponse<GetCalendarResponseWithLinkedStatus> getCalendarsWithFilter(
-            Pageable pageable, @RequestParam(required = false) CalendarStatus calendarStatus, @RequestParam(required = false) RecruitType recruitType) {
-        return calendarService.getCalenderPagesWithFilter(pageable, calendarStatus, recruitType);
+            Pageable pageable,
+            @RequestParam(required = false) CalendarStatus calendarStatus,
+            @RequestParam(required = false) RecruitType recruitType,
+            @RequestParam(required = false) OrderStatus orderStatus) {
+        return calendarService.getCalenderPagesWithFilter(pageable, calendarStatus, recruitType, orderStatus);
     }
 
     @GetMapping("/{id}")
