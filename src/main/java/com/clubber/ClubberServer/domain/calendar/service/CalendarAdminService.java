@@ -3,6 +3,7 @@ package com.clubber.ClubberServer.domain.calendar.service;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
+import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
@@ -39,10 +40,10 @@ public class CalendarAdminService {
 //        return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
 //    }
 
-    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPagesWithFilter(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPagesWithFilter(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType, OrderStatus orderStatus) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        return calendarReader.readClubCalendarPageWithFilter(club, calendarStatus, recruitType, pageable);
+        return calendarReader.readClubCalendarPageWithFilter(club, calendarStatus, recruitType, pageable, orderStatus);
     }
 
     public GetCalendarResponse getCalendar(Long id) {

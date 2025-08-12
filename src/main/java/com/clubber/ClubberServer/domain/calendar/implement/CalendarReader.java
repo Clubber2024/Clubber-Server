@@ -1,12 +1,11 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
+import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
+import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponseWithLinkedStatus;
-import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
-import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarNotFoundException;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
@@ -61,8 +60,8 @@ public class CalendarReader {
 //        return PageResponse.of(pageDtos);
 //    }
 
-    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPageWithFilter(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable) {
-        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable);
+    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPageWithFilter(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
+        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable, orderStatus);
         Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
                 calendar -> {
                     boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);
