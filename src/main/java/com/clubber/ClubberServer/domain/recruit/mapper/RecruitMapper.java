@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.domain.recruit.mapper;
 
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
@@ -10,6 +12,7 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCom
 import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import java.util.Comparator;
@@ -75,11 +78,17 @@ public class RecruitMapper {
     }
 
     public GetRecruitsMainPageResponse getRecruitsMainPage(List<Recruit> recruits) {
+        LocalDateTime now = LocalDateTime.now();
+
         List<GetOneRecruitMainPageResponse> recruitsDto = recruits.stream()
-            .map(GetOneRecruitMainPageResponse::from)
+            .map(recruit -> GetOneRecruitMainPageResponse.of(recruit,getRecruitStatus(recruit,now)))
             .collect(Collectors.toList());
 
         return GetRecruitsMainPageResponse.from(recruitsDto);
+    }
+
+    private CalendarStatus getRecruitStatus(Recruit recruit, LocalDateTime now){
+        return CalendarStatus.getStatus(now, recruit.getStartAt(), recruit.getEndAt(), recruit.getRecruitType());
     }
 
     public List<GetRecruitCommentResponse> getRecruitCommentResponses(List<RecruitComment> comments) {

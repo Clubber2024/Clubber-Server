@@ -1,7 +1,7 @@
 ---
 name: 'BugFix '
 about: BugFix 이슈 템플릿
-title: '[BugFix'
+title: '[BugFix] '
 labels: ''
 assignees: ''
 
