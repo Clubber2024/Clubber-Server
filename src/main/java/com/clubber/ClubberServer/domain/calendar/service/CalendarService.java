@@ -2,12 +2,10 @@ package com.clubber.ClubberServer.domain.calendar.service;
 
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
-import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarInListResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetNonAlwaysCalendarResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
+import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,5 +42,16 @@ public class CalendarService {
     public GetCalendarResponse getCalendar(Long id) {
         Calendar calendar = calendarReader.readById(id);
         return GetCalendarResponse.from(calendar);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GetTodayCalendarResponse> getTodayCalendarResponseList() {
+        return calendarReader.getTodayEndCalendars()
+                .stream().map(
+                        calendar -> {
+                            Club club = calendar.getClub();
+                            return GetTodayCalendarResponse.from(club, calendar);
+                        }
+                ).toList();
     }
 }

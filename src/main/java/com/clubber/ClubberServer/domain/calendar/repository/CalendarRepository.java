@@ -34,4 +34,6 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long>, Calen
     );
 
     Optional<Calendar> findCalendarByIdAndIsDeleted(Long id, boolean deleted);
+
+    List<Calendar> findByEndAtGreaterThanEqualAndEndAtLessThanAndIsDeletedFalse(LocalDateTime todayStart, LocalDateTime tomorrowStart);
 }
