@@ -4,7 +4,6 @@ import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
@@ -55,7 +54,6 @@ public class RecruitService {
     private final RecruitImageAppender recruitImageAppender;
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
-    private final CalendarService calendarService;
     private final RecruitLinkedCalendarService recruitLinkedCalendarService;
 
     @Transactional(readOnly = true)
@@ -84,7 +82,6 @@ public class RecruitService {
         recruitAppender.increaseTotalView(recruit);
         return recruitMapper.getRecruitsByRecruitId(recruit);
     }
-
 
     // Admin
     @Transactional(readOnly = true)
