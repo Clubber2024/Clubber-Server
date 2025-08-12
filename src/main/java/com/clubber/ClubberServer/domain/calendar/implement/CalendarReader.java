@@ -1,5 +1,6 @@
 package com.clubber.ClubberServer.domain.calendar.implement;
 
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponseWithLinkedStatus;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
@@ -49,8 +50,19 @@ public class CalendarReader {
         return calendarRepository.findAlwaysRecruitCreatedBefore(startOfNextMonth, recruitType);
     }
 
-    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
-        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarFilterType, pageable);
+//    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
+//        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarFilterType, pageable);
+//        Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
+//                calendar -> {
+//                    boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);
+//                    return GetCalendarResponseWithLinkedStatus.from(calendar, isCalendarLinked);
+//                }
+//        );
+//        return PageResponse.of(pageDtos);
+//    }
+
+    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPageWithFilter(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable) {
+        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable);
         Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
                 calendar -> {
                     boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);

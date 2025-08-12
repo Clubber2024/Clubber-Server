@@ -1,6 +1,8 @@
 package com.clubber.ClubberServer.domain.calendar.repository;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
+import com.clubber.ClubberServer.domain.calendar.domain.QCalendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.querydsl.core.types.OrderSpecifier;
@@ -93,4 +95,46 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
             .when(calendar.recruitType.eq(RecruitType.ALWAYS)).then(1)
             .otherwise(0)
             .asc();
+
+    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable) {
+        List<Calendar> calendars = queryFactory.selectFrom(calendar)
+                .where(
+                        calendar.isDeleted.eq(false),
+                        calendar.club.eq(club),
+                        eqCalendarStats(calendarStatus),
+                        eqRecruitType(recruitType)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory.select(calendar.count())
+                .from(calendar)
+                .where(
+                        calendar.isDeleted.eq(false),
+                        calendar.club.eq(club),
+                        eqCalendarStats(calendarStatus),
+                        eqRecruitType(recruitType)
+                );
+        return PageableExecutionUtils.getPage(calendars, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression eqCalendarStats(CalendarStatus calendarStatus) {
+        if (calendarStatus == null) return null;
+        LocalDateTime now = LocalDateTime.now();
+        return switch (calendarStatus) {
+            case CLOSED -> calendar.endAt.loe(now);
+            case NOT_STARTED -> calendar.startAt.gt(now);
+            case RECRUITING -> (
+                    calendar.startAt.loe(now).and(calendar.endAt.gt(now))
+            ).or(calendar.recruitType.eq(ALWAYS));
+        };
+    }
+
+    private BooleanExpression eqRecruitType(RecruitType recruitType) {
+        if (recruitType == null) {
+            return null;
+        }
+        return calendar.recruitType.eq(recruitType);
+    }
 }
