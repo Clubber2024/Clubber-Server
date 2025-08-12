@@ -47,11 +47,8 @@ public class CalendarService {
     @Transactional(readOnly = true)
     public List<GetTodayCalendarResponse> getTodayCalendarResponseList() {
         return calendarReader.getTodayEndCalendars()
-                .stream().map(
-                        calendar -> {
-                            Club club = calendar.getClub();
-                            return GetTodayCalendarResponse.from(club, calendar);
-                        }
-                ).toList();
+                .stream()
+                .map(GetTodayCalendarResponse::from)
+                .toList();
     }
 }

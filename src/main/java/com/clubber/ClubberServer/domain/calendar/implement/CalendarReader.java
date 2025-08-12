@@ -87,10 +87,10 @@ public class CalendarReader {
         return calendarRepository.isExistByRecruitTypeAndBetweenPeriod(request.recruitType(), club, startOfRecruitMonth, endOfRecruitMonth, startOfThisMonth, endOfThisMonth);
     }
 
-    public List<Calendar> getTodayEndCalendars() {
+    public List<Club> getTodayEndCalendars() {
         LocalDateTime todayStart = LocalDate.now().atStartOfDay();
         LocalDateTime tomorrowStart = todayStart.plusDays(1);
-        return calendarRepository.findByEndAtGreaterThanEqualAndEndAtLessThanAndIsDeletedFalse(todayStart, tomorrowStart);
+        return calendarRepository.findTodayDistinctCalendar(todayStart, tomorrowStart);
     }
 
     private static LocalDateTime getStartOfNextMonth(YearMonth yearMonth) {
