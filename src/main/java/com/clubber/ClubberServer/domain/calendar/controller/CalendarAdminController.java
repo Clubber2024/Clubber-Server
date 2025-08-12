@@ -1,8 +1,10 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,10 +25,17 @@ public class CalendarAdminController {
         return calendarService.createCalendar(request);
     }
 
+//    @GetMapping
+//    @Operation(summary = "캘린더 목록 (페이지) 조회")
+//    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalendars(Pageable pageable, @RequestParam CalendarFilterType calendarFilterType) {
+//        return calendarService.getCalenderPages(pageable, calendarFilterType);
+//    }
+
     @GetMapping
     @Operation(summary = "캘린더 목록 (페이지) 조회")
-    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalendars(Pageable pageable, @RequestParam CalendarFilterType calendarFilterType) {
-        return calendarService.getCalenderPages(pageable, calendarFilterType);
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalendarsWithFilter(
+            Pageable pageable, @RequestParam(required = false) CalendarStatus calendarStatus, @RequestParam(required = false) RecruitType recruitType) {
+        return calendarService.getCalenderPagesWithFilter(pageable, calendarStatus, recruitType);
     }
 
     @GetMapping("/{id}")

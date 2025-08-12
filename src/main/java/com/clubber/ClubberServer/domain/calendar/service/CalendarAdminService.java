@@ -2,12 +2,14 @@ package com.clubber.ClubberServer.domain.calendar.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -31,10 +33,16 @@ public class CalendarAdminService {
         return CreateCalendarResponse.from(savedCalendar);
     }
 
-    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
+//    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
+//        Admin admin = adminReader.getCurrentAdmin();
+//        Club club = admin.getClub();
+//        return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
+//    }
+
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPagesWithFilter(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
+        return calendarReader.readClubCalendarPageWithFilter(club, calendarStatus, recruitType, pageable);
     }
 
     public GetCalendarResponse getCalendar(Long id) {
