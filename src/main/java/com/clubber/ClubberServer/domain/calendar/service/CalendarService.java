@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.domain.calendar.service;
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarInListResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetNonAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
@@ -37,5 +38,11 @@ public class CalendarService {
 
         List<GetAlwaysCalendarResponse> alwaysCalendarDto = calendarReader.findCalendarsByEndDateAndType(recruitYearMonth, RecruitType.ALWAYS);
         return GetCalendarInListResponse.of(year, month, nonAlwaysCalendarDto, alwaysCalendarDto);
+    }
+
+    @Transactional(readOnly = true)
+    public GetCalendarResponse getCalendar(Long id) {
+        Calendar calendar = calendarReader.readById(id);
+        return GetCalendarResponse.from(calendar);
     }
 }

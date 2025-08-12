@@ -1,14 +1,13 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarInListResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,5 +22,12 @@ public class CalendarController {
     public GetCalendarInListResponse getCalendarList(@RequestParam int year,
                                                      @RequestParam int month) {
         return calendarService.getCalendarList(year, month);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "특정 캘린더 (단일) 조회")
+    @DisableSwaggerSecurity
+    public GetCalendarResponse getCalendarResponse(@PathVariable Long id) {
+        return calendarService.getCalendar(id);
     }
 }
