@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnau
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthorizedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitInvalidPeriodException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitMissingPeriodException;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitPeriodNotAllowedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,11 @@ public class RecruitValidator {
 
     public void validateRecruitDate(RecruitType recruitType, LocalDateTime startAt,
         LocalDateTime endAt) {
-        if (recruitType != RecruitType.ALWAYS) {
+        if (recruitType == RecruitType.ALWAYS) {
+            if (startAt != null || endAt != null) {
+                throw RecruitPeriodNotAllowedException.EXCEPTION;
+            }
+        } else {
             if (startAt == null || endAt == null) {
                 throw RecruitMissingPeriodException.EXCEPTION;
             }

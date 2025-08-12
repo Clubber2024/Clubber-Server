@@ -27,11 +27,11 @@ public class PostRecruitRequest {
     @Schema(description = "모집 유형", example = "REGULAR")
     private RecruitType recruitType;
 
-    @Schema(description = "모집 시작 일자", example = "2025-07-10 00:00", type = "string")
+    @Schema(description = "모집 시작 일자", nullable = true, example = "2025-07-10 00:00", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startAt;
 
-    @Schema(description = "모집 종료 일자", example = "2025-07-30 00:00", type = "string")
+    @Schema(description = "모집 종료 일자", nullable = true, example = "2025-07-30 00:00", type = "string")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endAt;
 
