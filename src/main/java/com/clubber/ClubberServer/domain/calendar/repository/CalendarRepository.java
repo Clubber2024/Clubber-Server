@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.calendar.repository;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,6 +34,4 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long>, Calen
     );
 
     Optional<Calendar> findCalendarByIdAndIsDeleted(Long id, boolean deleted);
-
-    List<Club> findByEndAtGreaterThanEqualAndEndAtLessThanAndIsDeletedFalse(LocalDateTime todayStart, LocalDateTime tomorrowStart);
 }
