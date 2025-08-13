@@ -2,12 +2,13 @@ package com.clubber.ClubberServer.domain.calendar.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
-import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
+import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
@@ -23,6 +24,7 @@ public class CalendarAdminService {
 
     private final CalendarAppender calendarAppender;
     private final CalendarReader calendarReader;
+    private final CalendarValidator calendarValidator;
     private final AdminReader adminReader;
 
     public CreateCalendarResponse createCalendar(CreateCalendarRequest request) {
@@ -45,12 +47,18 @@ public class CalendarAdminService {
     }
 
     public void updateCalendar(UpdateCalendarRequest request, Long recruitId) {
+        Admin admin = adminReader.getCurrentAdmin();
         Calendar calendar = calendarReader.readById(recruitId);
+
+        calendarValidator.validateCalendarClub(calendar, admin);
         calendarAppender.update(calendar, request);
     }
 
     public void deleteCalendar(Long calendarId) {
+        Admin admin = adminReader.getCurrentAdmin();
         Calendar calendar = calendarReader.readById(calendarId);
+
+        calendarValidator.validateCalendarClub(calendar, admin);
         calendarAppender.delete(calendar);
     }
 
