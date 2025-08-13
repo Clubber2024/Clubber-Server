@@ -50,18 +50,7 @@ public class CalendarReader {
         return calendarRepository.findAlwaysRecruitCreatedBefore(startOfNextMonth, recruitType);
     }
 
-//    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
-//        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarFilterType, pageable);
-//        Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
-//                calendar -> {
-//                    boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);
-//                    return GetCalendarResponseWithLinkedStatus.from(calendar, isCalendarLinked);
-//                }
-//        );
-//        return PageResponse.of(pageDtos);
-//    }
-
-    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPageWithFilter(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
         Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable, orderStatus);
         Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
                 calendar -> {

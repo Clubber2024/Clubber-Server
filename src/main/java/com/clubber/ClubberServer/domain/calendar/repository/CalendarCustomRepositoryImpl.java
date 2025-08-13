@@ -5,10 +5,10 @@ import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -46,57 +46,6 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
                 .and(calendar.startAt.lt(startOfRecruitNextMonth));
     }
 
-    private OrderSpecifier<LocalDateTime> descCreatedAt() {
-        return calendar.createdAt.desc();
-    }
-
-    private OrderSpecifier<LocalDateTime> descEndAt() {
-        return calendar.endAt.desc();
-    }
-
-    public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarFilterType calendarFilterType, Pageable pageable) {
-        List<Calendar> calendars = queryFactory.selectFrom(calendar)
-                .where(
-                        calendar.isDeleted.eq(false),
-                        calendar.club.eq(club),
-                        getEq(calendarFilterType))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(getOrder(calendarFilterType).toArray(OrderSpecifier[]::new))
-                .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory.select(calendar.count())
-                .from(calendar)
-                .where(
-                        calendar.isDeleted.eq(false),
-                        calendar.club.eq(club),
-                        getEq(calendarFilterType));
-
-        return PageableExecutionUtils.getPage(calendars, pageable, countQuery::fetchOne);
-    }
-
-    private List<OrderSpecifier<?>> getOrder(CalendarFilterType calendarFilterType) {
-        return switch (calendarFilterType) {
-            case ALL, ALWAYS -> List.of(descCreatedAt());
-            case RECRUITING -> List.of(alwaysLast, descEndAt());
-            case CLOSED -> List.of(descEndAt());
-        };
-    }
-
-    private BooleanExpression getEq(CalendarFilterType calendarFilterType) {
-        return switch (calendarFilterType) {
-            case ALL -> null;
-            case RECRUITING -> calendar.endAt.after(LocalDateTime.now()).and(calendar.recruitType.eq(ALWAYS));
-            case CLOSED -> calendar.endAt.before(LocalDateTime.now());
-            case ALWAYS -> calendar.recruitType.eq(ALWAYS);
-        };
-    }
-
-    private final OrderSpecifier<Integer> alwaysLast = new CaseBuilder()
-            .when(calendar.recruitType.eq(RecruitType.ALWAYS)).then(1)
-            .otherwise(0)
-            .asc();
-
     public Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
         List<Calendar> calendars = queryFactory.selectFrom(calendar)
                 .where(
@@ -105,7 +54,7 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
                         eqCalendarStats(calendarStatus),
                         eqRecruitType(recruitType)
                 )
-                .orderBy(getOrderSpecifier(orderStatus))
+                .orderBy(getOrderSpecifier(orderStatus, calendarStatus))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -134,12 +83,14 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
 
     private BooleanExpression eqCalendarStats(CalendarStatus calendarStatus) {
         if (calendarStatus == null) return null;
+
         LocalDateTime now = LocalDateTime.now();
         return switch (calendarStatus) {
             case CLOSED -> calendar.endAt.loe(now);
             case NOT_STARTED -> calendar.startAt.gt(now);
             case RECRUITING -> (
-                    calendar.startAt.loe(now).and(calendar.endAt.gt(now))
+                    calendar.startAt.loe(now).
+                            and(calendar.endAt.gt(now))
             ).or(calendar.recruitType.eq(ALWAYS));
         };
     }
@@ -151,10 +102,11 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
         return calendar.recruitType.eq(recruitType);
     }
 
-    private OrderSpecifier<?> getOrderSpecifier(OrderStatus orderStatus) {
-        return new OrderSpecifier<>(
-                orderStatus == OrderStatus.ASC ? Order.ASC : Order.DESC,
-                calendar.createdAt
-        );
+    private OrderSpecifier<?> getOrderSpecifier(OrderStatus orderStatus, CalendarStatus calendarStatus) {
+        Order order = (orderStatus == OrderStatus.ASC) ? Order.ASC : Order.DESC;
+        Expression<LocalDateTime> targetColumn = (calendarStatus == CalendarStatus.CLOSED)
+                ? calendar.endAt
+                : calendar.createdAt;
+        return new OrderSpecifier<>(order, targetColumn);
     }
 }
