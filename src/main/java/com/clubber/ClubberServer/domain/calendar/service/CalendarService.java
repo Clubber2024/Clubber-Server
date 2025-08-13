@@ -5,7 +5,6 @@ import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
-import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,13 +28,10 @@ public class CalendarService {
 
         YearMonth recruitYearMonth = YearMonth.of(year, month);
         List<RecruitType> recruitTypes = List.of(RecruitType.REGULAR, RecruitType.ADDITIONAL);
-        List<Calendar> nonAlwaysCalendars = calendarReader.findCalendarsByDateRangeAndTypes(recruitYearMonth, recruitTypes);
-        List<GetNonAlwaysCalendarResponse> nonAlwaysCalendarDto = nonAlwaysCalendars.stream()
-                .map(GetNonAlwaysCalendarResponse::from)
-                .toList();
 
-        List<GetAlwaysCalendarResponse> alwaysCalendarDto = calendarReader.findCalendarsByEndDateAndType(recruitYearMonth, RecruitType.ALWAYS);
-        return GetCalendarInListResponse.of(year, month, nonAlwaysCalendarDto, alwaysCalendarDto);
+        List<GetNonAlwaysCalendarResponse> nonAlwaysCalendars = calendarReader.findCalendarsByDateRangeAndTypes(recruitYearMonth, recruitTypes);
+        List<GetAlwaysCalendarResponse> alwaysCalendars = calendarReader.findCalendarsByEndDateAndType(recruitYearMonth, RecruitType.ALWAYS);
+        return GetCalendarInListResponse.of(year, month, nonAlwaysCalendars, alwaysCalendars);
     }
 
     @Transactional(readOnly = true)
