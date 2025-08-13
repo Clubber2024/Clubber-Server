@@ -23,7 +23,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long>, Calen
 
 
     @Query("SELECT new com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse( " +
-            "c.club.id, c.club.name,COUNT(c)) " +
+            "c.club.id, c.club.name,CAST(COUNT(c)-1 AS long)) " +
             "FROM Calendar c " +
             "WHERE c.recruitType = :recruitType " +
             "AND c.createdAt <:startOfNextMonth " +
