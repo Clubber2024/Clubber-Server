@@ -17,6 +17,8 @@ public record GetCalendarResponseWithLinkedStatus(
         LocalDateTime startAt,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime endAt,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
+        LocalDateTime createdAt,
         String url,
         String recruitStatus,
         AccountRole writerRole,
@@ -29,6 +31,7 @@ public record GetCalendarResponseWithLinkedStatus(
                 .recruitType(calendar.getRecruitType())
                 .startAt(calendar.getStartAt())
                 .endAt(calendar.getEndAt())
+                .createdAt(calendar.getCreatedAt())
                 .url(calendar.getUrl())
                 .recruitStatus(calendar.getStatus())
                 .writerRole(calendar.getWriterRole())
