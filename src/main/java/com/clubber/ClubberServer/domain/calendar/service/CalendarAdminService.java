@@ -41,14 +41,14 @@ public class CalendarAdminService {
         return calendarReader.readClubCalendarPage(club, calendarStatus, recruitType, pageable, orderStatus);
     }
 
-    public GetCalendarResponse getCalendar(Long id) {
-        Calendar calendar = calendarReader.readById(id);
+    public GetCalendarResponse getCalendar(Long calendarId) {
+        Calendar calendar = calendarReader.readById(calendarId);
         return GetCalendarResponse.from(calendar);
     }
 
-    public void updateCalendar(UpdateCalendarRequest request, Long recruitId) {
+    public void updateCalendar(UpdateCalendarRequest request, Long calendarId) {
         Admin admin = adminReader.getCurrentAdmin();
-        Calendar calendar = calendarReader.readById(recruitId);
+        Calendar calendar = calendarReader.readById(calendarId);
 
         calendarValidator.validateCalendarClub(calendar, admin);
         calendarAppender.update(calendar, request);
