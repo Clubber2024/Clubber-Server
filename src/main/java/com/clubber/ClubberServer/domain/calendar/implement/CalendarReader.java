@@ -6,6 +6,7 @@ import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponseWithLinkedStatus;
+import com.clubber.ClubberServer.domain.calendar.dto.GetNonAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarNotFoundException;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
@@ -36,13 +37,13 @@ public class CalendarReader {
                 .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
     }
 
-    public List<Calendar> findCalendarsByDateRangeAndTypes(
-            YearMonth recruitYearMonth,
-            List<RecruitType> recruitTypes) {
+    public List<GetNonAlwaysCalendarResponse> findCalendarsByDateRangeAndTypes(YearMonth recruitYearMonth, List<RecruitType> recruitTypes) {
         LocalDateTime startOfMonth = getStartOfMonth(recruitYearMonth);
         LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
-        return calendarRepository.findCalendarsWithinDateRange(startOfMonth, startOfNextMonth,
-                recruitTypes);
+        List<Calendar> calendars = calendarRepository.findCalendarsWithinDateRange(startOfMonth, startOfNextMonth, recruitTypes);
+        return calendars.stream()
+                .map(GetNonAlwaysCalendarResponse::from)
+                .toList();
     }
 
     public List<GetAlwaysCalendarResponse> findCalendarsByEndDateAndType(YearMonth recruitYearMonth, RecruitType recruitType) {
