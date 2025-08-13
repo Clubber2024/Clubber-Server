@@ -8,7 +8,6 @@ import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
-import com.clubber.ClubberServer.domain.calendar.repository.CalendarFilterType;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
@@ -34,16 +33,10 @@ public class CalendarAdminService {
         return CreateCalendarResponse.from(savedCalendar);
     }
 
-//    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarFilterType calendarFilterType) {
-//        Admin admin = adminReader.getCurrentAdmin();
-//        Club club = admin.getClub();
-//        return calendarReader.readClubCalendarPage(club, calendarFilterType, pageable);
-//    }
-
-    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPagesWithFilter(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType, OrderStatus orderStatus) {
+    public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType, OrderStatus orderStatus) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        return calendarReader.readClubCalendarPageWithFilter(club, calendarStatus, recruitType, pageable, orderStatus);
+        return calendarReader.readClubCalendarPage(club, calendarStatus, recruitType, pageable, orderStatus);
     }
 
     public GetCalendarResponse getCalendar(Long id) {
