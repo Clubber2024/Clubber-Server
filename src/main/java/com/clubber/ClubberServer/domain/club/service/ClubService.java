@@ -91,6 +91,7 @@ public class ClubService {
         List<Club> clubs = clubReader.findByClubType(ClubType.CENTER);
 
         return clubs.stream()
+                .filter(club -> club.getDivision() != Division.ETC)
                 .sorted(Comparator.comparing(Club::getDivision))
                 .collect(Collectors.groupingBy(
                         Club::getDivision,
