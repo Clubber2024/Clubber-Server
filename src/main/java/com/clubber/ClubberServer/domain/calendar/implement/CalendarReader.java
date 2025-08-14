@@ -13,6 +13,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
+import com.clubber.ClubberServer.global.util.SliceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,6 +82,12 @@ public class CalendarReader {
         LocalDateTime todayStart = LocalDate.now().atStartOfDay();
         LocalDateTime tomorrowStart = todayStart.plusDays(1);
         return calendarRepository.findTodayDistinctCalendar(todayStart, tomorrowStart);
+    }
+
+    public List<Calendar> findAlwaysNextCalendar(YearMonth recruitYearMonth, Long calendarId, Long clubId) {
+        LocalDateTime startOfMonth = getStartOfMonth(recruitYearMonth);
+        LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
+        return calendarRepository.findNextCalendar(startOfMonth, startOfNextMonth, RecruitType.ALWAYS, calendarId, clubId);
     }
 
     private static LocalDateTime getStartOfNextMonth(YearMonth yearMonth) {

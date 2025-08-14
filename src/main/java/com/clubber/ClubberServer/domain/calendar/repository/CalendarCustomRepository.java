@@ -17,4 +17,6 @@ public interface CalendarCustomRepository {
     Page<Calendar> findCalendarByClubAndIsDeleted(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus);
 
     List<Club> findTodayDistinctCalendar(LocalDateTime todayStart, LocalDateTime endAt);
+
+    List<Calendar> findNextCalendar(LocalDateTime start, LocalDateTime end, RecruitType recruitType, Long calendarId, Long clubId);
 }

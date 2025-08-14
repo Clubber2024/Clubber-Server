@@ -81,6 +81,29 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
                 ).fetch();
     }
 
+    @Override
+    public List<Calendar> findNextCalendar(LocalDateTime start, LocalDateTime end, RecruitType recruitType, Long calendarId, Long clubId) {
+        return queryFactory.selectFrom(calendar)
+                .where(
+                        calendar.isDeleted.eq(false),
+                        calendar.createdAt.goe(start),
+                        calendar.createdAt.lt(end),
+                        calendar.recruitType.eq(ALWAYS),
+                        ltCalendarId(calendarId),
+                        calendar.club.id.eq(clubId)
+                )
+                .orderBy(calendar.id.desc())
+                .limit(2)
+                .fetch();
+    }
+
+    private BooleanExpression ltCalendarId(Long calendarId) {
+        if (calendarId == null) {
+            return null;
+        }
+        return calendar.id.lt(calendarId);
+    }
+
     private BooleanExpression eqCalendarStats(CalendarStatus calendarStatus) {
         if (calendarStatus == null) return null;
 

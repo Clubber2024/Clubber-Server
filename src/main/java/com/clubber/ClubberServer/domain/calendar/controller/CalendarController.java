@@ -1,10 +1,8 @@
 package com.clubber.ClubberServer.domain.calendar.controller;
 
-import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarInListResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponse;
-import com.clubber.ClubberServer.domain.calendar.dto.GetTodayCalendarResponse;
+import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarService;
+import com.clubber.ClubberServer.global.common.slice.SliceResponse;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,5 +38,12 @@ public class CalendarController {
     @DisableSwaggerSecurity
     public List<GetTodayCalendarResponse> getCalendarResponse() {
         return calendarService.getTodayCalendarResponseList();
+    }
+
+    @PostMapping("/next-always")
+    @Operation(summary = "다음 상시 모집 캘린더 조회")
+    @DisableSwaggerSecurity
+    public SliceResponse<GetCalendarResponse> getCalendarResponse(@RequestBody GetNextAlwaysCalendarRequest request) {
+        return calendarService.getNextCalendar(request);
     }
 }

@@ -6,12 +6,16 @@ import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.clubber.ClubberServer.global.common.slice.SliceResponse;
+import com.clubber.ClubberServer.global.util.SliceUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +50,12 @@ public class CalendarService {
                 .stream()
                 .map(GetTodayCalendarResponse::from)
                 .toList();
+    }
+
+    public SliceResponse<GetCalendarResponse> getNextCalendar(GetNextAlwaysCalendarRequest request) {
+        YearMonth recruitYearMonth = YearMonth.of(request.year(), request.month());
+        List<Calendar> alwaysNextCalendars = calendarReader.findAlwaysNextCalendar(recruitYearMonth, request.nowCalendarId(), request.clubId());
+        List<GetCalendarResponse> alwaysNextCalendarResponse = alwaysNextCalendars.stream().map(GetCalendarResponse::from).toList();
+        return SliceUtil.valueOf(alwaysNextCalendarResponse, Pageable.ofSize(1));
     }
 }
