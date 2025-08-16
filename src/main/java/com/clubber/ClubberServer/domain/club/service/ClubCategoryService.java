@@ -14,24 +14,27 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class ClubCategoryService {
+
     private final EnumMapper enumMapper;
 
     // [중앙 동아리] - 분과명 반환 (enum)
     public List<EnumMapperVO> getDivisions() {
         return enumMapper.get("Division")
-                .stream()
-                .filter(enumMapperVO -> !Objects.equals(enumMapperVO.getCode(), "ETC"))
-                .toList();
+            .stream()
+            .filter(enumMapperVO -> !Objects.equals(enumMapperVO.getCode(), "ETC"))
+            .toList();
     }
 
     // [소모임] - 전체 단과대별 소속 학과 목록 조회
     public List<CollegeResponse> getCollegesWithDepartments() {
         return Arrays.stream(College.values())
-                .map(
-                        college -> {
-                            List<EnumMapperVO> enumMapperVOs = enumMapper.toEnumValues(college.getDepartments());
-                            return CollegeResponse.from(college, enumMapperVOs);
-                        }).toList();
+            .filter(college -> college != College.ETC)
+            .map(
+                college -> {
+                    List<EnumMapperVO> enumMapperVOs = enumMapper.toEnumValues(
+                        college.getDepartments());
+                    return CollegeResponse.from(college, enumMapperVOs);
+                }).toList();
     }
 
     // [회원가입] 단일 단과대 소속 학과 목록 조회
