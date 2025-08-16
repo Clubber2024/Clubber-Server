@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/admins/calendars")
 @Tag(name = "[관리자 캘린더 관련 API]")
 public class CalendarAdminController {
-    private final CalendarAdminService calendarService;
+    private final CalendarAdminService calendarAdminService;
 
     @PostMapping
     @Operation(summary = "미연동 캘린더 생성")
     public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
-        return calendarService.createCalendar(request);
+        return calendarAdminService.createCalendar(request);
     }
 
     @GetMapping
@@ -32,30 +32,30 @@ public class CalendarAdminController {
             @RequestParam(required = false) CalendarStatus calendarStatus,
             @RequestParam(required = false) RecruitType recruitType,
             @RequestParam(required = false) OrderStatus orderStatus) {
-        return calendarService.getCalenderPages(pageable, calendarStatus, recruitType, orderStatus);
+        return calendarAdminService.getCalenderPages(pageable, calendarStatus, recruitType, orderStatus);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "특정 캘린더 (단일) 조회")
     public GetCalendarResponse getCalendar(@PathVariable Long id) {
-        return calendarService.getCalendar(id);
+        return calendarAdminService.getCalendar(id);
     }
 
     @PatchMapping("/{id}")
     @Operation(summary = "특정 캘린더 수정")
     public void updateCalendar(@PathVariable Long id, @RequestBody UpdateCalendarRequest request) {
-        calendarService.updateCalendar(request, id);
+        calendarAdminService.updateCalendar(request, id);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "특정 캘린더 삭제")
     public void deleteCalendar(@PathVariable Long id) {
-        calendarService.deleteCalendar(id);
+        calendarAdminService.deleteCalendar(id);
     }
 
     @PostMapping("/duplicate")
     @Operation(summary = "캘린더 중복 여부 확인 API")
     public GetCalendarDuplicateResponse getCalendarDuplicate(@RequestBody GetCalendarDuplicateRequest request) {
-        return calendarService.checkDuplicateCalendar(request);
+        return calendarAdminService.checkDuplicateCalendar(request);
     }
 }
