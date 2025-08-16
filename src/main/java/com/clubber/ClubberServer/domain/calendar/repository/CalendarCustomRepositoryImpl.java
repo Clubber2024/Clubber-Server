@@ -86,7 +86,6 @@ public class CalendarCustomRepositoryImpl implements CalendarCustomRepository {
         return queryFactory.selectFrom(calendar)
                 .where(
                         calendar.isDeleted.eq(false),
-                        calendar.createdAt.goe(start),
                         calendar.createdAt.lt(end),
                         calendar.recruitType.eq(ALWAYS),
                         ltCalendarId(calendarId),

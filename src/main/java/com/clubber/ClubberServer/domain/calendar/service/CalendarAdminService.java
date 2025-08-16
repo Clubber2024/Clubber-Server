@@ -7,12 +7,14 @@ import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.*;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarAppender;
+import com.clubber.ClubberServer.domain.calendar.implement.CalendarMapper;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CalendarAdminService {
 
+    private final CalendarMapper calendarMapper;
     private final CalendarAppender calendarAppender;
     private final CalendarReader calendarReader;
     private final CalendarValidator calendarValidator;
@@ -38,7 +41,8 @@ public class CalendarAdminService {
     public PageResponse<GetCalendarResponseWithLinkedStatus> getCalenderPages(Pageable pageable, CalendarStatus calendarStatus, RecruitType recruitType, OrderStatus orderStatus) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        return calendarReader.readClubCalendarPage(club, calendarStatus, recruitType, pageable, orderStatus);
+        Page<Calendar> calendars = calendarReader.readClubCalendarPage(club, calendarStatus, recruitType, pageable, orderStatus);
+        return calendarMapper.toCalendarPageResponse(calendars);
     }
 
     public GetCalendarResponse getCalendar(Long calendarId) {
