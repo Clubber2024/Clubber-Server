@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.ClubberServer.domain.recruit.exception.RecruitAlreadyCalendarUnlinkedException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -91,6 +92,9 @@ public class Recruit extends BaseEntity {
     }
 
     public void unlinkCalendar() {
+        if (!isCalendarLinked()) {
+            throw RecruitAlreadyCalendarUnlinkedException.EXCEPTION;
+        }
         this.calendar.unlink();
         this.calendar = null;
     }
