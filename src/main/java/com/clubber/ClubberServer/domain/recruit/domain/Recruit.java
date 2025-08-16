@@ -67,6 +67,9 @@ public class Recruit extends BaseEntity {
     private List<RecruitImage> recruitImages = new ArrayList<>();
 
     public void delete() {
+        if (isCalendarLinked()) {
+            calendar.delete();
+        }
         this.isDeleted = true;
     }
 

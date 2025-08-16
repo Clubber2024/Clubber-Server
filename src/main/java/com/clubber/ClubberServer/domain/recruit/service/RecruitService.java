@@ -117,10 +117,6 @@ public class RecruitService {
         recruitAppender.delete(recruit);
         recruitImageAppender.deleteRecruitImages(recruit.getRecruitImages());
 
-        if (recruit.isCalendarLinked()) {
-            recruitLinkedCalendarService.deleteLinkedCalendar(recruit.getCalendar().getId());
-        }
-
         List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
         return DeleteRecruitByIdResponse.from(recruit, imageUrls);
     }
