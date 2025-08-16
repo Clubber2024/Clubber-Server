@@ -14,6 +14,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetNonAlwaysCalendarResponse {
 
+    @Schema(description = "캘린더 id", example = "12")
+    private final Long calendarId;
+
     @Schema(description = "동아리 id", example = "1")
     private final Long clubId;
 
@@ -33,6 +36,7 @@ public class GetNonAlwaysCalendarResponse {
 
     public static GetNonAlwaysCalendarResponse from(Calendar calendar) {
         return GetNonAlwaysCalendarResponse.builder()
+            .calendarId(calendar.getId())
             .clubId(calendar.getClub().getId())
             .clubName(calendar.getClub().getName())
             .recruitType(calendar.getRecruitType().getTitle())
