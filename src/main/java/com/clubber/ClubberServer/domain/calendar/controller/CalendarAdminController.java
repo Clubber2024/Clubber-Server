@@ -8,6 +8,7 @@ import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class CalendarAdminController {
 
     @PostMapping
     @Operation(summary = "미연동 캘린더 생성")
-    public CreateCalendarResponse createCalendar(@RequestBody CreateCalendarRequest request) {
+    public CreateCalendarResponse createCalendar(@RequestBody @Valid CreateCalendarRequest request) {
         return calendarAdminService.createCalendar(request);
     }
 
@@ -43,7 +44,7 @@ public class CalendarAdminController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "특정 캘린더 수정")
-    public void updateCalendar(@PathVariable Long id, @RequestBody UpdateCalendarRequest request) {
+    public void updateCalendar(@PathVariable Long id, @RequestBody @Valid UpdateCalendarRequest request) {
         calendarAdminService.updateCalendar(request, id);
     }
 
@@ -55,7 +56,7 @@ public class CalendarAdminController {
 
     @PostMapping("/duplicate")
     @Operation(summary = "캘린더 중복 여부 확인 API")
-    public GetCalendarDuplicateResponse getCalendarDuplicate(@RequestBody GetCalendarDuplicateRequest request) {
+    public GetCalendarDuplicateResponse getCalendarDuplicate(@RequestBody @Valid GetCalendarDuplicateRequest request) {
         return calendarAdminService.checkDuplicateCalendar(request);
     }
 }
