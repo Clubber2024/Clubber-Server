@@ -8,9 +8,7 @@ import com.clubber.ClubberServer.domain.calendar.implement.CalendarReader;
 import com.clubber.ClubberServer.domain.calendar.implement.CalendarValidator;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.global.common.slice.SliceResponse;
-import com.clubber.ClubberServer.global.util.SliceUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
