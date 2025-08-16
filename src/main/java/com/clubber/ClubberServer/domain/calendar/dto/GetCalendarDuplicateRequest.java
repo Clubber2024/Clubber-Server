@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public record GetCalendarDuplicateRequest(
-        @NotBlank
+        @Schema(description = "모집 유형", example = "REGULAR")
+        @NotBlank(message = "모집 유형을 입력해주세요")
         RecruitType recruitType,
         @Schema(description = "기간 시작일", example = "2025-08-30 00:00", type = "string")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")

@@ -56,7 +56,7 @@ public class GetOneAdminRecruitResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private final LocalDateTime createdAt;
 
-    @Schema(description = "모집글 모집 상태")
+    @Schema(description = "현재 모집 상태", example = "모집전,진행중,마감됨")
     private final String recruitStatus;
 
     public static GetOneAdminRecruitResponse of(Recruit recruit, List<ImageVO> images) {
