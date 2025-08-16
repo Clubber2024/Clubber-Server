@@ -2,7 +2,6 @@ package com.clubber.ClubberServer.domain.calendar.dto;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -40,16 +39,6 @@ public record CreateCalendarRequest(
                 .url(url)
                 .writerRole(AccountRole.ADMIN)
                 .club(club)
-                .build();
-    }
-
-    public static CreateCalendarRequest from(Recruit recruit, String recruitUrl) {
-        return CreateCalendarRequest.builder()
-                .title(recruit.getTitle())
-                .recruitType(recruit.getRecruitType())
-                .startAt(recruit.getStartAt())
-                .endAt(recruit.getEndAt())
-                .url(recruitUrl)
                 .build();
     }
 }
