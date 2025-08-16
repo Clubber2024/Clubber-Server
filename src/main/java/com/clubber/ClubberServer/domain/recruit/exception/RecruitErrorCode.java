@@ -20,6 +20,7 @@ public enum RecruitErrorCode implements BaseErrorCode {
         "startAt과 endAt은 필수입니다."),
     RECRUIT_PERIOD_NOT_ALLOWED(HttpStatus.BAD_REQUEST.value(), "RECRUIT_400_7",
             "상시모집의 경우 startAt과 endAt이 null이어야 합니다."),
+    RECRUIT_ALREADY_CALENDAR_UNLINKED(HttpStatus.BAD_REQUEST.value(), "RECRUIT_400_8", "연동되어있지 않은 캘린더를 연동해제할 수 없습니다."),
     RECRUIT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_1", "모집글 접근 권한이 없습니다."),
     RECRUIT_DELETE_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_2", "모집글 삭제 권한이 없습니다."),
     RECRUIT_COMMENT_UNAUTHORIZED(HttpStatus.FORBIDDEN.value(), "RECRUIT_403_3", "댓글 권한이 없습니다."),

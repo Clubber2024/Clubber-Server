@@ -1,21 +1,12 @@
 package com.clubber.ClubberServer.domain.recruit.service;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
-
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
-import com.clubber.ClubberServer.domain.recruit.dto.DeleteRecruitByIdResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.GetOneAdminRecruitResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitInListResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.GetOneRecruitWithClubResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitResponse;
-import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
-import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
@@ -29,17 +20,20 @@ import com.clubber.ClubberServer.domain.recruit.repository.RecruitImageRepositor
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +48,6 @@ public class RecruitService {
     private final RecruitImageAppender recruitImageAppender;
     private final RecruitImageRepository recruitImageRepository;
     private final RecruitMapper recruitMapper;
-    private final RecruitLinkedCalendarService recruitLinkedCalendarService;
 
     @Transactional(readOnly = true)
     public PageResponse<GetOneRecruitInListResponse> getRecruitsByClubId(Long clubId,
@@ -116,10 +109,6 @@ public class RecruitService {
 
         recruitAppender.delete(recruit);
         recruitImageAppender.deleteRecruitImages(recruit.getRecruitImages());
-
-        if (recruit.isCalendarLinked()) {
-            recruitLinkedCalendarService.deleteLinkedCalendar(recruit.getCalendar().getId());
-        }
 
         List<ImageVO> imageUrls = recruitMapper.getDeletedRecruitImages(recruit);
         return DeleteRecruitByIdResponse.from(recruit, imageUrls);
@@ -225,19 +214,7 @@ public class RecruitService {
             recruitImage.updateOrderNum(order.getAndIncrement());
         }
 
-        Boolean shouldCreateCalendar = Boolean.FALSE;
-        if (recruit.isCalendarLinked()
-            && !requestPage.getIsCalendarLinked()) {  // 연동된 캘린더의 해제
-            recruit.unlinkCalendar();
-        } else if (recruit.isCalendarLinked()
-            && requestPage.getIsCalendarLinked()) { // 연동된 캘린더의 연동 유지
-            recruitLinkedCalendarService.syncCalendarWithRecruit(recruit, requestPage.getTitle(),
-                requestPage.getRecruitType(), requestPage.getStartAt(), requestPage.getEndAt());
-        } else if (!recruit.isCalendarLinked()
-            && requestPage.getIsCalendarLinked()) { // 새로 연동
-            shouldCreateCalendar = Boolean.TRUE;
-        }
-
+        Boolean shouldCreateCalendar = recruitAppender.checkAndUpdateCalendarLink(recruit, requestPage);
         return UpdateRecruitResponse.of(recruit, requestPage.getImages(),
             requestPage.getIsCalendarLinked(), shouldCreateCalendar);
     }
