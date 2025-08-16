@@ -4,23 +4,32 @@ import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
 public record GetCalendarResponse(
+        @Schema(description = "캘린더 id", example = "1")
         Long id,
+        @Schema(description = "캘린더 제목")
         String title,
+        @Schema(description = "모집 유형", example = "REGULAR")
         RecruitType recruitType,
+        @Schema(description = "시작일")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime startAt,
+        @Schema(description = "마감일")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime endAt,
+        @Schema(description = "등록일")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
         String url,
+        @Schema(description = "현재 모집 상태", example = "모집전,진행중,마감됨")
         String recruitStatus,
+        @Schema(description = "작성자 유형")
         AccountRole writerRole
 ) {
     public static GetCalendarResponse from(Calendar calendar) {

@@ -16,7 +16,7 @@ public record CreateCalendarRequest(
         @Schema(description = "캘린더 제목")
         @NotBlank(message = "제목을 입력해주세요")
         String title,
-        @Schema(description = "모집 종류")
+        @Schema(description = "모집 유형")
         @NotBlank(message = "모집 종류를 입력해주세요")
         RecruitType recruitType,
         @Schema(description = "기간 시작일", example = "2025-08-30 00:00", type = "string")
