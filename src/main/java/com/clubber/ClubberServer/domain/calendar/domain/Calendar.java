@@ -69,6 +69,10 @@ public class Calendar extends BaseEntity {
         isDeleted = true;
     }
 
+    public void unlink() {
+        this.url = null;
+    }
+
     public void update(String title, RecruitType recruitType, LocalDateTime startAt,
                        LocalDateTime endAt, String url) {
         this.title = title;
