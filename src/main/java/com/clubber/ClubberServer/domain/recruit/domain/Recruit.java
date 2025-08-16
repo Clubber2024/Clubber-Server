@@ -88,6 +88,7 @@ public class Recruit extends BaseEntity {
     }
 
     public void unlinkCalendar() {
+        this.calendar.unlink();
         this.calendar = null;
     }
 
