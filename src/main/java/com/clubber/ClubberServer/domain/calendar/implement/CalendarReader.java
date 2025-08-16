@@ -5,15 +5,10 @@ import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.calendar.domain.OrderStatus;
 import com.clubber.ClubberServer.domain.calendar.dto.GetAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarResponseWithLinkedStatus;
-import com.clubber.ClubberServer.domain.calendar.dto.GetNonAlwaysCalendarResponse;
 import com.clubber.ClubberServer.domain.calendar.exception.CalendarNotFoundException;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
-import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
-import com.clubber.ClubberServer.global.common.page.PageResponse;
-import com.clubber.ClubberServer.global.util.SliceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,36 +26,26 @@ import java.util.List;
 public class CalendarReader {
 
     private final CalendarRepository calendarRepository;
-    private final RecruitReader recruitReader;
 
     public Calendar readById(Long id) {
         return calendarRepository.findCalendarByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> CalendarNotFoundException.EXCEPTION);
     }
 
-    public List<GetNonAlwaysCalendarResponse> findCalendarsByDateRangeAndTypes(YearMonth recruitYearMonth, List<RecruitType> recruitTypes) {
+    public List<Calendar> findNonAlwaysCalendars(YearMonth recruitYearMonth) {
+        List<RecruitType> recruitTypes = List.of(RecruitType.REGULAR, RecruitType.ADDITIONAL);
         LocalDateTime startOfMonth = getStartOfMonth(recruitYearMonth);
         LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
-        List<Calendar> calendars = calendarRepository.findCalendarsWithinDateRange(startOfMonth, startOfNextMonth, recruitTypes);
-        return calendars.stream()
-                .map(GetNonAlwaysCalendarResponse::from)
-                .toList();
+        return calendarRepository.findCalendarsWithinDateRange(startOfMonth, startOfNextMonth, recruitTypes);
     }
 
-    public List<GetAlwaysCalendarResponse> findCalendarsByEndDateAndType(YearMonth recruitYearMonth, RecruitType recruitType) {
+    public List<GetAlwaysCalendarResponse> findAlwaysCalendar(YearMonth recruitYearMonth) {
         LocalDateTime startOfNextMonth = getStartOfNextMonth(recruitYearMonth);
-        return calendarRepository.findAlwaysRecruitCreatedBefore(startOfNextMonth, recruitType);
+        return calendarRepository.findAlwaysRecruitCreatedBefore(startOfNextMonth, RecruitType.ALWAYS);
     }
 
-    public PageResponse<GetCalendarResponseWithLinkedStatus> readClubCalendarPage(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
-        Page<Calendar> calendarPages = calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable, orderStatus);
-        Page<GetCalendarResponseWithLinkedStatus> pageDtos = calendarPages.map(
-                calendar -> {
-                    boolean isCalendarLinked = recruitReader.isCalendarLinked(calendar);
-                    return GetCalendarResponseWithLinkedStatus.from(calendar, isCalendarLinked);
-                }
-        );
-        return PageResponse.of(pageDtos);
+    public Page<Calendar> readClubCalendarPage(Club club, CalendarStatus calendarStatus, RecruitType recruitType, Pageable pageable, OrderStatus orderStatus) {
+        return calendarRepository.findCalendarByClubAndIsDeleted(club, calendarStatus, recruitType, pageable, orderStatus);
     }
 
     public boolean isExistInSameMonth(GetCalendarDuplicateRequest request, Club club) {

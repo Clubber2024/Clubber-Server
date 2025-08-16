@@ -77,7 +77,7 @@ public class RecruitLinkedCalendarServiceTest {
         entityManager.flush();
         entityManager.clear();
 
-        recruitLinkedCalendarService.createLinkedCalender(request);
+        recruitLinkedCalendarService.createLinkedCalendar(request);
 
         entityManager.flush();
         entityManager.clear();

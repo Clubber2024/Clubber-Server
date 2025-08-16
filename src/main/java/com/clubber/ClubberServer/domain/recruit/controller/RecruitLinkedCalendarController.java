@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.controller;
 
 import com.clubber.ClubberServer.domain.recruit.dto.CreateLinkedCalendarRequest;
-import com.clubber.ClubberServer.domain.recruit.dto.CreateLinkedCalenderResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.CreateLinkedCalendarResponse;
 import com.clubber.ClubberServer.domain.recruit.service.RecruitLinkedCalendarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,8 +23,8 @@ public class RecruitLinkedCalendarController {
 
     @Operation(summary = "연동 캘린더 생성(모집글 생성 이후 호출)")
     @PostMapping
-    public CreateLinkedCalenderResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
-        return recruitLinkedCalendarService.createLinkedCalender(request);
+    public CreateLinkedCalendarResponse createLinkedCalender(@RequestBody CreateLinkedCalendarRequest request) {
+        return recruitLinkedCalendarService.createLinkedCalendar(request);
     }
 
     @Operation(summary = "특정 캘린더 연동 해제")
