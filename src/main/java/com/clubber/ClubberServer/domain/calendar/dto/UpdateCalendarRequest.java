@@ -17,11 +17,11 @@ public record UpdateCalendarRequest(
         RecruitType recruitType,
         @Schema(description = "기간 시작일", example = "2025-08-30 00:00", type = "string")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        @NotBlank(message = "시작 일자를 입력해주세요")
+        @NotNull(message = "시작 일자를 입력해주세요")
         LocalDateTime startAt,
         @Schema(description = "기간 마감일", example = "2025-09-02 23:59", type = "string")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-        @NotBlank(message = "마감 일정을 입력해주세요")
+        @NotNull(message = "마감 일정을 입력해주세요")
         LocalDateTime endAt,
         String url
 ) {
