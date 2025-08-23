@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class NoticeService {
 
     @Transactional(readOnly = true)
     public List<GetNoticesAtMainResponse> getNoticesAtMain(){
-        List<Notice> notices=noticeRepository.findTop5ByOrderByIdDesc();
+        List<Notice> notices=noticeRepository.findTop4ByOrderByIdDesc();
         return noticeMapper.getNoticesAtMain(notices);
     }
 
