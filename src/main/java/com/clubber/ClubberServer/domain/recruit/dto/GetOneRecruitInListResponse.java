@@ -4,7 +4,9 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,17 +41,16 @@ public class GetOneRecruitInListResponse {
     @Schema(description = "모집글 대표 이미지", example = "https://image.ssuclubber.com/club/image2")
     private final ImageVO imageUrl;
 
-    public static GetOneRecruitInListResponse of(Recruit recruit, String content,
-        ImageVO imageUrl) {
+    public static GetOneRecruitInListResponse of(Recruit recruit, ImageVO imageUrl) {
         return GetOneRecruitInListResponse.builder()
-            .recruitId(recruit.getId())
-            .title(recruit.getTitle())
-            .recruitType(recruit.getRecruitType().getTitle())
-            .startAt(recruit.getStartAt())
-            .endAt(recruit.getEndAt())
-            .content(content)
-            .applyLink(recruit.getApplyLink())
-            .imageUrl(imageUrl)
-            .build();
+                .recruitId(recruit.getId())
+                .title(recruit.getTitle())
+                .recruitType(recruit.getRecruitType().getTitle())
+                .startAt(recruit.getStartAt())
+                .endAt(recruit.getEndAt())
+                .content(recruit.getContent())
+                .applyLink(recruit.getApplyLink())
+                .imageUrl(imageUrl)
+                .build();
     }
 }
