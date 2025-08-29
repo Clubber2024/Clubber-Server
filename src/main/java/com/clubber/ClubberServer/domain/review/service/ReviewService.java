@@ -5,30 +5,25 @@ import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
-import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsPageResponse;
-import com.clubber.ClubberServer.domain.review.dto.GetClubReviewsSliceResponse;
-import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
-import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
+import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
+import com.clubber.ClubberServer.domain.review.vo.KeywordStatsVO;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import com.clubber.ClubberServer.global.event.review.approve.ReviewApproveEvnetPublisher;
-import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapper;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,14 +33,14 @@ public class ReviewService {
 	private final ReviewKeywordRepository reviewKeywordRepository;
 	private final ReviewMapper reviewMapper;
 	private final ClubRepository clubRepository;
-	private final EnumDefaultMapper enumDefaultMapper;
+	private final EnumMapper enumMapper;
 	private final ReviewApproveEvnetPublisher publisher;
-	private final UserReadService userReadService;
+	private final UserReader userReader;
 
 	@Transactional
 	public CreateClubReviewResponse createReview(Long clubId,
 		@Valid CreateClubReviewRequest reviewRequest) {
-		User user = userReadService.getUser();
+		User user = userReader.getCurrentUser();
 		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
@@ -119,11 +114,16 @@ public class ReviewService {
 	}
 
 	public List<EnumMapperVO> getTotalKeywords() {
-		return enumDefaultMapper.get("Keyword");
+		return enumMapper.get("Keyword");
 	}
 
 	@Transactional
 	public void saveReview(Review review) {
 		reviewRepository.save(review);
+	}
+
+	@Transactional
+	public void softDeleteReviewByClubId(Long clubId) {
+		reviewRepository.softDeleteReviewByClubId(clubId);
 	}
 }

@@ -14,7 +14,9 @@ public enum GlobalErrorCode implements BaseErrorCode {
 		"Request Parameter가 유요한 지 확인해주세요"),
 
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GLOBAL_500_1",
-		"서버 오류. 관리자에게 문의 바랍니다.");
+		"서버 오류. 관리자에게 문의 바랍니다."),
+
+	MAIL_NOT_SENT(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GLOBAL_500_2", "메일 발송 실패");
 
 	private final Integer status;
 	private final String code;

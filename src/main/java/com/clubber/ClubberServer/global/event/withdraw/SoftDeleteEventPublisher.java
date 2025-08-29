@@ -10,7 +10,7 @@ public class SoftDeleteEventPublisher {
 
 	private final ApplicationEventPublisher eventPublisher;
 
-	public void throwSoftDeleteEvent(Long adminId) {
-		eventPublisher.publishEvent(new SoftDeleteEvent(adminId));
+	public void throwSoftDeleteEvent(Long clubId) {
+		eventPublisher.publishEvent(new SoftDeleteEvent(clubId));
 	}
 }

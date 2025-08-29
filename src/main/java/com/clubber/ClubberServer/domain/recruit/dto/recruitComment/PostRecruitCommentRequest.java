@@ -1,5 +1,8 @@
 package com.clubber.ClubberServer.domain.recruit.dto.recruitComment;
 
+import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
+import com.clubber.ClubberServer.domain.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,4 +23,12 @@ public class PostRecruitCommentRequest {
     @Schema(description = "부모 댓글 id", example = "1")
     private Long parentId;
 
+    public RecruitComment toEntity(Recruit recruit, User user, RecruitComment parentComment) {
+        return RecruitComment.builder()
+                .content(content)
+                .recruit(recruit)
+                .user(user)
+                .parentComment(parentComment)
+                .build();
+    }
 }

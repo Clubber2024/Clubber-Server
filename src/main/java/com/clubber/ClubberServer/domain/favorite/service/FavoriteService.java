@@ -1,15 +1,15 @@
 package com.clubber.ClubberServer.domain.favorite.service;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.ClubberServer.domain.club.implement.ClubReader;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
-import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
-import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
-import com.clubber.ClubberServer.domain.favorite.validator.FavoriteValidator;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteAppender;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
+import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
+import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,35 +18,37 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FavoriteService {
 
-	private final FavoriteValidator favoriteValidator;
+    private final FavoriteValidator favoriteValidator;
 
-	private final FavoriteRepository favoriteRepository;
+    private final FavoriteAppender favoriteAppender;
 
-	private final ClubRepository clubRepository;
+    private final FavoriteReader favoriteReader;
 
-	private final UserReadService userReadService;
+    private final UserReader userReader;
 
-	@Transactional
-	public FavoriteResponse createFavorite(Long clubId) {
-		User user = userReadService.getUser();
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+    private final ClubReader clubReader;
 
-		favoriteValidator.validateFavoriteExist(user, club);
+    @Transactional
+    public FavoriteResponse createFavorite(Long clubId) {
+        User user = userReader.getCurrentUser();
+        Club club = clubReader.findById(clubId);
 
-		Favorite favorite = favoriteRepository.save(Favorite.create(user, club));
-		return FavoriteResponse.from(favorite);
-	}
+        favoriteValidator.validateFavoriteExist(user, club);
 
-	@Transactional
-	public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
-		User user = userReadService.getUser();
+        Favorite favorite = favoriteAppender.append(user, club);
+        return FavoriteResponse.of(favorite, club.getId(), user.getId());
+    }
 
-		Favorite favorite = favoriteRepository.findByIdAndIsDeleted(favoriteId, false)
-			.orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+    @Transactional
+    public FavoriteResponse deleteFavorite(Long clubId, Long favoriteId) {
+        Favorite favorite = favoriteReader.findById(favoriteId);
+        Long userId = SecurityUtils.getCurrentUserId();
+        favoriteAppender.delete(favorite, userId, clubId);
+        return FavoriteResponse.of(favorite, clubId, userId);
+    }
 
-		favoriteValidator.validateDeleteFavorite(favorite, user, clubId);
-		favorite.delete();
-		return FavoriteResponse.from(favorite);
-	}
+    @Transactional
+    public void softDeleteByClubId(Long clubId) {
+        favoriteAppender.softDeleteByClubId(clubId);
+    }
 }

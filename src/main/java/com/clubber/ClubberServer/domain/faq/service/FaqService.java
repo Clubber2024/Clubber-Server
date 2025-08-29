@@ -1,18 +1,19 @@
 package com.clubber.ClubberServer.domain.faq.service;
 
-import com.clubber.ClubberServer.global.mapper.enums.EnumFaqMapper;
-import com.clubber.ClubberServer.global.vo.enums.EnumFaQMapperVO;
-import java.util.List;
+import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
+import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FaqService {
 
-	private final EnumFaqMapper enumFaqMapper;
+	private final EnumMapper enumMapper;
 
-	public List<EnumFaQMapperVO> getTotalFaqs() {
-		return enumFaqMapper.get("FaQ");
+	public List<EnumMapperVO> getTotalFaqs() {
+		return enumMapper.get("FaQ");
 	}
 }

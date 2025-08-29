@@ -11,11 +11,14 @@ public enum AdminErrorCode implements BaseErrorCode {
 
     INVALID_APPROVED_STATUS(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_1", "승인 또는 미승인 할 수 없는 리뷰 상태입니다"),
     ADMIN_EQUALS_PREVIOUS_PASSWORD(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_2", "이전 비밀번호와 다른 비밀번호를 작성해주세요."),
-    ADMIN_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_2", "이미 탈퇴한 동아리 계정입니다"),
+    ADMIN_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_3", "이미 탈퇴한 동아리 계정입니다"),
+    ADMIN_ALREADY_EMAIL_VERIFIED(HttpStatus.BAD_REQUEST.value(), "ADMIN_400_4", "이미 인증된 정보입니다"),
 
     ADMIN_LOGIN_FAILED(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_1", "아이디 또는 비밀번호를 확인해주세요"),
-    ADMIN_INVALID_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_2", "인증번호가 올바르지 않습니다."),
-    ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "ADMIN_404_1", "해당 관리자를 찾을 수 없습니다");
+    ADMIN_INVALID_AUTH_CODE(HttpStatus.UNAUTHORIZED.value(), "ADMIN_401_2", "인증번호가 유효하지 않습니다. 다시 요청해주세요."),
+    ADMIN_INVALID_CURRENT_PASSWORD(HttpStatus.BAD_REQUEST.value(), "ADMIN_401_3", "현재 비밀번호를 확인해주세요."),
+    ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "ADMIN_404_1", "해당 관리자를 찾을 수 없습니다"),
+    ADMIN_USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "ADMIN_404_2", "존재하지 않는 아이디입니다");
 
 
     private final Integer status;

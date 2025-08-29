@@ -1,12 +1,18 @@
 package com.clubber.ClubberServer.domain.recruit.mapper;
 
+import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
+import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.recruit.dto.*;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetOneRecruitMainPageResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
+import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
+import com.clubber.ClubberServer.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import java.util.Comparator;
@@ -19,15 +25,10 @@ public class RecruitMapper {
     public PageResponse<GetOneRecruitInListResponse> getRecruitsPageResponse(
         Page<Recruit> recruits) {
         Page<GetOneRecruitInListResponse> recruitResponses = recruits.map(recruit -> {
-            String content = getContentPreview(recruit);
             ImageVO imageUrl = getFirstImageUrl(recruit.getRecruitImages());
-            return GetOneRecruitInListResponse.of(recruit, content, imageUrl);
+            return GetOneRecruitInListResponse.of(recruit, imageUrl);
         });
         return PageResponse.of(recruitResponses);
-    }
-
-    private String getContentPreview(Recruit recruit) {
-        return recruit.getContent().substring(0, Math.min(recruit.getContent().length(), 60));
     }
 
     private ImageVO getFirstImageUrl(List<RecruitImage> recruitImages) {
@@ -47,19 +48,19 @@ public class RecruitMapper {
         return GetOneRecruitWithClubResponse.of(recruit, recruit.getClub(), imageUrls);
     }
 
-    public GetOneRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
+    public GetOneAdminRecruitResponse getOneAdminRecruitsById(Recruit recruit) {
         List<ImageVO> imageUrls = getRecruitImages(recruit);
-        return GetOneRecruitResponse.of(recruit, imageUrls);
+        return GetOneAdminRecruitResponse.of(recruit, imageUrls);
     }
 
     public PostRecruitResponse getRecruitWithImageUrls(Recruit newRecruit,
-        List<RecruitImage> savedImages) {
+        List<RecruitImage> savedImages, Boolean isCalendarLinked) {
         List<ImageVO> imageUrls = savedImages.stream()
             .sorted(Comparator.comparing(RecruitImage::getOrderNum))
             .map(RecruitImage::getImageUrl)
             .collect(Collectors.toList());
 
-        return PostRecruitResponse.of(newRecruit, imageUrls);
+        return PostRecruitResponse.of(newRecruit, imageUrls, isCalendarLinked);
     }
 
     private List<ImageVO> getRecruitImages(Recruit recruit) {
@@ -72,11 +73,27 @@ public class RecruitMapper {
     }
 
     public GetRecruitsMainPageResponse getRecruitsMainPage(List<Recruit> recruits) {
+        LocalDateTime now = LocalDateTime.now();
+
         List<GetOneRecruitMainPageResponse> recruitsDto = recruits.stream()
-            .map(GetOneRecruitMainPageResponse::from)
+            .map(recruit -> GetOneRecruitMainPageResponse.of(recruit,getRecruitStatus(recruit,now)))
             .collect(Collectors.toList());
 
         return GetRecruitsMainPageResponse.from(recruitsDto);
     }
 
+    private CalendarStatus getRecruitStatus(Recruit recruit, LocalDateTime now){
+        return CalendarStatus.getStatus(now, recruit.getStartAt(), recruit.getEndAt(), recruit.getRecruitType());
+    }
+
+    public List<GetRecruitCommentResponse> getRecruitCommentResponses(List<RecruitComment> comments) {
+        RecruitCommentVO recruitCommentVO = new RecruitCommentVO();
+        for (RecruitComment comment : comments) {
+            GetRecruitCommentResponse nowCommentResponse = GetRecruitCommentResponse.from(comment);
+
+            recruitCommentVO.addToTreeStructure(nowCommentResponse);
+            recruitCommentVO.updateInCommentResponse(comment.getParentComment(), nowCommentResponse);
+        }
+        return recruitCommentVO.getTotalComments();
+    }
 }

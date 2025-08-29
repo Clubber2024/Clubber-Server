@@ -32,22 +32,22 @@ public class UserController {
 		return userService.getUserProfile();
 	}
 
-	@Operation(summary = "회원 즐겨찾기 조회")
+	@Operation(summary = "즐겨찾기 전체 조회")
 	@GetMapping("/favorite")
 	public GetUserFavoritesResponse getUserFavorites() {
 		return userService.getUserFavorites();
 	}
 
-	@Operation(summary = "내가 쓴 리뷰 조회")
+	@Operation(summary = "리뷰 전체 조회")
 	@GetMapping("/review")
 	public GetUserReviewsResponse getUserReviews() {
 		return userService.getUserReviews();
 	}
 
-	@Operation(summary = "즐겨찾기 페이징 처리", description = "추후 적용")
+	@Operation(summary = "즐겨찾기 페이지 조회")
 	@GetMapping("/favorite/page")
 	public PageResponse<GetFavoriteDetailsResponse> getUsersFavoritePage(
-		@ParameterObject Pageable pageable) {
+			@ParameterObject Pageable pageable) {
 		return userService.getUserFavoritesPagination(pageable);
 	}
 

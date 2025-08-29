@@ -62,16 +62,17 @@ public class User extends BaseEntity {
 		this.snsId = snsId;
 	}
 
-	public void delete() {
+	public void withDraw() {
 		if (this.accountState == AccountState.INACTIVE) {
 			throw UserAlreadyDeletedException.EXCEPTION;
 		}
 		this.email = null;
 		this.snsId = null;
 		this.accountState = AccountState.INACTIVE;
+		deleteFavorites();
 	}
 
-	public void deleteFavorites() {
-		favorites.stream().forEach(Favorite::delete);
+	private void deleteFavorites() {
+		favorites.forEach(favorite -> favorite.deleteByUserId(id));
 	}
 }

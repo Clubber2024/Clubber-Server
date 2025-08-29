@@ -8,8 +8,8 @@ public class EnumFaQMapperVO extends EnumMapperVO {
 
 	private final String answer;
 
-	public EnumFaQMapperVO(EnumFaqMapperType enumFaQMapperType) {
-		super(enumFaQMapperType);
-		this.answer = enumFaQMapperType.getAnswer();
+	public EnumFaQMapperVO(EnumFaqMapperType enumFaqMapperType) {
+		super(enumFaqMapperType);
+		this.answer = enumFaqMapperType.getAnswer();
 	}
 }

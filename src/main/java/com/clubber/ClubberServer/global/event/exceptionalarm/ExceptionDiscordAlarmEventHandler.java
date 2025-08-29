@@ -1,14 +1,15 @@
 package com.clubber.ClubberServer.global.event.exceptionalarm;
 
-import com.clubber.ClubberServer.global.infrastructure.outer.exception.client.discord.DiscordClient;
-import com.clubber.ClubberServer.global.infrastructure.outer.exception.dto.discord.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.client.DiscordClient;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.dto.DiscordMessage;
+import com.clubber.ClubberServer.global.infrastructure.outer.discord.message.DiscordMessageFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -20,27 +21,16 @@ import org.springframework.web.context.request.WebRequest;
 public class ExceptionDiscordAlarmEventHandler {
 
 	private final DiscordClient discordClient;
+	private final DiscordMessageFactory discordMessageFactory;
+	@Value("${discord.web-hook.server-error}")
+	private String channelId;
 
 	@EventListener
 	public void listenExceptionAlarmEvent(ExceptionAlarmEvent event) {
-		sendDiscordAlarm(event.getE(), event.getRequest());
-	}
-
-	private void sendDiscordAlarm(Exception e, WebRequest request) {
-		discordClient.sendAlarm(createDiscordMessage(e, request));
-	}
-
-	private DiscordMessage createDiscordMessage(Exception e, WebRequest request) {
-		List<DiscordMessage.Embed> embedList = List.of(DiscordMessage.Embed
-			.builder()
-			.title("[서버 에러 발생]")
-			.description(getDescription(e, request))
-			.build());
-
-		return DiscordMessage.builder()
-			.content("에러 발생 내용")
-			.embeds(embedList)
-			.build();
+		String description = getDescription(event.getE(), event.getRequest());
+		DiscordMessage discordMessage = discordMessageFactory.createDiscordMessage("[서버 에러 발생]",
+			description, "에러 발생 내용");
+		discordClient.sendAlarm(channelId, discordMessage);
 	}
 
 	private String getDescription(Exception e, WebRequest request) {

@@ -6,93 +6,55 @@ import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.DeleteRecruit
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentResponse;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentNotFoundException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitCommentUserUnauthorizedException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitNotFoundException;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentAppender;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
+import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
+import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.service.UserReadService;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class RecruitCommentService {
 
-    private final UserReadService userReadService;
-    private final RecruitRepository recruitRepository;
-    private final RecruitCommentRepository recruitCommentRepository;
+    private final UserReader userReader;
+    private final RecruitReader recruitReader;
+    private final RecruitCommentReader recruitCommentReader;
+    private final RecruitCommentAppender recruitCommentAppender;
+    private final RecruitValidator recruitValidator;
+    private final RecruitMapper recruitMapper;
 
     @Transactional
-    public PostRecruitCommentResponse postRecruitComment(Long recruitId,
-        PostRecruitCommentRequest request) {
+    public PostRecruitCommentResponse postRecruitComment(Long recruitId, PostRecruitCommentRequest request) {
+        User user = userReader.getCurrentUser();
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
 
-        User user = userReadService.getUser();
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        RecruitComment parentComment = null;
-        if (request.getParentId() != null) {
-            parentComment = recruitCommentRepository.findById(request.getParentId())
-                .orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
-        }
-
-        RecruitComment newComment = RecruitComment.of(recruit, user, request, parentComment);
-        RecruitComment savedComment = recruitCommentRepository.save(newComment);
-
+        RecruitComment savedComment = recruitCommentAppender.append(request, recruit, user);
         return PostRecruitCommentResponse.from(savedComment);
     }
 
     @Transactional(readOnly = true)
     public List<GetRecruitCommentResponse> getRecruitComment(Long recruitId) {
-
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        List<RecruitComment> comments = recruitCommentRepository.findByRecruitOrderByIdAsc(
-            recruit);
-
-        List<GetRecruitCommentResponse> totalComments = new ArrayList<>();
-        Map<Long, GetRecruitCommentResponse> commentMap = new HashMap<>();
-
-        for (RecruitComment comment : comments) {
-            GetRecruitCommentResponse oneComment = GetRecruitCommentResponse.from(comment);
-            commentMap.put(oneComment.getCommentId(), oneComment);
-
-            if (comment.getParentComment() == null) {
-                totalComments.add(oneComment);
-            } else {
-                commentMap.get(comment.getParentComment().getId()).getReplies()
-                    .add(oneComment);
-            }
-        }
-        return totalComments;
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+        List<RecruitComment> comments = recruitCommentReader.findByRecruit(recruit);
+        return recruitMapper.getRecruitCommentResponses(comments);
     }
 
     @Transactional
     public DeleteRecruitCommentResponse deleteRecruitComment(Long recruitId, Long commentId) {
-        User user = userReadService.getUser();
+        User user = userReader.getCurrentUser();
+        Recruit recruit = recruitReader.findRecruitById(recruitId);
+        RecruitComment recruitComment = recruitCommentReader.findByIdAndRecruit(commentId, recruit);
 
-        Recruit recruit = recruitRepository.queryRecruitsById(recruitId)
-            .orElseThrow(() -> RecruitNotFoundException.EXCEPTION);
-
-        RecruitComment recruitComment = recruitCommentRepository.findByIdAndRecruitAndIsDeletedFalse(
-            commentId, recruit).orElseThrow(() -> RecruitCommentNotFoundException.EXCEPTION);
-
-        if (!recruitComment.getUser().equals(user)) {
-            throw RecruitCommentUserUnauthorizedException.EXCEPTION;
-        }
-
-        recruitComment.delete();
+        recruitValidator.validateCommentUser(recruitComment, user);
+        recruitCommentAppender.delete(recruitComment);
 
         return DeleteRecruitCommentResponse.from(recruitComment);
     }
-
 }

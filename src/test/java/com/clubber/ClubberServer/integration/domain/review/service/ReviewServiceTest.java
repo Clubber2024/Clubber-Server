@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
@@ -14,10 +15,18 @@ import com.clubber.ClubberServer.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import java.util.Optional;
+
+import com.clubber.ClubberServer.integration.util.fixture.ReviewFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
+@ActiveProfiles("test")
 public class ReviewServiceTest extends ServiceTest {
 
 	@Autowired
@@ -33,8 +42,8 @@ public class ReviewServiceTest extends ServiceTest {
 		/**
 		 * 1번 user club1에 리뷰 등록되어있음
 		 */
-		CreateClubReviewResponse reviewCreateResponse = reviewService.createReview(2L
-			, VALID_REVIEW_CREATE_REQUEST);
+		CreateClubReviewRequest createClubReviewRequest = ReviewFixture.getDefaultCreateClubReviewRequestBuilder().sample();
+		CreateClubReviewResponse reviewCreateResponse = reviewService.createReview(2L, createClubReviewRequest);
 
 		Optional<Review> createdReview = reviewRepository.findById(
 			reviewCreateResponse.getReviewId());
@@ -45,7 +54,7 @@ public class ReviewServiceTest extends ServiceTest {
 				ApprovedStatus.PENDING),
 			() -> assertThat(createdReview.get().getContent()).isEqualTo(
 				VALID_REVIEW_CREATE_REQUEST.getContent())
-			// () -> assertThat(ReviewKeyword.from(createdReview.get().getReviewKeywords())).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getKeywords())
+			// () -> assertThat(ReviewKeyword.create(createdReview.get().getReviewKeywords())).isEqualTo(VALID_REVIEW_CREATE_REQUEST.getKeywords())
 		);
 	}
 

@@ -1,13 +1,16 @@
 package com.clubber.ClubberServer.domain.admin.service;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordResponse;
-import com.clubber.ClubberServer.domain.admin.validator.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
+import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.implement.AdminAppender;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
+import com.clubber.ClubberServer.domain.admin.implement.PendingAdminInfoManager;
+import com.clubber.ClubberServer.domain.admin.util.AdminUtil;
+import com.clubber.ClubberServer.global.event.signup.SignUpAlarmEventPublisher;
 import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,40 +19,94 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AdminAccountService {
 
-	private final AdminReadService adminReadService;
-	private final AdminValidator adminValidator;
-	private final PasswordEncoder passwordEncoder;
-	private final SoftDeleteEventPublisher eventPublisher;
+    private final AdminReader adminReader;
+    private final AdminAppender adminAppender;
+    private final AdminValidator adminValidator;
+    private final AdminEmailAuthService adminEmailAuthService;
+    private final SignUpAlarmEventPublisher signUpAlarmEventPublisher;
+    private final SoftDeleteEventPublisher eventPublisher;
+    private final PendingAdminInfoManager pendingAdminInfoManager;
 
-	@Transactional(readOnly = true)
-	public GetAdminsProfileResponse getAdminsProfile() {
-		Admin admin = adminReadService.getCurrentAdmin();
-		return GetAdminsProfileResponse.from(admin);
-	}
+    @Transactional(readOnly = true)
+    public GetAdminsProfileResponse getAdminsProfile() {
+        Admin admin = adminReader.getCurrentAdmin();
+        return GetAdminsProfileResponse.from(admin);
+    }
 
-	public UpdateAdminsPasswordResponse updateAdminsPassword(
-		UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
-		Admin admin = adminReadService.getCurrentAdmin();
+    public UpdateAdminsPasswordResponse updateAdminsPassword(
+            UpdateAdminsPasswordRequest updateAdminsPasswordRequest) {
+        Admin admin = adminReader.getCurrentAdmin();
 
-		String rawPassword = updateAdminsPasswordRequest.getPassword();
-		adminValidator.validateEqualsWithExistPassword(rawPassword, admin.getPassword());
+        adminValidator.validateExistPassword(updateAdminsPasswordRequest.getOldPassword(), admin.getPassword());
 
-		admin.updatePassword(passwordEncoder.encode(rawPassword));
-		return UpdateAdminsPasswordResponse.of(admin);
-	}
+        String newPassword = updateAdminsPasswordRequest.getNewPassword();
+        adminValidator.validateEqualsWithExistPassword(newPassword, admin.getPassword());
 
-	public void withDraw() {
-		Admin admin = adminReadService.getCurrentAdmin();
-		admin.withDraw();
-		eventPublisher.throwSoftDeleteEvent(admin.getId());
-	}
+        adminAppender.updatePassword(admin, newPassword);
+        return UpdateAdminsPasswordResponse.of(admin);
+    }
 
-	public Admin updateAdminAccountWithAuthCode(String email, String username, String authCode) {
-		String encodedPassword = passwordEncoder.encode(authCode);
+    public UpdateAdminContactResponse updateAdminContact(UpdateAdminContactRequest updateAdminContactRequest) {
+        Admin admin = adminReader.getCurrentAdmin();
+        adminAppender.updateContact(admin, updateAdminContactRequest.getContact());
+        return new UpdateAdminContactResponse(admin.getId(), admin.getContact());
+    }
 
-		Admin admin = adminReadService.getAdminByEmail(email);
-		admin.updatePassword(encodedPassword);
-		admin.updateUsername(username);
-		return admin;
-	}
+    public UpdateAdminEmailResponse updateAdminEmail(UpdateAdminEmailRequest updateAdminEmailRequest) {
+        Admin admin = adminReader.getCurrentAdmin();
+        Long adminId = admin.getId();
+
+        adminEmailAuthService.checkAdminUpdateEmailAuthVerified(adminId, updateAdminEmailRequest.getAuthCode());
+        adminEmailAuthService.deleteAdminUpdateEmailAuthById(adminId);
+
+        adminAppender.updateEmail(admin, updateAdminEmailRequest.getEmail());
+        return new UpdateAdminEmailResponse(admin.getId(), admin.getEmail());
+    }
+
+    public void withDraw() {
+        Admin admin = adminReader.getCurrentAdmin();
+        Long clubId = adminAppender.withDraw(admin);
+        eventPublisher.throwSoftDeleteEvent(clubId);
+    }
+
+    public CreateAdminSignUpResponse createAdminSignUp(CreateAdminSignUpRequest createAdminSignUpRequest) {
+        String clubName = createAdminSignUpRequest.getClubName();
+        adminEmailAuthService.checkAdminSignupAuthVerified(clubName, createAdminSignUpRequest.getAuthCode());
+        adminEmailAuthService.deleteAdminSingupAuthById(clubName);
+
+        PendingAdminInfo pendingAdminInfo = pendingAdminInfoManager.appendPendingAdminInfo(createAdminSignUpRequest);
+
+        signUpAlarmEventPublisher.throwSignUpAlarmEvent(pendingAdminInfo.getClubName(), pendingAdminInfo.getContact());
+        return CreateAdminSignUpResponse.from(pendingAdminInfo);
+    }
+
+    @Transactional(readOnly = true)
+    public GetAdminUsernameCheckDuplicateResponse getAdminUsernameCheckDuplicate(String username) {
+        boolean isExist = adminReader.existsByUsername(username);
+        return new GetAdminUsernameCheckDuplicateResponse(username, !isExist);
+    }
+
+    @Transactional(readOnly = true)
+    public GetAdminUsernameFindResponse getAdminUsernameFind(GetAdminUsernameFindRequest request) {
+        Long clubId = request.getClubId();
+        Integer authCode = request.getAuthCode();
+
+        adminEmailAuthService.checkAdminUsernameFindAuthVerified(clubId, authCode);
+        adminEmailAuthService.deleteAdminUsernameFindAuthById(clubId);
+
+        Admin admin = adminReader.getAdminByEmailAndClubId(request.getEmail(), clubId);
+        String maskedUsername = AdminUtil.maskUsername(admin.getUsername());
+
+        return new GetAdminUsernameFindResponse(maskedUsername);
+    }
+
+    public void updateAdminResetPassword(UpdateAdminResetPasswordRequest request) {
+        String username = request.getUsername();
+
+        adminEmailAuthService.checkAdminPasswordFindAuthVerified(username, request.getAuthCode());
+        adminEmailAuthService.deleteAdminPasswordFindAuthById(username);
+
+        Admin admin = adminReader.getAdminByUsername(username);
+        adminAppender.updatePassword(admin, request.getPassword());
+    }
 }

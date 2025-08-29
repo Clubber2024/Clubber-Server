@@ -14,7 +14,7 @@ import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
@@ -35,14 +35,14 @@ public class AdminClubServiceTest {
 	private AdminClubService adminClubService;
 
 	@Mock
-	private AdminReadService adminReadService;
+	private AdminReader adminReader;
 
 	@Test
 	@DisplayName("동아리 개별 페이지 조회를 수행한다.")
 	public void getAdminsMyPageTest() {
 		//given
 		Admin admin = getAdmin();
-		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+		when(adminReader.getCurrentAdmin()).thenReturn(admin);
 
 		//when
 		GetClubResponse response = adminClubService.getAdminsMyPage();
@@ -53,23 +53,23 @@ public class AdminClubServiceTest {
 
 		//when
 		assertThat(response).isNotNull();
-		assertThat(response.getClubId()).isEqualTo(club.getId());
-		assertThat(response.getClubName()).isEqualTo(club.getName());
-		assertThat(response.getClubType()).isEqualTo(club.getClubType().getTitle());
-		assertThat(response.getIntroduction()).isEqualTo(club.getIntroduction());
-		assertThat(response.getHashTag()).isEqualTo(club.getHashtag().getTitle());
-		assertThat(response.getDivision()).isEqualTo(club.getDivision().getTitle());
-		assertThat(response.getCollege()).isEqualTo(club.getCollege().getTitle());
-		assertThat(response.getDepartment()).isEqualTo(club.getDepartment().getTitle());
-		assertThat(response.getImageUrl().getImageUrl()).isEqualTo(club.getImageUrl().getImageUrl());
+		assertThat(response.clubId()).isEqualTo(club.getId());
+		assertThat(response.clubName()).isEqualTo(club.getName());
+		assertThat(response.clubType()).isEqualTo(club.getClubType().getTitle());
+		assertThat(response.introduction()).isEqualTo(club.getIntroduction());
+		assertThat(response.hashTag()).isEqualTo(club.getHashtag().getTitle());
+		assertThat(response.division()).isEqualTo(club.getDivision().getTitle());
+		assertThat(response.college()).isEqualTo(club.getCollege().getTitle());
+		assertThat(response.department()).isEqualTo(club.getDepartment().getTitle());
+		assertThat(response.imageUrl().getImageUrl()).isEqualTo(club.getImageUrl().getImageUrl());
 
-		GetClubInfoResponse responseClubInfo = response.getClubInfo();
+		GetClubInfoResponse responseClubInfo = response.clubInfo();
 		assertThat(responseClubInfo).isNotNull();
-		assertThat(responseClubInfo.getInstagram()).isEqualTo(clubInfo.getInstagram());
-		assertThat(responseClubInfo.getLeader()).isEqualTo(clubInfo.getLeader());
-		assertThat(responseClubInfo.getRoom()).isEqualTo(clubInfo.getRoom());
-		assertThat(responseClubInfo.getTotalView()).isEqualTo(clubInfo.getTotalView());
-		assertThat(responseClubInfo.getActivity()).isEqualTo(clubInfo.getActivity());
+		assertThat(responseClubInfo.instagram()).isEqualTo(clubInfo.getInstagram());
+		assertThat(responseClubInfo.leader()).isEqualTo(clubInfo.getLeader());
+		assertThat(responseClubInfo.room()).isEqualTo(clubInfo.getRoom());
+		assertThat(responseClubInfo.totalView()).isEqualTo(clubInfo.getTotalView());
+		assertThat(responseClubInfo.activity()).isEqualTo(clubInfo.getActivity());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class AdminClubServiceTest {
 	public void updateAdminsPageTest() {
 		//given
 		Admin admin = getAdmin();
-		when(adminReadService.getCurrentAdmin()).thenReturn(admin);
+		when(adminReader.getCurrentAdmin()).thenReturn(admin);
 		UpdateClubPageRequest updateClubPageRequest = AdminFixture.VALID_UPDATE_CLUB_PAGE_REQUEST;
 
 		//when

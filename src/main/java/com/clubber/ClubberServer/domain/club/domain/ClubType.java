@@ -1,7 +1,6 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
-import com.clubber.ClubberServer.global.vo.enums.EnumDefaultMapperVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +10,8 @@ public enum ClubType implements EnumDefaultMapperType {
 	CENTER("중앙동아리"),
 	SMALL("소모임"),
 	OFFICIAL("공식단체"),
-	ETC("그 외");
+	GENERAL("일반동아리"),
+	ETC("기타");
 
 	private final String title;
 

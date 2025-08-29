@@ -71,6 +71,9 @@ dependencies {
 
     //java mail sender
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //fixture monkey
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.1.10")
 }
 
 tasks.named('test') {

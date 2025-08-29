@@ -7,11 +7,11 @@
   <!--콘솔 로그 출력 패턴-->
   <property name="CONSOLE_LOG_PATTERN"
     value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){magenta} %clr([%thread]){blue} %clr(%-5level){}
-        %clr([%logger{0}:%line]){cyan} : %msg %n"/>
+        [%X{request_id}] %clr([%logger{0}:%line]){cyan} : %msg %n"/>
 
   <!--파일 로그 출력 패턴-->
   <property name="FILE_LOG_PATTERN"
-    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %5level %logger - %msg%n"/>
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{request_id}] [%thread] %5level %logger - %msg%n"/>
 
   <!--local 환경-->
   <springProfile name="local">

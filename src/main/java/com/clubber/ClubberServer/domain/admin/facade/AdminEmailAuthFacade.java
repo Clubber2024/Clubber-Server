@@ -1,51 +1,67 @@
 package com.clubber.ClubberServer.domain.admin.facade;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminEmailAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminMailAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminAuthResponse;
-import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
+import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
+import com.clubber.ClubberServer.domain.admin.dto.*;
+import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
 import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
-import com.clubber.ClubberServer.domain.admin.service.AdminReadService;
-import com.clubber.ClubberServer.global.util.RandomAuthStringGeneratorUtil;
+import com.clubber.ClubberServer.global.infrastructure.outer.mail.MailService;
+import com.clubber.ClubberServer.global.util.RandomAuthCodeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class AdminEmailAuthFacade {
 
-	private final AdminReadService adminReadService;
-	private final AdminEmailAuthService adminEmailAuthService;
-	private final AdminAccountService adminAccountService;
+    private final AdminEmailAuthService adminEmailAuthService;
+    private final AdminReader adminReader;
+    private final MailService mailService;
 
-	public CreateAdminAuthResponse createAdminMailAuth(
-		CreateAdminMailAuthRequest createAdminMailAuthRequest) {
-		final String email = createAdminMailAuthRequest.getEmail();
-		Admin admin = adminReadService.getAdminByEmail(email);
+    public CreateAdminAuthResponse signupAdminAuth(
+            CreateAdminSignupAuthRequest createAdminSignupAuthRequest) {
+        String email = createAdminSignupAuthRequest.getEmail();
+        String clubName = createAdminSignupAuthRequest.getClubName();
 
-		final String authCode = RandomAuthStringGeneratorUtil.generateRandomMixCharNSpecialChar(
-			10);
-		adminEmailAuthService.sendAdminAuthEmail(email, authCode);
-		adminEmailAuthService.createAdminMailAuth(email, authCode);
-		return CreateAdminAuthResponse.from(admin);
-	}
+        Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
+        mailService.sendAsync(email, "[클러버] 회원가입 인증 번호입니다.", authCode.toString());
 
-	@Transactional
-	public UpdateAdminAuthResponse updateAdminAuth(
-		UpdateAdminAuthRequest updateAdminAuthRequest) {
-		final String authCode = updateAdminAuthRequest.getAuthCode();
-		final String email = updateAdminAuthRequest.getEmail();
-		final String username = updateAdminAuthRequest.getUsername();
+        AdminSignupAuth adminMailAuth = adminEmailAuthService.createAdminSignupAuth(clubName, email, authCode);
+        return CreateAdminAuthResponse.from(adminMailAuth);
+    }
 
-		AdminEmailAuth adminEmailAuth = adminEmailAuthService.validateAdminEmailAuth(email,
-			authCode);
+    public void usernameFindAdminAuth(CreateAdminUsernameFindAuthRequest createAdminUsernameFindAuthRequest) {
+        Long clubId = createAdminUsernameFindAuthRequest.getClubId();
+        String email = createAdminUsernameFindAuthRequest.getEmail();
 
-		Admin admin = adminAccountService.updateAdminAccountWithAuthCode(email, username, authCode);
-		adminEmailAuthService.deleteAdminEmailAuth(adminEmailAuth);
-		return new UpdateAdminAuthResponse(admin.getId());
-	}
+        if (adminReader.existsByEmailAndClubId(email, clubId)) {
+            Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
+            mailService.sendAsync(email, "[클러버] 아이디 찾기 인증 번호입니다.", authCode.toString());
+
+            adminEmailAuthService.createAdminUsernameFindAuth(clubId, authCode);
+        }
+    }
+
+    public void createAdminPasswordFind(CreateAdminPasswordFindRequest createAdminPasswordFindRequest) {
+        String username = createAdminPasswordFindRequest.getUsername();
+        String email = createAdminPasswordFindRequest.getEmail();
+
+        Admin admin = adminReader.getAdminByUsername(username);
+
+        if (admin.getEmail().equals(email)) {
+            Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
+            mailService.sendAsync(email, "[클러버] 비밀번호 찾기 인증 번호입니다.", authCode.toString());
+
+            adminEmailAuthService.createAdminPasswordFindAuth(username, authCode);
+        }
+    }
+
+    public void createAdminEmailUpdateAuth(CreateAdminUpdateEmailAuthRequest request) {
+        Integer authCode = RandomAuthCodeUtil.getEmailAuthRandomNumber();
+        String email = request.getEmail();
+        mailService.send(email, "[클러버] 이메일 변경 인증 번호입니다.", authCode.toString());
+
+        Admin admin = adminReader.getCurrentAdmin();
+        adminEmailAuthService.createAdminUpdateEmailAuth(admin.getId(), email, authCode);
+    }
 }
