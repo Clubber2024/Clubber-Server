@@ -38,7 +38,7 @@ jobs:
         run: |
           cd ./Clubber-Internal/src/main/resources 
           touch ./application.yml 
-          echo "${{ secrets.YML }}" > ./application.yml
+          echo "${{ secrets.INTERNAL_YML }}" > ./application.yml
         shell: bash
 
       - name: make application-dev.yml
@@ -55,7 +55,7 @@ jobs:
         run: |
           cd ./Clubber-Internal/src/main/resources
           touch ./application-dev.yml
-          echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
+          echo "${{ secrets.INTERNAL_YML_DEV }}" > ./application-dev.yml
         shell: bash
 
       - name: make application-prod.yml
