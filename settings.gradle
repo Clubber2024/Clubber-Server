@@ -1,1 +1,4 @@
 rootProject.name = 'Clubber-Server'
+
+include(":Clubber-External")
+include(":Clubber-Internal")
