@@ -95,7 +95,7 @@ jobs:
           target: /home/ubuntu
 
       - name: Copy docker-compose.yml to EC2 PROD
-        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
+        if: contains(github.ref, 'prod')
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_PROD }}
