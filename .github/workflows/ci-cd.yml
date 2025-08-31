@@ -2,7 +2,7 @@ name: CI-CD
 
 on:
   push:
-    branches: [ "main", "dev"]
+    branches: [ "main", "refactor/#931-refactor-clubber-internal-모듈-분리"]
 
 jobs:
   CI-CD:
@@ -26,25 +26,25 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: make application.yml
-        if: contains(github.ref, 'main') || contains(github.ref, 'dev')
+        if: contains(github.ref, 'main') || contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         run: |
-          cd ./src/main/resources 
+          cd ./Clubber-External/src/main/resources 
           touch ./application.yml 
           echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
 
       - name: make application-dev.yml
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         run: |
-          cd ./src/main/resources
+          cd ./Clubber-External/src/main/resources
           touch ./application-dev.yml
           echo "${{ secrets.YML_DEV }}" > ./application-dev.yml
         shell: bash
 
       - name: make application-prod.yml
-        if: contains(github.ref, 'main')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         run: |
-          cd ./src/main/resources
+          cd ./Clubber-External/src/main/resources
           touch ./application-prod.yml
           echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
         shell: bash
@@ -53,18 +53,18 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew :Clubber-External:clean build -x test
 
 
       - name: docker build and push to dev
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile.dev -t ${{ secrets.DOCKER_REPO }}/clubber-backend-dev .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-dev
 
       - name: docker build and push to dev nginx
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile.nginx.dev -t ${{ secrets.DOCKER_REPO }}/clubber-nginx-dev .
@@ -85,7 +85,7 @@ jobs:
           docker push ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod
 
       - name: Copy docker-compose.yml to EC2 DEV
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
@@ -95,7 +95,7 @@ jobs:
           target: /home/ubuntu
 
       - name: Copy docker-compose.yml to EC2 PROD
-        if: contains(github.ref, 'main')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST_PROD }}
@@ -105,7 +105,7 @@ jobs:
           target: /home/ubuntu
 
       - name: Deploy to dev
-        if: contains(github.ref, 'dev')
+        if: contains(github.ref, 'refactor/#931-refactor-clubber-internal-모듈-분리')
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
