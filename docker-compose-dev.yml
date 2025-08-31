@@ -17,6 +17,14 @@ services:
     networks:
       - clubber
 
+  backend-internal:
+    container_name: backend-internal
+    image: ssuclubber/clubber-internal-dev
+    ports:
+      - "8081:8081"
+    networks:
+      - clubber
+
   frontend:
     container_name: frontend
     image: ssuclubber/clubber-front-dev
