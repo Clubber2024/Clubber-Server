@@ -6,7 +6,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 #YML filese
-src/main/resources/*.yml
+application*.yml
 src/main/resources/data.sql
 
 # User-specific stuff
