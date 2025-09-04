@@ -180,4 +180,6 @@ gradle-app.setting
 
 *.idea
 
+**/build/generated/sources/querydsl/ss
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,java
