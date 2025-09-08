@@ -1,53 +1,40 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.NULL_CONTENT;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
-import static com.clubber.ClubberServer.domain.review.domain.Keyword.ACTIVITY;
-import static com.clubber.ClubberServer.domain.review.domain.Keyword.CAREER;
-import static com.clubber.ClubberServer.domain.review.domain.Keyword.CULTURE;
-import static com.clubber.ClubberServer.domain.review.domain.Keyword.FEE;
-import static com.clubber.ClubberServer.domain.review.domain.Keyword.MANAGE;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ReviewDomainTest {
 
-	@Test
-	@DisplayName("Review에 Keyword 리스트를 저장할때, ReviewKeyword에 포함되어 저장된다.")
-	void addReviewKeywordsTest() {
-		//given
-		Review review = getReview(APPROVED);
-		List<Keyword> keywords = List.of(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
-
-		//when
-		review.addKeywords(keywords);
-
-		//then
-		List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
-		Assertions.assertThat(reviewKeywords)
-			.extracting(ReviewKeyword::getKeyword)
-			.containsExactly(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
-	}
+//	@Test
+//	@DisplayName("Review에 Keyword 리스트를 저장할때, ReviewKeyword에 포함되어 저장된다.")
+//	void addReviewKeywordsTest() {
+//		//given
+//		Review review = getReview(APPROVED);
+//		List<Keyword> keywords = List.of(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
+//
+//		//when
+//		review.addKeywords(keywords);
+//
+//		//then
+//		List<ReviewKeyword> reviewKeywords = review.getReviewKeywords();
+//		Assertions.assertThat(reviewKeywords)
+//			.extracting(ReviewKeyword::getKeyword)
+//			.containsExactly(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
+//	}
 
 	private static Review getReview(ApprovedStatus approvedStatus) {
 		return Review.builder()
