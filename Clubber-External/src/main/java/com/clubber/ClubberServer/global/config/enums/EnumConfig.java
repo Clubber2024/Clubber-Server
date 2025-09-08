@@ -4,6 +4,7 @@ package com.clubber.ClubberServer.global.config.enums;
 import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.faq.domain.Faq;
 import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.ClubberServer.domain.review.domain.ReviewKeywordCategory;
 import com.clubber.ClubberServer.global.mapper.enums.EnumMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ public class EnumConfig {
 		enumMapper.put("ClubType", ClubType.class);
 		enumMapper.put("Hashtag", Hashtag.class);
 		enumMapper.put("FaQ", Faq.class);
+		enumMapper.put("ReviewKeywordCategory", ReviewKeywordCategory.class);
 		return enumMapper;
 	}
 }

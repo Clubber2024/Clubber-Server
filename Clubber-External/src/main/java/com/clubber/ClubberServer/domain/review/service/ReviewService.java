@@ -4,6 +4,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.ClubberServer.domain.review.domain.ReviewKeywordCategory;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.dto.*;
 import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
@@ -23,107 +24,118 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
 
-	private final ReviewRepository reviewRepository;
-	private final ReviewKeywordRepository reviewKeywordRepository;
-	private final ReviewMapper reviewMapper;
-	private final ClubRepository clubRepository;
-	private final EnumMapper enumMapper;
-	private final ReviewApproveEvnetPublisher publisher;
-	private final UserReader userReader;
+    private final ReviewRepository reviewRepository;
+    private final ReviewKeywordRepository reviewKeywordRepository;
+    private final ReviewMapper reviewMapper;
+    private final ClubRepository clubRepository;
+    private final EnumMapper enumMapper;
+    private final ReviewApproveEvnetPublisher publisher;
+    private final UserReader userReader;
 
-	@Transactional
-	public CreateClubReviewResponse createReview(Long clubId,
-		@Valid CreateClubReviewRequest reviewRequest) {
-		User user = userReader.getCurrentUser();
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+    public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
+        return Arrays.stream(ReviewKeywordCategory.values())
+                .map(
+                        (reviewKeywordCategory) -> {
+                            List<EnumMapperVO> enumValues = enumMapper.toEnumValues(reviewKeywordCategory.getReviewKeywords());
+                            return new ReviewKeywordCategoryResponse(reviewKeywordCategory, enumValues);
+                        })
+                .toList();
+    }
 
-		club.validateAgreeToReview();
-		validateReviewExists(club, user);
+    @Transactional
+    public CreateClubReviewResponse createReview(Long clubId,
+                                                 @Valid CreateClubReviewRequest reviewRequest) {
+        User user = userReader.getCurrentUser();
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		Review review = Review.of(user, club, reviewRequest.getContent(),
-			reviewRequest.getAuthImage());
-		review.addKeywords(reviewRequest.getKeywords());
-		Review savedReview = reviewRepository.save(review);
+        club.validateAgreeToReview();
+        validateReviewExists(club, user);
 
-		publisher.throwReviewApproveEvent(savedReview);
-		return reviewMapper.getCreateClubReviewResponse(savedReview);
-	}
+        Review review = Review.of(user, club, reviewRequest.getContent(),
+                reviewRequest.getAuthImage());
+        review.addKeywords(reviewRequest.getKeywords());
+        Review savedReview = reviewRepository.save(review);
 
-	private void validateReviewExists(Club club, User user) {
-		if (reviewRepository.existsByClubAndUserAndNotApprovedStatusDeleted(club, user)) {
-			throw UserAlreadyReviewedException.EXCEPTION;
-		}
-	}
+        publisher.throwReviewApproveEvent(savedReview);
+        return reviewMapper.getCreateClubReviewResponse(savedReview);
+    }
 
-	@Transactional(readOnly = true)
-	public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+    private void validateReviewExists(Club club, User user) {
+        if (reviewRepository.existsByClubAndUserAndNotApprovedStatusDeleted(club, user)) {
+            throw UserAlreadyReviewedException.EXCEPTION;
+        }
+    }
 
-		return GetClubReviewAgreedStatusResponse.from(club);
-	}
+    @Transactional(readOnly = true)
+    public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-	@Transactional(readOnly = true)
-	public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        return GetClubReviewAgreedStatusResponse.from(club);
+    }
 
-		club.validateAgreeToReview();
+    @Transactional(readOnly = true)
+    public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
-			club.getId());
+        club.validateAgreeToReview();
 
-		final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList);
-		return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
-	}
+        List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
+                club.getId());
 
-	//동아리 별 리뷰 조회 : Page 별 조회 
-	@Transactional(readOnly = true)
-	public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-		Pageable pageable, VerifiedStatus verifiedStatus) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList);
+        return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
+    }
 
-		club.validateAgreeToReview();
+    //동아리 별 리뷰 조회 : Page 별 조회
+    @Transactional(readOnly = true)
+    public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
+                                                                Pageable pageable, VerifiedStatus verifiedStatus) {
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null,
-			verifiedStatus);
-		return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
-	}
+        club.validateAgreeToReview();
 
-	//동아리 별 리뷰 조회 : No Offset 구현 
-	@Transactional(readOnly = true)
-	public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
-		Pageable pageable, Long reviewId) {
-		Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null,
+                verifiedStatus);
+        return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
+    }
 
-		club.validateAgreeToReview();
+    //동아리 별 리뷰 조회 : No Offset 구현
+    @Transactional(readOnly = true)
+    public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
+                                                                      Pageable pageable, Long reviewId) {
+        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
-		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId,
-			null);
+        club.validateAgreeToReview();
 
-		return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
-	}
+        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId,
+                null);
 
-	public List<EnumMapperVO> getTotalKeywords() {
-		return enumMapper.get("Keyword");
-	}
+        return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
+    }
 
-	@Transactional
-	public void saveReview(Review review) {
-		reviewRepository.save(review);
-	}
+    public List<EnumMapperVO> getTotalKeywords() {
+        return enumMapper.get("Keyword");
+    }
 
-	@Transactional
-	public void softDeleteReviewByClubId(Long clubId) {
-		reviewRepository.softDeleteReviewByClubId(clubId);
-	}
+    @Transactional
+    public void saveReview(Review review) {
+        reviewRepository.save(review);
+    }
+
+    @Transactional
+    public void softDeleteReviewByClubId(Long clubId) {
+        reviewRepository.softDeleteReviewByClubId(clubId);
+    }
 }

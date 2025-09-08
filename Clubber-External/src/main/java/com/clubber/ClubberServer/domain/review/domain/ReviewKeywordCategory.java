@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
 import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.EnumSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import static com.clubber.ClubberServer.domain.review.domain.Keyword.*;
 
+@Getter
 @RequiredArgsConstructor
 public enum ReviewKeywordCategory implements EnumDefaultMapperType {
 
