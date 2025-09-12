@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.domain.ClubType;
 import com.clubber.ClubberServer.domain.club.domain.Department;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.club.domain.College.ETC;

@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedExc
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyVerifiedException;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

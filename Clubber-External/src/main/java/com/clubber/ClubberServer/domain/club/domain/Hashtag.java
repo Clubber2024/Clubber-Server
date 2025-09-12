@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
 import com.clubber.common.mapper.enums.EnumImageMapperType;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

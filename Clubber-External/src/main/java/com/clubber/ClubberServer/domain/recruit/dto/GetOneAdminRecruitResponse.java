@@ -1,8 +1,7 @@
 package com.clubber.ClubberServer.domain.recruit.dto;
 
-import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.notice.dto;
 
 import com.clubber.ClubberServer.domain.notice.domain.Notice;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

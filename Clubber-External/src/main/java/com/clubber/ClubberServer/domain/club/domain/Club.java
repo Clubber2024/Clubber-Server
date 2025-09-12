@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedExcepti
 import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideInfoException;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

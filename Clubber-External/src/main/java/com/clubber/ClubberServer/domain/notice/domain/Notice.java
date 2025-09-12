@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.notice.domain;
 
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.owner.domain.Owner;
-import com.clubber.ClubberServer.global.vo.image.ImageVO;
+import com.clubber.common.vo.image.ImageVO;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
