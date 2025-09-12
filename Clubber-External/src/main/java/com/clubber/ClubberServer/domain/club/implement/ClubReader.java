@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.implement;
 
-import com.clubber.ClubberServer.domain.club.domain.*;
+import com.clubber.domain.domains.club.domain.*;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;

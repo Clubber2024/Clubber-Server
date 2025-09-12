@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
-import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.domain.domains.club.domain.College;
 import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
 import com.clubber.ClubberServer.domain.club.service.ClubCategoryService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;

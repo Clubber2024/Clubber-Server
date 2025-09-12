@@ -5,7 +5,7 @@ import com.clubber.ClubberServer.domain.admin.dto.AdminReviewResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.ClubberServer.domain.admin.dto.GetAdminsReviewsResponse;
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.global.common.page.PageResponse;

@@ -5,9 +5,9 @@ import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
 import com.clubber.ClubberServer.domain.admin.domain.Contact;
 import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
 import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.domain.domains.club.domain.ClubType;
+import com.clubber.domain.domains.club.domain.College;
+import com.clubber.domain.domains.club.domain.Department;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;

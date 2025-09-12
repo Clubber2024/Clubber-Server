@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.service;
 
-import com.clubber.ClubberServer.domain.club.domain.College;
+import com.clubber.domain.domains.club.domain.College;
 import com.clubber.ClubberServer.domain.club.dto.CollegeResponse;
 import com.clubber.common.mapper.enums.EnumMapper;
 import com.clubber.common.vo.enums.EnumMapperVO;

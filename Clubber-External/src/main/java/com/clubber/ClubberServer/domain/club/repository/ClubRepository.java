@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.repository;
 
-import com.clubber.ClubberServer.domain.club.domain.*;
+import com.clubber.domain.domains.club.domain.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -5,7 +5,7 @@ import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELE
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;

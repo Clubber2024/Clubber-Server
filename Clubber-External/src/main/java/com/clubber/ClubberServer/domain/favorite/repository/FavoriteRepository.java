@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.favorite.repository;
 
 import java.util.List;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import java.util.Optional;

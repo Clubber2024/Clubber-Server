@@ -2,9 +2,9 @@ package com.clubber.ClubberServer.integration.domain.club.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.Division;
+import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.club.domain.ClubType;
+import com.clubber.domain.domains.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubResponse;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;

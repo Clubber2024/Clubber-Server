@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.implement;
 
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.domain.domains.club.domain.ClubInfo;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.dto;
 
 import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import com.fasterxml.jackson.annotation.JsonFormat;

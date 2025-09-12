@@ -1,16 +1,16 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.club.domain.ClubInfo;
+import com.clubber.domain.domains.club.domain.ClubType;
+import com.clubber.domain.domains.club.domain.Department;
 import com.clubber.common.vo.image.ImageVO;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
-import static com.clubber.ClubberServer.domain.club.domain.College.ETC;
-import static com.clubber.ClubberServer.domain.club.domain.Division.ACADEMIC;
-import static com.clubber.ClubberServer.domain.club.domain.Hashtag.PROGRAMMING;
+import static com.clubber.domain.domains.club.domain.College.ETC;
+import static com.clubber.domain.domains.club.domain.Division.ACADEMIC;
+import static com.clubber.domain.domains.club.domain.Hashtag.PROGRAMMING;
 import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 
 public class ClubFixture {

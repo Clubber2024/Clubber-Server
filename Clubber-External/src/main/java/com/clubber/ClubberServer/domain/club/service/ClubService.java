@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.domain.club.service;
 
-import com.clubber.ClubberServer.domain.club.domain.*;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.implement.ClubAppender;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
+import com.clubber.domain.domains.club.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

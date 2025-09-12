@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.Division;
+import com.clubber.domain.domains.club.domain.Division;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

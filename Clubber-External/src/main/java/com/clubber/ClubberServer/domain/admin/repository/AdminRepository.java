@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.repository;
 
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import org.springframework.data.jpa.repository.JpaRepository;
 

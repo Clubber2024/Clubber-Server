@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.favorite.implement;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
+import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotFoundException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;

@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.domain.club.controller;
 
-import com.clubber.ClubberServer.domain.club.domain.Department;
-import com.clubber.ClubberServer.domain.club.domain.Division;
-import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.domain.domains.club.domain.Department;
+import com.clubber.domain.domains.club.domain.Division;
+import com.clubber.domain.domains.club.domain.Hashtag;
 import com.clubber.ClubberServer.domain.club.dto.*;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;

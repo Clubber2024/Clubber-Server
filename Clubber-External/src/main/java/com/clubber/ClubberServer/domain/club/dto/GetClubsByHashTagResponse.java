@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
 
-import com.clubber.ClubberServer.domain.club.domain.Hashtag;
+import com.clubber.domain.domains.club.domain.Hashtag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import java.util.List;

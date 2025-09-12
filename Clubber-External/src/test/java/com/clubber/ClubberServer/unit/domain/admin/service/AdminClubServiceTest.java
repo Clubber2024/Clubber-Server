@@ -1,10 +1,10 @@
 package com.clubber.ClubberServer.unit.domain.admin.service;
 
-import static com.clubber.ClubberServer.domain.club.domain.ClubType.SMALL;
-import static com.clubber.ClubberServer.domain.club.domain.College.BUSINESS_COLLEGE;
-import static com.clubber.ClubberServer.domain.club.domain.Department.BUSINESS;
-import static com.clubber.ClubberServer.domain.club.domain.Division.ETC;
-import static com.clubber.ClubberServer.domain.club.domain.Hashtag.DANCE;
+import static com.clubber.domain.domains.club.domain.ClubType.SMALL;
+import static com.clubber.domain.domains.club.domain.College.BUSINESS_COLLEGE;
+import static com.clubber.domain.domains.club.domain.Department.BUSINESS;
+import static com.clubber.domain.domains.club.domain.Division.ETC;
+import static com.clubber.domain.domains.club.domain.Hashtag.DANCE;
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,8 +15,8 @@ import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.club.domain.ClubInfo;
 import com.clubber.ClubberServer.domain.club.dto.GetClubInfoResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetClubResponse;
 import com.clubber.common.vo.image.ImageVO;

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.club.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
+import com.clubber.domain.domains.club.domain.ClubType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;

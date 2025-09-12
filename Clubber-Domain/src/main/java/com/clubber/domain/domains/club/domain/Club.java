@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.club.domain;
+package com.clubber.domain.domains.club.domain;
 
 import com.clubber.domain.domains.club.exception.ClubAlreadyDeletedException;
 import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideInfoException;

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.domain.ClubInfo;
+import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.club.domain.ClubInfo;
 import com.clubber.common.vo.image.ImageVO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
