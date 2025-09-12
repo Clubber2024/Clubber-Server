@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.owner.service.OwnerService;
 import com.clubber.ClubberServer.domain.user.domain.AccountState;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;

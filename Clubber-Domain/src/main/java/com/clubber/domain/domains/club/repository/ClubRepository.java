@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.club.repository;
+package com.clubber.domain.domains.club.repository;
 
 import com.clubber.domain.domains.club.domain.*;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface ClubRepository extends JpaRepository<Club, Long>, ClubCustomRepository{
+public interface ClubRepository extends JpaRepository<Club, Long>{
 
     List<Club> findByDivisionAndIsDeleted(Division division, boolean isDeleted);
 

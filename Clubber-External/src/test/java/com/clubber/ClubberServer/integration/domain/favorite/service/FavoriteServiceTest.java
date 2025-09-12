@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.favorite.service;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.exception.ClubAlreadyRegisterdFavoriteException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;

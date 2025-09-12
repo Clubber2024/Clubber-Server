@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.club.repository;
+package com.clubber.domain.domains.club.repository;
 
 import com.clubber.domain.domains.club.domain.ClubInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.club.implement;
 
 import com.clubber.domain.domains.club.domain.*;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.domain.domains.club.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

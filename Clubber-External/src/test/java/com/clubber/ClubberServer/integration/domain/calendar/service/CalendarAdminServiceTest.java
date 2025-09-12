@@ -8,7 +8,7 @@ import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
 import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
 import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;

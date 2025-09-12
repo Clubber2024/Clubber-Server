@@ -7,7 +7,7 @@ import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.domain.Division;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubGroupResponse;
 import com.clubber.ClubberServer.domain.club.dto.GetSummaryClubResponse;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
+import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.club.service.ClubService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import java.util.Arrays;
