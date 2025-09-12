@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.implement;
 
 import com.clubber.ClubberServer.domain.admin.domain.AdminRefreshToken;
 import com.clubber.ClubberServer.domain.admin.repository.AdminRefreshTokenRepository;
-import com.clubber.ClubberServer.domain.user.exception.RefreshTokenExpiredException;
+import com.clubber.domain.domains.user.exception.RefreshTokenExpiredException;
 import com.clubber.ClubberServer.global.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

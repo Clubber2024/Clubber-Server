@@ -6,7 +6,7 @@ import com.clubber.ClubberServer.domain.favorite.exception.FavoriteErrorCode;
 import com.clubber.ClubberServer.domain.notice.exception.NoticeErrorCode;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitErrorCode;
 import com.clubber.domain.domains.review.exception.ReviewErrorCode;
-import com.clubber.ClubberServer.domain.user.exception.UserErrorCode;
+import com.clubber.domain.domains.user.exception.UserErrorCode;
 import com.clubber.ClubberServer.global.config.swagger.ApiErrorCodeExample;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

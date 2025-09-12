@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.exception;
+package com.clubber.domain.domains.user.exception;
 
 import com.clubber.common.exception.BaseException;
 

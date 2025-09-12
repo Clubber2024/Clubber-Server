@@ -8,7 +8,7 @@ import org.hibernate.type.SqlTypes;
 
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
-import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
+import com.clubber.domain.domains.user.exception.UserAlreadyDeletedException;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

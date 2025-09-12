@@ -7,7 +7,7 @@ import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDelete
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;
 import com.clubber.ClubberServer.domain.user.domain.User;
-import com.clubber.ClubberServer.domain.user.exception.UserNotFoundException;
+import com.clubber.domain.domains.user.exception.UserNotFoundException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

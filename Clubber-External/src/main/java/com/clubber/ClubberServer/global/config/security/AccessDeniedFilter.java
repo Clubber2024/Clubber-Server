@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.config.security;
 
-import com.clubber.ClubberServer.domain.user.exception.UserErrorCode;
+import com.clubber.domain.domains.user.exception.UserErrorCode;
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
 import com.clubber.common.exception.BaseErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;

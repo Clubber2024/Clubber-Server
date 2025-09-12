@@ -38,7 +38,6 @@ public class ClubReviewResponse {
 			.reviewId(review.getId())
 			.userId(review.getUser().getId())
 			.dateTime(review.getCreatedAt())
-			.content(review.getContentForUser())
 			.build();
 	}
 }
