@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.domain.club.domain;
 
-import com.clubber.ClubberServer.domain.club.exception.ClubAlreadyDeletedException;
-import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideInfoException;
-import com.clubber.ClubberServer.domain.club.exception.ClubNotAgreeToProvideReviewException;
+import com.clubber.domain.domains.club.exception.ClubAlreadyDeletedException;
+import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideInfoException;
+import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.common.vo.image.ImageVO;
 import jakarta.persistence.*;

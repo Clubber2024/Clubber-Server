@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
+import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.image.dto.CreateImagePresignedUrlResponse;
 import com.clubber.ClubberServer.domain.image.dto.CreateRecruitsImagePresigneUrlRequest;

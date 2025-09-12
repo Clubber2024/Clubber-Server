@@ -1,10 +1,7 @@
 package com.clubber.ClubberServer.domain.club.implement;
 
 import com.clubber.ClubberServer.domain.club.domain.*;
-import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
-import com.clubber.ClubberServer.domain.club.exception.DepartmentNotFoundException;
-import com.clubber.ClubberServer.domain.club.exception.DivisionNotFoundException;
-import com.clubber.ClubberServer.domain.club.exception.HashtagNotFoundException;
+import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
