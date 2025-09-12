@@ -2,11 +2,11 @@ package com.clubber.ClubberServer.integration.domain.favorite.service;
 
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.domain.domains.favorite.domain.Favorite;
 import com.clubber.domain.domains.favorite.exception.ClubAlreadyRegisterdFavoriteException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.favorite.service.FavoriteService;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;

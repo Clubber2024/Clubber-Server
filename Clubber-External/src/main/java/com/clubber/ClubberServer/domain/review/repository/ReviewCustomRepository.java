@@ -4,7 +4,7 @@ import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

@@ -10,8 +10,8 @@ import com.clubber.domain.domains.club.domain.College;
 import com.clubber.domain.domains.club.domain.Department;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountRole.ADMIN;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
 import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 

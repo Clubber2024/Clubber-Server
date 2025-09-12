@@ -1,13 +1,13 @@
-package com.clubber.ClubberServer.domain.user.domain;
+package com.clubber.domain.domains.user.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clubber.domain.domains.favorite.domain.Favorite;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.domain.domains.user.exception.UserAlreadyDeletedException;
 
 import jakarta.persistence.Entity;

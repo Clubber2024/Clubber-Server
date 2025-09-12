@@ -8,7 +8,7 @@ import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.ClubberServer.domain.owner.service.OwnerService;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
+import com.clubber.domain.domains.user.domain.AccountState;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

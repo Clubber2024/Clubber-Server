@@ -1,11 +1,11 @@
 package com.clubber.ClubberServer.domain.user.mapper;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.domain.domains.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.ClubberServer.domain.user.dto.*;
 import com.clubber.ClubberServer.global.common.page.PageResponse;
 import org.springframework.data.domain.Page;

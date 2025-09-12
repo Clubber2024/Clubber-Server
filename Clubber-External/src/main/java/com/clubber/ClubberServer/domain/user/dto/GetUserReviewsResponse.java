@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.user.dto;
 
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

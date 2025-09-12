@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.jwt;
 
-import com.clubber.ClubberServer.domain.user.domain.AccountRole;
+import com.clubber.domain.domains.user.domain.AccountRole;
 import com.clubber.domain.domains.user.exception.InvalidTokenException;
 import com.clubber.domain.domains.user.exception.RefreshTokenExpiredException;
 import com.clubber.domain.domains.user.exception.TokenExpiredException;

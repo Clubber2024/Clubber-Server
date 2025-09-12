@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.user.domain;
+package com.clubber.domain.domains.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

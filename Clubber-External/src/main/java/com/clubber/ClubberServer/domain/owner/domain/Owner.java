@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.owner.domain;
 
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.ClubberServer.domain.user.domain.AccountRole;
+import com.clubber.domain.domains.user.domain.AccountRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

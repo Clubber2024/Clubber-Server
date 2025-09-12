@@ -11,14 +11,14 @@ import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPassw
 import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
 import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
 import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.domain.domains.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
+import com.clubber.domain.domains.user.domain.AccountState;
 import com.clubber.ClubberServer.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;

@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.api.oauth.kakao.dto;
 
-import com.clubber.ClubberServer.domain.user.domain.SnsType;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.SnsType;
+import com.clubber.domain.domains.user.domain.User;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 

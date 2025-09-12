@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.anyLong;

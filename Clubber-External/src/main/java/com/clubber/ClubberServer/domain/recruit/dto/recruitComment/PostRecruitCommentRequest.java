@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.recruit.dto.recruitComment;
 
 import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

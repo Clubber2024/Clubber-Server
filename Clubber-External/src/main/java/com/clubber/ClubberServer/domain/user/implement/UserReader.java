@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.user.implement;
 
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.AccountState;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.domains.user.exception.UserNotFoundException;
 import com.clubber.ClubberServer.domain.user.repository.UserRepository;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
 
 @Component
 @RequiredArgsConstructor

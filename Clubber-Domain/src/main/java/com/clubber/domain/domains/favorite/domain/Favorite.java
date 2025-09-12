@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.favorite.domain;
+package com.clubber.domain.domains.favorite.domain;
 
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
@@ -6,7 +6,7 @@ import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.domain.domains.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.domain.domains.favorite.exception.FavoriteNotMatchUserException;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.domains.user.exception.UserNotFoundException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountState.INACTIVE;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

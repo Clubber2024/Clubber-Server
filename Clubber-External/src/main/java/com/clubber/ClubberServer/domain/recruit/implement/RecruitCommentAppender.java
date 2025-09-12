@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitComment;
 import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 import com.clubber.ClubberServer.domain.recruit.repository.RecruitCommentRepository;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

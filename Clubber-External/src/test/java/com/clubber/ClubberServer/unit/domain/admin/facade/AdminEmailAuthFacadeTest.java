@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

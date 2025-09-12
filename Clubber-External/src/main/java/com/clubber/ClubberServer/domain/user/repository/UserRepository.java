@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.user.repository;
 
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.AccountState;
+import com.clubber.domain.domains.user.domain.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

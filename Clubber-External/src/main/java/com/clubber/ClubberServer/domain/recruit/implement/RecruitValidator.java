@@ -9,7 +9,7 @@ import com.clubber.ClubberServer.domain.recruit.exception.RecruitDeleteUnauthori
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitInvalidPeriodException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitMissingPeriodException;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitPeriodNotAllowedException;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 

@@ -11,7 +11,7 @@ import com.clubber.ClubberServer.domain.recruit.implement.RecruitCommentReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitReader;
 import com.clubber.ClubberServer.domain.recruit.implement.RecruitValidator;
 import com.clubber.ClubberServer.domain.recruit.mapper.RecruitMapper;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

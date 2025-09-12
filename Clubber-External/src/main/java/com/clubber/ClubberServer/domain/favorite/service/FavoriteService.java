@@ -2,12 +2,12 @@ package com.clubber.ClubberServer.domain.favorite.service;
 
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.implement.ClubReader;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
+import com.clubber.domain.domains.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.favorite.dto.FavoriteResponse;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteAppender;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteReader;
 import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.ClubberServer.domain.user.implement.UserReader;
 import com.clubber.ClubberServer.global.config.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;

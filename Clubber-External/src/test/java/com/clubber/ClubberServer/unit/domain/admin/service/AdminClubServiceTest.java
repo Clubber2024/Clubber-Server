@@ -5,8 +5,8 @@ import static com.clubber.domain.domains.club.domain.College.BUSINESS_COLLEGE;
 import static com.clubber.domain.domains.club.domain.Department.BUSINESS;
 import static com.clubber.domain.domains.club.domain.Division.ETC;
 import static com.clubber.domain.domains.club.domain.Hashtag.DANCE;
-import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountRole.ADMIN;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 

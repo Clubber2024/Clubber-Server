@@ -4,7 +4,7 @@ import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.domains.club.domain.Club;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

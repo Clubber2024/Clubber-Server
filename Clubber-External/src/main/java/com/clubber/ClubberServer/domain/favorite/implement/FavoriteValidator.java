@@ -3,7 +3,7 @@ package com.clubber.ClubberServer.domain.favorite.implement;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.favorite.exception.ClubAlreadyRegisterdFavoriteException;
 import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

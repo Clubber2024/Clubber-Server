@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.unit.domain.admin.domain;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.INACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountRole.ADMIN;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
+import static com.clubber.domain.domains.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
