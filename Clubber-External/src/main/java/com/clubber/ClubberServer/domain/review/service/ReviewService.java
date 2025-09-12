@@ -7,7 +7,7 @@ import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeywordCategory;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.dto.*;
-import com.clubber.ClubberServer.domain.review.exception.UserAlreadyReviewedException;
+import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
 import com.clubber.ClubberServer.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;

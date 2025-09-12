@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.exception;
+package com.clubber.domain.domains.review.exception;
 
 import com.clubber.common.exception.BaseErrorCode;
 import com.clubber.common.exception.ErrorReason;

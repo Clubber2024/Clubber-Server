@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.domain.review.exception;
+package com.clubber.domain.domains.review.exception;
 
-import static com.clubber.ClubberServer.domain.review.exception.ReviewErrorCode.REVIEW_NOT_FOUND;
+import static com.clubber.domain.domains.review.exception.ReviewErrorCode.REVIEW_NOT_FOUND;
 
 import com.clubber.common.exception.BaseException;
 

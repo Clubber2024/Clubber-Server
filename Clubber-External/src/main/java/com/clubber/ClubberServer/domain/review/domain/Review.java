@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
+import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.common.vo.image.ImageVO;
 import com.clubber.domain.common.BaseEntity;
