@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.global.infrastructure.outer.mail.exception;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
-import static com.clubber.ClubberServer.global.exception.GlobalErrorCode.MAIL_NOT_SENT;
+import static com.clubber.common.exception.GlobalErrorCode.MAIL_NOT_SENT;
 
 public class MailNotSentException extends BaseException {
     public static final BaseException EXCEPTION = new MailNotSentException();

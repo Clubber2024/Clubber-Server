@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.review.exception;
 
 import static com.clubber.ClubberServer.domain.review.exception.ReviewErrorCode.REVIEW_NOT_FOUND;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 public class ReviewNotFoundException extends BaseException {
 

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.exception;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 import static com.clubber.ClubberServer.domain.recruit.exception.RecruitErrorCode.RECRUIT_ALREADY_CALENDAR_UNLINKED;
 

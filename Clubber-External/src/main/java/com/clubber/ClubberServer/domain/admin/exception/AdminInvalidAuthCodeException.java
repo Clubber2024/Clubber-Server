@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.exception;
 
 import static com.clubber.ClubberServer.domain.admin.exception.AdminErrorCode.ADMIN_INVALID_AUTH_CODE;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 public class AdminInvalidAuthCodeException extends BaseException {
 

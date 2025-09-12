@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.admin.exception;
 
 import static com.clubber.ClubberServer.domain.admin.exception.AdminErrorCode.ADMIN_LOGIN_FAILED;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 public class AdminLoginFailedException extends BaseException {
 

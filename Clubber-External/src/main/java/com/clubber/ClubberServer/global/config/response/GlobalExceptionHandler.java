@@ -2,10 +2,10 @@ package com.clubber.ClubberServer.global.config.response;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
 import com.clubber.ClubberServer.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
-import com.clubber.ClubberServer.global.exception.BaseErrorCode;
-import com.clubber.ClubberServer.global.exception.BaseException;
-import com.clubber.ClubberServer.global.exception.ErrorReason;
-import com.clubber.ClubberServer.global.exception.GlobalErrorCode;
+import com.clubber.common.exception.BaseErrorCode;
+import com.clubber.common.exception.BaseException;
+import com.clubber.common.exception.ErrorReason;
+import com.clubber.common.exception.GlobalErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

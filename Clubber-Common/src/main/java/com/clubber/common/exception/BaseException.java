@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.exception;
+package com.clubber.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

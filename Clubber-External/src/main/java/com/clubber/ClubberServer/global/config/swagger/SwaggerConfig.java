@@ -4,8 +4,8 @@ package com.clubber.ClubberServer.global.config.swagger;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.clubber.ClubberServer.global.dto.ErrorResponse;
-import com.clubber.ClubberServer.global.exception.BaseErrorCode;
-import com.clubber.ClubberServer.global.exception.ErrorReason;
+import com.clubber.common.exception.BaseErrorCode;
+import com.clubber.common.exception.ErrorReason;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;

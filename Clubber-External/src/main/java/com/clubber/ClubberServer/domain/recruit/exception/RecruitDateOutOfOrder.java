@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.exception;
 
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 public class RecruitDateOutOfOrder extends BaseException {
 

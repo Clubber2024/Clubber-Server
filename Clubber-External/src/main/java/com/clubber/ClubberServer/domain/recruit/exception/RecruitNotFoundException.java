@@ -1,5 +1,5 @@
 package com.clubber.ClubberServer.domain.recruit.exception;
-import com.clubber.ClubberServer.global.exception.BaseException;
+import com.clubber.common.exception.BaseException;
 
 public class RecruitNotFoundException extends BaseException {
     public static final BaseException EXCEPTION = new RecruitNotFoundException();
