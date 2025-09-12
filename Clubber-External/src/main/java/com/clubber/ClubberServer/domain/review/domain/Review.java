@@ -1,11 +1,5 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.APPROVED;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.PENDING;
-import static com.clubber.ClubberServer.domain.review.domain.VerifiedStatus.VERIFIED;
-
-import com.clubber.ClubberServer.domain.admin.exception.InvalidApprovedStatusException;
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
@@ -13,29 +7,20 @@ import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyVerifiedEx
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.ClubberServer.global.vo.image.ImageVO;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
+import static com.clubber.ClubberServer.domain.review.domain.VerifiedStatus.VERIFIED;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -103,13 +88,6 @@ public class Review extends BaseEntity {
 			ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
 			this.reviewKeywords.add(reviewKeyword);
 		});
-	}
-
-	public void updateReviewStatus(ApprovedStatus approvedStatus) {
-		if (this.approvedStatus != PENDING) {
-			throw InvalidApprovedStatusException.EXCEPTION;
-		}
-		this.approvedStatus = approvedStatus;
 	}
 
 	public void autoUpdateReviewStatus() {

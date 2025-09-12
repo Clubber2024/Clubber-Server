@@ -79,35 +79,6 @@ public class ReviewDomainTest {
 		assertEquals("content", contentForUser);
 	}
 
-	// 수동 승인
-	@Test
-	@DisplayName("승인 대기 상태인 댓글은, 승인 작업 이후에 승인 완료 상태로 바뀐다.")
-	void updateReviewPendingApprovedStatus() {
-		//given
-		Review review = getReview(PENDING);
-
-		//when
-		review.updateReviewStatus(APPROVED);
-
-		//then
-		assertEquals(APPROVED, review.getApprovedStatus());
-	}
-
-	@Test
-	@DisplayName("승인 대기 상태의 댓글이 아닌 경우, InvalidApprovedStatusException가 발생한다.")
-	void updateReviewApprovedStatusExceptPending() {
-		//given
-		List<ApprovedStatus> approvedStatusExceptPending = getApprovedStatusListExcept(PENDING);
-
-		//when & then
-		approvedStatusExceptPending
-			.forEach(approvedStatus -> {
-				Review review = getReview(approvedStatus);
-				assertThrows(InvalidApprovedStatusException.class,
-					() -> review.updateReviewStatus(approvedStatus));
-			});
-	}
-
 	@Test
 	@DisplayName("승인 대기 상태의 댓글의 경우에, 자동 승인이 수행된다.")
 	void updateAutoReviewApprovedPendingStatus() {

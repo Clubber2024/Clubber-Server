@@ -183,3 +183,4 @@ gradle-app.setting
 **/build/generated/sources/querydsl/ss
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,java
+Clubber-Domain/Clubber-Domain.iml

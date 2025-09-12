@@ -48,15 +48,6 @@ public class AdminReviewController {
 		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
 	}
 
-	@Operation(summary = "동아리 계정에서 리뷰 승인 / 거절 요청")
-	@PatchMapping("/decision")
-	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatusResponse(
-		@Valid @RequestBody
-		UpdateAdminsReviewApprovedStatusRequest updateAdminsReviewApprovedStatusRequest) {
-		return adminReviewService.updateAdminsReviewsApprovedStatus(
-			updateAdminsReviewApprovedStatusRequest);
-	}
-
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,

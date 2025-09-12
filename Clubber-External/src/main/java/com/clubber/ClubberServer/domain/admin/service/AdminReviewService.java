@@ -44,25 +44,6 @@ public class AdminReviewService {
 		return adminReviewMapper.getGetAdminPendingReviewList(reviews);
 	}
 
-	@Transactional
-	public UpdateAdminsReviewApprovedStatusResponse updateAdminsReviewsApprovedStatus(
-		UpdateAdminsReviewApprovedStatusRequest updateAdminsReviewApprovedStatusRequest) {
-		Admin admin = adminReader.getCurrentAdmin();
-
-		List<Long> updateReviewRequestIds = updateAdminsReviewApprovedStatusRequest.getReviewIds();
-		ApprovedStatus updateReviewApprovedStatus = updateAdminsReviewApprovedStatusRequest.getApprovedStatus();
-
-		List<Review> findReviews = reviewRepository.findAllById(updateReviewRequestIds);
-		validateReviewExistence(findReviews, updateReviewRequestIds);
-
-		for (Review review : findReviews) {
-			validateReviewClub(review, admin);
-			review.updateReviewStatus(updateReviewApprovedStatus);
-		}
-		return UpdateAdminsReviewApprovedStatusResponse.of(admin, updateReviewRequestIds,
-			updateReviewApprovedStatus);
-	}
-
 	private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
 		if (findReviews.size() != reviewIds.size()) {
 			throw UserReviewsNotFoundException.EXCEPTION;
