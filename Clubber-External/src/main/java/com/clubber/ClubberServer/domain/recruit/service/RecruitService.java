@@ -33,7 +33,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 
 @Service
 @RequiredArgsConstructor

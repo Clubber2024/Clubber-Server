@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.global.common.consts;
+package com.clubber.common.consts;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

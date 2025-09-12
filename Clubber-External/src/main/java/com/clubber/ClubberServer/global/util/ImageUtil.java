@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.util;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 
 public class ImageUtil {
 

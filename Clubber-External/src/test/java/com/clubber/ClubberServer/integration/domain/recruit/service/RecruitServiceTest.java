@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.recruit.service;
 
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.INVALID_DELETE_IMAGE_RECRUIT_REQUEST;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.NEW_FINAL_IMAGE_DIFFERENT_RECRUIT_REQUEST;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.NEW_NOT_IN_FINAL_IMAGE_RECRUIT_REQUEST;

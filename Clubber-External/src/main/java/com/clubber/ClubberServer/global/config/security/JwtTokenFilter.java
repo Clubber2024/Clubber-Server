@@ -18,8 +18,8 @@ import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.AUTH_HEADER;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.BEARER;
+import static com.clubber.common.consts.ClubberStatic.AUTH_HEADER;
+import static com.clubber.common.consts.ClubberStatic.BEARER;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.CLUBBER_EMAIL;
+import static com.clubber.common.consts.ClubberStatic.CLUBBER_EMAIL;
 
 @Service
 @RequiredArgsConstructor

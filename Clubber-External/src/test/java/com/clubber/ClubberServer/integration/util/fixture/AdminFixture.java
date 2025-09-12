@@ -12,7 +12,7 @@ import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
 import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
 import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 
 public class AdminFixture {

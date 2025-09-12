@@ -1,11 +1,8 @@
 package com.clubber.ClubberServer.domain.auth.controller;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
-
 import com.clubber.ClubberServer.domain.auth.facade.UserRegisterFacade;
 import com.clubber.ClubberServer.domain.auth.facade.UserWithdrawFacade;
 import com.clubber.ClubberServer.domain.auth.dto.KakaoOauthResponse;
-import com.clubber.ClubberServer.domain.auth.service.helper.CookieHelper;
 import com.clubber.ClubberServer.domain.auth.service.AuthService;
 import com.clubber.ClubberServer.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

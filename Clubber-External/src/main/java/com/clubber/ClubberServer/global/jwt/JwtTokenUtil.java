@@ -18,8 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.*;
-
 @Component
 @RequiredArgsConstructor
 public class JwtTokenUtil {
