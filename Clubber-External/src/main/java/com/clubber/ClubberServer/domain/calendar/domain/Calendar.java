@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.domain.user.domain.AccountRole;
 import jakarta.persistence.*;

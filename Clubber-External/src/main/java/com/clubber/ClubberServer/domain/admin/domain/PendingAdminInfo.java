@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.*;
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.favorite.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
 import com.clubber.ClubberServer.domain.club.exception.ClubNotFoundException;
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteAlreadyDeleteException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchClubException;
 import com.clubber.ClubberServer.domain.favorite.exception.FavoriteNotMatchUserException;

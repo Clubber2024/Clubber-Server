@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
 import com.clubber.ClubberServer.domain.user.exception.UserAlreadyDeletedException;
 

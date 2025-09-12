@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

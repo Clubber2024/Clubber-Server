@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
 import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyVerifiedException;
 import com.clubber.ClubberServer.domain.review.util.ReviewUtil;

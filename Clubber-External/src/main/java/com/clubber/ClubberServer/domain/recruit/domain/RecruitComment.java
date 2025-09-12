@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.recruit.domain;
 
-import com.clubber.ClubberServer.domain.common.BaseEntity;
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
