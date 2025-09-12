@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.domain.example;
 
 import com.clubber.ClubberServer.domain.admin.exception.AdminErrorCode;
 import com.clubber.domain.domains.club.exception.ClubErrorCode;
-import com.clubber.ClubberServer.domain.favorite.exception.FavoriteErrorCode;
+import com.clubber.domain.domains.favorite.exception.FavoriteErrorCode;
 import com.clubber.ClubberServer.domain.notice.exception.NoticeErrorCode;
 import com.clubber.ClubberServer.domain.recruit.exception.RecruitErrorCode;
 import com.clubber.domain.domains.review.exception.ReviewErrorCode;
