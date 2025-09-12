@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
+import com.clubber.common.mapper.enums.EnumDefaultMapperType;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Arrays;

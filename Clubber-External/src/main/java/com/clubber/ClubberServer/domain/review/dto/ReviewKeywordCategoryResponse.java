@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
 import com.clubber.ClubberServer.domain.review.domain.ReviewKeywordCategory;
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import com.clubber.common.vo.enums.EnumMapperVO;
 
 import java.util.List;
 

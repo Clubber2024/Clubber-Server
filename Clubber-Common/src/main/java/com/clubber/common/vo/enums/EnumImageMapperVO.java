@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.global.vo.enums;
+package com.clubber.common.vo.enums;
 
-import com.clubber.ClubberServer.global.mapper.enums.EnumImageMapperType;
+import com.clubber.common.mapper.enums.EnumImageMapperType;
 import lombok.Getter;
 
 @Getter

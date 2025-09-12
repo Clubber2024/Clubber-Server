@@ -1,6 +1,6 @@
-package com.clubber.ClubberServer.global.mapper.enums;
+package com.clubber.common.mapper.enums;
 
-import com.clubber.ClubberServer.global.vo.enums.EnumMapperVO;
+import com.clubber.common.vo.enums.EnumMapperVO;
 
 public interface EnumDefaultMapperType extends EnumMapperType {
 

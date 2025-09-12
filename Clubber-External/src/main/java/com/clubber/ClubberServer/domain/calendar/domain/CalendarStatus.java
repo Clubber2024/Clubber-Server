@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.calendar.domain;
 
 import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
-import com.clubber.ClubberServer.global.mapper.enums.EnumDefaultMapperType;
+import com.clubber.common.mapper.enums.EnumDefaultMapperType;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;

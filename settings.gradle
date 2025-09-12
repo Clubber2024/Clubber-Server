@@ -3,3 +3,4 @@ rootProject.name = 'Clubber-Server'
 include(":Clubber-External")
 include(":Clubber-Internal")
 include(":Clubber-Domain")
+include(":Clubber-Common")

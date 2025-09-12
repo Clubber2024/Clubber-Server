@@ -1,4 +1,3 @@
 dependencies{
-    implementation project(":Clubber-Domain")
     implementation project(":Clubber-Common")
 }
