@@ -1,11 +1,11 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
-import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
 import com.clubber.ClubberServer.domain.review.domain.Review;
 import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.club.domain.Club;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,67 +43,11 @@ public class ReviewDomainTest {
 			.build();
 	}
 
-	// 일반 사용자 content 조회
-	@Test
-	@DisplayName("승인 상태의 댓글이 아니라면 사용자들에게 보여주는 content는 null이 반환된다.")
-	void getPendingReviewContentForUser() {
-		//given
-		List<ApprovedStatus> approvedStatusExceptApproved = getApprovedStatusListExcept(APPROVED);
-
-		//when & then
-		approvedStatusExceptApproved
-			.forEach(approvedStatus -> {
-				Review review = getReview(approvedStatus);
-				assertNull(review.getContentForUser());
-			});
-	}
-
 	private static List<ApprovedStatus> getApprovedStatusListExcept(
 		ApprovedStatus excludedApprovedStatus) {
 		return Arrays.stream(ApprovedStatus.values())
 			.filter(approvedStatus -> approvedStatus != excludedApprovedStatus)
 			.collect(Collectors.toList());
-	}
-
-	@Test
-	@DisplayName("승인 상태의 댓글이라면, 사용자들에게 content 자체로 반환된다.")
-	void getApprovedReviewContentForUser() {
-		//given
-		Review review = getReview(APPROVED);
-
-		//when
-		String contentForUser = review.getContentForUser();
-
-		//then
-		assertEquals("content", contentForUser);
-	}
-
-	@Test
-	@DisplayName("승인 대기 상태의 댓글의 경우에, 자동 승인이 수행된다.")
-	void updateAutoReviewApprovedPendingStatus() {
-		//given
-		Review review = getReview(PENDING);
-
-		//when
-		review.autoUpdateReviewStatus();
-
-		//then
-		assertEquals(APPROVED, review.getApprovedStatus());
-	}
-
-	@Test
-	@DisplayName("승인 대기 상태의 댓글이 아닌 경우, 자동 승인이 수행되지 않아 기존 승인 상태가 된다.")
-	void updateAutoReviewApprovedExceptPendingStatus() {
-		//given
-		List<ApprovedStatus> approvedStatusListExceptPending = getApprovedStatusListExcept(PENDING);
-
-		//when & then
-		approvedStatusListExceptPending
-			.forEach(approvedStatus -> {
-				Review review = getReview(approvedStatus);
-				review.autoUpdateReviewStatus();
-				assertEquals(review.getApprovedStatus(), approvedStatus);
-			});
 	}
 
 	@Test

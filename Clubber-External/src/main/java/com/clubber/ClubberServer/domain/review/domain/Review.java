@@ -1,12 +1,10 @@
 package com.clubber.ClubberServer.domain.review.domain;
 
-import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.common.BaseEntity;
 import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyDeletedException;
-import com.clubber.ClubberServer.domain.review.exception.ReviewAlreadyVerifiedException;
-import com.clubber.ClubberServer.domain.review.util.ReviewUtil;
 import com.clubber.ClubberServer.domain.user.domain.User;
 import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.BaseEntity;
+import com.clubber.domain.domains.club.domain.Club;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -19,8 +17,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
-import static com.clubber.ClubberServer.domain.review.domain.VerifiedStatus.VERIFIED;
+import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -76,8 +73,7 @@ public class Review extends BaseEntity {
 		return Review.builder()
 			.user(user)
 			.club(club)
-			.content(ReviewUtil.checkBlankContent(content))
-			.approvedStatus(ReviewUtil.checkBlankContentApprovedStatus(content))
+			.content(content)
 			.imageVO(ImageVO.valueOf(authImage))
 			.build();
 	}
@@ -90,30 +86,10 @@ public class Review extends BaseEntity {
 		});
 	}
 
-	public void autoUpdateReviewStatus() {
-		if (this.approvedStatus == PENDING) {
-			this.approvedStatus = APPROVED;
-		}
-	}
-
 	public void delete() {
 		if (approvedStatus == DELETED) {
 			throw ReviewAlreadyDeletedException.EXCEPTION;
 		}
 		this.approvedStatus = DELETED;
-	}
-
-	public void verify() {
-		if (verifiedStatus == VERIFIED) {
-			throw ReviewAlreadyVerifiedException.EXCEPTION;
-		}
-		this.verifiedStatus = VERIFIED;
-	}
-
-	public String getContentForUser() {
-		if (approvedStatus == APPROVED) {
-			return content;
-		}
-		return null;
 	}
 }
