@@ -1,15 +1,15 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminClubService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
+import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.admin.service.AdminClubService;
+import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubInfo;
 import com.clubber.domain.domains.club.repository.ClubInfoRepository;
 import com.clubber.domain.domains.club.repository.ClubRepository;
-import com.clubber.ClubberServer.global.config.security.AuthDetails;
+import com.clubber.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;

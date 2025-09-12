@@ -1,13 +1,13 @@
 package com.clubber.ClubberServer.integration.domain.owner.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.admin.repository.PendingAdminInfoRepository;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.owner.service.OwnerService;
+import com.clubber.domain.owner.service.OwnerService;
 import com.clubber.domain.domains.user.domain.AccountState;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.assertj.core.api.Assertions;

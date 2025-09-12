@@ -1,12 +1,12 @@
 package com.clubber.ClubberServer.unit.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
-import com.clubber.ClubberServer.global.event.withdraw.SoftDeleteEventPublisher;
+import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.domain.admin.service.AdminAccountService;
+import com.clubber.domain.admin.implement.AdminReader;
+import com.clubber.domain.admin.implement.AdminValidator;
+import com.clubber.global.event.withdraw.SoftDeleteEventPublisher;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

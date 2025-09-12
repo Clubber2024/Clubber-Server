@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.favorite.validator;
 
-import com.clubber.ClubberServer.domain.favorite.implement.FavoriteValidator;
+import com.clubber.domain.favorite.implement.FavoriteValidator;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;

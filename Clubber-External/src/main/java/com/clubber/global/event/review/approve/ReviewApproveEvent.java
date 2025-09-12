@@ -1,0 +1,11 @@
+package com.clubber.global.event.review.approve;
+
+import com.clubber.domain.domains.review.domain.Review;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class ReviewApproveEvent {
+    private Review review;
+}

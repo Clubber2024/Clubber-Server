@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.admin.dto.UpdateClubPageRequest;
+import com.clubber.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubInfo;
 import com.clubber.domain.domains.club.domain.ClubType;

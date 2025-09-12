@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.unit.domain.calendar;
 
-import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
-import com.clubber.ClubberServer.domain.calendar.domain.CalendarStatus;
-import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
+import com.clubber.domain.calendar.domain.Calendar;
+import com.clubber.domain.calendar.domain.CalendarStatus;
+import com.clubber.domain.recruit.domain.RecruitType;
 import com.clubber.ClubberServer.integration.util.fixture.CalendarFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

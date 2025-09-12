@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.ClubberServer.domain.admin.exception.AdminLoginFailedException;
-import com.clubber.ClubberServer.domain.admin.implement.AdminValidator;
+import com.clubber.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
+import com.clubber.domain.admin.exception.AdminInvalidAuthCodeException;
+import com.clubber.domain.admin.exception.AdminLoginFailedException;
+import com.clubber.domain.admin.implement.AdminValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

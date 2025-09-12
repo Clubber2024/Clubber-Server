@@ -1,15 +1,15 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameFindRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.repository.AdminPasswordFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminSignupAuthRepository;
-import com.clubber.ClubberServer.domain.admin.repository.AdminUsernameFindAuthRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminEmailAuthService;
+import com.clubber.domain.admin.domain.AdminPasswordFindAuth;
+import com.clubber.domain.admin.domain.AdminSignupAuth;
+import com.clubber.domain.admin.domain.AdminUsernameFindAuth;
+import com.clubber.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.domain.admin.dto.GetAdminUsernameFindRequest;
+import com.clubber.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
+import com.clubber.domain.admin.repository.AdminPasswordFindAuthRepository;
+import com.clubber.domain.admin.repository.AdminSignupAuthRepository;
+import com.clubber.domain.admin.repository.AdminUsernameFindAuthRepository;
+import com.clubber.domain.admin.service.AdminEmailAuthService;
 import com.clubber.ClubberServer.integration.util.fixture.AdminEmailAuthFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

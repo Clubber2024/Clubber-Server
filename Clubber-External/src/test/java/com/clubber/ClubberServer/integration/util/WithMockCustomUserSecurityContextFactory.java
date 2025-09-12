@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.util;
 
-import com.clubber.ClubberServer.global.config.security.AuthDetails;
+import com.clubber.global.config.security.AuthDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

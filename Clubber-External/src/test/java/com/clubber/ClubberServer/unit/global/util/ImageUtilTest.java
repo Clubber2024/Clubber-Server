@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.global.util;
 
-import com.clubber.ClubberServer.global.util.ImageUtil;
+import com.clubber.global.util.ImageUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

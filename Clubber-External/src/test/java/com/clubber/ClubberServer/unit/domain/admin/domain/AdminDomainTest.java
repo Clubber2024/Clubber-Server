@@ -6,8 +6,8 @@ import static com.clubber.domain.domains.user.domain.AccountState.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.exception.AdminAlreadyDeletedException;
+import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.admin.exception.AdminAlreadyDeletedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

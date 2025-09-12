@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
-import com.clubber.ClubberServer.domain.recruit.dto.PostRecruitRequest;
-import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitRequest;
+import com.clubber.domain.recruit.domain.Recruit;
+import com.clubber.domain.recruit.domain.RecruitType;
+import com.clubber.domain.recruit.dto.PostRecruitRequest;
+import com.clubber.domain.recruit.dto.UpdateRecruitRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
