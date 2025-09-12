@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
 import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.domain.domains.review.domain.Review;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.event.review.approve;
 
-import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.domain.domains.review.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

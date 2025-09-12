@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.domain;
+package com.clubber.domain.domains.review.domain;
 
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.domain.domains.user.domain.User;
@@ -17,7 +17,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.ApprovedStatus.DELETED;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

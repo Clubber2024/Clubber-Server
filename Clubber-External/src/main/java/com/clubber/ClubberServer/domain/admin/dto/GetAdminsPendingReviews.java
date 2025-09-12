@@ -1,11 +1,10 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

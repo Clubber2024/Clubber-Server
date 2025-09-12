@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.review.util;
 
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.ReviewKeyword;
+import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewKeyword;
 import com.clubber.ClubberServer.global.util.SliceUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

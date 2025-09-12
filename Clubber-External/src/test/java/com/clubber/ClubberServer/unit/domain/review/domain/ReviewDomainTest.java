@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
+import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.domains.club.domain.Club;
@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReviewDomainTest {

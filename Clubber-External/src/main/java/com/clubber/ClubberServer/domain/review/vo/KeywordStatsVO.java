@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.vo;
 
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.domain.domains.review.domain.Keyword;
 import com.clubber.ClubberServer.domain.review.dto.KeywordCountStatDto;
 import java.util.Arrays;
 import java.util.EnumMap;

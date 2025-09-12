@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.admin.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.ApprovedStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

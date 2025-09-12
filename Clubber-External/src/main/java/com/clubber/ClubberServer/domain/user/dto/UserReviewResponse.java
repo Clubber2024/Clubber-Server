@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.domain.user.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;

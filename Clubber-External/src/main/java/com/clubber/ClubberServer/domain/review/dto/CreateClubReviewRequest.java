@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.domain.domains.review.domain.Keyword;
 import com.clubber.ClubberServer.global.validator.enums.Enum;
 import com.clubber.ClubberServer.global.validator.unique.Unique;
 import io.swagger.v3.oas.annotations.media.Schema;

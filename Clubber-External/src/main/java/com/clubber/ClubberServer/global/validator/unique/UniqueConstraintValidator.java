@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.global.validator.unique;
 
-import com.clubber.ClubberServer.domain.review.domain.Keyword;
+import com.clubber.domain.domains.review.domain.Keyword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.HashSet;

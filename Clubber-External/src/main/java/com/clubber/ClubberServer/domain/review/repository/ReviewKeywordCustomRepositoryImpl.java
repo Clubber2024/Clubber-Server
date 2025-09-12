@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 

@@ -1,14 +1,14 @@
 package com.clubber.ClubberServer.domain.review.repository;
 
 import static com.clubber.ClubberServer.domain.club.domain.QClub.club;
-import static com.clubber.ClubberServer.domain.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.ApprovedStatus.DELETED;
 import static com.clubber.ClubberServer.domain.review.domain.QReview.review;
 import static com.clubber.ClubberServer.domain.review.domain.QReviewKeyword.reviewKeyword;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
+import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

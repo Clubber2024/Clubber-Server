@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.controller;
 
-import com.clubber.ClubberServer.domain.review.domain.VerifiedStatus;
+import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewRequest;
 import com.clubber.ClubberServer.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.ClubberServer.domain.review.dto.GetClubReviewAgreedStatusResponse;

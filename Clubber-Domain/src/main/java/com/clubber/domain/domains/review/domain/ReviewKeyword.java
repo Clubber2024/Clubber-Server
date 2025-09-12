@@ -1,4 +1,4 @@
-package com.clubber.ClubberServer.domain.review.domain;
+package com.clubber.domain.domains.review.domain;
 
 import com.clubber.domain.common.BaseEntity;
 import jakarta.persistence.Entity;

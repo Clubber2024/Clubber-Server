@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.domain.review.dto;
 
-import com.clubber.ClubberServer.domain.review.domain.Review;
+import com.clubber.domain.domains.review.domain.Review;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 import lombok.AccessLevel;
