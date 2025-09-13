@@ -16,7 +16,7 @@ import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
 import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
 import com.clubber.domain.domains.review.exception.UserReviewsNotFoundException;
-import com.clubber.domain.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

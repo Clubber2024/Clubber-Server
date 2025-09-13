@@ -1,4 +1,4 @@
-package com.clubber.domain.review.repository;
+package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.querydsl.core.types.Projections;

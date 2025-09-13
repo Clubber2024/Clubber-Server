@@ -6,7 +6,7 @@ import com.clubber.domain.domains.favorite.domain.Favorite;
 import com.clubber.domain.favorite.dto.GetFavoriteDetailsResponse;
 import com.clubber.domain.favorite.implement.FavoriteReader;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.user.dto.GetIsUserFavoriteResponse;
 import com.clubber.domain.user.dto.GetUserFavoritesResponse;

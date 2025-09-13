@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.domain.review.service;
 
-import com.clubber.domain.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import org.springframework.beans.factory.annotation.Autowired;

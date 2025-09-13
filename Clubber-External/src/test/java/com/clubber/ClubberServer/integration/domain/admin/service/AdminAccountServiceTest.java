@@ -17,7 +17,7 @@ import com.clubber.domain.favorite.repository.FavoriteRepository;
 import com.clubber.domain.recruit.domain.Recruit;
 import com.clubber.domain.recruit.repository.RecruitRepository;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.user.domain.AccountState;
 import com.clubber.global.config.security.AuthDetails;
 import com.clubber.global.config.security.SecurityUtils;
