@@ -22,68 +22,71 @@ import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(indexes = @Index(name = "idx_review_club_id_approved_status_id_desc",
-	columnList = "club_id, approved_status, id desc"))
+        columnList = "club_id, approved_status, id desc"))
 public class Review extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "club_id")
-	@NotNull
-	private Club club;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    @NotNull
+    private Club club;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	@NotNull
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @NotNull
+    private User user;
 
-	private String content;
+    private String content;
 
-	@JdbcTypeCode(SqlTypes.VARCHAR)
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	@Builder.Default
-	private DeletionStatus deletionStatus = DeletionStatus.NOT_DELETED;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Builder.Default
+    private DeletionStatus deletionStatus = DeletionStatus.NOT_DELETED;
 
-	@JdbcTypeCode(SqlTypes.VARCHAR)
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	@Builder.Default
-	private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Builder.Default
+    private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
 
-	@Embedded
-	private ImageVO authImageVo;
+    @Embedded
+    private ImageVO authImageVo;
 
-	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
+    @Builder.Default
+    boolean isDeleted = false;
 
-	public static Review of(User user, Club club, String content, String authImage) {
-		return Review.builder()
-			.user(user)
-			.club(club)
-			.content(content)
-			.authImageVo(ImageVO.valueOf(authImage))
-			.build();
-	}
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-	//양방향 매핑 메서드
-	public void addKeywords(List<Keyword> keywords) {
-		keywords.forEach(keyword -> {
-			ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
-			this.reviewKeywords.add(reviewKeyword);
-		});
-	}
+    public static Review of(User user, Club club, String content, String authImage) {
+        return Review.builder()
+                .user(user)
+                .club(club)
+                .content(content)
+                .authImageVo(ImageVO.valueOf(authImage))
+                .build();
+    }
 
-	public void verify() {
-		this.verifiedStatus = VerifiedStatus.VERIFIED;
-	}
+    //양방향 매핑 메서드
+    public void addKeywords(List<Keyword> keywords) {
+        keywords.forEach(keyword -> {
+            ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
+            this.reviewKeywords.add(reviewKeyword);
+        });
+    }
 
-	public void delete() {
-		if (deletionStatus == DELETED) {
-			throw ReviewAlreadyDeletedException.EXCEPTION;
-		}
-		this.deletionStatus = DELETED;
-	}
+    public void verify() {
+        this.verifiedStatus = VerifiedStatus.VERIFIED;
+    }
+
+    public void delete() {
+        if (isDeleted) {
+            throw ReviewAlreadyDeletedException.EXCEPTION;
+        }
+        this.isDeleted = true;
+    }
 }

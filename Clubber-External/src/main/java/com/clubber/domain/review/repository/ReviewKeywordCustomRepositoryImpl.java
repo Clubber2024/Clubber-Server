@@ -1,14 +1,15 @@
 package com.clubber.domain.review.repository;
 
-import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
-import static com.clubber.domain.domains.review.domain.QReview.review;
-import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
-
 import com.clubber.domain.review.dto.KeywordCountStatDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+import static com.clubber.domain.domains.review.domain.DeletionStatus.NOT_DELETED;
+import static com.clubber.domain.domains.review.domain.QReview.review;
+import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
 @RequiredArgsConstructor
 public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRepository {
@@ -22,7 +23,7 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
 				reviewKeyword.keyword, reviewKeyword.count().as("count")))
 			.from(reviewKeyword)
 			.where(review.club.id.eq(clubId)
-				.and(review.approvedStatus.ne(DELETED)))
+				.and(review.deletionStatus.ne(NOT_DELETED)))
 			.join(reviewKeyword.review, review)
 			.groupBy(reviewKeyword.keyword)
 			.fetch();

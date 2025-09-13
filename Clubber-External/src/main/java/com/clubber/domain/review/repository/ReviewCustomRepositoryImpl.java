@@ -2,6 +2,7 @@ package com.clubber.domain.review.repository;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
 import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.DeletionStatus.NOT_DELETED;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
@@ -33,7 +34,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .join(review.club, club).fetchJoin()
                 .where(review.user.eq(user)
-                        .and(review.approvedStatus.ne(DELETED)))
+                        .and(review.deletionStatus.eq(NOT_DELETED)))
                 .orderBy(review.id.desc())
                 .fetch();
     }
