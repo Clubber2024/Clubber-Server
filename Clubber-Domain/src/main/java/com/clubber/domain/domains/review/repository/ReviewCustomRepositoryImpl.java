@@ -1,13 +1,12 @@
 package com.clubber.domain.domains.review.repository;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
-import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
-import static com.clubber.domain.domains.review.domain.DeletionStatus.NOT_DELETED;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
+import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.user.domain.User;
@@ -34,7 +33,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .join(review.club, club).fetchJoin()
                 .where(review.user.eq(user)
-                        .and(review.deletionStatus.eq(NOT_DELETED)))
+                        .and(review.isDeleted.eq(false)))
                 .orderBy(review.id.desc())
                 .fetch();
     }
@@ -50,7 +49,8 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         List<Long> ids = queryFactory.select(review.id)
                 .from(review)
                 .where(review.club.id.eq(club.getId())
-                        .and(review.approvedStatus.ne(DELETED))
+                        .and(review.reportStatus.eq(ReportStatus.VISIBLE)
+                                .and(review.isDeleted.eq(false)))
                 )
                 .orderBy(review.id.desc())
                 .offset(pageable.getOffset())
@@ -70,27 +70,13 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression eqApprovedStatus(DeletionStatus deletionStatus) {
-        if (deletionStatus == null) {
-            return null;
-        }
-        return review.approvedStatus.eq(deletionStatus);
-    }
-
-    private BooleanExpression eqVerifiedStatus(VerifiedStatus verifiedStatus) {
-        if (verifiedStatus == null) {
-            return null;
-        }
-        return review.verifiedStatus.eq(verifiedStatus);
-    }
-
     @Override
     public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId,
-                                                  DeletionStatus deletionStatus) {
+                                                  VerifiedStatus verifiedStatus) {
         return queryFactory.selectFrom(review)
                 .where(review.club.id.eq(club.getId()),
                         ltReviewId(reviewId),
-                        approvedStatusEq(deletionStatus))
+                        eqVerifiedStatus(verifiedStatus))
                 .orderBy(review.id.desc())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -103,11 +89,11 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return review.id.lt(reviewId);
     }
 
-    private BooleanExpression approvedStatusEq(DeletionStatus deletionStatus) {
-        if (deletionStatus == null) {
+    private BooleanExpression eqVerifiedStatus(VerifiedStatus verifiedStatus) {
+        if (verifiedStatus == null) {
             return null;
         }
-        return review.approvedStatus.eq(deletionStatus);
+        return review.verifiedStatus.eq(verifiedStatus);
     }
 
     @Override
@@ -116,7 +102,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .from(review)
                 .where(review.club.id.eq(club.getId())
                         .and(review.user.id.eq(user.getId()))
-                        .and(review.approvedStatus.ne(DELETED))
+                        .and(review.isDeleted.eq(false))
                 )
                 .fetchFirst() != null;
     }
@@ -126,16 +112,16 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return Optional.ofNullable(queryFactory
                 .selectFrom(review)
                 .where(review.id.eq(reviewId)
-                        .and(review.approvedStatus.ne(DELETED)))
+                        .and(review.verifiedStatus.eq(VerifiedStatus.NOT_VERIFIED)))
                 .fetchOne());
     }
 
     @Override
     public void softDeleteReviewByClubId(Long clubId) {
         queryFactory.update(review)
-                .set(review.approvedStatus, DELETED)
+                .set(review.isDeleted, true)
                 .where(
-                        review.club.id.eq(clubId), review.approvedStatus.ne(DELETED)
+                        review.club.id.eq(clubId), review.isDeleted.eq(false)
                 )
                 .execute();
     }

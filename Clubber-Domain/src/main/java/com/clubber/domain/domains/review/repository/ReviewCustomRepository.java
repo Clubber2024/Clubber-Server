@@ -18,7 +18,7 @@ public interface ReviewCustomRepository {
 	Page<Review> queryReviewByClub(Club club, Pageable pageable, DeletionStatus deletionStatus, VerifiedStatus verifiedStatus);
 
 	List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId,
-		DeletionStatus deletionStatus);
+		VerifiedStatus verifiedStatus);
 
 	boolean existsByClubAndUserAndNotApprovedStatusDeleted(Club club, User user);
 

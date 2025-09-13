@@ -82,7 +82,7 @@ public class AdminReviewService {
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
 			lastReviewId,
-			DeletionStatus.PENDING);
+			VerifiedStatus.NOT_VERIFIED);
 		return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
 	}
 }
