@@ -53,6 +53,12 @@ public class Review extends BaseEntity {
     @Builder.Default
     private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
 
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Builder.Default
+    private ReportStatus reportStatus = ReportStatus.VISIBLE;
+
     @Embedded
     private ImageVO authImageVo;
 
@@ -88,5 +94,9 @@ public class Review extends BaseEntity {
             throw ReviewAlreadyDeletedException.EXCEPTION;
         }
         this.isDeleted = true;
+    }
+
+    public void hide() {
+        this.reportStatus = ReportStatus.HIDDEN;
     }
 }
