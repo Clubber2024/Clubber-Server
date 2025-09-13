@@ -1,15 +1,15 @@
 package com.clubber.domain.user.dto;
 
-import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
@@ -29,9 +29,6 @@ public class UserReviewResponse {
 	@Schema(description = "리뷰 작성 일자", example = "2024.01.01", type = "string")
 	private final LocalDateTime dateTime;
 
-	@Schema(description = "리뷰 승인 상태", example = "APPROVED")
-	private final DeletionStatus deletionStatus;
-
 	@Schema(description = "리뷰 작성 시 선택한 키워드",
 		example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
 	private final Set<String> keywords;
@@ -46,7 +43,6 @@ public class UserReviewResponse {
 			.clubId(review.getClub().getId())
 			.clubName(review.getClub().getName())
 			.dateTime(review.getCreatedAt())
-			.deletionStatus(review.getDeletionStatus())
 			.content(review.getContent())
 			.build();
 	}

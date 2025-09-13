@@ -1,15 +1,15 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
-import java.util.List;
-
+import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewCustomRepository {
 
-	List<Review> findByApprovedStatusAndClubOrderByIdDesc(DeletionStatus status, Club club);
+    List<Review> findByVerifiedStatusAndClubOrderByIdDesc(VerifiedStatus verifiedStatus, Club club);
 
-	List<Review> findAllByClub(Club club);
+    List<Review> findAllByClub(Club club);
 }

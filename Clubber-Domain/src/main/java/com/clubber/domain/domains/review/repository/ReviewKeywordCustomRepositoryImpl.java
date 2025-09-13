@@ -1,5 +1,6 @@
 package com.clubber.domain.domains.review.repository;
 
+import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,7 +24,8 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
 				reviewKeyword.keyword, reviewKeyword.count().as("count")))
 			.from(reviewKeyword)
 			.where(review.club.id.eq(clubId)
-				.and(review.deletionStatus.ne(NOT_DELETED)))
+				.and(review.reportStatus.eq(ReportStatus.VISIBLE)
+						.and(review.isDeleted.eq(false))))
 			.join(reviewKeyword.review, review)
 			.groupBy(reviewKeyword.keyword)
 			.fetch();

@@ -1,10 +1,10 @@
 package com.clubber.domain.domains.review.domain;
 
-import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
-import com.clubber.domain.domains.user.domain.User;
 import com.clubber.common.vo.image.ImageVO;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
+import com.clubber.domain.domains.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -13,8 +13,6 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
 
 @Builder
 @AllArgsConstructor
@@ -45,12 +43,6 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Builder.Default
-    private DeletionStatus deletionStatus = DeletionStatus.NOT_DELETED;
-
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    @Builder.Default
     private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
 
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -65,6 +57,7 @@ public class Review extends BaseEntity {
     @Builder.Default
     boolean isDeleted = false;
 
+    @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
