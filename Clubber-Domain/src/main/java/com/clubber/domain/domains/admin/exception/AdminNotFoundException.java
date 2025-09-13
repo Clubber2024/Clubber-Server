@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.exception;
+package com.clubber.domain.domains.admin.exception;
 
 
 import com.clubber.common.exception.BaseException;

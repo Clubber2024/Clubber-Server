@@ -1,9 +1,9 @@
 package com.clubber.domain.admin.implement;
 
-import com.clubber.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
-import com.clubber.domain.admin.exception.AdminInvalidAuthCodeException;
-import com.clubber.domain.admin.exception.AdminInvalidCurrentPasswordException;
-import com.clubber.domain.admin.exception.AdminLoginFailedException;
+import com.clubber.domain.domains.admin.exception.AdminEqualsPreviousPasswordExcpetion;
+import com.clubber.domain.domains.admin.exception.AdminInvalidAuthCodeException;
+import com.clubber.domain.domains.admin.exception.AdminInvalidCurrentPasswordException;
+import com.clubber.domain.domains.admin.exception.AdminLoginFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.domain;
 
-import com.clubber.domain.admin.exception.AdminAlreadyDeletedException;
+import com.clubber.domain.domains.admin.exception.AdminAlreadyDeletedException;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.user.domain.AccountRole;

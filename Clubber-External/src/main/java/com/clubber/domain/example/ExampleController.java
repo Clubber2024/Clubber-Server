@@ -1,6 +1,6 @@
 package com.clubber.domain.example;
 
-import com.clubber.domain.admin.exception.AdminErrorCode;
+import com.clubber.domain.domains.admin.exception.AdminErrorCode;
 import com.clubber.domain.domains.club.exception.ClubErrorCode;
 import com.clubber.domain.domains.favorite.exception.FavoriteErrorCode;
 import com.clubber.domain.notice.exception.NoticeErrorCode;

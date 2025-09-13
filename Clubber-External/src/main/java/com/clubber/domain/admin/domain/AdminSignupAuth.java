@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.domain;
 
-import com.clubber.domain.admin.exception.AdminAlreadyEmailVerifiedException;
-import com.clubber.domain.admin.exception.AdminInvalidAuthCodeException;
+import com.clubber.domain.domains.admin.exception.AdminAlreadyEmailVerifiedException;
+import com.clubber.domain.domains.admin.exception.AdminInvalidAuthCodeException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

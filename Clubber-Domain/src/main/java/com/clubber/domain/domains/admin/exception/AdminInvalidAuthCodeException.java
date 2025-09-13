@@ -1,6 +1,6 @@
-package com.clubber.domain.admin.exception;
+package com.clubber.domain.domains.admin.exception;
 
-import static com.clubber.domain.admin.exception.AdminErrorCode.ADMIN_INVALID_AUTH_CODE;
+import static com.clubber.domain.domains.admin.exception.AdminErrorCode.ADMIN_INVALID_AUTH_CODE;
 
 import com.clubber.common.exception.BaseException;
 
