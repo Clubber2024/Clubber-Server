@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.recruit.service;
 
 
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.INVALID_DELETE_IMAGE_RECRUIT_REQUEST;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.NEW_FINAL_IMAGE_DIFFERENT_RECRUIT_REQUEST;
 import static com.clubber.ClubberServer.integration.util.fixture.RecruitFixture.NEW_NOT_IN_FINAL_IMAGE_RECRUIT_REQUEST;
@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.recruit.domain.RecruitImage;
-import com.clubber.ClubberServer.domain.recruit.dto.UpdateRecruitResponse;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageNotFoundException;
-import com.clubber.ClubberServer.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
-import com.clubber.ClubberServer.domain.recruit.service.RecruitService;
+import com.clubber.domain.recruit.domain.Recruit;
+import com.clubber.domain.recruit.domain.RecruitImage;
+import com.clubber.domain.recruit.dto.UpdateRecruitResponse;
+import com.clubber.domain.recruit.exception.RecruitImageDeleteRemainDuplicatedException;
+import com.clubber.domain.recruit.exception.RecruitImageNotFoundException;
+import com.clubber.domain.recruit.exception.RecruitImageRevisedFinalSizeException;
+import com.clubber.domain.recruit.repository.RecruitRepository;
+import com.clubber.domain.recruit.service.RecruitService;
 import com.clubber.ClubberServer.integration.util.ServiceTest;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import jakarta.persistence.EntityManager;

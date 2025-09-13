@@ -1,11 +1,11 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.domain.AdminUsernameFindAuth;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameFindRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
+import com.clubber.domain.domains.admin.domain.AdminPasswordFindAuth;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.AdminUsernameFindAuth;
+import com.clubber.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
+import com.clubber.domain.admin.dto.GetAdminUsernameFindRequest;
+import com.clubber.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;
 
 public class AdminEmailAuthFixture {
     public static Long CLUB_ID = 1L;

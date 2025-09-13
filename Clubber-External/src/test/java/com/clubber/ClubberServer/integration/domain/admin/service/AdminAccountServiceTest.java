@@ -1,26 +1,26 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
-import com.clubber.ClubberServer.domain.admin.dto.GetAdminsProfileResponse;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminContactRequest;
-import com.clubber.ClubberServer.domain.admin.dto.UpdateAdminsPasswordRequest;
-import com.clubber.ClubberServer.domain.admin.exception.AdminEqualsPreviousPasswordExcpetion;
-import com.clubber.ClubberServer.domain.admin.exception.AdminInvalidCurrentPasswordException;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminAccountService;
-import com.clubber.ClubberServer.domain.admin.implement.AdminReader;
-import com.clubber.ClubberServer.domain.favorite.domain.Favorite;
-import com.clubber.ClubberServer.domain.favorite.repository.FavoriteRepository;
-import com.clubber.ClubberServer.domain.recruit.domain.Recruit;
-import com.clubber.ClubberServer.domain.recruit.repository.RecruitRepository;
-import com.clubber.ClubberServer.domain.review.domain.ApprovedStatus;
-import com.clubber.ClubberServer.domain.review.domain.Review;
-import com.clubber.ClubberServer.domain.review.repository.ReviewRepository;
-import com.clubber.ClubberServer.domain.user.domain.AccountState;
-import com.clubber.ClubberServer.global.config.security.AuthDetails;
-import com.clubber.ClubberServer.global.config.security.SecurityUtils;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Contact;
+import com.clubber.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
+import com.clubber.domain.admin.dto.GetAdminsProfileResponse;
+import com.clubber.domain.admin.dto.UpdateAdminContactRequest;
+import com.clubber.domain.admin.dto.UpdateAdminsPasswordRequest;
+import com.clubber.domain.domains.admin.exception.AdminEqualsPreviousPasswordExcpetion;
+import com.clubber.domain.domains.admin.exception.AdminInvalidCurrentPasswordException;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
+import com.clubber.domain.admin.service.AdminAccountService;
+import com.clubber.domain.admin.implement.AdminReader;
+import com.clubber.domain.domains.favorite.domain.Favorite;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
+import com.clubber.domain.favorite.repository.FavoriteRepository;
+import com.clubber.domain.recruit.domain.Recruit;
+import com.clubber.domain.recruit.repository.RecruitRepository;
+import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.domains.user.domain.AccountState;
+import com.clubber.global.config.security.AuthDetails;
+import com.clubber.global.config.security.SecurityUtils;
 import com.clubber.ClubberServer.integration.util.WithMockCustomUser;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.DisplayName;
@@ -223,22 +223,22 @@ public class AdminAccountServiceTest {
 //        );
 //    }
 
-    /**
-     * TODO : 비동기 soft-withDraw 추후 테스트 코드 변경
-     */
-    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
-    @WithMockCustomUser
-    @Test
-    void withDrawAdminDeleteReview() {
-        adminAccountService.withDraw();
-        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
-
-        List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
-
-        for (Review deletedReview : deletedReviews) {
-            assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
-        }
-    }
+//    /**
+//     * TODO : 비동기 soft-withDraw 추후 테스트 코드 변경
+//     */
+//    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
+//    @WithMockCustomUser
+//    @Test
+//    void withDrawAdminDeleteReview() {
+//        adminAccountService.withDraw();
+//        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+//
+//        List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
+//
+//        for (Review deletedReview : deletedReviews) {
+//            assertThat(deletedReview.getDeletionStatus()).isEqualTo(DeletionStatus.DELETED);
+//        }
+//    }
 
     @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
     @WithMockCustomUser

@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.dto.CreateAdminsLoginRequest;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.admin.service.AdminAuthService;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.admin.dto.CreateAdminsLoginRequest;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
+import com.clubber.domain.admin.service.AdminAuthService;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

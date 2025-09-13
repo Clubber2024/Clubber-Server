@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
+import com.clubber.domain.recruit.dto.recruitComment.PostRecruitCommentRequest;
 
 public class RecruitCommentFixture {
 

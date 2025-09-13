@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.review.mapper;
 
-import com.clubber.ClubberServer.domain.review.mapper.ReviewMapper;
+import com.clubber.domain.review.mapper.ReviewMapper;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,0 +1,16 @@
+package com.clubber.global.validator.unique;
+
+import com.clubber.domain.domains.review.domain.Keyword;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.HashSet;
+import java.util.List;
+
+public class UniqueConstraintValidator implements ConstraintValidator<Unique, List<Keyword>> {
+
+	@Override
+	public boolean isValid(List<Keyword> keywords,
+		ConstraintValidatorContext constraintValidatorContext) {
+		return new HashSet<>(keywords).size() == keywords.size();
+	}
+}

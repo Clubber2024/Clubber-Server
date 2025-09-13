@@ -1,16 +1,16 @@
 package com.clubber.ClubberServer.integration.domain.calendar.service;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.repository.AdminRepository;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateRequest;
-import com.clubber.ClubberServer.domain.calendar.dto.GetCalendarDuplicateResponse;
-import com.clubber.ClubberServer.domain.calendar.domain.Calendar;
-import com.clubber.ClubberServer.domain.calendar.repository.CalendarRepository;
-import com.clubber.ClubberServer.domain.calendar.service.CalendarAdminService;
-import com.clubber.ClubberServer.domain.club.domain.Club;
-import com.clubber.ClubberServer.domain.club.repository.ClubRepository;
-import com.clubber.ClubberServer.domain.recruit.domain.RecruitType;
-import com.clubber.ClubberServer.global.config.security.AuthDetails;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
+import com.clubber.domain.calendar.dto.GetCalendarDuplicateRequest;
+import com.clubber.domain.calendar.dto.GetCalendarDuplicateResponse;
+import com.clubber.domain.calendar.domain.Calendar;
+import com.clubber.domain.calendar.repository.CalendarRepository;
+import com.clubber.domain.calendar.service.CalendarAdminService;
+import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.club.repository.ClubRepository;
+import com.clubber.domain.recruit.domain.RecruitType;
+import com.clubber.global.config.security.AuthDetails;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import com.clubber.ClubberServer.integration.util.fixture.CalendarFixture;
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;

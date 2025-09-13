@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.user.domain.User;
+import com.clubber.domain.domains.user.domain.User;
 
-import static com.clubber.ClubberServer.domain.user.domain.SnsType.KAKAO;
+import static com.clubber.domain.domains.user.domain.SnsType.KAKAO;
 
 public class UserFixture {
     public static final Long USER_ID = 1L;

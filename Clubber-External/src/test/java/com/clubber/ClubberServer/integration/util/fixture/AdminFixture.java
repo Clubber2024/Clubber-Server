@@ -1,18 +1,18 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.ClubberServer.domain.admin.domain.Admin;
-import com.clubber.ClubberServer.domain.admin.domain.AdminSignupAuth;
-import com.clubber.ClubberServer.domain.admin.domain.Contact;
-import com.clubber.ClubberServer.domain.admin.domain.PendingAdminInfo;
-import com.clubber.ClubberServer.domain.admin.dto.*;
-import com.clubber.ClubberServer.domain.club.domain.ClubType;
-import com.clubber.ClubberServer.domain.club.domain.College;
-import com.clubber.ClubberServer.domain.club.domain.Department;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
+import com.clubber.domain.admin.dto.*;
+import com.clubber.domain.domains.club.domain.ClubType;
+import com.clubber.domain.domains.club.domain.College;
+import com.clubber.domain.domains.club.domain.Department;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 
-import static com.clubber.ClubberServer.domain.user.domain.AccountRole.ADMIN;
-import static com.clubber.ClubberServer.domain.user.domain.AccountState.ACTIVE;
-import static com.clubber.ClubberServer.global.common.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.domain.domains.user.domain.AccountRole.ADMIN;
+import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 import static com.clubber.ClubberServer.integration.util.fixture.FixtureCommon.fixtureMonkey;
 
 public class AdminFixture {
