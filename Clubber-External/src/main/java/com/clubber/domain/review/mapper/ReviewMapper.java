@@ -8,7 +8,7 @@ import com.clubber.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.domain.review.dto.GetClubReviewsPageResponse;
 import com.clubber.domain.review.dto.GetClubReviewsSliceResponse;
 import com.clubber.domain.review.util.ReviewUtil;
-import com.clubber.domain.review.vo.KeywordStatsVO;
+import com.clubber.domain.domains.review.vo.KeywordStatsVO;
 import com.clubber.global.common.page.PageResponse;
 import com.clubber.global.common.slice.SliceResponse;
 import com.clubber.global.util.SliceUtil;

@@ -1,6 +1,6 @@
 package com.clubber.domain.review.repository;
 
-import com.clubber.domain.review.dto.KeywordCountStatDto;
+import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import java.util.List;
 
 public interface ReviewKeywordCustomRepository {

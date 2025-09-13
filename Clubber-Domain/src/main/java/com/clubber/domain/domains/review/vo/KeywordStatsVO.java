@@ -1,7 +1,7 @@
-package com.clubber.domain.review.vo;
+package com.clubber.domain.domains.review.vo;
 
 import com.clubber.domain.domains.review.domain.Keyword;
-import com.clubber.domain.review.dto.KeywordCountStatDto;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;

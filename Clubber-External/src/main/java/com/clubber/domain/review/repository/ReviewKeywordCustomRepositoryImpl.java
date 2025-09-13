@@ -1,6 +1,6 @@
 package com.clubber.domain.review.repository;
 
-import com.clubber.domain.review.dto.KeywordCountStatDto;
+import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.clubber.domain.review.dto;
+package com.clubber.domain.domains.review.vo;
 
 import com.clubber.domain.domains.review.domain.Keyword;
 
