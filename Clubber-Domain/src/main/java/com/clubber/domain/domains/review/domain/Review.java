@@ -86,6 +86,10 @@ public class Review extends BaseEntity {
 		});
 	}
 
+	public void verify() {
+		this.verifiedStatus = VerifiedStatus.VERIFIED;
+	}
+
 	public void delete() {
 		if (approvedStatus == DELETED) {
 			throw ReviewAlreadyDeletedException.EXCEPTION;
