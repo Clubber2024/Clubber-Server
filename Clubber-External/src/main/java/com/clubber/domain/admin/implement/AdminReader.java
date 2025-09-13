@@ -6,7 +6,7 @@ import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.admin.exception.AdminLoginFailedException;
 import com.clubber.domain.domains.admin.exception.AdminNotFoundException;
 import com.clubber.domain.domains.admin.exception.AdminUsernameNotFoundException;
-import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.user.domain.AccountState;
 import com.clubber.global.config.security.SecurityUtils;

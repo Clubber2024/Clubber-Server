@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.integration.domain.admin.service;
 
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.UpdateClubPageRequest;
-import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.domain.admin.service.AdminClubService;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.domains.club.domain.Club;

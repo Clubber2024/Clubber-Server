@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.recruit.service;
 
 import com.clubber.domain.domains.admin.domain.Admin;
-import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.domain.calendar.domain.Calendar;
 import com.clubber.domain.calendar.repository.CalendarRepository;
 import com.clubber.domain.domains.club.domain.Club;

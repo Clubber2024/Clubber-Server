@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.implement;
 
 import com.clubber.domain.domains.admin.domain.AdminRefreshToken;
-import com.clubber.domain.admin.repository.AdminRefreshTokenRepository;
+import com.clubber.domain.domains.admin.repository.AdminRefreshTokenRepository;
 import com.clubber.domain.domains.user.exception.RefreshTokenExpiredException;
 import com.clubber.global.jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;

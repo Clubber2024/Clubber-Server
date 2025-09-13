@@ -2,7 +2,7 @@ package com.clubber.ClubberServer.unit.domain.admin.facade;
 
 import com.clubber.domain.admin.dto.CreateAdminPasswordFindRequest;
 import com.clubber.domain.admin.facade.AdminEmailAuthFacade;
-import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.global.infrastructure.outer.mail.MailService;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.DisplayName;

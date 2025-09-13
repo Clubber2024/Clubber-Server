@@ -2,8 +2,8 @@ package com.clubber.ClubberServer.integration.domain.owner.service;
 
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
-import com.clubber.domain.admin.repository.AdminRepository;
-import com.clubber.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.PendingAdminInfoRepository;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.repository.ClubRepository;

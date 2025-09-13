@@ -8,7 +8,7 @@ import com.clubber.domain.admin.dto.UpdateAdminContactRequest;
 import com.clubber.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.domain.domains.admin.exception.AdminEqualsPreviousPasswordExcpetion;
 import com.clubber.domain.domains.admin.exception.AdminInvalidCurrentPasswordException;
-import com.clubber.domain.admin.repository.AdminRepository;
+import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.domain.admin.service.AdminAccountService;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.domains.favorite.domain.Favorite;

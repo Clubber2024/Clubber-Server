@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.repository;
+package com.clubber.domain.domains.admin.repository;
 
 import com.clubber.domain.domains.admin.domain.AdminPasswordFindAuth;
 import org.springframework.data.repository.CrudRepository;
