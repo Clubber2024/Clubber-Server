@@ -1,8 +1,8 @@
 package com.clubber.domain.admin.service;
 
-import com.clubber.domain.admin.domain.PendingAdminInfo;
 import com.clubber.domain.admin.dto.PendingAdminInfoResponse;
-import com.clubber.domain.admin.repository.PendingAdminInfoRepository;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.repository.PendingAdminInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
