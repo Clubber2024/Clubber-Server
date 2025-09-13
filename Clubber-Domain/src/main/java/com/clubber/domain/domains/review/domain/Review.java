@@ -7,10 +7,7 @@ import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.Club;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -19,6 +16,8 @@ import java.util.List;
 
 import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -45,11 +44,13 @@ public class Review extends BaseEntity {
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	@NotNull
-	private DeletionStatus deletionStatus;
+	@Builder.Default
+	private DeletionStatus deletionStatus = DeletionStatus.NOT_DELETED;
 
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	@NotNull
+	@Builder.Default
 	private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
 
 	@Embedded
@@ -58,23 +59,12 @@ public class Review extends BaseEntity {
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-	@Builder
-	private Review(Long id, Club club, User user, String content, DeletionStatus deletionStatus,
-		ImageVO imageVO) {
-		this.id = id;
-		this.club = club;
-		this.user = user;
-		this.content = content;
-		this.deletionStatus = deletionStatus;
-		this.authImageVo = imageVO;
-	}
-
 	public static Review of(User user, Club club, String content, String authImage) {
 		return Review.builder()
 			.user(user)
 			.club(club)
 			.content(content)
-			.imageVO(ImageVO.valueOf(authImage))
+			.authImageVo(ImageVO.valueOf(authImage))
 			.build();
 	}
 
