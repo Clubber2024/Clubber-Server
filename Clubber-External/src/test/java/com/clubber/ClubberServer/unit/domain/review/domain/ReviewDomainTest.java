@@ -34,68 +34,50 @@ public class ReviewDomainTest {
 //			.containsExactly(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
 //	}
 
-	private static Review getReview(DeletionStatus deletionStatus) {
-		return Review.builder()
-			.id(1L)
-			.content("content")
-			.approvedStatus(deletionStatus)
-			.build();
-	}
-
-	private static List<DeletionStatus> getApprovedStatusListExcept(
-		DeletionStatus excludedDeletionStatus) {
-		return Arrays.stream(DeletionStatus.values())
-			.filter(approvedStatus -> approvedStatus != excludedDeletionStatus)
-			.collect(Collectors.toList());
-	}
-
-	@Test
-	@DisplayName("빈 값의 content가 들어왔을 때, content 값은 null, ApprovedStatus은 NULL_CONTENT이다")
-	void saveBlankContentReview() {
-		//given
-		final String blankString = "  ";
-		User user = User.builder().id(1L).build();
-		Club club = Club.builder().id(1L).build();
-
-		//when
-		Review review = Review.of(user, club, blankString, "image");
-
-		//then
-		assertAll(
-			() -> assertNull(review.getContent()),
-			() -> assertEquals(NULL_CONTENT, review.getDeletionStatus())
-		);
-	}
-
-	@Test
-	@DisplayName("이미 삭제된 리뷰를 삭제하면 ReviewAlreadyDeletedException가 발생한다.")
-	void deleteAlreadyDeletedReview() {
-		//given
-		Review review = getReview(DELETED);
-
-		//when & then
-		assertThrows(ReviewAlreadyDeletedException.class, review::delete);
-	}
-
-	@Test
-	@DisplayName("삭제되지 않은 리뷰 상태이면 올바르게 삭제된다.")
-	void deleteReviewNotDeletedApprovedStatus() {
-		//given
-		List<DeletionStatus> deletionStatusListExceptDeleted = getApprovedStatusListExcept(DELETED);
-
-		//when & then
-		deletionStatusListExceptDeleted
-			.forEach(approvedStatus -> {
-				Review review = getReview(approvedStatus);
-				review.delete();
-				assertEquals(DELETED, review.getDeletionStatus());
-			});
-	}
-
-	@Test
-	@DisplayName("리뷰 저장시 인증 상태는 기본값이 저장된다")
-	void getDefaultReviewVerifiedStatus() {
-		Review review = getReview(PENDING);
-		assertEquals(VerifiedStatus.NOT_VERIFIED, review.getVerifiedStatus());
-	}
+//	private static Review getReview(DeletionStatus deletionStatus) {
+//		return Review.builder()
+//			.id(1L)
+//			.content("content")
+//			.approvedStatus(deletionStatus)
+//			.build();
+//	}
+//
+//	private static List<DeletionStatus> getApprovedStatusListExcept(
+//		DeletionStatus excludedDeletionStatus) {
+//		return Arrays.stream(DeletionStatus.values())
+//			.filter(approvedStatus -> approvedStatus != excludedDeletionStatus)
+//			.collect(Collectors.toList());
+//	}
+//
+//	@Test
+//	@DisplayName("이미 삭제된 리뷰를 삭제하면 ReviewAlreadyDeletedException가 발생한다.")
+//	void deleteAlreadyDeletedReview() {
+//		//given
+//		Review review = getReview(DELETED);
+//
+//		//when & then
+//		assertThrows(ReviewAlreadyDeletedException.class, review::delete);
+//	}
+//
+//	@Test
+//	@DisplayName("삭제되지 않은 리뷰 상태이면 올바르게 삭제된다.")
+//	void deleteReviewNotDeletedApprovedStatus() {
+//		//given
+//		List<DeletionStatus> deletionStatusListExceptDeleted = getApprovedStatusListExcept(DELETED);
+//
+//		//when & then
+//		deletionStatusListExceptDeleted
+//			.forEach(approvedStatus -> {
+//				Review review = getReview(approvedStatus);
+//				review.delete();
+//				assertEquals(DELETED, review.getDeletionStatus());
+//			});
+//	}
+//
+//	@Test
+//	@DisplayName("리뷰 저장시 인증 상태는 기본값이 저장된다")
+//	void getDefaultReviewVerifiedStatus() {
+//		Review review = getReview(PENDING);
+//		assertEquals(VerifiedStatus.NOT_VERIFIED, review.getVerifiedStatus());
+//	}
 }

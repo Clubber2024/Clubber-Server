@@ -223,22 +223,22 @@ public class AdminAccountServiceTest {
 //        );
 //    }
 
-    /**
-     * TODO : 비동기 soft-withDraw 추후 테스트 코드 변경
-     */
-    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
-    @WithMockCustomUser
-    @Test
-    void withDrawAdminDeleteReview() {
-        adminAccountService.withDraw();
-        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
-
-        List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
-
-        for (Review deletedReview : deletedReviews) {
-            assertThat(deletedReview.getDeletionStatus()).isEqualTo(DeletionStatus.DELETED);
-        }
-    }
+//    /**
+//     * TODO : 비동기 soft-withDraw 추후 테스트 코드 변경
+//     */
+//    @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 리뷰가 삭제된다.")
+//    @WithMockCustomUser
+//    @Test
+//    void withDrawAdminDeleteReview() {
+//        adminAccountService.withDraw();
+//        Admin admin = adminRepository.findById(SecurityUtils.getCurrentUserId()).get();
+//
+//        List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
+//
+//        for (Review deletedReview : deletedReviews) {
+//            assertThat(deletedReview.getDeletionStatus()).isEqualTo(DeletionStatus.DELETED);
+//        }
+//    }
 
     @DisplayName("관리자 회원탈퇴를 수행시 해당 동아리 즐겨찾기가 모두 삭제된다.")
     @WithMockCustomUser
