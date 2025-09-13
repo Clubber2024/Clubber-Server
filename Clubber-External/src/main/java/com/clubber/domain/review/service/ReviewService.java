@@ -1,5 +1,7 @@
 package com.clubber.domain.review.service;
 
+import com.clubber.common.mapper.enums.EnumMapper;
+import com.clubber.common.vo.enums.EnumMapperVO;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
@@ -7,16 +9,13 @@ import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.mapper.ReviewMapper;
 import com.clubber.domain.review.repository.ReviewKeywordRepository;
 import com.clubber.domain.review.repository.ReviewRepository;
 import com.clubber.domain.review.vo.KeywordStatsVO;
-import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.user.implement.UserReader;
-import com.clubber.global.event.review.approve.ReviewApproveEvnetPublisher;
-import com.clubber.common.mapper.enums.EnumMapper;
-import com.clubber.common.vo.enums.EnumMapperVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,7 +35,6 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final ClubRepository clubRepository;
     private final EnumMapper enumMapper;
-    private final ReviewApproveEvnetPublisher publisher;
     private final UserReader userReader;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
@@ -64,7 +62,6 @@ public class ReviewService {
         review.addKeywords(reviewRequest.getKeywords());
         Review savedReview = reviewRepository.save(review);
 
-        publisher.throwReviewApproveEvent(savedReview);
         return reviewMapper.getCreateClubReviewResponse(savedReview);
     }
 
