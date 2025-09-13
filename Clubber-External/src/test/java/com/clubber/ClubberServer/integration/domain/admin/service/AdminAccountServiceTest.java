@@ -12,10 +12,10 @@ import com.clubber.domain.domains.admin.repository.AdminRepository;
 import com.clubber.domain.admin.service.AdminAccountService;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.domains.favorite.domain.Favorite;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.favorite.repository.FavoriteRepository;
 import com.clubber.domain.recruit.domain.Recruit;
 import com.clubber.domain.recruit.repository.RecruitRepository;
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.review.repository.ReviewRepository;
 import com.clubber.domain.domains.user.domain.AccountState;
@@ -236,7 +236,7 @@ public class AdminAccountServiceTest {
         List<Review> deletedReviews = reviewRepository.findAllByClub(admin.getClub());
 
         for (Review deletedReview : deletedReviews) {
-            assertThat(deletedReview.getApprovedStatus()).isEqualTo(ApprovedStatus.DELETED);
+            assertThat(deletedReview.getDeletionStatus()).isEqualTo(DeletionStatus.DELETED);
         }
     }
 

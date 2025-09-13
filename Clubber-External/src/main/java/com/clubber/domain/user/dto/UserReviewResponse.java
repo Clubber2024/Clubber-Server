@@ -1,6 +1,6 @@
 package com.clubber.domain.user.dto;
 
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +30,7 @@ public class UserReviewResponse {
 	private final LocalDateTime dateTime;
 
 	@Schema(description = "리뷰 승인 상태", example = "APPROVED")
-	private final ApprovedStatus approvedStatus;
+	private final DeletionStatus deletionStatus;
 
 	@Schema(description = "리뷰 작성 시 선택한 키워드",
 		example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
@@ -46,7 +46,7 @@ public class UserReviewResponse {
 			.clubId(review.getClub().getId())
 			.clubName(review.getClub().getName())
 			.dateTime(review.getCreatedAt())
-			.approvedStatus(review.getApprovedStatus())
+			.deletionStatus(review.getDeletionStatus())
 			.content(review.getContent())
 			.build();
 	}

@@ -10,7 +10,7 @@ import com.clubber.domain.admin.mapper.AdminReviewMapper;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
@@ -37,7 +37,7 @@ public class AdminReviewService {
 	public List<GetAdminsPendingReviews> getAdminPendingReviews() {
 		Admin admin = adminReader.getCurrentAdmin();
 		List<Review> reviews = reviewRepository.findByApprovedStatusAndClubOrderByIdDesc(
-			ApprovedStatus.PENDING, admin.getClub());
+			DeletionStatus.PENDING, admin.getClub());
 
 		return adminReviewMapper.getGetAdminPendingReviewList(reviews);
 	}
@@ -65,11 +65,11 @@ public class AdminReviewService {
 
 	@Transactional(readOnly = true)
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-		ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
+													 DeletionStatus deletionStatus, VerifiedStatus verifiedStatus) {
 		Admin admin = adminReader.getCurrentAdmin();
 		Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
 			.orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, approvedStatus, verifiedStatus);
+		Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, deletionStatus, verifiedStatus);
 		return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
 	}
 
@@ -82,7 +82,7 @@ public class AdminReviewService {
 
 		List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
 			lastReviewId,
-			ApprovedStatus.PENDING);
+			DeletionStatus.PENDING);
 		return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
 	}
 }

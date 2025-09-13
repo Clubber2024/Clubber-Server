@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +20,7 @@ public class AdminReviewResponse {
 	private final Long reviewId;
 
 	@Schema(description = "리뷰 상태", example = "APPROVED")
-	private final ApprovedStatus approvedStatus;
+	private final DeletionStatus deletionStatus;
 
 	@Schema(description = "작성한 리뷰 키워드",
 		example = "[\"CULTURE\", \"FEE\", \"ACTIVITY\", \"CAREER\", \"MANAGE\"]")
@@ -36,7 +36,7 @@ public class AdminReviewResponse {
 	public static AdminReviewResponse of(Review review, Set<String> keywords) {
 		return AdminReviewResponse.builder()
 			.reviewId(review.getId())
-			.approvedStatus(review.getApprovedStatus())
+			.deletionStatus(review.getDeletionStatus())
 			.keywords(keywords)
 			.content(review.getContent())
 			.dateTime(review.getCreatedAt())

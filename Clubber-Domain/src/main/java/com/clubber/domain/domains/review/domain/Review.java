@@ -17,7 +17,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.clubber.domain.domains.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,7 +45,7 @@ public class Review extends BaseEntity {
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
 	@NotNull
-	private ApprovedStatus approvedStatus;
+	private DeletionStatus deletionStatus;
 
 	@JdbcTypeCode(SqlTypes.VARCHAR)
 	@Enumerated(EnumType.STRING)
@@ -59,13 +59,13 @@ public class Review extends BaseEntity {
 	private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
 	@Builder
-	private Review(Long id, Club club, User user, String content, ApprovedStatus approvedStatus,
+	private Review(Long id, Club club, User user, String content, DeletionStatus deletionStatus,
 		ImageVO imageVO) {
 		this.id = id;
 		this.club = club;
 		this.user = user;
 		this.content = content;
-		this.approvedStatus = approvedStatus;
+		this.deletionStatus = deletionStatus;
 		this.authImageVo = imageVO;
 	}
 
@@ -91,9 +91,9 @@ public class Review extends BaseEntity {
 	}
 
 	public void delete() {
-		if (approvedStatus == DELETED) {
+		if (deletionStatus == DELETED) {
 			throw ReviewAlreadyDeletedException.EXCEPTION;
 		}
-		this.approvedStatus = DELETED;
+		this.deletionStatus = DELETED;
 	}
 }

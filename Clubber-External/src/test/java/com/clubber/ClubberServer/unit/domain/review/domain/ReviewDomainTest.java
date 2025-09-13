@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.review.domain;
 
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
@@ -34,18 +34,18 @@ public class ReviewDomainTest {
 //			.containsExactly(CULTURE, FEE, ACTIVITY, CAREER, MANAGE);
 //	}
 
-	private static Review getReview(ApprovedStatus approvedStatus) {
+	private static Review getReview(DeletionStatus deletionStatus) {
 		return Review.builder()
 			.id(1L)
 			.content("content")
-			.approvedStatus(approvedStatus)
+			.approvedStatus(deletionStatus)
 			.build();
 	}
 
-	private static List<ApprovedStatus> getApprovedStatusListExcept(
-		ApprovedStatus excludedApprovedStatus) {
-		return Arrays.stream(ApprovedStatus.values())
-			.filter(approvedStatus -> approvedStatus != excludedApprovedStatus)
+	private static List<DeletionStatus> getApprovedStatusListExcept(
+		DeletionStatus excludedDeletionStatus) {
+		return Arrays.stream(DeletionStatus.values())
+			.filter(approvedStatus -> approvedStatus != excludedDeletionStatus)
 			.collect(Collectors.toList());
 	}
 
@@ -63,7 +63,7 @@ public class ReviewDomainTest {
 		//then
 		assertAll(
 			() -> assertNull(review.getContent()),
-			() -> assertEquals(NULL_CONTENT, review.getApprovedStatus())
+			() -> assertEquals(NULL_CONTENT, review.getDeletionStatus())
 		);
 	}
 
@@ -81,14 +81,14 @@ public class ReviewDomainTest {
 	@DisplayName("삭제되지 않은 리뷰 상태이면 올바르게 삭제된다.")
 	void deleteReviewNotDeletedApprovedStatus() {
 		//given
-		List<ApprovedStatus> approvedStatusListExceptDeleted = getApprovedStatusListExcept(DELETED);
+		List<DeletionStatus> deletionStatusListExceptDeleted = getApprovedStatusListExcept(DELETED);
 
 		//when & then
-		approvedStatusListExceptDeleted
+		deletionStatusListExceptDeleted
 			.forEach(approvedStatus -> {
 				Review review = getReview(approvedStatus);
 				review.delete();
-				assertEquals(DELETED, review.getApprovedStatus());
+				assertEquals(DELETED, review.getDeletionStatus());
 			});
 	}
 

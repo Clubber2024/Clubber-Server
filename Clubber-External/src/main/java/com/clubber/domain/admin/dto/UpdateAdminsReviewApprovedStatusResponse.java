@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.dto;
 
 import com.clubber.domain.domains.admin.domain.Admin;
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AccessLevel;
@@ -20,13 +20,13 @@ public class UpdateAdminsReviewApprovedStatusResponse {
     private final List<Long> reviewIds;
 
     @Schema(description = "승인/미승인 중 처리된 상태", example = "APPROVED")
-    private final ApprovedStatus approvedStatus;
+    private final DeletionStatus deletionStatus;
 
-    public static UpdateAdminsReviewApprovedStatusResponse of(Admin admin, List<Long> reviewIds, ApprovedStatus approvedStatus){
+    public static UpdateAdminsReviewApprovedStatusResponse of(Admin admin, List<Long> reviewIds, DeletionStatus deletionStatus){
         return UpdateAdminsReviewApprovedStatusResponse.builder()
                 .adminId(admin.getId())
                 .reviewIds(reviewIds)
-                .approvedStatus(approvedStatus)
+                .deletionStatus(deletionStatus)
                 .build();
     }
 }

@@ -1,12 +1,12 @@
 package com.clubber.domain.review.repository;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
-import static com.clubber.domain.domains.review.domain.ApprovedStatus.DELETED;
+import static com.clubber.domain.domains.review.domain.DeletionStatus.DELETED;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.user.domain.User;
@@ -40,7 +40,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
     @Override
     public Page<Review> queryReviewByClub(Club club, Pageable pageable,
-                                          ApprovedStatus approvedStatus, VerifiedStatus verifiedStatus) {
+                                          DeletionStatus deletionStatus, VerifiedStatus verifiedStatus) {
 
         /**
          * 커버링 인덱스 적용
@@ -69,11 +69,11 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression eqApprovedStatus(ApprovedStatus approvedStatus) {
-        if (approvedStatus == null) {
+    private BooleanExpression eqApprovedStatus(DeletionStatus deletionStatus) {
+        if (deletionStatus == null) {
             return null;
         }
-        return review.approvedStatus.eq(approvedStatus);
+        return review.approvedStatus.eq(deletionStatus);
     }
 
     private BooleanExpression eqVerifiedStatus(VerifiedStatus verifiedStatus) {
@@ -85,11 +85,11 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
     @Override
     public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId,
-                                                  ApprovedStatus approvedStatus) {
+                                                  DeletionStatus deletionStatus) {
         return queryFactory.selectFrom(review)
                 .where(review.club.id.eq(club.getId()),
                         ltReviewId(reviewId),
-                        approvedStatusEq(approvedStatus))
+                        approvedStatusEq(deletionStatus))
                 .orderBy(review.id.desc())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -102,11 +102,11 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return review.id.lt(reviewId);
     }
 
-    private BooleanExpression approvedStatusEq(ApprovedStatus approvedStatus) {
-        if (approvedStatus == null) {
+    private BooleanExpression approvedStatusEq(DeletionStatus deletionStatus) {
+        if (deletionStatus == null) {
             return null;
         }
-        return review.approvedStatus.eq(approvedStatus);
+        return review.approvedStatus.eq(deletionStatus);
     }
 
     @Override

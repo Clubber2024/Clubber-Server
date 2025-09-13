@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.controller;
 
 import com.clubber.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
-import com.clubber.domain.domains.review.domain.ApprovedStatus;
+import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import java.util.List;
 
@@ -47,9 +47,9 @@ public class AdminReviewController {
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-		@RequestParam(required = false) ApprovedStatus approvedStatus,
+		@RequestParam(required = false) DeletionStatus deletionStatus,
 		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
-		return adminReviewService.getAdminsReviews(pageable, approvedStatus, verifiedStatus);
+		return adminReviewService.getAdminsReviews(pageable, deletionStatus, verifiedStatus);
 	}
 
 	@Operation(summary = "리뷰 인증")
