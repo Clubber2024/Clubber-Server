@@ -1,9 +1,8 @@
 package com.clubber.global.jwt;
 
-
-import com.clubber.global.jwt.exception.InvalidTokenException;
-import com.clubber.global.jwt.exception.RefreshTokenExpiredException;
-import com.clubber.global.jwt.exception.TokenExpiredException;
+import com.clubber.domain.domains.user.exception.InvalidTokenException;
+import com.clubber.domain.domains.user.exception.RefreshTokenExpiredException;
+import com.clubber.domain.domains.user.exception.TokenExpiredException;
 import com.clubber.global.jwt.properties.JwtProperties;
 import com.clubber.global.jwt.vo.AccessTokenInfo;
 import io.jsonwebtoken.Claims;
@@ -18,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-import static com.clubber.global.consts.ClubberStatic.*;
+import static com.clubber.common.consts.ClubberStatic.*;
 
 @Component
 @RequiredArgsConstructor
