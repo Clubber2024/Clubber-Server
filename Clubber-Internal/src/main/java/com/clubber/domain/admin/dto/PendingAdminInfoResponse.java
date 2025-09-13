@@ -4,7 +4,7 @@ import com.clubber.domain.domains.admin.domain.Contact;
 import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import lombok.Builder;
 
-import static com.clubber.global.consts.ClubberStatic.IMAGE_SERVER;
+import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 
 @Builder
 public record PendingAdminInfoResponse(Long id,
