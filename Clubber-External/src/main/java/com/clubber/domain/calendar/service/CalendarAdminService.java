@@ -1,6 +1,6 @@
 package com.clubber.domain.calendar.service;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.calendar.domain.Calendar;
 import com.clubber.domain.calendar.domain.CalendarStatus;

@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.domain;
+package com.clubber.domain.domains.admin.domain;
 
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.*;

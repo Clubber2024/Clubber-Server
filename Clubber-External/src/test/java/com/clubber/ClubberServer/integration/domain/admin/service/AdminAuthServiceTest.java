@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.CreateAdminsLoginRequest;
 import com.clubber.domain.admin.repository.AdminRepository;
 import com.clubber.domain.admin.service.AdminAuthService;

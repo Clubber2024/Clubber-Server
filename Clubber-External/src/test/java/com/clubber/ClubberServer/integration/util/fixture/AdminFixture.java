@@ -1,9 +1,9 @@
 package com.clubber.ClubberServer.integration.util.fixture;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.AdminSignupAuth;
-import com.clubber.domain.admin.domain.Contact;
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.admin.dto.*;
 import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.domain.College;

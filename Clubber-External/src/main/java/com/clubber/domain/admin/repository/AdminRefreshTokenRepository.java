@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.repository;
 
-import com.clubber.domain.admin.domain.AdminRefreshToken;
+import com.clubber.domain.domains.admin.domain.AdminRefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

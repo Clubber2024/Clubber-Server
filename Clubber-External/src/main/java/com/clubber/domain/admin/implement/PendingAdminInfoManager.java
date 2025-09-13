@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.implement;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.admin.dto.CreateAdminSignUpRequest;
 import com.clubber.domain.admin.mapper.PendingAdminMapper;
 import com.clubber.domain.admin.repository.AdminRepository;

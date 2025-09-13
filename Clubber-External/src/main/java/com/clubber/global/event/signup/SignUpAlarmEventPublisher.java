@@ -1,6 +1,6 @@
 package com.clubber.global.event.signup;
 
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Contact;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

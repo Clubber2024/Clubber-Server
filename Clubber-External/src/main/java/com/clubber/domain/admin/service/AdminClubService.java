@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.service;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.domain.admin.implement.AdminReader;

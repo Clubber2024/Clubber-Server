@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
 
 public record CreateAdminAuthResponse(
         String email

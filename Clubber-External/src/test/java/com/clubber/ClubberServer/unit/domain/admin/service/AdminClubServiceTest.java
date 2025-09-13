@@ -10,7 +10,7 @@ import static com.clubber.domain.domains.user.domain.AccountState.ACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.UpdateClubPageRequest;
 import com.clubber.domain.admin.dto.UpdateClubPageResponse;
 import com.clubber.domain.admin.service.AdminClubService;

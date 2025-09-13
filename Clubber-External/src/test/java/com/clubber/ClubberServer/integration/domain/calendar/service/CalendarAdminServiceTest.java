@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.integration.domain.calendar.service;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.repository.AdminRepository;
 import com.clubber.domain.calendar.dto.GetCalendarDuplicateRequest;
 import com.clubber.domain.calendar.dto.GetCalendarDuplicateResponse;

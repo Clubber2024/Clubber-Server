@@ -1,6 +1,6 @@
 package com.clubber.domain.recruit.implement;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.recruit.domain.Recruit;
 import com.clubber.domain.recruit.domain.RecruitComment;
 import com.clubber.domain.recruit.domain.RecruitType;

@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Contact;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

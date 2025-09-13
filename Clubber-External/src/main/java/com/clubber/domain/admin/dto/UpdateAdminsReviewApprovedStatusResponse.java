@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.review.domain.ApprovedStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

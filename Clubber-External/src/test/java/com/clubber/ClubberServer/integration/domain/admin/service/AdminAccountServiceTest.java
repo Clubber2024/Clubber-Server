@@ -1,7 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Contact;
 import com.clubber.domain.admin.dto.GetAdminUsernameCheckDuplicateResponse;
 import com.clubber.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.domain.admin.dto.UpdateAdminContactRequest;

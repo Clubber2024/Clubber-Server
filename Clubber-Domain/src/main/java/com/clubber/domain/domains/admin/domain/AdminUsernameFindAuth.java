@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.domain;
+package com.clubber.domain.domains.admin.domain;
 
 import com.clubber.domain.domains.admin.exception.AdminAlreadyEmailVerifiedException;
 import com.clubber.domain.domains.admin.exception.AdminInvalidAuthCodeException;
@@ -6,36 +6,37 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
-@RedisHash(value = "adminUpdateEmailAuth")
-public class AdminUpdateEmailAuth {
+@RedisHash(value = "adminUsernameFindAuth")
+public class AdminUsernameFindAuth {
     @Id
-    private Long adminId;
-
-    private String email;
+    private Long clubId;
 
     private Integer authCode;
+
+    @TimeToLive
+    private Long ttl = 300L;
 
     private boolean isVerified = false;
 
     @Builder
-    public AdminUpdateEmailAuth(Long adminId, String email, Integer authCode) {
-        this.adminId = adminId;
-        this.email = email;
+    public AdminUsernameFindAuth(Long clubId, Integer authCode) {
+        this.clubId = clubId;
         this.authCode = authCode;
-    }
-
-    public void verify() {
-        if (isVerified) {
-            throw AdminAlreadyEmailVerifiedException.EXCEPTION;
-        }
-        this.isVerified = true;
     }
 
     public void checkIsVerified() {
         if (!isVerified) {
             throw AdminInvalidAuthCodeException.EXCEPTION;
         }
+    }
+
+    public void verify() {
+        if(isVerified){
+            throw AdminAlreadyEmailVerifiedException.EXCEPTION;
+        }
+        this.isVerified = true;
     }
 }

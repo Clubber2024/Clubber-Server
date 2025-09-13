@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.domain;
+package com.clubber.domain.domains.admin.domain;
 
 import com.clubber.domain.domains.admin.exception.AdminAlreadyEmailVerifiedException;
 import com.clubber.domain.domains.admin.exception.AdminInvalidAuthCodeException;
@@ -9,13 +9,11 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
-@RedisHash(value = "adminSignupAuth")
-public class AdminSignupAuth {
+@RedisHash(value = "adminPasswordFind")
+public class AdminPasswordFindAuth {
 
     @Id
-    private String clubName;
-
-    private String email;
+    private String username;
 
     private Integer authCode;
 
@@ -25,9 +23,8 @@ public class AdminSignupAuth {
     private boolean isVerified = false;
 
     @Builder
-    public AdminSignupAuth(String clubName, String email, Integer authCode) {
-        this.clubName = clubName;
-        this.email = email;
+    public AdminPasswordFindAuth(String username, Integer authCode) {
+        this.username = username;
         this.authCode = authCode;
     }
 

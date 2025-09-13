@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.service;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.admin.dto.*;
 import com.clubber.domain.admin.implement.AdminAppender;
 import com.clubber.domain.admin.implement.AdminReader;

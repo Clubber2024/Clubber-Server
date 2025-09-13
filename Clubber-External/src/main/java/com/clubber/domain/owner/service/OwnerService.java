@@ -1,6 +1,6 @@
 package com.clubber.domain.owner.service;
 
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.admin.implement.PendingAdminInfoManager;
 import com.clubber.domain.admin.implement.PendingAdminInfoReader;
 import lombok.RequiredArgsConstructor;

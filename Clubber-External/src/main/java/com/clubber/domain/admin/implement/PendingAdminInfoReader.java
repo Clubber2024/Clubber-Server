@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.implement;
 
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.domains.admin.exception.AdminNotFoundException;
 import com.clubber.domain.admin.repository.PendingAdminInfoRepository;
 import lombok.RequiredArgsConstructor;

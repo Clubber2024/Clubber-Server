@@ -1,6 +1,6 @@
 package com.clubber.global.event.signup;
 
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Contact;
 import com.clubber.global.infrastructure.outer.discord.client.DiscordClient;
 import com.clubber.global.infrastructure.outer.discord.dto.DiscordMessage;
 import com.clubber.global.infrastructure.outer.discord.message.DiscordMessageFactory;

@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Contact;
 import lombok.AccessLevel;
 import lombok.Builder;
 

@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.facade;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
 import com.clubber.domain.admin.dto.*;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.admin.service.AdminEmailAuthService;

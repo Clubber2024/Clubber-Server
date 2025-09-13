@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.repository;
 
-import com.clubber.domain.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 

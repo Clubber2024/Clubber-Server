@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.domain;
+package com.clubber.domain.domains.admin.domain;
 
 import com.clubber.domain.domains.admin.exception.AdminAlreadyDeletedException;
 import com.clubber.domain.domains.club.domain.Club;

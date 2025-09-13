@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.implement;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Contact;
 import com.clubber.domain.domains.club.domain.Club;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;

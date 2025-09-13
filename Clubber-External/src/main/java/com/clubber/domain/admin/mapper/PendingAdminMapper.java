@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.mapper;
 
-import com.clubber.domain.admin.domain.Admin;
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.domains.club.domain.Club;
 import org.springframework.stereotype.Component;
 

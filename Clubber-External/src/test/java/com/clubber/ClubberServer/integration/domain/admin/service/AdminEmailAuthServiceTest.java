@@ -1,8 +1,8 @@
 package com.clubber.ClubberServer.integration.domain.admin.service;
 
-import com.clubber.domain.admin.domain.AdminPasswordFindAuth;
-import com.clubber.domain.admin.domain.AdminSignupAuth;
-import com.clubber.domain.admin.domain.AdminUsernameFindAuth;
+import com.clubber.domain.domains.admin.domain.AdminPasswordFindAuth;
+import com.clubber.domain.domains.admin.domain.AdminSignupAuth;
+import com.clubber.domain.domains.admin.domain.AdminUsernameFindAuth;
 import com.clubber.domain.admin.dto.CreateAdminSignupAuthVerifyRequest;
 import com.clubber.domain.admin.dto.GetAdminUsernameFindRequest;
 import com.clubber.domain.admin.dto.UpdateAdminPasswordFindAuthVerifyRequest;

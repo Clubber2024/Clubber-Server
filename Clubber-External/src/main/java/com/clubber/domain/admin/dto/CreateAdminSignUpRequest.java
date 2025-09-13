@@ -1,7 +1,7 @@
 package com.clubber.domain.admin.dto;
 
-import com.clubber.domain.admin.domain.Contact;
-import com.clubber.domain.admin.domain.PendingAdminInfo;
+import com.clubber.domain.domains.admin.domain.Contact;
+import com.clubber.domain.domains.admin.domain.PendingAdminInfo;
 import com.clubber.domain.domains.club.domain.ClubType;
 import com.clubber.domain.domains.club.domain.College;
 import com.clubber.domain.domains.club.domain.Department;

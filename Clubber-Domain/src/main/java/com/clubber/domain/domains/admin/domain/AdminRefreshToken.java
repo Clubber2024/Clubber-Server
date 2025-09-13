@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.domain;
+package com.clubber.domain.domains.admin.domain;
 
 import lombok.Builder;
 import lombok.Getter;

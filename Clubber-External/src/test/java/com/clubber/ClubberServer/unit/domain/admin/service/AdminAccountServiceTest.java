@@ -1,6 +1,6 @@
 package com.clubber.ClubberServer.unit.domain.admin.service;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.GetAdminsProfileResponse;
 import com.clubber.domain.admin.dto.UpdateAdminsPasswordRequest;
 import com.clubber.domain.admin.service.AdminAccountService;

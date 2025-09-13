@@ -1,6 +1,6 @@
 package com.clubber.domain.admin.mapper;
 
-import com.clubber.domain.admin.domain.Admin;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.AdminReviewResponse;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
