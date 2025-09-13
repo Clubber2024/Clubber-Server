@@ -67,8 +67,9 @@ public class Club extends BaseEntity {
 	@JoinColumn(name = "clubInfo_id")
 	private ClubInfo clubInfo;
 
-	private boolean isAgreeToReview = false;
-
+	@Builder.Default
+	private boolean isAgreeToReview = true;
+	
 	private boolean isAgreeToProvideInfo = false;
 
 	public void updateClub(String imageKey, String introduction) {
