@@ -1,26 +1,24 @@
 package com.clubber.domain.domains.review.repository;
 
-import static com.clubber.domain.domains.club.domain.QClub.club;
-import static com.clubber.domain.domains.review.domain.QReview.review;
-import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
-
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import java.util.List;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.clubber.domain.domains.club.domain.QClub.club;
+import static com.clubber.domain.domains.review.domain.QReview.review;
+import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
 @RequiredArgsConstructor
 public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
@@ -39,8 +37,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public Page<Review> queryReviewByClub(Club club, Pageable pageable,
-                                          DeletionStatus deletionStatus, VerifiedStatus verifiedStatus) {
+    public Page<Review> queryReviewByClub(Club club, Pageable pageable) {
 
         /**
          * 커버링 인덱스 적용
@@ -71,12 +68,10 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId,
-                                                  VerifiedStatus verifiedStatus) {
+    public List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId) {
         return queryFactory.selectFrom(review)
                 .where(review.club.id.eq(club.getId()),
-                        ltReviewId(reviewId),
-                        eqVerifiedStatus(verifiedStatus))
+                        ltReviewId(reviewId))
                 .orderBy(review.id.desc())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -87,13 +82,6 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
             return null;
         }
         return review.id.lt(reviewId);
-    }
-
-    private BooleanExpression eqVerifiedStatus(VerifiedStatus verifiedStatus) {
-        if (verifiedStatus == null) {
-            return null;
-        }
-        return review.verifiedStatus.eq(verifiedStatus);
     }
 
     @Override
@@ -111,8 +99,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     public Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId) {
         return Optional.ofNullable(queryFactory
                 .selectFrom(review)
-                .where(review.id.eq(reviewId)
-                        .and(review.verifiedStatus.eq(VerifiedStatus.NOT_VERIFIED)))
+                .where(review.id.eq(reviewId))
                 .fetchOne());
     }
 

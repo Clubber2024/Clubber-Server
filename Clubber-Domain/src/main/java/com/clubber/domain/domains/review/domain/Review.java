@@ -1,6 +1,5 @@
 package com.clubber.domain.domains.review.domain;
 
-import com.clubber.common.vo.image.ImageVO;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
@@ -43,30 +42,23 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Builder.Default
-    private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
-
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    @Builder.Default
     private ReportStatus reportStatus = ReportStatus.VISIBLE;
 
-    @Embedded
-    private ImageVO authImageVo;
+    @Builder.Default
+    private Long likes = 0L;
 
     @Builder.Default
-    boolean isDeleted = false;
+    private boolean isDeleted = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-    public static Review of(User user, Club club, String content, String authImage) {
+    public static Review of(User user, Club club, String content) {
         return Review.builder()
                 .user(user)
                 .club(club)
                 .content(content)
-                .authImageVo(ImageVO.valueOf(authImage))
                 .build();
     }
 
@@ -78,10 +70,6 @@ public class Review extends BaseEntity {
         });
     }
 
-    public void verify() {
-        this.verifiedStatus = VerifiedStatus.VERIFIED;
-    }
-
     public void delete() {
         if (isDeleted) {
             throw ReviewAlreadyDeletedException.EXCEPTION;
@@ -91,5 +79,9 @@ public class Review extends BaseEntity {
 
     public void hide() {
         this.reportStatus = ReportStatus.HIDDEN;
+    }
+
+    public void like() {
+        likes++;
     }
 }
