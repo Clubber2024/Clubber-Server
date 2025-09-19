@@ -37,8 +37,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public Page<Review> queryReviewByClub(Club club, Pageable pageable,
-                                          DeletionStatus deletionStatus) {
+    public Page<Review> queryReviewByClub(Club club, Pageable pageable) {
 
         /**
          * 커버링 인덱스 적용

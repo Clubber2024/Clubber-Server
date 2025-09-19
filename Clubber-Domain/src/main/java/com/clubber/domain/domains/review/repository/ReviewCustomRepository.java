@@ -15,7 +15,7 @@ public interface ReviewCustomRepository {
 	List<Review> queryReviewByUserOrderByIdDesc(User user);
 
 
-	Page<Review> queryReviewByClub(Club club, Pageable pageable, DeletionStatus deletionStatus);
+	Page<Review> queryReviewByClub(Club club, Pageable pageable);
 
 	List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId);
 

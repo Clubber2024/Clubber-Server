@@ -102,7 +102,7 @@ public class ReviewService {
 
         club.validateAgreeToReview();
 
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
         return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
     }
 

@@ -68,7 +68,7 @@ public class AdminReviewService {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, deletionStatus);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
         return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
     }
 
