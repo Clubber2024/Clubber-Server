@@ -1,6 +1,5 @@
 package com.clubber.domain.domains.review.domain;
 
-import com.clubber.common.vo.image.ImageVO;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
@@ -45,9 +44,6 @@ public class Review extends BaseEntity {
     @Builder.Default
     private ReportStatus reportStatus = ReportStatus.VISIBLE;
 
-    @Embedded
-    private ImageVO authImageVo;
-
     @Builder.Default
     boolean isDeleted = false;
 
@@ -55,12 +51,11 @@ public class Review extends BaseEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
-    public static Review of(User user, Club club, String content, String authImage) {
+    public static Review of(User user, Club club, String content) {
         return Review.builder()
                 .user(user)
                 .club(club)
                 .content(content)
-                .authImageVo(ImageVO.valueOf(authImage))
                 .build();
     }
 

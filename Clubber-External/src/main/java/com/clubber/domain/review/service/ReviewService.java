@@ -57,8 +57,7 @@ public class ReviewService {
         club.validateAgreeToReview();
         validateReviewExists(club, user);
 
-        Review review = Review.of(user, club, reviewRequest.getContent(),
-                reviewRequest.getAuthImage());
+        Review review = Review.of(user, club, reviewRequest.getContent());
         review.addKeywords(reviewRequest.getKeywords());
         Review savedReview = reviewRepository.save(review);
 
