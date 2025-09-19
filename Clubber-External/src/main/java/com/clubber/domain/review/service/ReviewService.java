@@ -7,15 +7,14 @@ import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
-import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
-import com.clubber.domain.domains.user.domain.User;
-import com.clubber.domain.review.dto.*;
-import com.clubber.domain.review.mapper.ReviewMapper;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.clubber.domain.domains.review.vo.KeywordStatsVO;
+import com.clubber.domain.domains.user.domain.User;
+import com.clubber.domain.review.dto.*;
+import com.clubber.domain.review.mapper.ReviewMapper;
 import com.clubber.domain.user.implement.UserReader;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -97,14 +96,13 @@ public class ReviewService {
     //동아리 별 리뷰 조회 : Page 별 조회
     @Transactional(readOnly = true)
     public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-                                                                Pageable pageable, VerifiedStatus verifiedStatus) {
+                                                                Pageable pageable) {
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         club.validateAgreeToReview();
 
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null,
-                verifiedStatus);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, null);
         return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
     }
 
@@ -117,8 +115,7 @@ public class ReviewService {
 
         club.validateAgreeToReview();
 
-        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId,
-                null);
+        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
         return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
     }

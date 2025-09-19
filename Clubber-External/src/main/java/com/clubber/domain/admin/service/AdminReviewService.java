@@ -1,30 +1,28 @@
 package com.clubber.domain.admin.service;
 
-import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.admin.mapper.AdminReviewMapper;
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.domain.VerifiedStatus;
 import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
 import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
 import com.clubber.domain.domains.review.exception.UserReviewsNotFoundException;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +37,7 @@ public class AdminReviewService {
     @Transactional(readOnly = true)
     public List<GetAdminsPendingReviews> getAdminPendingReviews() {
         Admin admin = adminReader.getCurrentAdmin();
-        List<Review> reviews = reviewRepository.findByVerifiedStatusAndClubOrderByIdDesc(VerifiedStatus.NOT_VERIFIED, admin.getClub());
+        List<Review> reviews = reviewRepository.findByClubOrderByIdDesc(admin.getClub());
         return adminReviewMapper.getGetAdminPendingReviewList(reviews);
     }
 
@@ -66,11 +64,11 @@ public class AdminReviewService {
 
     @Transactional(readOnly = true)
     public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-                                                     DeletionStatus deletionStatus, VerifiedStatus verifiedStatus) {
+                                                     DeletionStatus deletionStatus) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, deletionStatus, verifiedStatus);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, deletionStatus);
         return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
     }
 
@@ -82,8 +80,7 @@ public class AdminReviewService {
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
-                lastReviewId,
-                VerifiedStatus.NOT_VERIFIED);
+                lastReviewId);
         return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
     }
 }
