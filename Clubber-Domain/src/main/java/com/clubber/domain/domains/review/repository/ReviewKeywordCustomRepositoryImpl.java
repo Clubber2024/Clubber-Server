@@ -8,26 +8,31 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.clubber.domain.domains.review.domain.DeletionStatus.NOT_DELETED;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 
 @RequiredArgsConstructor
 public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRepository {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-	@Override
-	public List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId) {
-		return queryFactory
-			.select(Projections.constructor(KeywordCountStatDto.class,
-				reviewKeyword.keyword, reviewKeyword.count().as("count")))
-			.from(reviewKeyword)
-			.where(review.club.id.eq(clubId)
-				.and(review.reportStatus.eq(ReportStatus.VISIBLE)
-						.and(review.isDeleted.eq(false))))
-			.join(reviewKeyword.review, review)
-			.groupBy(reviewKeyword.keyword)
-			.fetch();
-	}
+    @Override
+    public List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        KeywordCountStatDto.class,
+                        reviewKeyword.keyword,
+                        reviewKeyword.count().as("count"))
+                )
+                .from(reviewKeyword)
+                .where(review.club.id.eq(clubId)
+                        .and(review.reportStatus.eq(ReportStatus.VISIBLE)
+                                .and(review.isDeleted.eq(false)))
+                )
+                .join(reviewKeyword.review, review)
+                .groupBy(reviewKeyword.keyword)
+                .orderBy(reviewKeyword.count().desc())
+                .limit(5)
+                .fetch();
+    }
 }
