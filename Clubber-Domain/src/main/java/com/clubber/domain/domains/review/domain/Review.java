@@ -43,12 +43,6 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Builder.Default
-    private VerifiedStatus verifiedStatus = VerifiedStatus.NOT_VERIFIED;
-
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    @Builder.Default
     private ReportStatus reportStatus = ReportStatus.VISIBLE;
 
     @Embedded
@@ -76,10 +70,6 @@ public class Review extends BaseEntity {
             ReviewKeyword reviewKeyword = ReviewKeyword.of(keyword, this);
             this.reviewKeywords.add(reviewKeyword);
         });
-    }
-
-    public void verify() {
-        this.verifiedStatus = VerifiedStatus.VERIFIED;
     }
 
     public void delete() {
