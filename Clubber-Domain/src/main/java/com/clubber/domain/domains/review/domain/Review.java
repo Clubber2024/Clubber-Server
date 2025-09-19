@@ -45,7 +45,10 @@ public class Review extends BaseEntity {
     private ReportStatus reportStatus = ReportStatus.VISIBLE;
 
     @Builder.Default
-    boolean isDeleted = false;
+    private Long likes = 0L;
+
+    @Builder.Default
+    private boolean isDeleted = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
@@ -76,5 +79,9 @@ public class Review extends BaseEntity {
 
     public void hide() {
         this.reportStatus = ReportStatus.HIDDEN;
+    }
+
+    public void like() {
+        likes++;
     }
 }
