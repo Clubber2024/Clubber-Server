@@ -3,7 +3,7 @@ package com.clubber.domain.admin.controller;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
-import com.clubber.domain.admin.service.AdminReviewService;
+import com.clubber.domain.review.service.AdminReviewService;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
 import io.swagger.v3.oas.annotations.Operation;
