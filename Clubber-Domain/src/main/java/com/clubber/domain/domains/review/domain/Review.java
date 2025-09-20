@@ -84,4 +84,11 @@ public class Review extends BaseEntity {
     public void like() {
         likes++;
     }
+
+    public String getContentForPublic() {
+        if (reportStatus == ReportStatus.HIDDEN) {
+            return null;
+        }
+        return content;
+    }
 }

@@ -46,7 +46,7 @@ public class ClubReviewResponse {
                 .reviewId(review.getId())
                 .userId(review.getUser().getId())
                 .dateTime(review.getCreatedAt())
-                .content(review.getContent())
+                .content(review.getContentForPublic())
                 .likes(review.getLikes())
                 .reportStatus(review.getReportStatus())
                 .build();
