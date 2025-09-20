@@ -3,7 +3,6 @@ package com.clubber.domain.review.service;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
-import com.clubber.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.admin.mapper.AdminReviewMapper;
 import com.clubber.domain.domains.admin.domain.Admin;
@@ -13,10 +12,8 @@ import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
-import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
-import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
-import com.clubber.domain.domains.review.exception.UserReviewsNotFoundException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
+import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
@@ -40,6 +37,7 @@ public class AdminReviewService {
     private final ReviewReader reviewReader;
     private final ReviewReplyRepository reviewReplyRepository;
     private final ReviewMapper reviewMapper;
+    private final ReviewValidator reviewValidator;
 
     //TODO 인증 이미지 포함되어야하는지
     @Transactional(readOnly = true)
@@ -49,33 +47,11 @@ public class AdminReviewService {
         return adminReviewMapper.getGetAdminPendingReviewList(reviews);
     }
 
-    private static void validateReviewExistence(List<Review> findReviews, List<Long> reviewIds) {
-        if (findReviews.size() != reviewIds.size()) {
-            throw UserReviewsNotFoundException.EXCEPTION;
-        }
-    }
-
-    private static void validateReviewClub(Review review, Admin admin) {
-        if (!admin.getClub().getId().equals(review.getClub().getId())) {
-            throw ReviewClubNotMatchException.EXCEPTION;
-        }
-    }
-
-    @Transactional
-    public UpdateAdminsReviewVerifyResponse updateAdminsReviewVerify(Long reviewId) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Review review = reviewRepository.findByIdAndNotDeletedApprovedStatus(reviewId)
-                .orElseThrow(() -> ReviewNotFoundException.EXCEPTION);
-        validateReviewClub(review, admin);
-        return UpdateAdminsReviewVerifyResponse.of(review, admin);
-    }
-
     @Transactional(readOnly = true)
     public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
                                                      ReviewSortType sortType) {
         Admin admin = adminReader.getCurrentAdmin();
-        Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Club club = admin.getClub();
         Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
         return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
     }
@@ -96,6 +72,7 @@ public class AdminReviewService {
     public void createReviewApply(Long reviewId, CreateReviewApplyRequest request) {
         Review review = reviewReader.findById(reviewId);
         Admin admin = adminReader.getCurrentAdmin();
+        reviewValidator.validateReviewClub(admin.getClub(), review);
         ReviewReply reviewApply = reviewMapper.toReviewApply(admin, review, request.content());
         reviewReplyRepository.save(reviewApply);
     }
