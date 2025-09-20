@@ -2,12 +2,15 @@ package com.clubber.domain.review.service;
 
 import com.clubber.common.mapper.enums.EnumMapper;
 import com.clubber.common.vo.enums.EnumMapperVO;
+import com.clubber.domain.club.implement.ClubReader;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
+import com.clubber.domain.domains.review.implement.ReviewReader;
+import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
@@ -36,6 +39,8 @@ public class ReviewService {
     private final ClubRepository clubRepository;
     private final EnumMapper enumMapper;
     private final UserReader userReader;
+    private final ReviewReader reviewReader;
+    private final ReviewValidator reviewValidator;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
@@ -62,6 +67,14 @@ public class ReviewService {
         Review savedReview = reviewRepository.save(review);
 
         return reviewMapper.getCreateClubReviewResponse(savedReview);
+    }
+
+    @Transactional
+    public void deleteReview(Long reviewId) {
+        User user = userReader.getCurrentUser();
+        Review review = reviewReader.findById(reviewId);
+        reviewValidator.validateReview(user, review);
+        review.delete();
     }
 
     private void validateReviewExists(Club club, User user) {

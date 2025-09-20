@@ -1,6 +1,7 @@
 package com.clubber.ClubberServer.integration.domain.review.service;
 
 import com.clubber.ClubberServer.integration.util.fixture.ClubFixture;
+import com.clubber.ClubberServer.integration.util.fixture.ReviewFixture;
 import com.clubber.ClubberServer.integration.util.fixture.UserFixture;
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
@@ -83,6 +84,28 @@ public class ReviewServiceTest {
                 () -> assertThat(createdReview.get().isDeleted()).isEqualTo(false),
                 () -> assertThat(createdReview.get().getContent()).isEqualTo(content),
                 () -> assertThat(createdReview.get().getReportStatus()).isEqualTo(ReportStatus.VISIBLE)
+        );
+    }
+
+    @DisplayName("리뷰 삭제에 성공한다")
+    @Test
+    void deleteReviewSuccess() {
+        User user = UserFixture.aUser().build();
+        User savedUser = userRepository.save(user);
+        createSecurityContext(savedUser);
+
+        Club club = ClubFixture.aClub().isAgreeToReview(true).build();
+        Club savedClub = clubRepository.save(club);
+
+        Review review = ReviewFixture.aReview().user(savedUser).club(savedClub).build();
+        Review savedReview = reviewRepository.save(review);
+
+        reviewService.deleteReview(savedReview.getId());
+        Review deletedReview = reviewRepository.findById(savedReview.getId()).get();
+
+        assertAll(
+                () -> assertThat(deletedReview).isNotNull(),
+                () -> assertThat(deletedReview.isDeleted()).isEqualTo(true)
         );
     }
 }
