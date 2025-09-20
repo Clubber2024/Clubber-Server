@@ -1,5 +1,6 @@
 package com.clubber.domain.review.dto;
 
+import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,6 +37,9 @@ public class ClubReviewResponse {
     @Schema(description = "리뷰 좋아요 수")
     private final Long likes;
 
+    @Schema(description = "신고 상태")
+    private final ReportStatus reportStatus;
+
     public static ClubReviewResponse of(Review review, Set<String> keywords) {
         return ClubReviewResponse.builder()
                 .keywords(keywords)
@@ -44,6 +48,7 @@ public class ClubReviewResponse {
                 .dateTime(review.getCreatedAt())
                 .content(review.getContent())
                 .likes(review.getLikes())
+                .reportStatus(review.getReportStatus())
                 .build();
     }
 }
