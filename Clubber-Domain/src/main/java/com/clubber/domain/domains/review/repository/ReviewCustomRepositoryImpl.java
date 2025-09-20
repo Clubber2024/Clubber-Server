@@ -1,16 +1,16 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.review.domain.DeletionStatus;
-import com.clubber.domain.domains.review.domain.ReportStatus;
-import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.user.domain.User;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public Page<Review> queryReviewByClub(Club club, Pageable pageable) {
+    public Page<Review> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType) {
 
         /**
          * 커버링 인덱스 적용
@@ -49,7 +49,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         .and(review.reportStatus.eq(ReportStatus.VISIBLE)
                                 .and(review.isDeleted.eq(false)))
                 )
-                .orderBy(review.id.desc())
+                .orderBy(getSort(sortType))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -65,6 +65,15 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .where(review.id.in(ids));
 
         return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
+    }
+
+    private static OrderSpecifier<?> getSort(ReviewSortType sortType) {
+        QReview review = QReview.review;
+        return switch (sortType) {
+            case ASC -> review.id.asc();
+            case DESC -> review.id.desc();
+            default -> review.id.desc();
+        };
     }
 
     @Override
