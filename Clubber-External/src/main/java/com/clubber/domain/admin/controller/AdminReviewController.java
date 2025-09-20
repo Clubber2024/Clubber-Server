@@ -3,10 +3,9 @@ package com.clubber.domain.admin.controller;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
-import com.clubber.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
 import com.clubber.domain.admin.service.AdminReviewService;
-import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
+import com.clubber.domain.review.dto.CreateReviewApplyRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +43,9 @@ public class AdminReviewController {
 		return adminReviewService.getAdminsReviews(pageable, reviewSortType);
 	}
 
-	@Operation(summary = "리뷰 인증")
-	@PatchMapping("/verify/{reviewId}")
-	public UpdateAdminsReviewVerifyResponse updateAdminsReviewVerify(@PathVariable Long reviewId) {
-		return adminReviewService.updateAdminsReviewVerify(reviewId);
+	@Operation(summary = "리뷰 답글 달기")
+	@PostMapping("/reply/{id}")
+	public void createReplyReview(@PathVariable Long id, @RequestBody CreateReviewApplyRequest request) {
+		adminReviewService.createReviewApply(id, request);
 	}
 }

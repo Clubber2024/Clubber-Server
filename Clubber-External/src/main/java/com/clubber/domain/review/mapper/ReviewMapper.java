@@ -1,7 +1,9 @@
 package com.clubber.domain.review.mapper;
 
+import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.clubber.domain.review.dto.ClubReviewResponse;
 import com.clubber.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.domain.review.dto.GetClubReviewsKeywordStatsResponse;
@@ -77,6 +79,14 @@ public class ReviewMapper {
 		KeywordStatsVO keywordStatsVO) {
 		Map<String, Long> keywordMap = keywordStatsVO.getKeywordMapAsStingKey();
 		return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
+	}
+
+	public ReviewReply toReviewApply(Admin admin, Review review, String content) {
+		return ReviewReply.builder()
+				.content(content)
+				.admin(admin)
+				.review(review)
+				.build();
 	}
 }
 

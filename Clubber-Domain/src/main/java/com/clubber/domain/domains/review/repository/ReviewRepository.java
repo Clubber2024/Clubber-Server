@@ -5,8 +5,11 @@ import com.clubber.domain.domains.review.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewCustomRepository {
+
+    Optional<Review> findByIdAndIsDeleted(Long id);
 
     List<Review> findByClubOrderByIdDesc(Club club);
 

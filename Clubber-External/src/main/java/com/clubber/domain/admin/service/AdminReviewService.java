@@ -12,11 +12,16 @@ import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
 import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
 import com.clubber.domain.domains.review.exception.UserReviewsNotFoundException;
+import com.clubber.domain.domains.review.implement.ReviewReader;
+import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.review.dto.CreateReviewApplyRequest;
+import com.clubber.domain.review.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +38,9 @@ public class AdminReviewService {
     private final AdminReader adminReader;
     private final ClubRepository clubRepository;
     private final AdminReviewMapper adminReviewMapper;
+    private final ReviewReader reviewReader;
+    private final ReviewReplyRepository reviewReplyRepository;
+    private final ReviewMapper reviewMapper;
 
     //TODO 인증 이미지 포함되어야하는지
     @Transactional(readOnly = true)
@@ -83,5 +91,13 @@ public class AdminReviewService {
         List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
                 lastReviewId);
         return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
+    }
+
+    @Transactional
+    public void createReviewApply(Long reviewId, CreateReviewApplyRequest request) {
+        Review review = reviewReader.findById(reviewId);
+        Admin admin = adminReader.getCurrentAdmin();
+        ReviewReply reviewApply = reviewMapper.toReviewApply(admin, review, request.content());
+        reviewReplyRepository.save(reviewApply);
     }
 }
