@@ -42,6 +42,7 @@ public class ReviewService {
     private final UserReader userReader;
     private final ReviewReader reviewReader;
     private final ReviewValidator reviewValidator;
+    private final ClubReader clubReader;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
@@ -57,8 +58,7 @@ public class ReviewService {
     public CreateClubReviewResponse createReview(Long clubId,
                                                  @Valid CreateClubReviewRequest reviewRequest) {
         User user = userReader.getCurrentUser();
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         club.validateAgreeToReview();
         validateReviewExists(club, user);
@@ -66,7 +66,6 @@ public class ReviewService {
         Review review = Review.of(user, club, reviewRequest.getContent());
         review.addKeywords(reviewRequest.getKeywords());
         Review savedReview = reviewRepository.save(review);
-
         return reviewMapper.getCreateClubReviewResponse(savedReview);
     }
 
@@ -79,7 +78,7 @@ public class ReviewService {
     }
 
     private void validateReviewExists(Club club, User user) {
-        if (reviewRepository.existsByClubAndUserAndNotApprovedStatusDeleted(club, user)) {
+        if (reviewRepository.existsByClubAndUser(club, user)) {
             throw UserAlreadyReviewedException.EXCEPTION;
         }
     }
@@ -131,10 +130,6 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
 
         return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
-    }
-
-    public List<EnumMapperVO> getTotalKeywords() {
-        return enumMapper.get("Keyword");
     }
 
     @Transactional

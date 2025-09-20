@@ -1,7 +1,6 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.user.domain.User;
@@ -20,7 +19,7 @@ public interface ReviewCustomRepository {
 
 	List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId);
 
-	boolean existsByClubAndUserAndNotApprovedStatusDeleted(Club club, User user);
+	boolean existsByClubAndUser(Club club, User user);
 
 	Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId);
 

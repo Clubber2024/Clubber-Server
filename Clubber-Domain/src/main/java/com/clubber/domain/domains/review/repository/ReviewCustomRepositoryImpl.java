@@ -92,7 +92,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public boolean existsByClubAndUserAndNotApprovedStatusDeleted(Club club, User user) {
+    public boolean existsByClubAndUser(Club club, User user) {
         return queryFactory.selectOne()
                 .from(review)
                 .where(review.club.id.eq(club.getId())
