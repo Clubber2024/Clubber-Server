@@ -3,7 +3,9 @@ package com.clubber.domain.review.mapper;
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewLike;
 import com.clubber.domain.domains.review.domain.ReviewReply;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.review.dto.ClubReviewResponse;
 import com.clubber.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.domain.review.dto.GetClubReviewsKeywordStatsResponse;
@@ -86,6 +88,13 @@ public class ReviewMapper {
 				.content(content)
 				.admin(admin)
 				.review(review)
+				.build();
+	}
+
+	public ReviewLike toReviewLike(Review review, User user) {
+		return ReviewLike.builder()
+				.review(review)
+				.user(user)
 				.build();
 	}
 }

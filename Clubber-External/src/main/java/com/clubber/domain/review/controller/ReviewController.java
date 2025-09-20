@@ -61,4 +61,9 @@ public class ReviewController {
 		return reviewService.createReview(clubId, reviewRequest);
 	}
 
+	@Operation(summary = "리뷰 좋아요 등록")
+	@PostMapping("/like/{id}")
+	public void createReviewLike(@PathVariable Long id) {
+		reviewService.createReviewLike(id);
+	}
 }
