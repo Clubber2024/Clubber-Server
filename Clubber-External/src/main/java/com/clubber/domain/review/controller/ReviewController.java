@@ -1,5 +1,6 @@
 package com.clubber.domain.review.controller;
 
+import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.global.config.swagger.DisableSwaggerSecurity;
@@ -38,8 +39,8 @@ public class ReviewController {
 	@DisableSwaggerSecurity
 	@GetMapping
 	public GetClubReviewsPageResponse getClubReviewsWithContentByClubId(
-		@PathVariable Long clubId, Pageable pageable) {
-		return reviewService.getClubReviewsWithContent(clubId, pageable);
+			@PathVariable Long clubId, Pageable pageable, ReviewSortType reviewSortType) {
+		return reviewService.getClubReviewsWithContent(clubId, pageable, reviewSortType);
 	}
 
 	@Operation(summary = "개별 동아리 별 리뷰 조회 No Offset(Slice)")

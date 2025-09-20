@@ -8,6 +8,7 @@ import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
+import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
@@ -108,13 +109,13 @@ public class ReviewService {
     //동아리 별 리뷰 조회 : Page 별 조회
     @Transactional(readOnly = true)
     public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-                                                                Pageable pageable) {
+                                                                Pageable pageable, ReviewSortType sortType) {
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         club.validateAgreeToReview();
 
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
         return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
     }
 

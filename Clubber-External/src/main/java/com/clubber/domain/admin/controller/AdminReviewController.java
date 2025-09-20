@@ -6,6 +6,7 @@ import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.admin.dto.UpdateAdminsReviewVerifyResponse;
 import com.clubber.domain.admin.service.AdminReviewService;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
+import com.clubber.domain.domains.review.domain.ReviewSortType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,8 @@ public class AdminReviewController {
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
 	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-		@RequestParam(required = false) DeletionStatus deletionStatus) {
-		return adminReviewService.getAdminsReviews(pageable, deletionStatus);
+													 @RequestParam(required = false)ReviewSortType reviewSortType) {
+		return adminReviewService.getAdminsReviews(pageable, reviewSortType);
 	}
 
 	@Operation(summary = "리뷰 인증")

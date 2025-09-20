@@ -12,6 +12,7 @@ import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.DeletionStatus;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
 import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
 import com.clubber.domain.domains.review.exception.UserReviewsNotFoundException;
@@ -64,11 +65,11 @@ public class AdminReviewService {
 
     @Transactional(readOnly = true)
     public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-                                                     DeletionStatus deletionStatus) {
+                                                     ReviewSortType sortType) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
                 .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable);
+        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
         return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
     }
 
