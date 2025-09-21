@@ -53,9 +53,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .select(review, reviewLike.count())
                 .from(review)
                 .leftJoin(review.reviewLikes, reviewLike)
+                .on(reviewLike.isDeleted.eq(false))
                 .where(review.club.id.eq(club.getId())
-                        .and(review.isDeleted.eq(false))
-                        .and(reviewLike.isDeleted.eq(false)))
+                        .and(review.isDeleted.eq(false)))
                 .groupBy(review)
                 .orderBy(getOrderSpecifier(sortType, review, reviewLike))
                 .offset(pageable.getOffset())
@@ -85,7 +85,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         likeCountMap.getOrDefault(r.getId(), 0L)
                 ))
                 .toList();
-        
+
         JPAQuery<Long> countQuery = queryFactory
                 .select(review.countDistinct())
                 .from(review)
