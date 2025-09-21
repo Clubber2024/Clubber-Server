@@ -16,6 +16,7 @@ import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
 import com.clubber.domain.review.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
@@ -47,26 +48,26 @@ public class AdminReviewService {
         return adminReviewMapper.getGetAdminPendingReviewList(reviews);
     }
 
-    @Transactional(readOnly = true)
-    public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-                                                     ReviewSortType sortType) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Club club = admin.getClub();
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
-        return adminReviewMapper.getGetAdminReviewsResponse(admin, club, reviews);
-    }
+//    @Transactional(readOnly = true)
+//    public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
+//                                                     ReviewSortType sortType) {
+//        Admin admin = adminReader.getCurrentAdmin();
+//        Club club = admin.getClub();
+//        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club, pageable, sortType);
+//        return adminReviewMapper.getGetAdminReviewsResponse(admin, club, clubReviewResponses);
+//    }
 
-    @Transactional(readOnly = true)
-    public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponse(
-            Pageable pageable, Long lastReviewId) {
-        Admin admin = adminReader.getCurrentAdmin();
-        Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
-        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
-                lastReviewId);
-        return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
-    }
+//    @Transactional(readOnly = true)
+//    public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponse(
+//            Pageable pageable, Long lastReviewId) {
+//        Admin admin = adminReader.getCurrentAdmin();
+//        Club club = clubRepository.findClubByIdAndIsDeleted(admin.getClub().getId(), false)
+//                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+//
+//        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable,
+//                lastReviewId);
+//        return adminReviewMapper.getGetAdminPendingReviewSliceResponse(reviews, pageable);
+//    }
 
     @Transactional
     public void createReviewApply(Long reviewId, CreateReviewApplyRequest request) {

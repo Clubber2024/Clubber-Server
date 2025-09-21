@@ -13,7 +13,7 @@ public class ReviewReader {
     private final ReviewRepository reviewRepository;
 
     public Review findById(Long id) {
-        return reviewRepository.findByIdAndIsDeleted(id)
+        return reviewRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> ReviewNotFoundException.EXCEPTION);
     }
 }

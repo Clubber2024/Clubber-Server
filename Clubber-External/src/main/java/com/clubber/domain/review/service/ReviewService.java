@@ -16,6 +16,7 @@ import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
 import com.clubber.domain.domains.review.repository.ReviewLikeRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.clubber.domain.domains.review.vo.KeywordStatsVO;
 import com.clubber.domain.domains.user.domain.User;
@@ -117,23 +118,23 @@ public class ReviewService {
 
         club.validateAgreeToReview();
 
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
-        return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
+        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club, pageable, sortType);
+        return reviewMapper.getGetClubReviewsPageResponse(clubReviewResponses, clubId);
     }
 
-    //동아리 별 리뷰 조회 : No Offset 구현
-    @Transactional(readOnly = true)
-    public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
-                                                                      Pageable pageable, Long reviewId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
-        club.validateAgreeToReview();
-
-        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
-
-        return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
-    }
+//    //동아리 별 리뷰 조회 : No Offset 구현
+//    @Transactional(readOnly = true)
+//    public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
+//                                                                      Pageable pageable, Long reviewId) {
+//        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+//                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+//
+//        club.validateAgreeToReview();
+//
+//        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
+//
+//        return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
+//    }
 
     @Transactional
     public void saveReview(Review review) {

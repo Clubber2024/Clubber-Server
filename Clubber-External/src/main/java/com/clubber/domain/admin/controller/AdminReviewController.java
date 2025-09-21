@@ -29,19 +29,19 @@ public class AdminReviewController {
 		return adminReviewService.getAdminPendingReviews();
 	}
 
-	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회 (더보기)", description = "추후 적용해주세요")
-	@GetMapping("/pending/slice")
-	public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponses(
-		@PageableDefault Pageable pageable, @RequestParam(required = false) Long lastReviewId) {
-		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
-	}
+//	@Operation(summary = "동아리 계정에서 승인 대기 목록 조회 (더보기)", description = "추후 적용해주세요")
+//	@GetMapping("/pending/slice")
+//	public GetAdminPendingReviewsSliceResponse getAdminPendingReviewsWithSliceResponses(
+//		@PageableDefault Pageable pageable, @RequestParam(required = false) Long lastReviewId) {
+//		return adminReviewService.getAdminPendingReviewsWithSliceResponse(pageable, lastReviewId);
+//	}
 
-	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
-	@GetMapping
-	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
-													 @RequestParam(required = false)ReviewSortType reviewSortType) {
-		return adminReviewService.getAdminsReviews(pageable, reviewSortType);
-	}
+//	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
+//	@GetMapping
+//	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable,
+//													 @RequestParam(required = false)ReviewSortType reviewSortType) {
+//		return adminReviewService.getAdminsReviews(pageable, reviewSortType);
+//	}
 
 	@Operation(summary = "리뷰 답글 달기")
 	@PostMapping("/reply/{id}")

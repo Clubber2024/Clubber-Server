@@ -1,4 +1,4 @@
-package com.clubber.domain.review.dto;
+package com.clubber.domain.domains.review.vo;
 
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
@@ -40,14 +40,14 @@ public class ClubReviewResponse {
     @Schema(description = "신고 상태")
     private final ReportStatus reportStatus;
 
-    public static ClubReviewResponse of(Review review, Set<String> keywords) {
+    public static ClubReviewResponse of(Review review, Set<String> keywords, Long likes) {
         return ClubReviewResponse.builder()
                 .keywords(keywords)
                 .reviewId(review.getId())
                 .userId(review.getUser().getId())
                 .dateTime(review.getCreatedAt())
                 .content(review.getContentForPublic())
-                .likes(review.getLikes())
+                .likes(likes)
                 .reportStatus(review.getReportStatus())
                 .build();
     }
