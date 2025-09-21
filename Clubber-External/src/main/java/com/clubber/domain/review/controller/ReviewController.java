@@ -1,12 +1,7 @@
 package com.clubber.domain.review.controller;
 
-import com.clubber.domain.domains.review.domain.VerifiedStatus;
-import com.clubber.domain.review.dto.CreateClubReviewRequest;
-import com.clubber.domain.review.dto.CreateClubReviewResponse;
-import com.clubber.domain.review.dto.GetClubReviewAgreedStatusResponse;
-import com.clubber.domain.review.dto.GetClubReviewsKeywordStatsResponse;
-import com.clubber.domain.review.dto.GetClubReviewsPageResponse;
-import com.clubber.domain.review.dto.GetClubReviewsSliceResponse;
+import com.clubber.domain.domains.review.domain.ReviewSortType;
+import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,13 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/clubs/{clubId}/reviews")
@@ -50,20 +39,18 @@ public class ReviewController {
 	@DisableSwaggerSecurity
 	@GetMapping
 	public GetClubReviewsPageResponse getClubReviewsWithContentByClubId(
-		@PathVariable Long clubId, Pageable pageable,
-		@RequestParam(required = false) VerifiedStatus verifiedStatus) {
-		return reviewService.getClubReviewsWithContent(clubId, pageable,
-			verifiedStatus);
+			@PathVariable Long clubId, Pageable pageable, ReviewSortType reviewSortType) {
+		return reviewService.getClubReviewsWithContent(clubId, pageable, reviewSortType);
 	}
 
-	@Operation(summary = "개별 동아리 별 리뷰 조회 No Offset(Slice)")
-	@DisableSwaggerSecurity
-	@GetMapping("/slice")
-	public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(
-		@PathVariable Long clubId, @PageableDefault(size = 5) Pageable pageable,
-		@RequestParam(required = false) Long reviewid) {
-		return reviewService.getClubReviewsWithSliceContent(clubId, pageable, reviewid);
-	}
+//	@Operation(summary = "개별 동아리 별 리뷰 조회 No Offset(Slice)")
+//	@DisableSwaggerSecurity
+//	@GetMapping("/slice")
+//	public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(
+//		@PathVariable Long clubId, @PageableDefault(size = 5) Pageable pageable,
+//		@RequestParam(required = false) Long reviewid) {
+//		return reviewService.getClubReviewsWithSliceContent(clubId, pageable, reviewid);
+//	}
 
 
 	@Operation(summary = "동아리 리뷰 작성", description = "리뷰 키워드 항목과 한줄평을 선택하여 작성")
@@ -74,4 +61,9 @@ public class ReviewController {
 		return reviewService.createReview(clubId, reviewRequest);
 	}
 
+	@Operation(summary = "리뷰 좋아요 등록")
+	@PostMapping("/like/{id}")
+	public void createReviewLike(@PathVariable Long id) {
+		reviewService.createReviewLike(id);
+	}
 }

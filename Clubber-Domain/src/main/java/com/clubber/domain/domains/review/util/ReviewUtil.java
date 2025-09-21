@@ -1,8 +1,7 @@
-package com.clubber.domain.review.util;
+package com.clubber.domain.domains.review.util;
 
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeyword;
-import com.clubber.global.util.SliceUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,12 +22,12 @@ public class ReviewUtil {
 				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
-	public static Long getLastReviewId(List<Review> reviews, Pageable pageable) {
-		if (SliceUtil.hasNext(reviews, pageable)) {
-			return SliceUtil.getLastContent(reviews).getId();
-		}
-		return null;
-	}
+//	public static Long getLastReviewId(List<Review> reviews, Pageable pageable) {
+//		if (SliceUtil.hasNext(reviews, pageable)) {
+//			return SliceUtil.getLastContent(reviews).getId();
+//		}
+//		return null;
+//	}
 
 	public static String checkBlankContent(String content) {
 		if (hasContent(content)) {
