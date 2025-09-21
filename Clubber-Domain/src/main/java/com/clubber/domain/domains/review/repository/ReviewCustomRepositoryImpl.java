@@ -62,23 +62,31 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        List<Long> reviewIds = tuples.stream()
+                .map(t -> t.get(review).getId())
+                .toList();
+
         Map<Long, Long> likeCountMap = tuples.stream()
                 .collect(Collectors.toMap(
-                        tuple -> tuple.get(review).getId(),
-                        tuple -> tuple.get(reviewLike.count())
+                        t -> t.get(review).getId(),
+                        t -> t.get(reviewLike.count())
                 ));
 
-        List<Review> reviews = tuples.stream()
-                .map(tuple -> tuple.get(review))
-                .collect(Collectors.toList());
-
-        reviews = queryFactory.selectFrom(review)
+        List<Review> reviews = queryFactory.selectFrom(review)
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .join(review.user, user).fetchJoin()
-                .where(review.id.in(reviews.stream().map(Review::getId).toList()))
+                .where(review.id.in(reviewIds))
                 .fetch();
 
-        List<ClubReviewResponse> responses = reviews.stream()
+        // Tuple 순서에 맞게 재정렬
+        Map<Long, Review> reviewMap = reviews.stream()
+                .collect(Collectors.toMap(Review::getId, r -> r));
+
+        List<Review> sortedReviews = reviewIds.stream()
+                .map(reviewMap::get)
+                .toList();
+
+        List<ClubReviewResponse> responses = sortedReviews.stream()
                 .map(r -> ClubReviewResponse.of(
                         r,
                         ReviewUtil.extractKeywords(r),
