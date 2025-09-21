@@ -54,6 +54,10 @@ public class Review extends BaseEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewKeyword> reviewKeywords = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewLike> reviewLikes = new ArrayList<>();
+
     public static Review of(User user, Club club, String content) {
         return Review.builder()
                 .user(user)

@@ -9,6 +9,7 @@ import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.user.domain.QUser;
 import com.clubber.domain.domains.user.domain.User;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -48,42 +49,47 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     @Override
     public Page<ClubReviewResponse> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType) {
 
-        List<Long> reviewIds = queryFactory
-                .select(review.id)
+        List<Tuple> tuples = queryFactory
+                .select(review, reviewLike.count())
                 .from(review)
+                .leftJoin(review.reviewLikes, reviewLike)
+                .on(reviewLike.isDeleted.eq(false))
                 .where(review.club.id.eq(club.getId())
                         .and(review.isDeleted.eq(false)))
+                .groupBy(review)
                 .orderBy(getOrderSpecifier(sortType, review, reviewLike))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        List<Review> reviews = queryFactory
-                .selectFrom(review)
+        List<Long> reviewIds = tuples.stream()
+                .map(t -> t.get(review).getId())
+                .toList();
+
+        Map<Long, Long> likeCountMap = tuples.stream()
+                .collect(Collectors.toMap(
+                        t -> t.get(review).getId(),
+                        t -> t.get(reviewLike.count())
+                ));
+
+        List<Review> reviews = queryFactory.selectFrom(review)
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .join(review.user, user).fetchJoin()
                 .where(review.id.in(reviewIds))
-                .orderBy(getOrderSpecifier(sortType, review, reviewLike))
                 .fetch();
 
-        //Left Join 대신 Map에서 기본값 0 처리
-        Map<Long, Long> likeCountMap = queryFactory
-                .select(reviewLike.review.id, reviewLike.count())
-                .from(reviewLike)
-                .where(reviewLike.review.id.in(reviewIds)
-                        .and(reviewLike.isDeleted.eq(false)))
-                .groupBy(reviewLike.review.id)
-                .fetch()
-                .stream()
-                .collect(Collectors.toMap(
-                        tuple -> tuple.get(reviewLike.review.id),
-                        tuple -> tuple.get(reviewLike.count())
-                ));
+        // Tuple 순서에 맞게 재정렬
+        Map<Long, Review> reviewMap = reviews.stream()
+                .collect(Collectors.toMap(Review::getId, r -> r));
 
-        List<ClubReviewResponse> responses = reviews.stream()
+        List<Review> sortedReviews = reviewIds.stream()
+                .map(reviewMap::get)
+                .toList();
+
+        List<ClubReviewResponse> responses = sortedReviews.stream()
                 .map(r -> ClubReviewResponse.of(
                         r,
-                        ReviewUtil.extractKeywords(r),  // 기존 방식 그대로
+                        ReviewUtil.extractKeywords(r),
                         likeCountMap.getOrDefault(r.getId(), 0L)
                 ))
                 .toList();
@@ -106,7 +112,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return switch (sortType) {
             case ASC -> review.id.asc();
             case DESC -> review.id.desc();
-            case LIKE -> reviewLike.count().coalesce(0L).asc();
+            case LIKE -> reviewLike.count().coalesce(0L).desc();
         };
     }
 
