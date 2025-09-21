@@ -3,6 +3,7 @@ package com.clubber.domain.domains.review.implement;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.exception.ReviewNotFoundException;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.domains.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ public class ReviewReader {
     private final ReviewRepository reviewRepository;
 
     public Review findById(Long id) {
-        return reviewRepository.findById(id)
+        return reviewRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> ReviewNotFoundException.EXCEPTION);
     }
 }

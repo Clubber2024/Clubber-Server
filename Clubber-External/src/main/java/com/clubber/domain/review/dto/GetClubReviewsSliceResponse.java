@@ -1,5 +1,6 @@
 package com.clubber.domain.review.dto;
 
+import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.global.common.slice.SliceResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

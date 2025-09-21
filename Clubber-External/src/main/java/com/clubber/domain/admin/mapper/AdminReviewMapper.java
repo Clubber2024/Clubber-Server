@@ -7,7 +7,7 @@ import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.review.util.ReviewUtil;
+import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.global.common.page.PageResponse;
 import com.clubber.global.common.slice.SliceResponse;
 import com.clubber.global.util.SliceUtil;
@@ -21,13 +21,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminReviewMapper {
 
-	// 리뷰 조회 (관리자)
-	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
-		Admin admin, Club club, Page<Review> reviews) {
-		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
-			reviews);
-		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
-	}
+//	// 리뷰 조회 (관리자)
+//	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
+//		Admin admin, Club club, Page<Review> reviews) {
+//		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
+//			reviews);
+//		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
+//	}
 
 	private static PageResponse<AdminReviewResponse> getAdminsReviewResponse(
 		Page<Review> reviewPages) {
@@ -39,17 +39,17 @@ public class AdminReviewMapper {
 		return PageResponse.of(getAdminReviewsPageResponse);
 	}
 
-	//대기 상태 리뷰 조회 (관리자, No-offset)
-	public GetAdminPendingReviewsSliceResponse getGetAdminPendingReviewSliceResponse(
-		List<Review> reviews, Pageable pageable) {
-		List<GetAdminsPendingReviews> getAdminPendingReviewList = getGetAdminPendingReviewList(
-			reviews);
-		SliceResponse<GetAdminsPendingReviews> getAdminsPendingReviewsSliceResponse = SliceUtil.valueOf(
-			getAdminPendingReviewList, pageable);
-		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
-		return GetAdminPendingReviewsSliceResponse.of(getAdminsPendingReviewsSliceResponse,
-			lastReviewId);
-	}
+//	//대기 상태 리뷰 조회 (관리자, No-offset)
+//	public GetAdminPendingReviewsSliceResponse getGetAdminPendingReviewSliceResponse(
+//		List<Review> reviews, Pageable pageable) {
+//		List<GetAdminsPendingReviews> getAdminPendingReviewList = getGetAdminPendingReviewList(
+//			reviews);
+//		SliceResponse<GetAdminsPendingReviews> getAdminsPendingReviewsSliceResponse = SliceUtil.valueOf(
+//			getAdminPendingReviewList, pageable);
+//		Long lastReviewId = ReviewUtil.getLastReviewId(reviews, pageable);
+//		return GetAdminPendingReviewsSliceResponse.of(getAdminsPendingReviewsSliceResponse,
+//			lastReviewId);
+//	}
 
 	//대기 상태 리뷰 조회 (관리자)
 	public List<GetAdminsPendingReviews> getGetAdminPendingReviewList(List<Review> reviews) {

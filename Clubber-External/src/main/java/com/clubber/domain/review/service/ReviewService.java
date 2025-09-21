@@ -8,12 +8,15 @@ import com.clubber.domain.domains.club.exception.ClubNotFoundException;
 import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
+import com.clubber.domain.domains.review.domain.ReviewLike;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
+import com.clubber.domain.domains.review.repository.ReviewLikeRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
+import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
 import com.clubber.domain.domains.review.vo.KeywordStatsVO;
 import com.clubber.domain.domains.user.domain.User;
@@ -42,6 +45,8 @@ public class ReviewService {
     private final UserReader userReader;
     private final ReviewReader reviewReader;
     private final ReviewValidator reviewValidator;
+    private final ClubReader clubReader;
+    private final ReviewLikeRepository reviewLikeRepository;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
@@ -57,8 +62,7 @@ public class ReviewService {
     public CreateClubReviewResponse createReview(Long clubId,
                                                  @Valid CreateClubReviewRequest reviewRequest) {
         User user = userReader.getCurrentUser();
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+        Club club = clubReader.findById(clubId);
 
         club.validateAgreeToReview();
         validateReviewExists(club, user);
@@ -66,7 +70,6 @@ public class ReviewService {
         Review review = Review.of(user, club, reviewRequest.getContent());
         review.addKeywords(reviewRequest.getKeywords());
         Review savedReview = reviewRepository.save(review);
-
         return reviewMapper.getCreateClubReviewResponse(savedReview);
     }
 
@@ -79,7 +82,7 @@ public class ReviewService {
     }
 
     private void validateReviewExists(Club club, User user) {
-        if (reviewRepository.existsByClubAndUserAndNotApprovedStatusDeleted(club, user)) {
+        if (reviewRepository.existsByClubAndUser(club, user)) {
             throw UserAlreadyReviewedException.EXCEPTION;
         }
     }
@@ -115,27 +118,23 @@ public class ReviewService {
 
         club.validateAgreeToReview();
 
-        Page<Review> reviews = reviewRepository.queryReviewByClub(club, pageable, sortType);
-        return reviewMapper.getGetClubReviewsPageResponse(reviews, clubId);
+        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club, pageable, sortType);
+        return reviewMapper.getGetClubReviewsPageResponse(clubReviewResponses, clubId);
     }
 
-    //동아리 별 리뷰 조회 : No Offset 구현
-    @Transactional(readOnly = true)
-    public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
-                                                                      Pageable pageable, Long reviewId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
-        club.validateAgreeToReview();
-
-        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
-
-        return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
-    }
-
-    public List<EnumMapperVO> getTotalKeywords() {
-        return enumMapper.get("Keyword");
-    }
+//    //동아리 별 리뷰 조회 : No Offset 구현
+//    @Transactional(readOnly = true)
+//    public GetClubReviewsSliceResponse getClubReviewsWithSliceContent(Long clubId,
+//                                                                      Pageable pageable, Long reviewId) {
+//        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
+//                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+//
+//        club.validateAgreeToReview();
+//
+//        List<Review> reviews = reviewRepository.queryReviewNoOffsetByClub(club, pageable, reviewId);
+//
+//        return reviewMapper.getClubReviewsSliceResponse(clubId, reviews, pageable);
+//    }
 
     @Transactional
     public void saveReview(Review review) {
@@ -145,5 +144,14 @@ public class ReviewService {
     @Transactional
     public void softDeleteReviewByClubId(Long clubId) {
         reviewRepository.softDeleteReviewByClubId(clubId);
+    }
+
+    @Transactional
+    public void createReviewLike(Long reviewId) {
+        User user = userReader.getCurrentUser();
+        Review review = reviewReader.findById(reviewId);
+        reviewValidator.validateReviewExists(user, review);
+        ReviewLike reviewLike = reviewMapper.toReviewLike(review, user);
+        reviewLikeRepository.save(reviewLike);
     }
 }
