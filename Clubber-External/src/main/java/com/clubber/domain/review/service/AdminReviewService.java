@@ -1,10 +1,12 @@
 package com.clubber.domain.review.service;
 
+import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.admin.mapper.AdminReviewMapper;
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewFilterType;
 import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.implement.ReviewReader;
@@ -35,11 +37,11 @@ public class AdminReviewService {
     private final ReviewValidator reviewValidator;
 
     @Transactional(readOnly = true)
-    public PageResponse<ClubReviewResponse> getAdminsReviews(Pageable pageable) {
+    public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable, ReviewFilterType filterType) {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
-        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club, pageable, ReviewSortType.DESC);
-        return PageResponse.of(clubReviewResponses);
+        Page<Review> clubReviewResponses = reviewRepository.queryReviewByClubAndFilterType(club, filterType, pageable);
+        return adminReviewMapper.getGetAdminReviewsResponse(admin, club, clubReviewResponses);
     }
 
 //    @Transactional(readOnly = true)

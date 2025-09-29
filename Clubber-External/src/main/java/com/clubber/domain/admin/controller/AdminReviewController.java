@@ -1,10 +1,10 @@
 package com.clubber.domain.admin.controller;
 
-import com.clubber.domain.domains.review.vo.ClubReviewResponse;
+import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
+import com.clubber.domain.domains.review.domain.ReviewFilterType;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
 import com.clubber.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.domain.review.service.AdminReviewService;
-import com.clubber.global.common.page.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class AdminReviewController {
 
 	@Operation(summary = "동아리 계정 마이페이지 리뷰 목록")
 	@GetMapping
-	public PageResponse<ClubReviewResponse> getAdminsReviews(Pageable pageable) {
-		return adminReviewService.getAdminsReviews(pageable);
+	public GetAdminsReviewsResponse getAdminsReviews(Pageable pageable, @RequestParam(required = false)ReviewFilterType filterType) {
+		return adminReviewService.getAdminsReviews(pageable, filterType);
 	}
 
 	@Operation(summary = "리뷰 답글 달기")
@@ -43,7 +43,7 @@ public class AdminReviewController {
 		adminReviewService.disableClubReview();
 	}
 
-	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 ON)")
+	@Operation(summary = "동아리 리뷰 기능 승인 (리뷰 제공 ON)")
 	@PatchMapping("/enable")
 	public void enableClubReview() {
 		adminReviewService.enableClubReview();

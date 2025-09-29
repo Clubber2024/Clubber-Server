@@ -1,5 +1,6 @@
 package com.clubber.domain.domains.review.domain;
 
+import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.admin.domain.Admin;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class ReviewReply {
+public class ReviewReply extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
