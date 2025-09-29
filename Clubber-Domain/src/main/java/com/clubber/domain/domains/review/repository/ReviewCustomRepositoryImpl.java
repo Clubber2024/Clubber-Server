@@ -109,6 +109,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(review.id.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
