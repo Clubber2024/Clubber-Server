@@ -34,7 +34,7 @@ public class AdminReviewMapper {
 		Page<AdminReviewResponse> getAdminReviewsPageResponse = reviewPages.map(
 			review -> {
 				Set<String> keywords = ReviewUtil.extractKeywords(review);
-				return AdminReviewResponse.of(review, keywords);
+				return AdminReviewResponse.of(review, keywords, review.getReviewReply());
 			});
 		return PageResponse.of(getAdminReviewsPageResponse);
 	}
