@@ -126,9 +126,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
     private BooleanExpression eqReviewReplyNull(ReviewFilterType filterType) {
         if (filterType == ReviewFilterType.NOT_REPLYED) {
-            return null;
+            return review.reviewReply.isNull();
         }
-        return review.reviewReply.isNull();
+        return null;
     }
 
     private static OrderSpecifier<?> getOrderSpecifier(
