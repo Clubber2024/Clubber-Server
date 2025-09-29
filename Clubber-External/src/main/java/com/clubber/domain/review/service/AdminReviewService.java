@@ -3,6 +3,7 @@ package com.clubber.domain.review.service;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
+import com.clubber.domain.admin.dto.GetReviewEnabledStatus;
 import com.clubber.domain.admin.implement.AdminReader;
 import com.clubber.domain.admin.mapper.AdminReviewMapper;
 import com.clubber.domain.domains.admin.domain.Admin;
@@ -18,6 +19,7 @@ import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
+import com.clubber.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.domain.review.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -89,5 +91,12 @@ public class AdminReviewService {
         Admin admin = adminReader.getCurrentAdmin();
         Club club = admin.getClub();
         club.enableReview();
+    }
+
+    @Transactional(readOnly = true)
+    public GetClubReviewAgreedStatusResponse getReviewEnabledStatus() {
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
+        return GetClubReviewAgreedStatusResponse.from(club);
     }
 }
