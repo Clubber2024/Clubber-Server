@@ -3,6 +3,8 @@ package com.clubber.domain.admin.controller;
 import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
+import com.clubber.domain.admin.dto.GetReviewEnabledStatus;
+import com.clubber.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import com.clubber.domain.review.service.AdminReviewService;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.review.dto.CreateReviewApplyRequest;
@@ -47,5 +49,23 @@ public class AdminReviewController {
 	@PostMapping("/reply/{id}")
 	public void createReplyReview(@PathVariable Long id, @RequestBody CreateReviewApplyRequest request) {
 		adminReviewService.createReviewApply(id, request);
+	}
+
+	@Operation(summary = "리뷰 활성화 상태")
+	@GetMapping("/enabled")
+	public GetClubReviewAgreedStatusResponse getReviewEnabledStatus() {
+		return adminReviewService.getReviewEnabledStatus();
+	}
+
+	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 OFF)")
+	@PatchMapping("/disable")
+	public void disableClubReview() {
+		adminReviewService.disableClubReview();
+	}
+
+	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 OFF)")
+	@PatchMapping("/enable")
+	public void enableClubReview() {
+		adminReviewService.enableClubReview();
 	}
 }
