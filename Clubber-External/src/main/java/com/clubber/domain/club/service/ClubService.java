@@ -43,9 +43,6 @@ public class ClubService {
     @Transactional
     public GetClubResponse getClubsIndividualPage(Long clubId) {
         Club club = clubReader.findById(clubId);
-
-        club.validateAgreeToProvideInfo();
-
         ClubInfo clubInfo = club.getClubInfo();
         clubAppender.increaseClubTotalView(clubInfo);
         return GetClubResponse.of(club, GetClubInfoResponse.from(clubInfo));

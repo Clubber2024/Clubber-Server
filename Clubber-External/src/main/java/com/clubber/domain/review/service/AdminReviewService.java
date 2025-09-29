@@ -77,4 +77,11 @@ public class AdminReviewService {
         ReviewReply reviewApply = reviewMapper.toReviewApply(admin, review, request.content());
         reviewReplyRepository.save(reviewApply);
     }
+
+    @Transactional
+    public void disableClubReview() {
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
+        club.disableReview();
+    }
 }

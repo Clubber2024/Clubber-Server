@@ -48,4 +48,10 @@ public class AdminReviewController {
 	public void createReplyReview(@PathVariable Long id, @RequestBody CreateReviewApplyRequest request) {
 		adminReviewService.createReviewApply(id, request);
 	}
+
+	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 OFF)")
+	@PatchMapping("/disable")
+	public void disableClubReview() {
+		adminReviewService.disableClubReview();
+	}
 }
