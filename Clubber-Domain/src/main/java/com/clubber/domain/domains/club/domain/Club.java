@@ -5,6 +5,7 @@ import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideInfoExcept
 import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideReviewException;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.domains.club.exception.ClubReviewAlreadyDisabledException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -90,6 +91,9 @@ public class Club extends BaseEntity {
     }
 
     public void disableReview() {
+        if (!isAgreeToReview) {
+            throw ClubReviewAlreadyDisabledException.EXCEPTION;
+        }
         this.isAgreeToReview = false;
     }
 }
