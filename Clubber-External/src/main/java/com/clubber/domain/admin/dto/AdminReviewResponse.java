@@ -1,8 +1,7 @@
 package com.clubber.domain.admin.dto;
 
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.domain.ReviewReply;
-import com.clubber.domain.domains.review.vo.ReviewReplyVO;
+import com.clubber.domain.domains.review.vo.ReviewReplyResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -32,21 +31,15 @@ public class AdminReviewResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
     private final LocalDateTime dateTime;
 
-    @Schema(description = "리뷰 답글", example = "감사합니다.")
-    private final String reply;
+    private ReviewReplyResponse reviewReply;
 
-    @Schema(description = "리뷰 답글 작성 일자")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd")
-    private LocalDateTime repliedDate;
-
-    public static AdminReviewResponse of(Review review, Set<String> keywords, ReviewReplyVO reviewReply) {
+    public static AdminReviewResponse of(Review review, Set<String> keywords, ReviewReplyResponse reviewReply) {
         return AdminReviewResponse.builder()
                 .reviewId(review.getId())
                 .keywords(keywords)
                 .content(review.getContent())
                 .dateTime(review.getCreatedAt())
-                .reply(reviewReply.content())
-                .repliedDate(reviewReply.updateAt())
+                .reviewReply(reviewReply)
                 .build();
     }
 }
