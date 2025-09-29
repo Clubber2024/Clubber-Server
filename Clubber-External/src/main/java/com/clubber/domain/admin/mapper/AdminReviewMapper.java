@@ -22,12 +22,12 @@ import org.springframework.stereotype.Component;
 public class AdminReviewMapper {
 
 //	// 리뷰 조회 (관리자)
-//	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
-//		Admin admin, Club club, Page<Review> reviews) {
-//		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
-//			reviews);
-//		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
-//	}
+	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
+		Admin admin, Club club, Page<Review> reviews) {
+		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
+			reviews);
+		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
+	}
 
 	private static PageResponse<AdminReviewResponse> getAdminsReviewResponse(
 		Page<Review> reviewPages) {
