@@ -51,7 +51,7 @@ public class AdminReviewController {
 		adminReviewService.createReviewApply(id, request);
 	}
 
-	@Operation(summary = "리뷰 활성화 상태")
+	@Operation(summary = "리뷰 활성화 상태 조회")
 	@GetMapping("/enabled")
 	public GetClubReviewAgreedStatusResponse getReviewEnabledStatus() {
 		return adminReviewService.getReviewEnabledStatus();
@@ -63,7 +63,7 @@ public class AdminReviewController {
 		adminReviewService.disableClubReview();
 	}
 
-	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 OFF)")
+	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 ON)")
 	@PatchMapping("/enable")
 	public void enableClubReview() {
 		adminReviewService.enableClubReview();
