@@ -1,13 +1,9 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.review.domain.QReview;
-import com.clubber.domain.domains.review.domain.QReviewLike;
-import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.domain.ReviewSortType;
+import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
-import com.clubber.domain.domains.user.domain.QUser;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
@@ -15,20 +11,21 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 import static com.clubber.domain.domains.review.domain.QReviewLike.reviewLike;
-import static com.clubber.domain.domains.user.domain.QUser.*;
+import static com.clubber.domain.domains.review.domain.QReviewReply.*;
+import static com.clubber.domain.domains.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
@@ -103,7 +100,36 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return PageableExecutionUtils.getPage(responses, pageable, countQuery::fetchOne);
     }
 
-    // 5️⃣ 동적 정렬 처리
+    public Page<Review> queryReviewByClubAndFilterType(Club club, ReviewFilterType reviewFilterType, Pageable pageable) {
+        List<Review> reviews = queryFactory.selectFrom(review)
+                .leftJoin(review.reviewReply, reviewReply)
+                .where(review.club.id.eq(club.getId())
+                        .and(eqReviewReplyNull(reviewFilterType))
+                        .and(review.isDeleted.eq(false))
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(review.count())
+                .from(review)
+                .leftJoin(review.reviewReply, reviewReply)
+                .where(review.club.id.eq(club.getId())
+                        .and(eqReviewReplyNull(reviewFilterType))
+                        .and(review.isDeleted.eq(false))
+                );
+
+        return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression eqReviewReplyNull(ReviewFilterType filterType) {
+        if (filterType == ReviewFilterType.NOT_REPLYED) {
+            return null;
+        }
+        return review.reviewReply.isNull();
+    }
+
     private static OrderSpecifier<?> getOrderSpecifier(
             ReviewSortType sortType,
             QReview review,
@@ -142,14 +168,6 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         .and(review.isDeleted.eq(false))
                 )
                 .fetchFirst() != null;
-    }
-
-    @Override
-    public Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId) {
-        return Optional.ofNullable(queryFactory
-                .selectFrom(review)
-                .where(review.id.eq(reviewId))
-                .fetchOne());
     }
 
     @Override
