@@ -84,4 +84,10 @@ public class AdminReviewService {
         Club club = admin.getClub();
         club.disableReview();
     }
+    @Transactional
+    public void enableClubReview() {
+        Admin admin = adminReader.getCurrentAdmin();
+        Club club = admin.getClub();
+        club.enableReview();
+    }
 }

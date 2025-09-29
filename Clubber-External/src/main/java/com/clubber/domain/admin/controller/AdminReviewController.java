@@ -54,4 +54,10 @@ public class AdminReviewController {
 	public void disableClubReview() {
 		adminReviewService.disableClubReview();
 	}
+
+	@Operation(summary = "동아리 리뷰 기능 거절 (리뷰 제공 OFF)")
+	@PatchMapping("/enable")
+	public void enableClubReview() {
+		adminReviewService.enableClubReview();
+	}
 }

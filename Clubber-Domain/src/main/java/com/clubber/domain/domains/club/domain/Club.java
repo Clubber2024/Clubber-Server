@@ -1,11 +1,8 @@
 package com.clubber.domain.domains.club.domain;
 
-import com.clubber.domain.domains.club.exception.ClubAlreadyDeletedException;
-import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideInfoException;
-import com.clubber.domain.domains.club.exception.ClubNotAgreeToProvideReviewException;
+import com.clubber.domain.domains.club.exception.*;
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.common.vo.image.ImageVO;
-import com.clubber.domain.domains.club.exception.ClubReviewAlreadyDisabledException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -95,5 +92,12 @@ public class Club extends BaseEntity {
             throw ClubReviewAlreadyDisabledException.EXCEPTION;
         }
         this.isAgreeToReview = false;
+    }
+
+    public void enableReview() {
+        if (isAgreeToReview) {
+            throw ClubReviewAlreadyEnabledException.EXCEPTION;
+        }
+        this.isAgreeToReview = true;
     }
 }

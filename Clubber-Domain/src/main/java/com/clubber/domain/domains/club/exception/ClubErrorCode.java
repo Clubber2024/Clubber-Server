@@ -10,6 +10,7 @@ public enum ClubErrorCode implements BaseErrorCode {
 
     CLUB_ALREADY_DELETED(HttpStatus.BAD_REQUEST.value(), "CLUB_400_1", "이미 삭제된 동아리입니다."),
     CLUB_REVIEW_ALREADY_DISABLED(HttpStatus.BAD_REQUEST.value(), "CLUB_400_2", "이미 리뷰 제공 기능이 비활성화 상태입니다."),
+    CLUB_REVIEW_ALREADY_ENABLED(HttpStatus.BAD_REQUEST.value(), "CLUB_400_3", "이미 리뷰 제공 기능이 활성화된 상태입니다"),
     CLUB_NOT_AGREED_TO_PROVIDE_INFO(HttpStatus.FORBIDDEN.value(), "CLUB_403_1", "정보 제공에 동의하지 않은 동아리입니다."),
     CLUB_NOT_AGREE_TO_PROVIDE_REVIEW(HttpStatus.FORBIDDEN.value(), "CLUB_403_2", "리뷰 제공에 동의하지 않은 동아리입니다."),
     SEARCHED_CLUB_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "CLUB_404_1", "검색하신 동아리 및 소모임은 존재하지 않습니다."),
