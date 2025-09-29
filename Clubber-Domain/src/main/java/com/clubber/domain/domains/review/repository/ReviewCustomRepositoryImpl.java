@@ -7,7 +7,6 @@ import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
-import com.clubber.domain.domains.user.domain.QUser;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
@@ -21,14 +20,13 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 import static com.clubber.domain.domains.review.domain.QReviewLike.reviewLike;
-import static com.clubber.domain.domains.user.domain.QUser.*;
+import static com.clubber.domain.domains.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
@@ -142,14 +140,6 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         .and(review.isDeleted.eq(false))
                 )
                 .fetchFirst() != null;
-    }
-
-    @Override
-    public Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId) {
-        return Optional.ofNullable(queryFactory
-                .selectFrom(review)
-                .where(review.id.eq(reviewId))
-                .fetchOne());
     }
 
     @Override

@@ -9,20 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ReviewCustomRepository {
 
-	List<Review> queryReviewByUserOrderByIdDesc(User user);
+    List<Review> queryReviewByUserOrderByIdDesc(User user);
 
+    Page<ClubReviewResponse> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType);
 
-	Page<ClubReviewResponse> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType);
+    List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId);
 
-	List<Review> queryReviewNoOffsetByClub(Club club, Pageable pageable, Long reviewId);
+    boolean existsByClubAndUser(Club club, User user);
 
-	boolean existsByClubAndUser(Club club, User user);
-
-	Optional<Review> findByIdAndNotDeletedApprovedStatus(Long reviewId);
-
-	void softDeleteReviewByClubId(Long clubId);
+    void softDeleteReviewByClubId(Long clubId);
 }
