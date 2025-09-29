@@ -2,6 +2,7 @@ package com.clubber.domain.admin.dto;
 
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewReply;
+import com.clubber.domain.domains.review.vo.ReviewReplyVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -38,14 +39,14 @@ public class AdminReviewResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd")
     private LocalDateTime repliedDate;
 
-    public static AdminReviewResponse of(Review review, Set<String> keywords, ReviewReply reviewReply) {
+    public static AdminReviewResponse of(Review review, Set<String> keywords, ReviewReplyVO reviewReply) {
         return AdminReviewResponse.builder()
                 .reviewId(review.getId())
                 .keywords(keywords)
                 .content(review.getContent())
                 .dateTime(review.getCreatedAt())
-                .reply(reviewReply.getContent())
-                .repliedDate(reviewReply.getUpdatedAt())
+                .reply(reviewReply.content())
+                .repliedDate(reviewReply.updateAt())
                 .build();
     }
 }

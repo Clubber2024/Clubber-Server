@@ -7,11 +7,14 @@ import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.clubber.domain.domains.review.util.ReviewUtil;
+import com.clubber.domain.domains.review.vo.ReviewReplyVO;
 import com.clubber.global.common.page.PageResponse;
 import com.clubber.global.common.slice.SliceResponse;
 import com.clubber.global.util.SliceUtil;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
@@ -34,7 +37,8 @@ public class AdminReviewMapper {
 		Page<AdminReviewResponse> getAdminReviewsPageResponse = reviewPages.map(
 			review -> {
 				Set<String> keywords = ReviewUtil.extractKeywords(review);
-				return AdminReviewResponse.of(review, keywords, review.getReviewReply());
+				ReviewReplyVO reviewReply = ReviewReplyVO.of(review.getReviewReply());
+				return AdminReviewResponse.of(review, keywords, reviewReply);
 			});
 		return PageResponse.of(getAdminReviewsPageResponse);
 	}
