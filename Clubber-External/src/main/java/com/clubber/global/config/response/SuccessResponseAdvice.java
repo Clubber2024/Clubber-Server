@@ -1,6 +1,6 @@
 package com.clubber.global.config.response;
 
-import com.clubber.global.dto.SuccessResponse;
+import com.clubber.common.dto.SuccessResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
