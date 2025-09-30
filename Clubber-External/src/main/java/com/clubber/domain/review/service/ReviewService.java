@@ -162,7 +162,7 @@ public class ReviewService {
 
 
     @Transactional
-    public void createReviewReport(Long reviewId, CreateReviewReportRequest request) {
+    public CreateReviewReportResponse createReviewReport(Long reviewId, CreateReviewReportRequest request) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(reviewId);
         reviewValidator.validateNotSelfReview(user, review);
@@ -172,6 +172,8 @@ public class ReviewService {
         Report report = Report.of(review, request.getReportReason(),
             request.getDetailReason());
         Report savedReport = reportRepository.save(report);
+
+        return CreateReviewReportResponse.of(review,savedReport);
     }
 
 }

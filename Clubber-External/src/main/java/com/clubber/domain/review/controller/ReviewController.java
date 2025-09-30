@@ -70,7 +70,7 @@ public class ReviewController {
 
 	@Operation(summary = "리뷰 신고")
 	@PostMapping("/report/{id}")
-	public void postReviewReport(@PathVariable Long id,@RequestBody @Valid CreateReviewReportRequest request){
-		reviewService.createReviewReport(id,request);
+	public CreateReviewReportResponse postReviewReport(@PathVariable Long id,@RequestBody @Valid CreateReviewReportRequest request){
+		return reviewService.createReviewReport(id,request);
 	}
 }
