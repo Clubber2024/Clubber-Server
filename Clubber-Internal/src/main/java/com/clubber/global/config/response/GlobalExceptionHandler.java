@@ -1,13 +1,11 @@
 package com.clubber.global.config.response;
 
 import com.clubber.common.dto.ErrorResponse;
-import com.clubber.global.event.exceptionalarm.ExceptionAlarmEventPublisher;
 import com.clubber.common.exception.BaseErrorCode;
 import com.clubber.common.exception.BaseException;
 import com.clubber.common.exception.ErrorReason;
 import com.clubber.common.exception.GlobalErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +22,12 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.List;
+
 @RestControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-	public final ExceptionAlarmEventPublisher publisher;
 
 	@ExceptionHandler(BaseException.class)
 	public ResponseEntity<ErrorResponse> handleBaseException(
@@ -87,7 +85,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleAllException(Exception e, WebRequest request) {
 		GlobalErrorCode internalServerError = GlobalErrorCode.INTERNAL_SERVER_ERROR;
 		log.error("INTERNAL SERVER ERROR", e);
-		publisher.throwExceptionAlarmEvent(e, request);
 		return ResponseEntity.status(internalServerError.getStatus())
 			.body(internalServerError.getErrorReason());
 	}
