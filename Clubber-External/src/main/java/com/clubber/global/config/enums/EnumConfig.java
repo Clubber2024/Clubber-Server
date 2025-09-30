@@ -1,6 +1,8 @@
 package com.clubber.global.config.enums;
 
 
+import com.clubber.domain.domains.report.domain.ReportReason;
+import com.clubber.domain.domains.report.domain.ReportStatus;
 import com.clubber.domain.faq.domain.Faq;
 import com.clubber.domain.domains.review.domain.Keyword;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
@@ -23,6 +25,7 @@ public class EnumConfig {
 		enumMapper.put("Hashtag", Hashtag.class);
 		enumMapper.put("FaQ", Faq.class);
 		enumMapper.put("ReviewKeywordCategory", ReviewKeywordCategory.class);
+		enumMapper.put("ReportReason", ReportReason.class);
 		return enumMapper;
 	}
 }

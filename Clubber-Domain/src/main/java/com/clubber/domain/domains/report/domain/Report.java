@@ -1,7 +1,7 @@
-package com.clubber.domain.internal.domain.report;
+package com.clubber.domain.domains.report.domain;
 
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.domain.domains.review.domain.ReportStatus;
+import com.clubber.domain.domains.report.exception.ReviewAlreadyHiddenException;
 import com.clubber.domain.domains.review.domain.Review;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +25,7 @@ import org.hibernate.type.SqlTypes;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewReport extends BaseEntity {
+public class Report extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -37,6 +37,8 @@ public class ReviewReport extends BaseEntity {
     private Review review;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Enumerated(EnumType.STRING)
     private ReportReason reportReason;
 
     private String detailReason;
@@ -45,22 +47,24 @@ public class ReviewReport extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     @Builder.Default
-    private ReportStatus reportStatus = ReportStatus.VISIBLE;
+    private ReportStatus reportStatus = ReportStatus.PENDING;
 
-    public static ReviewReport of(Review review, ReportReason reportReason, String detailReason) {
-        return ReviewReport.builder()
+    @Builder.Default
+    private boolean isDeleted = false;
+
+    public static Report of(Review review, ReportReason reportReason, String detailReason) {
+        return Report.builder()
             .review(review)
             .reportReason(reportReason)
             .detailReason(detailReason)
             .build();
     }
 
-    public void hide(){
-//        if (reportStatus==ReportStatus.HIDDEN){
-//            throw
-//
-//        }
-        reportStatus = ReportStatus.HIDDEN;
+    public void changeStatus(ReportStatus status) {
+        if (reportStatus != ReportStatus.PENDING) {
+            throw ReviewAlreadyHiddenException.EXCEPTION;
+        }
+        reportStatus = status;
     }
 
 }

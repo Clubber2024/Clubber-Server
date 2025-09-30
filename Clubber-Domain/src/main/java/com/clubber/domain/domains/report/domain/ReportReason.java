@@ -1,4 +1,4 @@
-package com.clubber.domain.internal.domain.report;
+package com.clubber.domain.domains.report.domain;
 
 import com.clubber.common.mapper.enums.EnumDefaultMapperType;
 import lombok.AllArgsConstructor;
