@@ -12,6 +12,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewCus
     Optional<Review> findByIdAndIsDeletedFalse(Long id);
 
     List<Review> findByClubOrderByIdDesc(Club club);
-
-    List<Review> findAllByClub(Club club);
 }

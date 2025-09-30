@@ -2,39 +2,38 @@ package com.clubber.domain.admin.mapper;
 
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.admin.dto.AdminReviewResponse;
-import com.clubber.domain.admin.dto.GetAdminPendingReviewsSliceResponse;
 import com.clubber.domain.admin.dto.GetAdminsPendingReviews;
 import com.clubber.domain.admin.dto.GetAdminsReviewsResponse;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.util.ReviewUtil;
+import com.clubber.domain.domains.review.vo.ReviewReplyResponse;
 import com.clubber.global.common.page.PageResponse;
-import com.clubber.global.common.slice.SliceResponse;
-import com.clubber.global.util.SliceUtil;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AdminReviewMapper {
 
 //	// 리뷰 조회 (관리자)
-//	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
-//		Admin admin, Club club, Page<Review> reviews) {
-//		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
-//			reviews);
-//		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
-//	}
+	public GetAdminsReviewsResponse getGetAdminReviewsResponse(
+		Admin admin, Club club, Page<Review> reviews) {
+		PageResponse<AdminReviewResponse> adminsReviewDetailsPageResponse = getAdminsReviewResponse(
+			reviews);
+		return GetAdminsReviewsResponse.of(admin, club, adminsReviewDetailsPageResponse);
+	}
 
 	private static PageResponse<AdminReviewResponse> getAdminsReviewResponse(
 		Page<Review> reviewPages) {
 		Page<AdminReviewResponse> getAdminReviewsPageResponse = reviewPages.map(
 			review -> {
 				Set<String> keywords = ReviewUtil.extractKeywords(review);
-				return AdminReviewResponse.of(review, keywords);
+				ReviewReplyResponse reviewReply = ReviewReplyResponse.of(review.getReviewReply());
+				return AdminReviewResponse.of(review, keywords, reviewReply);
 			});
 		return PageResponse.of(getAdminReviewsPageResponse);
 	}
