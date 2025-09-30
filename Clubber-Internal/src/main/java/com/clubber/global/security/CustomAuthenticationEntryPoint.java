@@ -1,4 +1,4 @@
-package com.clubber.global.config.security;
+package com.clubber.global.security;
 
 import com.clubber.common.dto.ErrorResponse;
 import com.clubber.common.exception.BaseErrorCode;

@@ -1,4 +1,4 @@
-package com.clubber.global.dto;
+package com.clubber.common.dto;
 
 
 import com.clubber.common.exception.ErrorReason;

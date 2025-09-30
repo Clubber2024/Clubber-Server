@@ -1,4 +1,4 @@
-package com.clubber.global.config.security;
+package com.clubber.global.security;
 
 import com.clubber.common.dto.ErrorResponse;
 import com.clubber.common.exception.BaseException;
@@ -7,11 +7,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 
 @RequiredArgsConstructor

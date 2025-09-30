@@ -3,7 +3,7 @@ package com.clubber.global.config.swagger;
 
 import static java.util.stream.Collectors.groupingBy;
 
-import com.clubber.global.dto.ErrorResponse;
+import com.clubber.common.dto.ErrorResponse;
 import com.clubber.common.exception.BaseErrorCode;
 import com.clubber.common.exception.ErrorReason;
 import io.swagger.v3.oas.models.Components;

@@ -1,10 +1,13 @@
 package com.clubber.global.config.security;
 
 import com.clubber.global.jwt.JwtTokenUtil;
+import com.clubber.global.security.CustomAuthenticationEntryPoint;
+import com.clubber.global.security.FilterConfig;
 import com.clubber.global.security.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,12 +24,19 @@ public class SecurityConfig {
 
     private final JwtTokenUtil jwtTokenUtil;
 
+    private final FilterConfig filterConfig;
+
+    private final CustomAuthenticationEntryPoint entryPoint;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .with(filterConfig, Customizer.withDefaults())
+                .exceptionHandling((exceptionConfig) ->
+                        exceptionConfig.authenticationEntryPoint(entryPoint))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**",
                                         "/v3/api-docs")
@@ -35,8 +45,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .hasRole("SUPER_ADMIN")
-                )
-                .addFilterBefore(new JwtTokenFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
+                );
 
         return http.build();
     }
