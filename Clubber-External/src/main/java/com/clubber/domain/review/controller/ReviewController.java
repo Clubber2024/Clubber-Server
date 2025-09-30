@@ -1,6 +1,7 @@
 package com.clubber.domain.review.controller;
 
 import com.clubber.domain.domains.review.domain.ReviewSortType;
+import com.clubber.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.global.config.swagger.DisableSwaggerSecurity;
@@ -65,5 +66,11 @@ public class ReviewController {
 	@PostMapping("/like/{id}")
 	public void createReviewLike(@PathVariable Long id) {
 		reviewService.createReviewLike(id);
+	}
+
+	@Operation(summary = "리뷰 신고")
+	@PostMapping("/report/{id}")
+	public CreateReviewReportResponse postReviewReport(@PathVariable Long id,@RequestBody @Valid CreateReviewReportRequest request){
+		return reviewService.createReviewReport(id,request);
 	}
 }
