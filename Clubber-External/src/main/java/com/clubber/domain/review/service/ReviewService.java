@@ -11,6 +11,7 @@ import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
+import com.clubber.domain.domains.review.exception.ReviewHasReportException;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
@@ -72,6 +73,18 @@ public class ReviewService {
         review.addKeywords(reviewRequest.getKeywords());
         Review savedReview = reviewRepository.save(review);
         return reviewMapper.getCreateClubReviewResponse(savedReview);
+    }
+
+    @Transactional
+    public void updateReviewContent(Long id, String content) {
+        User user = userReader.getCurrentUser();
+        Review review = reviewReader.findById(id);
+        reviewValidator.validateReview(user, review);
+        boolean isExists = reportRepository.existsByReviewAndIsDeletedFalse(review);
+        if (isExists) {
+            throw ReviewHasReportException.EXCEPTION;
+        }
+        review.updateContent(content);
     }
 
     @Transactional

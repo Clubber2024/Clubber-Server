@@ -18,6 +18,7 @@ public enum ReviewErrorCode implements BaseErrorCode {
     REVIEW_ALREADY_LIKED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_8", "이미 좋아요를 표시한 리뷰입니다."),
     REVIEW_SELF_REPORT_NOT_ALLOWED(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_9", "자신이 작성한 리뷰는 신고할 수 없습니다."),
     REVIEW_ALREADY_HIDDEN(HttpStatus.BAD_REQUEST.value(),"REVIEW_400_10", "이미 숨김 처리된 리뷰입니다."),
+    REVIEW_HAS_REPORT(HttpStatus.BAD_REQUEST.value(), "REVIEW_400_11", "해당 리뷰에 대한 신고 내역이 존재하므로 수정이 불가능합니다."),
     REVIEW_NOT_FOUND(HttpStatus.NO_CONTENT.value(), "REVIEW_404_1", "존재하지 않는 리뷰입니다."),
     REVIEW_LIKE_NOT_FOUND(HttpStatus.NO_CONTENT.value(), "REVIEW_404_2", "좋아요하지 않은 리뷰입니다");
 
