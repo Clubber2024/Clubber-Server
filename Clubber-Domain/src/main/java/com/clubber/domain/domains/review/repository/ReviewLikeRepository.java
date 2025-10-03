@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     boolean existsByReviewAndUserAndIsDeletedFalse(Review review, User user);
-    Optional<ReviewLike> findByUserAndReviewAndIsDeletedFalse(Review review, User user);
+    Optional<ReviewLike> findByReviewAndUserAndIsDeletedFalse(Review review, User user);
 }

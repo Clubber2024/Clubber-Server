@@ -22,7 +22,7 @@ public class ReviewReader {
     }
 
     public ReviewLike findUserReviewLike(Review review, User user) {
-        return reviewLikeRepository.findByUserAndReviewAndIsDeletedFalse(review, user)
+        return reviewLikeRepository.findByReviewAndUserAndIsDeletedFalse(review, user)
                 .orElseThrow(() -> ReviewLikeNotFoundException.EXCEPTION);
     }
 }
