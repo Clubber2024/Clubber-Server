@@ -1,7 +1,6 @@
 package com.clubber.domain.review.controller;
 
 import com.clubber.domain.domains.review.domain.ReviewSortType;
-import com.clubber.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.service.ReviewLikeService;
 import com.clubber.domain.review.service.ReviewService;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
