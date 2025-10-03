@@ -45,9 +45,6 @@ public class Review extends BaseEntity {
     private ReportStatus reportStatus = ReportStatus.VISIBLE;
 
     @Builder.Default
-    private Long likes = 0L;
-
-    @Builder.Default
     private boolean isDeleted = false;
 
     @Builder.Default
@@ -86,10 +83,6 @@ public class Review extends BaseEntity {
 
     public void hide() {
         this.reportStatus = ReportStatus.HIDDEN;
-    }
-
-    public void like() {
-        likes++;
     }
 
     public String getContentForPublic() {
