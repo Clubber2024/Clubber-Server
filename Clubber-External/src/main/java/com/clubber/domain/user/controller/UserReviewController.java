@@ -1,0 +1,31 @@
+package com.clubber.domain.user.controller;
+
+import com.clubber.domain.review.service.ReviewService;
+import com.clubber.domain.user.dto.GetUserReviewsResponse;
+import com.clubber.domain.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/users/review")
+@RequiredArgsConstructor
+@Tag(name = "[회원 리뷰 API]")
+public class UserReviewController {
+
+    private final UserService userService;
+    private final ReviewService reviewService;
+
+    @Operation(summary = "리뷰 전체 조회")
+    @GetMapping
+    public GetUserReviewsResponse getUserReviews() {
+        return userService.getUserReviews();
+    }
+
+    @Operation(summary = "리뷰 삭제")
+    @DeleteMapping("/{id}")
+    public void deleteUserReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+    }
+}
