@@ -30,4 +30,12 @@ public class ReviewLikeService {
         ReviewLike reviewLike = reviewMapper.toReviewLike(review, user);
         reviewLikeRepository.save(reviewLike);
     }
+
+    @Transactional
+    public void deleteReviewLike(Long reviewId) {
+        User user = userReader.getCurrentUser();
+        Review review = reviewReader.findById(reviewId);
+        ReviewLike userReviewLike = reviewReader.findUserReviewLike(review, user);
+        userReviewLike.delete();
+    }
 }
