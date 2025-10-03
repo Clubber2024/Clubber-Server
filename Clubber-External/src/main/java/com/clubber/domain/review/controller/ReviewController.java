@@ -3,6 +3,7 @@ package com.clubber.domain.review.controller;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.recruit.dto.PostRecruitRequest;
 import com.clubber.domain.review.dto.*;
+import com.clubber.domain.review.service.ReviewLikeService;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.global.config.swagger.DisableSwaggerSecurity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
 
 	private final ReviewService reviewService;
+	private final ReviewLikeService reviewLikeService;
 
 	@Operation(summary = "동아리 리뷰 동의 여부 반환")
 	@DisableSwaggerSecurity
@@ -65,7 +67,13 @@ public class ReviewController {
 	@Operation(summary = "리뷰 좋아요 등록")
 	@PostMapping("/like/{id}")
 	public void createReviewLike(@PathVariable Long id) {
-		reviewService.createReviewLike(id);
+		reviewLikeService.createReviewLike(id);
+	}
+
+	@Operation(summary = "리뷰 좋아요 취소(삭제)")
+	@DeleteMapping("/like/{id}")
+	public void deleteReviewLike(@PathVariable Long id) {
+		reviewLikeService.deleteReviewLike(id);
 	}
 
 	@Operation(summary = "리뷰 신고")
