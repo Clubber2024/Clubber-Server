@@ -37,10 +37,13 @@ public class ClubReviewResponse {
     @Schema(description = "리뷰 좋아요 수")
     private final Long likes;
 
+    @Schema(description = "리뷰 좋아요 여부")
+    private final boolean isLiked;
+
     @Schema(description = "신고 상태")
     private final ReportStatus reportStatus;
 
-    public static ClubReviewResponse of(Review review, Set<String> keywords, Long likes) {
+    public static ClubReviewResponse of(Review review, Set<String> keywords, Long likes, boolean isLiked) {
         return ClubReviewResponse.builder()
                 .keywords(keywords)
                 .reviewId(review.getId())
@@ -48,6 +51,7 @@ public class ClubReviewResponse {
                 .dateTime(review.getCreatedAt())
                 .content(review.getContentForPublic())
                 .likes(likes)
+                .isLiked(isLiked)
                 .reportStatus(review.getReportStatus())
                 .build();
     }

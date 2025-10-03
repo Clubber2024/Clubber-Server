@@ -44,7 +44,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     @Override
-    public Page<ClubReviewResponse> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType) {
+    public Page<ClubReviewResponse> queryReviewByClub(Club club, User loginUser, Pageable pageable, ReviewSortType sortType) {
 
         List<Tuple> tuples = queryFactory
                 .select(review, reviewLike.count())
@@ -69,6 +69,15 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         t -> t.get(reviewLike.count())
                 ));
 
+
+        List<Long> likedReviewIds = queryFactory.select(reviewLike.review.id)
+                .from(reviewLike)
+                .where(reviewLike.user.id.eq(loginUser.getId())
+                        .and(reviewLike.isDeleted.eq(false))
+                        .and(reviewLike.review.id.in(reviewIds))
+                )
+                .fetch();
+
         List<Review> reviews = queryFactory.selectFrom(review)
                 .join(review.reviewKeywords, reviewKeyword).fetchJoin()
                 .join(review.user, user).fetchJoin()
@@ -87,7 +96,9 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .map(r -> ClubReviewResponse.of(
                         r,
                         ReviewUtil.extractKeywords(r),
-                        likeCountMap.getOrDefault(r.getId(), 0L)
+                        likeCountMap.getOrDefault(r.getId(), 0L),
+                        likedReviewIds.contains(r.getId())
+
                 ))
                 .toList();
 

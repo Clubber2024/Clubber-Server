@@ -10,13 +10,11 @@ import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
-import com.clubber.domain.domains.review.domain.ReviewLike;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
-import com.clubber.domain.domains.review.repository.ReviewLikeRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
@@ -49,22 +47,21 @@ public class ReviewService {
     private final ReviewReader reviewReader;
     private final ReviewValidator reviewValidator;
     private final ClubReader clubReader;
-    private final ReviewLikeRepository reviewLikeRepository;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
-            .map(
-                (reviewKeywordCategory) -> {
-                    List<EnumMapperVO> enumValues = enumMapper.toEnumValues(
-                        reviewKeywordCategory.getReviewKeywords());
-                    return new ReviewKeywordCategoryResponse(reviewKeywordCategory, enumValues);
-                })
-            .toList();
+                .map(
+                        (reviewKeywordCategory) -> {
+                            List<EnumMapperVO> enumValues = enumMapper.toEnumValues(
+                                    reviewKeywordCategory.getReviewKeywords());
+                            return new ReviewKeywordCategoryResponse(reviewKeywordCategory, enumValues);
+                        })
+                .toList();
     }
 
     @Transactional
     public CreateClubReviewResponse createReview(Long clubId,
-        @Valid CreateClubReviewRequest reviewRequest) {
+                                                 @Valid CreateClubReviewRequest reviewRequest) {
         User user = userReader.getCurrentUser();
         Club club = clubReader.findById(clubId);
 
@@ -94,7 +91,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-            .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         return GetClubReviewAgreedStatusResponse.from(club);
     }
@@ -102,12 +99,12 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
         Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-            .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
+                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
 
         club.validateAgreeToReview();
 
         List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
-            club.getId());
+                club.getId());
 
         final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList);
         return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
@@ -115,15 +112,12 @@ public class ReviewService {
 
     //동아리 별 리뷰 조회 : Page 별 조회
     @Transactional(readOnly = true)
-    public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId,
-        Pageable pageable, ReviewSortType sortType) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-            .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
+    public GetClubReviewsPageResponse getClubReviewsWithContent(Long clubId, Pageable pageable, ReviewSortType sortType) {
+        User user = userReader.getCurrentUser();
+        Club club = clubReader.findById(clubId);
         club.validateAgreeToReview();
 
-        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club,
-            pageable, sortType);
+        Page<ClubReviewResponse> clubReviewResponses = reviewRepository.queryReviewByClub(club, user, pageable, sortType);
         return reviewMapper.getGetClubReviewsPageResponse(clubReviewResponses, clubId);
     }
 
@@ -151,15 +145,6 @@ public class ReviewService {
         reviewRepository.softDeleteReviewByClubId(clubId);
     }
 
-    @Transactional
-    public void createReviewLike(Long reviewId) {
-        User user = userReader.getCurrentUser();
-        Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateReviewExists(user, review);
-        ReviewLike reviewLike = reviewMapper.toReviewLike(review, user);
-        reviewLikeRepository.save(reviewLike);
-    }
-
 
     @Transactional
     public CreateReviewReportResponse createReviewReport(Long reviewId, CreateReviewReportRequest request) {
@@ -170,10 +155,10 @@ public class ReviewService {
         reviewValidator.validateReportReason(request.getReportReason(), request.getDetailReason());
 
         Report report = Report.of(review, request.getReportReason(),
-            request.getDetailReason());
+                request.getDetailReason());
         Report savedReport = reportRepository.save(report);
 
-        return CreateReviewReportResponse.of(review,savedReport);
+        return CreateReviewReportResponse.of(review, savedReport);
     }
 
 }

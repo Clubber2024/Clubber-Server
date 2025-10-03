@@ -2,9 +2,7 @@ package com.clubber.domain.user.controller;
 
 
 import com.clubber.domain.favorite.dto.GetFavoriteDetailsResponse;
-import com.clubber.domain.review.service.ReviewService;
 import com.clubber.domain.user.dto.GetIsUserFavoriteResponse;
-import com.clubber.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.domain.user.dto.GetUserFavoritesResponse;
 import com.clubber.domain.user.dto.GetUserProfileResponse;
 import com.clubber.domain.user.service.UserService;
@@ -14,7 +12,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
 	private final UserService userService;
-	private final ReviewService reviewService;
 
 	@Operation(summary = "회원 정보 조회")
 	@GetMapping("/me")
@@ -37,17 +37,6 @@ public class UserController {
 		return userService.getUserFavorites();
 	}
 
-	@Operation(summary = "리뷰 전체 조회")
-	@GetMapping("/review")
-	public GetUserReviewsResponse getUserReviews() {
-		return userService.getUserReviews();
-	}
-
-	@Operation(summary = "리뷰 삭제")
-	@DeleteMapping("/review/{id}")
-	public void deleteUserReview(@PathVariable Long id) {
-		reviewService.deleteReview(id);
-	}
 
 	@Operation(summary = "즐겨찾기 페이지 조회")
 	@GetMapping("/favorite/page")

@@ -15,7 +15,7 @@ public interface ReviewCustomRepository {
 
     List<Review> queryReviewByUserOrderByIdDesc(User user);
 
-    Page<ClubReviewResponse> queryReviewByClub(Club club, Pageable pageable, ReviewSortType sortType);
+    Page<ClubReviewResponse> queryReviewByClub(Club club, User loginUser, Pageable pageable, ReviewSortType sortType);
 
     Page<Review> queryReviewByClubAndFilterType(Club club, ReviewFilterType filterType, Pageable pageable);
 
