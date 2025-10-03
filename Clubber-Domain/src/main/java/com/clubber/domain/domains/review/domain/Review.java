@@ -74,6 +74,10 @@ public class Review extends BaseEntity {
         });
     }
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     public void delete() {
         if (isDeleted) {
             throw ReviewAlreadyDeletedException.EXCEPTION;

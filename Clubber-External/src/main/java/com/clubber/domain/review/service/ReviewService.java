@@ -75,6 +75,12 @@ public class ReviewService {
     }
 
     @Transactional
+    public void updateReviewContent(Long id, String content) {
+        Review review = reviewReader.findById(id);
+        review.updateContent(content);
+    }
+
+    @Transactional
     public void deleteReview(Long reviewId) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(reviewId);
