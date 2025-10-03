@@ -1,5 +1,6 @@
 package com.clubber.domain.user.controller;
 
+import com.clubber.domain.review.dto.UpdateClubReviewContentRequest;
 import com.clubber.domain.review.service.ReviewService;
 import com.clubber.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.domain.user.service.UserService;
@@ -17,10 +18,16 @@ public class UserReviewController {
     private final UserService userService;
     private final ReviewService reviewService;
 
-    @Operation(summary = "리뷰 전체 조회")
+    @Operation(summary = "회원 리뷰 전체 조회")
     @GetMapping
     public GetUserReviewsResponse getUserReviews() {
         return userService.getUserReviews();
+    }
+
+    @Operation(summary = "회원 리뷰 수정")
+    @PatchMapping("/{id}")
+    public void updateUserReview(@PathVariable Long id, @RequestBody UpdateClubReviewContentRequest request) {
+        reviewService.updateReviewContent(id, request.content());
     }
 
     @Operation(summary = "리뷰 삭제")

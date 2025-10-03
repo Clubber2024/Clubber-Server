@@ -13,5 +13,5 @@ public interface ReportRepository extends JpaRepository<Report, Long>, ReportCus
     Optional<Report> findByIdAndIsDeletedFalseAndReportStatus(Long id, ReportStatus reportStatus);
     List<Report> findByReviewIdAndIsDeletedFalse(Long reviewId);
     boolean existsByReviewAndReportStatusAndIsDeletedFalse(Review review, ReportStatus reportStatus);
-
+    boolean existsByReviewAndIsDeletedFalse(Review review);
 }

@@ -39,9 +39,6 @@ public class UserReviewResponse {
     @Schema(description = "신고 상태")
     private final ReportStatus reportStatus;
 
-    @Schema(description = "좋아요 수")
-    private final Long likes;
-
     public static UserReviewResponse of(Review review, Set<String> keywords) {
         return UserReviewResponse.builder()
                 .reviewId(review.getId())
@@ -51,7 +48,6 @@ public class UserReviewResponse {
                 .dateTime(review.getCreatedAt())
                 .content(review.getContent())
                 .reportStatus(review.getReportStatus())
-                .likes(review.getLikes())
                 .build();
     }
 }
