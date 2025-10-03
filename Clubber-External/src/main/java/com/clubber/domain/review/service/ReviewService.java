@@ -10,13 +10,11 @@ import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
-import com.clubber.domain.domains.review.domain.ReviewLike;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
-import com.clubber.domain.domains.review.repository.ReviewLikeRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
@@ -49,7 +47,6 @@ public class ReviewService {
     private final ReviewReader reviewReader;
     private final ReviewValidator reviewValidator;
     private final ClubReader clubReader;
-    private final ReviewLikeRepository reviewLikeRepository;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
@@ -149,15 +146,6 @@ public class ReviewService {
     @Transactional
     public void softDeleteReviewByClubId(Long clubId) {
         reviewRepository.softDeleteReviewByClubId(clubId);
-    }
-
-    @Transactional
-    public void createReviewLike(Long reviewId) {
-        User user = userReader.getCurrentUser();
-        Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateReviewExists(user, review);
-        ReviewLike reviewLike = reviewMapper.toReviewLike(review, user);
-        reviewLikeRepository.save(reviewLike);
     }
 
 
