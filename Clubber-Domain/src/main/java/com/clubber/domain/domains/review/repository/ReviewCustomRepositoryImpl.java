@@ -1,6 +1,8 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.report.domain.QReport;
+import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
+import static com.clubber.domain.domains.report.domain.QReport.*;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 import static com.clubber.domain.domains.review.domain.QReviewLike.reviewLike;
@@ -190,5 +193,23 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         review.club.id.eq(clubId), review.isDeleted.eq(false)
                 )
                 .execute();
+    }
+
+    public List<Report> queryNextReviewReport(Long reviewId, Long nowReviewReportId) {
+        return queryFactory.select(report)
+                .join(report.review, review).fetchJoin()
+                .where(report.review.id.eq(reviewId)
+                        .and(report.isDeleted.eq(false))
+                        .and(ltReviewReportId(nowReviewReportId)))
+                .limit(1)
+                .orderBy(report.id.desc())
+                .fetch();
+    }
+
+    private BooleanExpression ltReviewReportId(Long nowReviewReportId) {
+        if (nowReviewReportId == null) {
+            return null;
+        }
+        return report.id.lt(nowReviewReportId);
     }
 }

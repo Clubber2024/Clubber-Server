@@ -2,29 +2,28 @@ package com.clubber.domain.review.mapper;
 
 import com.clubber.domain.domains.admin.domain.Admin;
 import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewLike;
 import com.clubber.domain.domains.review.domain.ReviewReply;
-import com.clubber.domain.domains.user.domain.User;
+import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
+import com.clubber.domain.domains.review.vo.KeywordStatsVO;
+import com.clubber.domain.domains.user.domain.User;
 import com.clubber.domain.review.dto.CreateClubReviewResponse;
 import com.clubber.domain.review.dto.GetClubReviewsKeywordStatsResponse;
 import com.clubber.domain.review.dto.GetClubReviewsPageResponse;
-import com.clubber.domain.review.dto.GetClubReviewsSliceResponse;
-import com.clubber.domain.domains.review.util.ReviewUtil;
-import com.clubber.domain.domains.review.vo.KeywordStatsVO;
+import com.clubber.domain.user.dto.GetUserReviewReportResponse;
 import com.clubber.global.common.page.PageResponse;
 import com.clubber.global.common.slice.SliceResponse;
 import com.clubber.global.util.SliceUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewMapper {
@@ -85,6 +84,16 @@ public class ReviewMapper {
                 .review(review)
                 .user(user)
                 .build();
+    }
+
+    public SliceResponse<GetUserReviewReportResponse> getUserReviewReportResponseSliceResponse(List<Report> reports) {
+        List<GetUserReviewReportResponse> reportResponseList = reports.stream()
+                .map(report -> {
+                    Review review = report.getReview();
+                    return GetUserReviewReportResponse.of(report, review, review.getClub());
+                })
+                .toList();
+        return SliceUtil.valueOf(reportResponseList, PageRequest.ofSize(1));
     }
 }
 

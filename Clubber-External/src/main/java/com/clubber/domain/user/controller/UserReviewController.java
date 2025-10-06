@@ -2,8 +2,10 @@ package com.clubber.domain.user.controller;
 
 import com.clubber.domain.review.dto.UpdateClubReviewContentRequest;
 import com.clubber.domain.review.service.ReviewService;
+import com.clubber.domain.user.dto.GetUserReviewReportResponse;
 import com.clubber.domain.user.dto.GetUserReviewsResponse;
 import com.clubber.domain.user.service.UserService;
+import com.clubber.global.common.slice.SliceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +36,11 @@ public class UserReviewController {
     @DeleteMapping("/{id}")
     public void deleteUserReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
+    }
+
+    @Operation(summary = "회원 리뷰 신고 목록 조회")
+    @GetMapping("/{id}/reports")
+    public SliceResponse<GetUserReviewReportResponse> getUserReviewReports(@PathVariable Long id, @RequestParam Long nowReviewReportId) {
+        return reviewService.getUserReviewReportResponse(id, nowReviewReportId);
     }
 }
