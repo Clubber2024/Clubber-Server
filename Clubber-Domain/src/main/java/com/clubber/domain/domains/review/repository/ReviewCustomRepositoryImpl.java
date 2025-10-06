@@ -201,7 +201,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .where(report.review.id.eq(reviewId)
                         .and(report.isDeleted.eq(false))
                         .and(ltReviewReportId(nowReviewReportId)))
-                .limit(1)
+                .limit(2)
                 .orderBy(report.id.desc())
                 .fetch();
     }
