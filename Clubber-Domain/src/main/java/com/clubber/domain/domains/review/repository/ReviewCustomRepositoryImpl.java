@@ -1,7 +1,6 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.report.domain.QReport;
 import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.review.util.ReviewUtil;
@@ -13,7 +12,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -23,11 +21,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.clubber.domain.domains.club.domain.QClub.club;
-import static com.clubber.domain.domains.report.domain.QReport.*;
+import static com.clubber.domain.domains.report.domain.QReport.report;
 import static com.clubber.domain.domains.review.domain.QReview.review;
 import static com.clubber.domain.domains.review.domain.QReviewKeyword.reviewKeyword;
 import static com.clubber.domain.domains.review.domain.QReviewLike.reviewLike;
-import static com.clubber.domain.domains.review.domain.QReviewReply.*;
+import static com.clubber.domain.domains.review.domain.QReviewReply.reviewReply;
 import static com.clubber.domain.domains.user.domain.QUser.user;
 
 @RequiredArgsConstructor
@@ -197,7 +195,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 
     public List<Report> queryNextReviewReport(Long reviewId, Long nowReviewReportId) {
         return queryFactory.select(report)
-                .join(report.review, review).fetchJoin()
+                .join(report.review, review)
                 .where(report.review.id.eq(reviewId)
                         .and(report.isDeleted.eq(false))
                         .and(ltReviewReportId(nowReviewReportId)))
