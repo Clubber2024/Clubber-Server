@@ -40,7 +40,7 @@ public class UserReviewController {
 
     @Operation(summary = "회원 리뷰 신고 목록 조회")
     @GetMapping("/{id}/reports")
-    public SliceResponse<GetUserReviewReportResponse> getUserReviewReports(@PathVariable Long id, @RequestParam Long nowReviewReportId) {
+    public SliceResponse<GetUserReviewReportResponse> getUserReviewReports(@PathVariable Long id, @RequestParam(required = false) Long nowReviewReportId) {
         return reviewService.getUserReviewReportResponse(id, nowReviewReportId);
     }
 }
