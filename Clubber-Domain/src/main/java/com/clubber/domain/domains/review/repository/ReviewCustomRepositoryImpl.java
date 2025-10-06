@@ -194,8 +194,8 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
     }
 
     public List<Report> queryNextReviewReport(Long reviewId, Long nowReviewReportId) {
-        return queryFactory.select(report)
-                .join(report.review, review)
+        return queryFactory.selectFrom(report)
+                .join(report.review, review).fetchJoin()
                 .where(report.review.id.eq(reviewId)
                         .and(report.isDeleted.eq(false))
                         .and(ltReviewReportId(nowReviewReportId)))
