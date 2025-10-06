@@ -2,6 +2,7 @@ package com.clubber.domain.domains.review.domain;
 
 import com.clubber.domain.common.BaseEntity;
 import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.exception.ReviewAlreadyDeletedException;
 import com.clubber.domain.domains.user.domain.User;
 import jakarta.persistence.*;
@@ -54,6 +55,10 @@ public class Review extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewLike> reviewLikes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<Report> reviewReports = new ArrayList<>();
 
     @OneToOne(mappedBy = "review")
     private ReviewReply reviewReply;

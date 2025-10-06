@@ -1,6 +1,7 @@
 package com.clubber.domain.domains.review.repository;
 
 import com.clubber.domain.domains.club.domain.Club;
+import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewFilterType;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
@@ -24,4 +25,6 @@ public interface ReviewCustomRepository {
     boolean existsByClubAndUser(Club club, User user);
 
     void softDeleteReviewByClubId(Long clubId);
+
+    List<Report> queryNextReviewReport(Long reviewId, Long nowReviewReportId);
 }
