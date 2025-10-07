@@ -21,7 +21,7 @@ public class ReviewValidator {
     private final ReviewRepository reviewRepository;
     private final ReportRepository reportRepository;
 
-    public void validateReview(User user, Review review) {
+    public void validateReviewUser(User user, Review review) {
         if (!review.getUser().equals(user)) {
             throw ReviewUserNotMatchException.EXCEPTION;
         }

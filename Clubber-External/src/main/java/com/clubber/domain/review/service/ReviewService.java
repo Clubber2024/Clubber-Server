@@ -74,7 +74,7 @@ public class ReviewService {
     public void updateReviewContent(Long id, String content) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(id);
-        reviewValidator.validateReview(user, review);
+        reviewValidator.validateReviewUser(user, review);
         reviewValidator.validateReviewReportExists(review);
         review.updateContent(content);
     }
@@ -83,7 +83,7 @@ public class ReviewService {
     public void deleteReview(Long reviewId) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateReview(user, review);
+        reviewValidator.validateReviewUser(user, review);
         review.delete();
     }
 
