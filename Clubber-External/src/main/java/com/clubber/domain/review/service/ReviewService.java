@@ -10,7 +10,6 @@ import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.domains.review.exception.ReviewHasReportException;
-import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
@@ -24,7 +23,6 @@ import com.clubber.domain.review.mapper.ReviewMapper;
 import com.clubber.domain.user.dto.GetUserReviewReportResponse;
 import com.clubber.domain.user.implement.UserReader;
 import com.clubber.global.common.slice.SliceResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,13 +58,12 @@ public class ReviewService {
     }
 
     @Transactional
-    public CreateClubReviewResponse createReview(Long clubId,
-                                                 @Valid CreateClubReviewRequest reviewRequest) {
+    public CreateClubReviewResponse createReview(Long clubId, CreateClubReviewRequest reviewRequest) {
         User user = userReader.getCurrentUser();
         Club club = clubReader.findById(clubId);
 
         club.validateAgreeToReview();
-        validateReviewExists(club, user);
+        reviewValidator.validateReviewExists(club, user);
 
         Review review = Review.of(user, club, reviewRequest.getContent());
         review.addKeywords(reviewRequest.getKeywords());
@@ -92,12 +89,6 @@ public class ReviewService {
         Review review = reviewReader.findById(reviewId);
         reviewValidator.validateReview(user, review);
         review.delete();
-    }
-
-    private void validateReviewExists(Club club, User user) {
-        if (reviewRepository.existsByClubAndUser(club, user)) {
-            throw UserAlreadyReviewedException.EXCEPTION;
-        }
     }
 
     @Transactional(readOnly = true)

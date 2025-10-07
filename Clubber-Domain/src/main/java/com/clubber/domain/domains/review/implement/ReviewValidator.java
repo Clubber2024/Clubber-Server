@@ -5,12 +5,9 @@ import com.clubber.domain.domains.report.domain.ReportReason;
 import com.clubber.domain.domains.report.exception.ReviewDetailReasonRequiredException;
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.exception.ReviewAlreadyHiddenException;
-import com.clubber.domain.domains.review.exception.ReviewAlreadyLikedException;
-import com.clubber.domain.domains.review.exception.ReviewClubNotMatchException;
-import com.clubber.domain.domains.review.exception.ReviewSelfReportNotAllowedException;
-import com.clubber.domain.domains.review.exception.ReviewUserNotMatchException;
+import com.clubber.domain.domains.review.exception.*;
 import com.clubber.domain.domains.review.repository.ReviewLikeRepository;
+import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class ReviewValidator {
 
     private final ReviewLikeRepository reviewLikeRepository;
+    private final ReviewRepository reviewRepository;
 
     public void validateReview(User user, Review review) {
         if (!review.getUser().equals(user)) {
@@ -38,6 +36,12 @@ public class ReviewValidator {
             user);
         if (isExists) {
             throw ReviewAlreadyLikedException.EXCEPTION;
+        }
+    }
+
+    public void validateReviewExists(Club club, User user) {
+        if (reviewRepository.existsByClubAndUser(club, user)) {
+            throw UserAlreadyReviewedException.EXCEPTION;
         }
     }
 
