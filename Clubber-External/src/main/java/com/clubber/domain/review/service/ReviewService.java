@@ -4,8 +4,6 @@ import com.clubber.common.mapper.enums.EnumMapper;
 import com.clubber.common.vo.enums.EnumMapperVO;
 import com.clubber.domain.club.implement.ClubReader;
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.club.exception.ClubNotFoundException;
-import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
@@ -44,7 +42,6 @@ public class ReviewService {
     private final ReviewKeywordRepository reviewKeywordRepository;
     private final ReportRepository reportRepository;
     private final ReviewMapper reviewMapper;
-    private final ClubRepository clubRepository;
     private final EnumMapper enumMapper;
     private final UserReader userReader;
     private final ReviewReader reviewReader;
@@ -105,17 +102,13 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
+        Club club = clubReader.findById(clubId);
         return GetClubReviewAgreedStatusResponse.from(club);
     }
 
     @Transactional(readOnly = true)
     public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
+        Club club = clubReader.findById(clubId);
         club.validateAgreeToReview();
 
         List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
