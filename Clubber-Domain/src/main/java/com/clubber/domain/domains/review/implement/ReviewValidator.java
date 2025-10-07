@@ -3,6 +3,7 @@ package com.clubber.domain.domains.review.implement;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.report.domain.ReportReason;
 import com.clubber.domain.domains.report.exception.ReviewDetailReasonRequiredException;
+import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.exception.*;
@@ -18,6 +19,7 @@ public class ReviewValidator {
 
     private final ReviewLikeRepository reviewLikeRepository;
     private final ReviewRepository reviewRepository;
+    private final ReportRepository reportRepository;
 
     public void validateReview(User user, Review review) {
         if (!review.getUser().equals(user)) {
@@ -42,6 +44,12 @@ public class ReviewValidator {
     public void validateReviewExists(Club club, User user) {
         if (reviewRepository.existsByClubAndUser(club, user)) {
             throw UserAlreadyReviewedException.EXCEPTION;
+        }
+    }
+
+    public void validateReviewReportExists(Review review) {
+        if (reportRepository.existsByReviewAndIsDeletedFalse(review)){
+            throw ReviewHasReportException.EXCEPTION;
         }
     }
 

@@ -76,10 +76,7 @@ public class ReviewService {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(id);
         reviewValidator.validateReview(user, review);
-        boolean isExists = reportRepository.existsByReviewAndIsDeletedFalse(review);
-        if (isExists) {
-            throw ReviewHasReportException.EXCEPTION;
-        }
+        reviewValidator.validateReviewReportExists(review);
         review.updateContent(content);
     }
 
