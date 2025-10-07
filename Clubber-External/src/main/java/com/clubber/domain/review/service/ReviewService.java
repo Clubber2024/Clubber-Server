@@ -36,11 +36,12 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewKeywordRepository reviewKeywordRepository;
+    private final ReviewReader reviewReader;
     private final ReviewMapper reviewMapper;
+    private final ReviewValidator reviewValidator;
+
     private final EnumMapper enumMapper;
     private final UserReader userReader;
-    private final ReviewReader reviewReader;
-    private final ReviewValidator reviewValidator;
     private final ClubReader clubReader;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
