@@ -5,6 +5,7 @@ import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
+import com.clubber.domain.domains.review.vo.ReviewReplyResponse;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
@@ -98,13 +99,14 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         r,
                         ReviewUtil.extractKeywords(r),
                         likeCountMap.getOrDefault(r.getId(), 0L),
-                        likedReviewIds.contains(r.getId())
+                        likedReviewIds.contains(r.getId()),
+                        ReviewReplyResponse.of(r.getReviewReply())
 
                 ))
                 .toList();
 
         JPAQuery<Long> countQuery = queryFactory
-                .select(review.countDistinct())
+                .select(review.count())
                 .from(review)
                 .where(review.club.id.eq(club.getId())
                         .and(review.isDeleted.eq(false)));
@@ -136,6 +138,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
     }
 
+    //TODO EXISTS 쿼리 고려
     private BooleanExpression eqReviewReplyNull(ReviewFilterType filterType) {
         if (filterType == ReviewFilterType.NOT_REPLYED) {
             return review.reviewReply.isNull();
