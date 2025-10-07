@@ -16,7 +16,6 @@ import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
-import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
@@ -30,7 +29,6 @@ import com.clubber.global.common.slice.SliceResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +50,6 @@ public class ReviewService {
     private final ReviewReader reviewReader;
     private final ReviewValidator reviewValidator;
     private final ClubReader clubReader;
-    private final ReviewReplyRepository reviewReplyRepository;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
