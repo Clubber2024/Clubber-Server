@@ -1,5 +1,6 @@
 package com.clubber.domain.review.controller;
 
+import com.clubber.domain.club.service.ClubService;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
 import com.clubber.domain.review.dto.*;
 import com.clubber.domain.review.service.ReviewLikeService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "[리뷰]")
 public class ReviewController {
 
+	private final ClubService clubService;
 	private final ReviewService reviewService;
 	private final ReviewLikeService reviewLikeService;
 
@@ -25,7 +27,7 @@ public class ReviewController {
 	@DisableSwaggerSecurity
 	@GetMapping("/agree")
 	public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(@PathVariable Long clubId) {
-		return reviewService.getClubReviewAgreedStatus(clubId);
+		return clubService.getClubReviewAgreedStatus(clubId);
 	}
 
 	@Operation(summary = "개별 동아리 별 리뷰 키워드 통계")

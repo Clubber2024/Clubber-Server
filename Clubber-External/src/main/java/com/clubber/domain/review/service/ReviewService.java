@@ -9,7 +9,6 @@ import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
-import com.clubber.domain.domains.review.exception.ReviewHasReportException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
@@ -86,12 +85,6 @@ public class ReviewService {
         Review review = reviewReader.findById(reviewId);
         reviewValidator.validateReview(user, review);
         review.delete();
-    }
-
-    @Transactional(readOnly = true)
-    public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
-        Club club = clubReader.findById(clubId);
-        return GetClubReviewAgreedStatusResponse.from(club);
     }
 
     @Transactional(readOnly = true)
