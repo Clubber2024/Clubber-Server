@@ -5,7 +5,6 @@ import com.clubber.common.vo.enums.EnumMapperVO;
 import com.clubber.domain.club.implement.ClubReader;
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.report.domain.Report;
-import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
@@ -37,7 +36,6 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewKeywordRepository reviewKeywordRepository;
-    private final ReportRepository reportRepository;
     private final ReviewMapper reviewMapper;
     private final EnumMapper enumMapper;
     private final UserReader userReader;
@@ -127,22 +125,6 @@ public class ReviewService {
     @Transactional
     public void softDeleteReviewByClubId(Long clubId) {
         reviewRepository.softDeleteReviewByClubId(clubId);
-    }
-
-
-    @Transactional
-    public CreateReviewReportResponse createReviewReport(Long reviewId, CreateReviewReportRequest request) {
-        User user = userReader.getCurrentUser();
-        Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateNotSelfReview(user, review);
-        reviewValidator.validateReviewStatus(review);
-        reviewValidator.validateReportReason(request.getReportReason(), request.getDetailReason());
-
-        Report report = Report.of(review, request.getReportReason(),
-                request.getDetailReason());
-        Report savedReport = reportRepository.save(report);
-
-        return CreateReviewReportResponse.of(review, savedReport);
     }
 
     @Transactional(readOnly = true)
