@@ -7,6 +7,6 @@ public class UserAlreadyReviewedException extends BaseException {
 	public static final BaseException EXCEPTION = new UserAlreadyReviewedException();
 
 	private UserAlreadyReviewedException() {
-		super(ReviewErrorCode.USER_ALREADY_REVIEWD);
+		super(ReviewErrorCode.USER_ALREADY_REVIEWED);
 	}
 }

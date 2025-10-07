@@ -4,19 +4,13 @@ import com.clubber.common.mapper.enums.EnumMapper;
 import com.clubber.common.vo.enums.EnumMapperVO;
 import com.clubber.domain.club.implement.ClubReader;
 import com.clubber.domain.domains.club.domain.Club;
-import com.clubber.domain.domains.club.exception.ClubNotFoundException;
-import com.clubber.domain.domains.club.repository.ClubRepository;
 import com.clubber.domain.domains.report.domain.Report;
-import com.clubber.domain.domains.report.repository.ReportRepository;
 import com.clubber.domain.domains.review.domain.Review;
 import com.clubber.domain.domains.review.domain.ReviewKeywordCategory;
 import com.clubber.domain.domains.review.domain.ReviewSortType;
-import com.clubber.domain.domains.review.exception.ReviewHasReportException;
-import com.clubber.domain.domains.review.exception.UserAlreadyReviewedException;
 import com.clubber.domain.domains.review.implement.ReviewReader;
 import com.clubber.domain.domains.review.implement.ReviewValidator;
 import com.clubber.domain.domains.review.repository.ReviewKeywordRepository;
-import com.clubber.domain.domains.review.repository.ReviewReplyRepository;
 import com.clubber.domain.domains.review.repository.ReviewRepository;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
 import com.clubber.domain.domains.review.vo.KeywordCountStatDto;
@@ -27,10 +21,8 @@ import com.clubber.domain.review.mapper.ReviewMapper;
 import com.clubber.domain.user.dto.GetUserReviewReportResponse;
 import com.clubber.domain.user.implement.UserReader;
 import com.clubber.global.common.slice.SliceResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,15 +36,13 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewKeywordRepository reviewKeywordRepository;
-    private final ReportRepository reportRepository;
+    private final ReviewReader reviewReader;
     private final ReviewMapper reviewMapper;
-    private final ClubRepository clubRepository;
+    private final ReviewValidator reviewValidator;
+
     private final EnumMapper enumMapper;
     private final UserReader userReader;
-    private final ReviewReader reviewReader;
-    private final ReviewValidator reviewValidator;
     private final ClubReader clubReader;
-    private final ReviewReplyRepository reviewReplyRepository;
 
     public List<ReviewKeywordCategoryResponse> getTotalReviewKeywords() {
         return Arrays.stream(ReviewKeywordCategory.values())
@@ -66,13 +56,12 @@ public class ReviewService {
     }
 
     @Transactional
-    public CreateClubReviewResponse createReview(Long clubId,
-                                                 @Valid CreateClubReviewRequest reviewRequest) {
+    public CreateClubReviewResponse createReview(Long clubId, CreateClubReviewRequest reviewRequest) {
         User user = userReader.getCurrentUser();
         Club club = clubReader.findById(clubId);
 
         club.validateAgreeToReview();
-        validateReviewExists(club, user);
+        reviewValidator.validateReviewExists(club, user);
 
         Review review = Review.of(user, club, reviewRequest.getContent());
         review.addKeywords(reviewRequest.getKeywords());
@@ -84,11 +73,8 @@ public class ReviewService {
     public void updateReviewContent(Long id, String content) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(id);
-        reviewValidator.validateReview(user, review);
-        boolean isExists = reportRepository.existsByReviewAndIsDeletedFalse(review);
-        if (isExists) {
-            throw ReviewHasReportException.EXCEPTION;
-        }
+        reviewValidator.validateReviewUser(user, review);
+        reviewValidator.validateReviewReportExists(review);
         review.updateContent(content);
     }
 
@@ -96,29 +82,13 @@ public class ReviewService {
     public void deleteReview(Long reviewId) {
         User user = userReader.getCurrentUser();
         Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateReview(user, review);
+        reviewValidator.validateReviewUser(user, review);
         review.delete();
-    }
-
-    private void validateReviewExists(Club club, User user) {
-        if (reviewRepository.existsByClubAndUser(club, user)) {
-            throw UserAlreadyReviewedException.EXCEPTION;
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
-        return GetClubReviewAgreedStatusResponse.from(club);
     }
 
     @Transactional(readOnly = true)
     public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
-        Club club = clubRepository.findClubByIdAndIsDeleted(clubId, false)
-                .orElseThrow(() -> ClubNotFoundException.EXCEPTION);
-
+        Club club = clubReader.findById(clubId);
         club.validateAgreeToReview();
 
         List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
@@ -154,29 +124,8 @@ public class ReviewService {
 //    }
 
     @Transactional
-    public void saveReview(Review review) {
-        reviewRepository.save(review);
-    }
-
-    @Transactional
     public void softDeleteReviewByClubId(Long clubId) {
         reviewRepository.softDeleteReviewByClubId(clubId);
-    }
-
-
-    @Transactional
-    public CreateReviewReportResponse createReviewReport(Long reviewId, CreateReviewReportRequest request) {
-        User user = userReader.getCurrentUser();
-        Review review = reviewReader.findById(reviewId);
-        reviewValidator.validateNotSelfReview(user, review);
-        reviewValidator.validateReviewStatus(review);
-        reviewValidator.validateReportReason(request.getReportReason(), request.getDetailReason());
-
-        Report report = Report.of(review, request.getReportReason(),
-                request.getDetailReason());
-        Report savedReport = reportRepository.save(report);
-
-        return CreateReviewReportResponse.of(review, savedReport);
     }
 
     @Transactional(readOnly = true)

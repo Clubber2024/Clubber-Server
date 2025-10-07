@@ -4,6 +4,7 @@ import com.clubber.domain.club.dto.*;
 import com.clubber.domain.club.implement.ClubAppender;
 import com.clubber.domain.club.implement.ClubReader;
 import com.clubber.domain.domains.club.domain.*;
+import com.clubber.domain.review.dto.GetClubReviewAgreedStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,5 +120,11 @@ public class ClubService {
         return clubs.stream()
                 .map(GetClubsSearchForSignUpResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public GetClubReviewAgreedStatusResponse getClubReviewAgreedStatus(Long clubId) {
+        Club club = clubReader.findById(clubId);
+        return GetClubReviewAgreedStatusResponse.from(club);
     }
 }
