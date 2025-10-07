@@ -5,6 +5,7 @@ import com.clubber.domain.domains.report.domain.Report;
 import com.clubber.domain.domains.review.domain.*;
 import com.clubber.domain.domains.review.util.ReviewUtil;
 import com.clubber.domain.domains.review.vo.ClubReviewResponse;
+import com.clubber.domain.domains.review.vo.ReviewReplyResponse;
 import com.clubber.domain.domains.user.domain.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
@@ -98,7 +99,8 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                         r,
                         ReviewUtil.extractKeywords(r),
                         likeCountMap.getOrDefault(r.getId(), 0L),
-                        likedReviewIds.contains(r.getId())
+                        likedReviewIds.contains(r.getId()),
+                        ReviewReplyResponse.of(r.getReviewReply())
 
                 ))
                 .toList();

@@ -2,6 +2,7 @@ package com.clubber.domain.domains.review.vo;
 
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
+import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -43,7 +44,10 @@ public class ClubReviewResponse {
     @Schema(description = "신고 상태")
     private final ReportStatus reportStatus;
 
-    public static ClubReviewResponse of(Review review, Set<String> keywords, Long likes, boolean isLiked) {
+    @Schema(description = "리뷰 답글")
+    private final ReviewReplyResponse reviewReply;
+
+    public static ClubReviewResponse of(Review review, Set<String> keywords, Long likes, boolean isLiked, ReviewReplyResponse reviewReply) {
         return ClubReviewResponse.builder()
                 .keywords(keywords)
                 .reviewId(review.getId())
@@ -53,6 +57,7 @@ public class ClubReviewResponse {
                 .likes(likes)
                 .isLiked(isLiked)
                 .reportStatus(review.getReportStatus())
+                .reviewReply(reviewReply)
                 .build();
     }
 }
