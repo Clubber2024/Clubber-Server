@@ -106,7 +106,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
                 .toList();
 
         JPAQuery<Long> countQuery = queryFactory
-                .select(review.countDistinct())
+                .select(review.count())
                 .from(review)
                 .where(review.club.id.eq(club.getId())
                         .and(review.isDeleted.eq(false)));
@@ -138,6 +138,7 @@ public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
         return PageableExecutionUtils.getPage(reviews, pageable, countQuery::fetchOne);
     }
 
+    //TODO EXISTS 쿼리 고려
     private BooleanExpression eqReviewReplyNull(ReviewFilterType filterType) {
         if (filterType == ReviewFilterType.NOT_REPLYED) {
             return review.reviewReply.isNull();
