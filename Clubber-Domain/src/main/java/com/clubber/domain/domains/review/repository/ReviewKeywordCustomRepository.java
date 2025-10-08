@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface ReviewKeywordCustomRepository {
 
-	List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId);
+	List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId, int limit);
 
 }

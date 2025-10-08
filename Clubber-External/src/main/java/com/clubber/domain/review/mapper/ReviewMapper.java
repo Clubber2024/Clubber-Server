@@ -65,8 +65,7 @@ public class ReviewMapper {
         return CreateClubReviewResponse.of(review, keywords);
     }
 
-    public GetClubReviewsKeywordStatsResponse getGetClubReviewsKeywordStatsResponse(Club club,
-                                                                                    KeywordStatsVO keywordStatsVO) {
+    public GetClubReviewsKeywordStatsResponse getGetClubReviewsKeywordStatsResponse(Club club, KeywordStatsVO keywordStatsVO) {
         Map<String, Long> keywordMap = keywordStatsVO.getKeywordMapAsStingKey();
         return GetClubReviewsKeywordStatsResponse.of(club, keywordMap);
     }

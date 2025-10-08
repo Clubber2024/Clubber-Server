@@ -19,10 +19,10 @@ public class KeywordStatsVO {
     @Getter
     private final Map<String, Long> keywordMapAsStingKey;
 
-    public KeywordStatsVO(List<KeywordCountStatDto> keywordCountStatDtoList) {
+    public KeywordStatsVO(List<KeywordCountStatDto> keywordCountStatDtoList, int limit) {
         initializeKeywordMap();
         updateKeywordStat(keywordCountStatDtoList);
-        keywordMapAsStingKey = convertKeywordMapAsStringKey();
+        keywordMapAsStingKey = convertKeywordMapAsStringKey(limit);
     }
 
     private void initializeKeywordMap() {
@@ -36,7 +36,7 @@ public class KeywordStatsVO {
         }
     }
 
-    private Map<String, Long> convertKeywordMapAsStringKey() {
+    private Map<String, Long> convertKeywordMapAsStringKey(int limit) {
         return keywordMap.entrySet().stream()
                 .sorted(Map.Entry.<Keyword, Long>comparingByValue().reversed())
                 .limit(5)

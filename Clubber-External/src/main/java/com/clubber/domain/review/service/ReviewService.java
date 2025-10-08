@@ -87,14 +87,14 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId) {
+    public GetClubReviewsKeywordStatsResponse getClubReviewKeywordStats(Long clubId, int limit) {
         Club club = clubReader.findById(clubId);
         club.validateAgreeToReview();
 
         List<KeywordCountStatDto> keywordCountStatDtoList = reviewKeywordRepository.queryReviewKeywordStatsByClubId(
-                club.getId());
+                club.getId(), limit);
 
-        final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList);
+        final KeywordStatsVO keywordStatsVO = new KeywordStatsVO(keywordCountStatDtoList, limit);
         return reviewMapper.getGetClubReviewsKeywordStatsResponse(club, keywordStatsVO);
     }
 
