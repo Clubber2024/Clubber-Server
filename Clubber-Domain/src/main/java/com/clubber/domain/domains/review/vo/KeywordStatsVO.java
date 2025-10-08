@@ -39,7 +39,7 @@ public class KeywordStatsVO {
     private Map<String, Long> convertKeywordMapAsStringKey(int limit) {
         return keywordMap.entrySet().stream()
                 .sorted(Map.Entry.<Keyword, Long>comparingByValue().reversed())
-                .limit(5)
+                .limit(limit)
                 .collect(Collectors.toMap(
                         entry -> entry.getKey().getTitle(),
                         Map.Entry::getValue,
