@@ -35,8 +35,8 @@ public class ReviewController {
 	@Operation(summary = "개별 동아리 별 리뷰 키워드 통계")
 	@DisableSwaggerSecurity
 	@GetMapping("/keyword-stats")
-	public GetClubReviewsKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId) {
-		return reviewService.getClubReviewKeywordStats(clubId);
+	public GetClubReviewsKeywordStatsResponse getReviewKeywordStats(@PathVariable Long clubId, @RequestParam int limit) {
+		return reviewService.getClubReviewKeywordStats(clubId, limit);
 	}
 
 	// === v2 ===

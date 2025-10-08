@@ -17,7 +17,7 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId) {
+    public List<KeywordCountStatDto> queryReviewKeywordStatsByClubId(Long clubId, int limit) {
         return queryFactory
                 .select(Projections.constructor(
                         KeywordCountStatDto.class,
@@ -32,7 +32,7 @@ public class ReviewKeywordCustomRepositoryImpl implements ReviewKeywordCustomRep
                 .join(reviewKeyword.review, review)
                 .groupBy(reviewKeyword.keyword)
                 .orderBy(reviewKeyword.count().desc())
-                .limit(5)
+                .limit(limit)
                 .fetch();
     }
 }
