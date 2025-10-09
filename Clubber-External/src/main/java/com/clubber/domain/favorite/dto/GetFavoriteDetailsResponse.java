@@ -2,7 +2,7 @@ package com.clubber.domain.favorite.dto;
 
 import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.favorite.domain.Favorite;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;

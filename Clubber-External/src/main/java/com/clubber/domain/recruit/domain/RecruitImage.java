@@ -1,7 +1,7 @@
 package com.clubber.domain.recruit.domain;
 
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

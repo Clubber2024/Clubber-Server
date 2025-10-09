@@ -19,7 +19,7 @@ import com.clubber.domain.recruit.mapper.RecruitMapper;
 import com.clubber.domain.recruit.repository.RecruitImageRepository;
 import com.clubber.domain.recruit.repository.RecruitRepository;
 import com.clubber.global.common.page.PageResponse;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

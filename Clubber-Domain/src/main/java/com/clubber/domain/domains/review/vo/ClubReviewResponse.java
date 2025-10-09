@@ -2,17 +2,15 @@ package com.clubber.domain.domains.review.vo;
 
 import com.clubber.domain.domains.review.domain.ReportStatus;
 import com.clubber.domain.domains.review.domain.Review;
-import com.clubber.domain.domains.review.domain.ReviewReply;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.time.LocalDateTime;
-import java.util.Set;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)

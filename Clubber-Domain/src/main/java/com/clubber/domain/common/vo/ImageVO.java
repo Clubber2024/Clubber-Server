@@ -1,4 +1,4 @@
-package com.clubber.common.vo.image;
+package com.clubber.domain.common.vo;
 
 import static com.clubber.common.consts.ClubberStatic.IMAGE_SERVER;
 

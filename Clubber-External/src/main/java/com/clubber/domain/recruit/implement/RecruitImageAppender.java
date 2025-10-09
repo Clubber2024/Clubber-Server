@@ -3,7 +3,7 @@ package com.clubber.domain.recruit.implement;
 import com.clubber.domain.recruit.domain.Recruit;
 import com.clubber.domain.recruit.domain.RecruitImage;
 import com.clubber.domain.recruit.repository.RecruitImageRepository;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
