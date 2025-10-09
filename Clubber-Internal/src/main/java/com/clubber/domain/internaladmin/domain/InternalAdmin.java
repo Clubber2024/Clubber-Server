@@ -1,4 +1,4 @@
-package com.clubber.domain.internal.domain;
+package com.clubber.domain.internaladmin.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
