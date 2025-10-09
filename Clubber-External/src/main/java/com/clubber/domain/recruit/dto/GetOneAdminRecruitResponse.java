@@ -1,7 +1,7 @@
 package com.clubber.domain.recruit.dto;
 
 import com.clubber.domain.recruit.domain.Recruit;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 

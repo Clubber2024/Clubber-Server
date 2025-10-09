@@ -13,7 +13,7 @@ import com.clubber.domain.recruit.dto.mainPage.GetRecruitsMainPageResponse;
 import com.clubber.domain.recruit.dto.recruitComment.GetRecruitCommentResponse;
 import com.clubber.domain.recruit.vo.RecruitCommentVO;
 import com.clubber.global.common.page.PageResponse;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

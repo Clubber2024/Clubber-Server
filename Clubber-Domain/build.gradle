@@ -1,5 +1,11 @@
 dependencies{
     implementation project(":Clubber-Common")
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+
+    //TODO QueryDSL Projections & 외부 DTO 의존성 제거
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 }
 
 jar {

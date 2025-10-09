@@ -2,7 +2,7 @@ package com.clubber.domain.domains.club.domain;
 
 import com.clubber.domain.domains.club.exception.*;
 import com.clubber.domain.common.BaseEntity;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

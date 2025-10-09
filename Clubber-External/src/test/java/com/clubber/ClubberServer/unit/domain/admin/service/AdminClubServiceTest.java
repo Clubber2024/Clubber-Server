@@ -19,7 +19,7 @@ import com.clubber.domain.domains.club.domain.Club;
 import com.clubber.domain.domains.club.domain.ClubInfo;
 import com.clubber.domain.club.dto.GetClubInfoResponse;
 import com.clubber.domain.club.dto.GetClubResponse;
-import com.clubber.common.vo.image.ImageVO;
+import com.clubber.domain.common.vo.ImageVO;
 import com.clubber.ClubberServer.integration.util.fixture.AdminFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
