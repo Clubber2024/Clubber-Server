@@ -1,4 +1,4 @@
-package com.clubber.domain.admin.dto;
+package com.clubber.domain.internaladmin.dto;
 
 public record InternalAdminLoginRequest(
         String username,
