@@ -1,0 +1,12 @@
+FROM openjdk:17-alpine
+
+# curl 설치
+RUN apk add --no-cache curl
+
+ARG JAR_FILE=build/libs/Clubber-External.jar
+
+COPY ${JAR_FILE} app.jar
+ARG PROFILE=dev
+ENV PROFILE=${PROFILE}
+
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${PROFILE}","/app.jar"]
