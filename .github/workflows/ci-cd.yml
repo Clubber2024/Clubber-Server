@@ -66,14 +66,14 @@ jobs:
           echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
         shell: bash
 
-      # [Internal] application-prod.yml
-      - name: make application-prod.yml (Internal)
-        if: contains(github.ref, 'main')
-        run: |
-          cd ./Clubber-Internal/src/main/resources
-          touch ./application-prod.yml
-          echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
-        shell: bash
+#      # [Internal] application-prod.yml
+#      - name: make application-prod.yml (Internal)
+#        if: contains(github.ref, 'main')
+#        run: |
+#          cd ./Clubber-Internal/src/main/resources
+#          touch ./application-prod.yml
+#          echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
+#        shell: bash
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -126,14 +126,14 @@ jobs:
           docker build -f Dockerfile.nginx.prod -t ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod
 
-      # [Internal] Docker Build & Push (Prod)
-      - name: docker build and push to prod (Internal)
-        if: contains(github.ref, 'main')
-        run: |
-          cd Clubber-Internal
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile.prod -t ${{ secrets.DOCKER_REPO }}/clubber-internal-prod .
-          docker push ${{ secrets.DOCKER_REPO }}/clubber-internal-prod
+#      # [Internal] Docker Build & Push (Prod)
+#      - name: docker build and push to prod (Internal)
+#        if: contains(github.ref, 'main')
+#        run: |
+#          cd Clubber-Internal
+#          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#          docker build -f Dockerfile.prod -t ${{ secrets.DOCKER_REPO }}/clubber-internal-prod .
+#          docker push ${{ secrets.DOCKER_REPO }}/clubber-internal-prod
 
       - name: Copy docker-compose.yml to EC2 DEV
         if: contains(github.ref, 'dev')
@@ -183,7 +183,7 @@ jobs:
             cd /home/ubuntu
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-backend-prod
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-internal-prod  # [Internal]
+#            sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-internal-prod  # [Internal]
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-front-prod
             sudo docker pull ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod
             sudo docker-compose -f docker-compose-prod.yml up -d
