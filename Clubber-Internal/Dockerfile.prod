@@ -1,6 +1,6 @@
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-jdk-alpine
 
-ARG JAR_FILE=build/libs/Clubber-Internal.jar
+ARG JAR_FILE=build/libs/Clubber-External.jar
 
 COPY ${JAR_FILE} app.jar
 ARG PROFILE=prod
