@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-jdk-alpine
 
 # curl 설치
 RUN apk add --no-cache curl
