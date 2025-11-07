@@ -113,6 +113,7 @@ jobs:
       - name: docker build and push to prod
         if: contains(github.ref, 'main')
         run: |
+          cd Clubber-External
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile.prod -t ${{ secrets.DOCKER_REPO }}/clubber-backend-prod .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-backend-prod
@@ -120,6 +121,7 @@ jobs:
       - name: docker build and push to prod nginx
         if: contains(github.ref, 'main')
         run: |
+          cd Clubber-External
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile.nginx.prod -t ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod .
           docker push ${{ secrets.DOCKER_REPO }}/clubber-nginx-prod
