@@ -4,9 +4,9 @@ FROM eclipse-temurin:17-jdk-alpine
 RUN apk add --no-cache curl
 
 ARG JAR_FILE=build/libs/Clubber-Internal.jar
-
 COPY ${JAR_FILE} app.jar
+
 ARG PROFILE=dev
 ENV PROFILE=${PROFILE}
 
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${PROFILE}","/app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=${PROFILE}", "-jar", "/app.jar"]
